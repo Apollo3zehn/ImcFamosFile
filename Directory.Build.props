@@ -1,0 +1,10 @@
+<Project>
+
+  <Import Project="./build/build.props" />
+
+  <PropertyGroup>
+    <PackageLicenseExpression Condition="$(PackageLicenseExpression) == ''">LGPL-3.0-only</PackageLicenseExpression>
+    <PackageProjectUrl Condition="$(PackageProjectUrl) == ''">https://github.com/Apollo3zehn/FamosFile.NET</PackageProjectUrl>
+  </PropertyGroup>
+
+</Project>
