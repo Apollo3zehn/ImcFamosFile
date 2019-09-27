@@ -13,7 +13,9 @@
         SignedLong = 6,
         Float = 7,
         Double = 8,
-        LSB_in_2byte_Word_digital = 11,
+        ImcDevicesTransitionalRecording = 9,
+        TimeStampAscii = 10,
+        Two_byte_word_digital = 11,
         Six_byte_unsigned_long = 13
     }
 }

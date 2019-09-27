@@ -6,13 +6,26 @@ namespace FamosFile.NET
 {
     public class FamosFileGroup2 : FamosFileBase
     {
+        #region Constructors
+
         public FamosFileGroup2(BinaryReader reader, int codePage) : base(reader)
         {
             this.Components = new List<FamosFileComponent>();
             this.CodePage = codePage;
         }
 
-        // Group of components.
+        #endregion
+
+        #region Properties
+
+        public FamosFileFieldType FieldType { get; set; }
+        public int Dimension { get; set; }
+        public List<FamosFileComponent> Components { get; set; }
+
+        #endregion
+
+        #region KeyParsing
+
         public FamosFileKeyType Parse()
         {
             var nextKeyType = FamosFileKeyType.Unknown;
@@ -73,8 +86,6 @@ namespace FamosFile.NET
             return nextKeyType;
         }
 
-        public FamosFileFieldType FieldType { get; set; }
-        public int Dimension { get; set; }
-        public List<FamosFileComponent> Components { get; set; }
+        #endregion
     }
 }
