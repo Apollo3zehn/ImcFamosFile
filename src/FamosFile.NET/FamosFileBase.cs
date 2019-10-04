@@ -38,11 +38,11 @@ namespace FamosFile.NET
 
         protected void SkipKey()
         {
-            this.ParseInteger();
+            this.ParseInt32();
             this.ParseKey(null);
         }
 
-        protected void ParseKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action parseKeyDataAction)
+        protected void ParseKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> parseKeyDataAction)
         {
             // key type
             var keyType = this.ParseKeyType();
@@ -53,10 +53,10 @@ namespace FamosFile.NET
             this.ParseKey(expectedKeyVersion, parseKeyDataAction);
         }
 
-        protected void ParseKey(int expectedKeyVersion, Action parseKeyDataAction)
+        protected void ParseKey(int expectedKeyVersion, Action<long> parseKeyDataAction)
         {
             // key version
-            var keyVersion = this.ParseInteger();
+            var keyVersion = this.ParseInt32();
 
             if (keyVersion != expectedKeyVersion)
                 throw new FormatException($"Expected key version '{expectedKeyVersion}', got '{keyVersion}'.");
@@ -64,22 +64,22 @@ namespace FamosFile.NET
             this.ParseKey(parseKeyDataAction);
         }
 
-        protected void ParseKey(Action parseKeyDataAction)
+        protected void ParseKey(Action<long> parseKeyDataAction)
         {
             // key length
-            var keyLength = this.ParseInteger();
+            var keyLength = this.ParseInt64();
 
             // data
             if (parseKeyDataAction == null)
-                this.Reader.ReadBytes(keyLength + 1);
+                this.Reader.ReadBytes(unchecked((int)(keyLength + 1))); // should not fail as this is intended only for short keys
             else
-                parseKeyDataAction?.Invoke();
+                parseKeyDataAction?.Invoke(keyLength);
 
             // consume spaces
             this.ConsumeSpaces();
         }
 
-        protected byte[] ParseNumber()
+        protected byte[] ParseKeyPart()
         {
             var bytes = new List<byte>();
             var counter = 0;
@@ -96,20 +96,32 @@ namespace FamosFile.NET
             }
 
             if (counter >= 32)
-                throw new FormatException("Number is too long or a comma is missing.");
+                throw new FormatException("Value is too long or a comma is missing.");
 
             return bytes.ToArray();
         }
 
-        protected int ParseInteger()
+        protected int ParseHex()
         {
-            var bytes = this.ParseNumber();
+            var bytes = this.ParseKeyPart();
+            return Convert.ToInt32(Encoding.ASCII.GetString(bytes), 16);
+        }
+
+        protected int ParseInt32()
+        {
+            var bytes = this.ParseKeyPart();
             return int.Parse(Encoding.ASCII.GetString(bytes));
         }
 
-        protected double ParseDouble()
+        protected long ParseInt64()
         {
-            var bytes = this.ParseNumber();
+            var bytes = this.ParseKeyPart();
+            return long.Parse(Encoding.ASCII.GetString(bytes));
+        }
+
+        protected double ParseFloat64()
+        {
+            var bytes = this.ParseKeyPart();
             return double.Parse(Encoding.ASCII.GetString(bytes));
         }
 
@@ -128,7 +140,7 @@ namespace FamosFile.NET
 
         protected string ParseString()
         {
-            var length = this.ParseInteger();
+            var length = this.ParseInt32();
             var value = Encoding.GetEncoding(this.CodePage).GetString(this.Reader.ReadBytes(length));
 
             this.Reader.ReadByte();
@@ -138,7 +150,7 @@ namespace FamosFile.NET
 
         protected List<string> ParseStringArray()
         {
-            var elementCount = this.ParseInteger();
+            var elementCount = this.ParseInt32();
 
             if (elementCount < 0 || elementCount > int.MaxValue)
                 throw new FormatException("The number of texts is out of range.");
@@ -151,7 +163,9 @@ namespace FamosFile.NET
             var data = this.Reader.ReadByte();
 
             while (string.IsNullOrWhiteSpace(Encoding.ASCII.GetString(new[] { data })))
+            {
                 data = this.Reader.ReadByte();
+            }
 
             this.Reader.BaseStream.Position -= 1;
         }
@@ -165,41 +179,41 @@ namespace FamosFile.NET
         {
             FamosFileXAxisScaling axisScaling = null;
 
-            var keyVersion = this.ParseInteger();
+            var keyVersion = this.ParseInt32();
 
             if (keyVersion == 1)
             {
-                this.ParseKey(() =>
+                this.ParseKey(keySize =>
                 {
-                    var dz = this.ParseInteger();
-                    var isCalibrated = this.ParseInteger() == 1;
+                    var dx = this.ParseFloat64();
+                    var isCalibrated = this.ParseInt32() == 1;
                     var unit = this.ParseString();
 
-                    this.ParseInteger();
-                    this.ParseInteger();
-                    this.ParseInteger();
+                    this.ParseInt32();
+                    this.ParseInt32();
+                    this.ParseInt32();
 
-                    axisScaling = new FamosFileXAxisScaling(dz, isCalibrated, unit);
+                    axisScaling = new FamosFileXAxisScaling(dx, isCalibrated, unit);
                 });
             }
             else if (keyVersion == 2)
             {
-#warning TODO: Key type 'CD' version '2'.
-                throw new FormatException("Unable to parse key type 'CD' version '2' due to lack of imc documentation.");
+                this.ParseKey(keySize =>
+                {
+                    var dx = this.ParseInt32();
+                    var isCalibrated = this.ParseInt32() == 1;
+                    var unit = this.ParseString();
 
-                //this.ParseKey(() =>
-                //{
-                //    var dz = this.ParseInteger();
-                //    var isCalibrated = this.ParseInteger() == 1;
-                //    var unit = this.ParseString();
+                    // some data is not defined in imc document.
+                    this.ParseKeyPart();
+                    this.ParseKeyPart();
+                    this.ParseKeyPart();
 
-                //    // some data is not defined in imc document.
+                    var x0 = this.ParseInt32();
+                    var PretriggerUsage = (FamosFilePretriggerUsage)this.ParseInt32();
 
-                //    var x0 = this.ParseInteger();
-                //    var PretriggerUsage = (FamosFilePretriggerUsage)this.ParseInteger();
-
-                //    axisScaling = new FamosFileXAxisScaling(dz, isCalibrated, unit);
-                //});
+                    axisScaling = new FamosFileXAxisScaling(dx, isCalibrated, unit, x0, PretriggerUsage);
+                });
             }
             else
             {
@@ -214,16 +228,16 @@ namespace FamosFile.NET
         {
             FamosFileZAxisScaling axisScaling = null;
 
-            this.ParseKey(expectedKeyVersion: 1, () =>
+            this.ParseKey(expectedKeyVersion: 1, keySize =>
             {
-                var dz = this.ParseInteger();
-                var isDzCalibrated = this.ParseInteger() == 1;
+                var dz = this.ParseFloat64();
+                var isDzCalibrated = this.ParseInt32() == 1;
 
-                var z0 = this.ParseInteger();
-                var isZ0Calibrated = this.ParseInteger() == 1;
+                var z0 = this.ParseFloat64();
+                var isZ0Calibrated = this.ParseInt32() == 1;
 
                 var unit = this.ParseString();
-                var segmentSize = this.ParseInteger();
+                var segmentSize = this.ParseInt32();
 
                 axisScaling = new FamosFileZAxisScaling(dz, isDzCalibrated, z0, isZ0Calibrated, unit, segmentSize);
             });
@@ -237,16 +251,16 @@ namespace FamosFile.NET
             DateTime triggerTime = default;
             FamosFileTimeMode timeMode = FamosFileTimeMode.Unknown;
 
-            var keyVersion = this.ParseInteger();
+            var keyVersion = this.ParseInt32();
 
-            this.ParseKey(() =>
+            this.ParseKey(keySize =>
             {
-                var day = this.ParseInteger();
-                var month = this.ParseInteger();
-                var year = this.ParseInteger();
-                var hour = this.ParseInteger();
-                var minute = this.ParseInteger();
-                var second = this.ParseInteger();
+                var day = this.ParseInt32();
+                var month = this.ParseInt32();
+                var year = this.ParseInt32();
+                var hour = this.ParseInt32();
+                var minute = this.ParseInt32();
+                var second = this.ParseInt32();
 
                 if (keyVersion == 1)
                 {
@@ -254,9 +268,9 @@ namespace FamosFile.NET
                 }
                 else if (keyVersion == 2)
                 {
-                    var timeZone = this.ParseInteger();
+                    var timeZone = this.ParseInt32();
 
-                    timeMode = (FamosFileTimeMode)this.ParseInteger();
+                    timeMode = (FamosFileTimeMode)this.ParseInt32();
                     triggerTime = new DateTimeOffset(year, month, day, hour, minute, second, TimeSpan.FromMinutes(timeZone)).UtcDateTime;
                 }
                 else

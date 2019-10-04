@@ -5,7 +5,7 @@ namespace FamosFile.NET
     [Flags]
     public enum FamosFileValidCR1Type
     {
-        dyFromEventStructure = 0,
-        y0FromEventStructure = 1
+        UseDyFromEventStructure = 0,
+        UseY0FromEventStructure = 1
     }
 }

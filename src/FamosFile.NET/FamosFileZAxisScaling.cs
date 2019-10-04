@@ -2,7 +2,7 @@
 {
     public class FamosFileZAxisScaling
     {
-        public FamosFileZAxisScaling(int dz, bool isDzCalibrated, int z0, bool isZ0Calibrated, string unit, int segmentSize)
+        public FamosFileZAxisScaling(double dz, bool isDzCalibrated, double z0, bool isZ0Calibrated, string unit, int segmentSize)
         {
             this.dz = dz;
             this.IsDzCalibrated = isDzCalibrated;
@@ -12,9 +12,9 @@
             this.SegmentSize = segmentSize;
         }
 
-        public int dz { get; private set; }
+        public double dz { get; private set; }
         public bool IsDzCalibrated { get; private set; }
-        public int z0 { get; private set; }
+        public double z0 { get; private set; }
         public bool isZ0Calibrated { get; private set; }
         public string Unit { get; private set; }
         public int SegmentSize { get; private set; }

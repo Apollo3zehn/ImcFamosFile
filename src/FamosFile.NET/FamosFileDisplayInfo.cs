@@ -1,6 +1,6 @@
 ﻿namespace FamosFile.NET
 {
-    public class FamosFileDisplayInformation
+    public class FamosFileDisplayInfo
     {
         #region Properties
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace FamosFile.NET
@@ -10,27 +11,55 @@ namespace FamosFile.NET
         public FamosFileComponent(BinaryReader reader, int codePage) : base(reader)
         {
             this.CodePage = codePage;
+
+            this.Buffers = new List<FamosFileBuffer>();
+            this.ChannelInfos = new List<FamosFileChannelInfo>();
         }
 
         #endregion
 
         #region Properties
 
-        public int GroupIndex { get; private set; }
-        public int BitIndex { get; private set; }
-        public string Name { get; private set; }
-        public string Comment { get; private set; }
+        public int ComponentIndex { get; private set; }
+        public FamosFileAnalogDigital AnalogDigital { get; private set; }
 
         public DateTime TriggerTime { get; private set; }
         public FamosFileTimeMode TimeMode { get; private set; }
 
         public FamosFileXAxisScaling XAxisScaling { get; private set; }
         public FamosFileZAxisScaling ZAxisScaling { get; private set; }
-        public FamosFilePackInformation PackInformation { get; private set; }
-        public FamosFileBufferInformation BufferInformation { get; private set; }
-        public FamosFileCalibrationInformation CalibrationInformation { get; private set; }
-        public FamosFileDisplayInformation DisplayInformation { get; private set; }
-        public FamosFileEventInformation EventInformation { get; private set; }
+
+        public FamosFilePackInfo PackInfo { get; private set; }
+        public FamosFileBufferInfo BufferInfo { get; private set; }
+        public FamosFileCalibrationInfo CalibrationInfo { get; private set; }
+        public FamosFileDisplayInfo DisplayInfo { get; private set; }
+        public FamosFileEventInfo EventInfo { get; private set; }
+
+        public List<FamosFileBuffer> Buffers { get; private set; }
+        public List<FamosFileChannelInfo> ChannelInfos { get; private set; }
+
+        #endregion
+
+        #region Relay Properties
+
+        public string Name
+        {
+            get
+            {
+                var name = string.Empty;
+
+                foreach (var channelInfo in this.ChannelInfos)
+                {
+                    if (!string.IsNullOrWhiteSpace(channelInfo.Name))
+                    {
+                        name = channelInfo.Name;
+                        break;
+                    }
+                }
+
+                return name;
+            }
+        }
 
         #endregion
 
@@ -40,61 +69,65 @@ namespace FamosFile.NET
         {
             var nextKeyType = FamosFileKeyType.Unknown;
 
-            this.ParseKey(expectedKeyVersion: 1, () =>
+            this.XAxisScaling = currentXAxisScaling;
+            this.ZAxisScaling = currentZAxisScaling;
+            this.TriggerTime = currentTriggerTime;
+
+            this.ParseKey(expectedKeyVersion: 1, keySize =>
             {
-                var componentIndex = this.ParseInteger();
-                var analogDigital = (FamosFileAnalogDigital)this.ParseInteger();
-
-                while (true)
-                {
-                    nextKeyType = this.ParseKeyType();
-
-                    // end of CC reached
-                    if (nextKeyType == FamosFileKeyType.CT ||
-                        nextKeyType == FamosFileKeyType.CB ||
-                        nextKeyType == FamosFileKeyType.CI ||
-                        nextKeyType == FamosFileKeyType.CG)
-                    {
-                        break;
-                    }
-
-                    else if (nextKeyType == FamosFileKeyType.Unknown)
-                    {
-                        this.SkipKey();
-                        continue;
-                    }
-
-                    else if (nextKeyType == FamosFileKeyType.CD)
-                        this.XAxisScaling = base.ParseCD();
-
-                    else if (nextKeyType == FamosFileKeyType.CZ)
-                        this.ZAxisScaling = base.ParseCZ();
-
-                    else if (nextKeyType == FamosFileKeyType.NT)
-                        (this.TriggerTime, this.TimeMode) = base.ParseNT();
-
-                    else if (nextKeyType == FamosFileKeyType.CP)
-                        this.ParseCP();
-
-                    else if (nextKeyType == FamosFileKeyType.Cb)
-                        this.ParseCb();
-
-                    else if (nextKeyType == FamosFileKeyType.CR)
-                        this.ParseCR();
-
-                    else if (nextKeyType == FamosFileKeyType.ND)
-                        this.ParseND();
-
-                    else if (nextKeyType == FamosFileKeyType.Cv)
-                        this.ParseCv();
-
-                    else if (nextKeyType == FamosFileKeyType.CN)
-                        this.ParseCN();
-
-                    else
-                        break;
-                }
+                this.ComponentIndex = this.ParseInt32();
+                this.AnalogDigital = (FamosFileAnalogDigital)this.ParseInt32();
             });
+
+            while (true)
+            {
+                nextKeyType = this.ParseKeyType();
+
+                // end of CC reached
+                if (nextKeyType == FamosFileKeyType.CT ||
+                    nextKeyType == FamosFileKeyType.CB ||
+                    nextKeyType == FamosFileKeyType.CI ||
+                    nextKeyType == FamosFileKeyType.CG)
+                {
+                    break;
+                }
+
+                else if (nextKeyType == FamosFileKeyType.Unknown)
+                {
+                    this.SkipKey();
+                    continue;
+                }
+
+                else if (nextKeyType == FamosFileKeyType.CD)
+                    this.XAxisScaling = base.ParseCD();
+
+                else if (nextKeyType == FamosFileKeyType.CZ)
+                    this.ZAxisScaling = base.ParseCZ();
+
+                else if (nextKeyType == FamosFileKeyType.NT)
+                    (this.TriggerTime, this.TimeMode) = base.ParseNT();
+
+                else if (nextKeyType == FamosFileKeyType.CP)
+                    this.ParseCP();
+
+                else if (nextKeyType == FamosFileKeyType.Cb)
+                    this.ParseCb();
+
+                else if (nextKeyType == FamosFileKeyType.CR)
+                    this.ParseCR();
+
+                else if (nextKeyType == FamosFileKeyType.ND)
+                    this.ParseND();
+
+                else if (nextKeyType == FamosFileKeyType.Cv)
+                    this.ParseCv();
+
+                else if (nextKeyType == FamosFileKeyType.CN)
+                    this.ParseCN();
+
+                else
+                    break;
+            }
 
             return nextKeyType;
         }
@@ -102,17 +135,17 @@ namespace FamosFile.NET
         // Pack information for this component.
         private void ParseCP()
         {
-            this.ParseKey(FamosFileKeyType.CP, expectedKeyVersion: 1, () =>
+            this.ParseKey(expectedKeyVersion: 1, keySize =>
             {
-                this.PackInformation = new FamosFilePackInformation()
+                this.PackInfo = new FamosFilePackInfo()
                 {
-                    BufferReference = this.ParseInteger(),
-                    ByteCountPerValue = this.ParseInteger(),
-                    DataType = (FamosFileDataType)this.ParseInteger(),
-                    SignificantBitsCount = this.ParseInteger(),
-                    FirstValueOffset = this.ParseInteger(),
-                    SubsequentValueCount = this.ParseInteger(),
-                    ValueDistanceByteCount = this.ParseInteger(),
+                    BufferReference = this.ParseInt32(),
+                    ValueSize = this.ParseInt32(),
+                    DataType = (FamosFileDataType)this.ParseInt32(),
+                    SignificantBits = this.ParseInt32(),
+                    Offset = Math.Max(this.ParseInt32(), this.ParseInt32()),
+                    GroupSize = this.ParseInt32(),
+                    GapSize = this.ParseInt32(),
                 };
             });
         }
@@ -120,26 +153,25 @@ namespace FamosFile.NET
         // Buffer description.
         private void ParseCb()
         {
-            this.ParseKey(FamosFileKeyType.Cb, expectedKeyVersion: 1, () =>
+            this.ParseKey(expectedKeyVersion: 1, keySize =>
             {
-                this.BufferInformation = new FamosFileBufferInformation();
-
-                var bufferCount = this.ParseInteger();
+                var bufferCount = this.ParseInt32();
+                var userInfoSize = this.ParseInt32();
 
                 for (int i = 0; i < bufferCount; i++)
                 {
-                    this.BufferInformation.Buffers.Add(new FamosFileBuffer()
+                    this.Buffers.Add(new FamosFileBuffer()
                     {
-                        BufferReference = this.ParseInteger(),
-                        IndexSampleKey = this.ParseInteger(),
-                        OffsetBufferInSamplesKey = this.ParseInteger(),
-                        BufferSize = this.ParseInteger(),
-                        OffsetFirstSampleInBuffer = this.ParseInteger(),
-                        BufferFilledBytes = this.ParseInteger(),
-                        x0 = this.ParseInteger(),
-                        AddTime = this.ParseInteger(),
-                        UserInformation = this.ParseInteger(),
-                        NewEvent = this.ParseInteger() == 1
+                        Reference = this.ParseInt32(),
+                        CsKeyReference = this.ParseInt32(),
+                        CsKeyOffset = this.ParseInt32(),
+                        Length = this.ParseInt32(),
+                        Offset = this.ParseInt32(),
+                        ConsumedBytes = this.ParseInt32(),
+                        IsNewEvent = this.ParseInt32() == 1,
+                        x0 = this.ParseInt32(),
+                        TriggerAddTime = this.ParseInt32(),
+                        UserInfo = this.ParseKeyPart()
                     });
                 }
             });
@@ -148,14 +180,14 @@ namespace FamosFile.NET
         // Calibration information.
         private void ParseCR()
         {
-            this.ParseKey(FamosFileKeyType.CR, expectedKeyVersion: 1, () =>
+            this.ParseKey(expectedKeyVersion: 1, keySize =>
             {
-                this.CalibrationInformation = new FamosFileCalibrationInformation()
+                this.CalibrationInfo = new FamosFileCalibrationInfo()
                 {
-                    ApplyTransformation = this.ParseInteger() == 1,
-                    Factor = this.ParseDouble(),
-                    Offset = this.ParseDouble(),
-                    IsCalibrated = this.ParseInteger() == 1,
+                    ApplyTransformation = this.ParseInt32() == 1,
+                    Factor = this.ParseFloat64(),
+                    Offset = this.ParseFloat64(),
+                    IsCalibrated = this.ParseInt32() == 1,
                     Unit = this.ParseString()
                 };
             });
@@ -164,15 +196,15 @@ namespace FamosFile.NET
         // Display information.
         private void ParseND()
         {
-            this.ParseKey(FamosFileKeyType.ND, expectedKeyVersion: 1, () =>
+            this.ParseKey(expectedKeyVersion: 1, keySize =>
             {
-                this.DisplayInformation = new FamosFileDisplayInformation()
+                this.DisplayInfo = new FamosFileDisplayInfo()
                 {
-                    R = this.ParseInteger(),
-                    G = this.ParseInteger(),
-                    B = this.ParseInteger(),
-                    YMin = this.ParseDouble(),
-                    YMax = this.ParseDouble()
+                    R = this.ParseInt32(),
+                    G = this.ParseInt32(),
+                    B = this.ParseInt32(),
+                    YMin = this.ParseFloat64(),
+                    YMax = this.ParseFloat64()
                 };
             });
         }
@@ -180,19 +212,19 @@ namespace FamosFile.NET
         // Event information.
         private void ParseCv()
         {
-            this.ParseKey(FamosFileKeyType.Cv, expectedKeyVersion: 1, () =>
+            this.ParseKey(expectedKeyVersion: 1, keySize =>
             {
-                this.EventInformation = new FamosFileEventInformation()
+                this.EventInfo = new FamosFileEventInfo()
                 {
-                    IndexEventListKey = this.ParseInteger(),
-                    OffsetInEventList = this.ParseInteger(),
-                    SubsequentEventCount = this.ParseInteger(),
-                    EventDistance = this.ParseInteger(),
-                    EventCount = this.ParseInteger(),
-                    ValidNT = (FamosFileValidNTType)this.ParseInteger(),
-                    ValidCD = (FamosFileValidCDType)this.ParseInteger(),
-                    ValidCR1 = (FamosFileValidCR1Type)this.ParseInteger(),
-                    ValidCR2 = (FamosFileValidCR2Type)this.ParseInteger(),
+                    IndexEventListKey = this.ParseInt32(),
+                    OffsetInEventList = this.ParseInt32(),
+                    SubsequentEventCount = this.ParseInt32(),
+                    EventDistance = this.ParseInt32(),
+                    EventCount = this.ParseInt32(),
+                    ValidNT = (FamosFileValidNTType)this.ParseInt32(),
+                    ValidCD = (FamosFileValidCDType)this.ParseInt32(),
+                    ValidCR1 = (FamosFileValidCR1Type)this.ParseInt32(),
+                    ValidCR2 = (FamosFileValidCR2Type)this.ParseInt32(),
                 };
             });
         }
@@ -200,20 +232,24 @@ namespace FamosFile.NET
         // Channel information.
         private void ParseCN()
         {
-            this.ParseKey(FamosFileKeyType.Cv, expectedKeyVersion: 1, () =>
+            this.ParseKey(expectedKeyVersion: 1, keySize =>
             {
-                this.GroupIndex = this.ParseInteger();
+                var groupIndex = this.ParseInt32();
+                this.ParseInt32();
+                var bitIndex = this.ParseInt32();
+                var name = this.ParseString();
+                var comment = this.ParseString();
 
-                this.ParseInteger();
-
-                this.BitIndex = this.ParseInteger();
-                this.Name = this.ParseString();
-                this.Comment = this.ParseString();
+                this.ChannelInfos.Add(new FamosFileChannelInfo()
+                {
+                    GroupIndex = groupIndex,
+                    BitIndex = bitIndex,
+                    Name = name,
+                    Comment = comment
+                });
             });
         }
 
         #endregion
-
-#warning TODO: implement ParseCV
     }
 }

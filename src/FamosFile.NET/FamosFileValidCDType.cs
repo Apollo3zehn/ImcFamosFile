@@ -5,8 +5,8 @@ namespace FamosFile.NET
     [Flags]
     public enum FamosFileValidCDType
     {
-        dxFromEventList = 0,
-        x0FromEventList = 1,
-        z0FromX0FromEventList = 2
+        UseDxFromEventList = 0,
+        UseX0FromEventList = 1,
+        UseZ0FromX0FromEventList = 2
     }
 }

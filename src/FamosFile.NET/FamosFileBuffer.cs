@@ -4,16 +4,16 @@
     {
         #region Properties
 
-        public int BufferReference { get; set; }
-        public int IndexSampleKey { get; set; }
-        public int OffsetBufferInSamplesKey { get; set; }
-        public int BufferSize { get; set; }
-        public int OffsetFirstSampleInBuffer { get; set; }
-        public int BufferFilledBytes { get; set; }
+        public int Reference { get; set; }
+        public int CsKeyReference { get; set; }
+        public int CsKeyOffset { get; set; }
+        public int Length { get; set; }
+        public int Offset { get; set; }
+        public int ConsumedBytes { get; set; }
         public int x0 { get; set; }
-        public int AddTime { get; set; }
-        public int UserInformation { get; set; }
-        public bool NewEvent { get; set; }
+        public int TriggerAddTime { get; set; }
+        public byte[] UserInfo { get; set; }
+        public bool IsNewEvent { get; set; }
 
         #endregion
     }

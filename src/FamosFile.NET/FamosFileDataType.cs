@@ -5,17 +5,17 @@
     /// </summary>
     public enum FamosFileDataType
     {
-        UnsignedByte = 1,
-        SignedByte = 2,
-        UnsignedShort = 3,
-        SignedShort = 4,
-        UnsignedLong = 5,
-        SignedLong = 6,
-        Float = 7,
-        Double = 8,
+        UInt8 = 1,
+        Int8 = 2,
+        UInt16 = 3,
+        Int16 = 4,
+        UInt32 = 5,
+        Int32 = 6,
+        Float32 = 7,
+        Float64 = 8,
         ImcDevicesTransitionalRecording = 9,
-        TimeStampAscii = 10,
-        Two_byte_word_digital = 11,
-        Six_byte_unsigned_long = 13
+        AsciiTimeStamp = 10,
+        Digital16Bit = 11,
+        UInt48 = 13
     }
 }

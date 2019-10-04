@@ -4,7 +4,7 @@
     {
         #region Constructors
 
-        public FamosFileSingleValue(byte[] value)
+        public FamosFileSingleValue(double value)
         {
             this.Value = value;
 
@@ -19,7 +19,7 @@
 
         public FamosFileDataType DataType { get; set; }
         public string Name { get; set; }
-        public byte[] Value { get; set; }
+        public double Value { get; set; }
         public string Unit { get; set; }
         public string Comment { get; set; }
         public double Time { get; set; }

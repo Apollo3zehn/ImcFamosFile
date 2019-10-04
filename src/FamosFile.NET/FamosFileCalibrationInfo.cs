@@ -1,6 +1,6 @@
 ﻿namespace FamosFile.NET
 {
-    public class FamosFileCalibrationInformation
+    public class FamosFileCalibrationInfo
     {
         #region Properties
 

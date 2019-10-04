@@ -10,12 +10,13 @@ namespace FamosFile.NET.Tests
         {
             // Arrange
             var filePath = "testdata.dat";
-            var reader = new BinaryReader(File.OpenRead(filePath));
 
-            // Act
-            using (var famosFile = new FamosFile(reader))
+            using (var reader = new BinaryReader(File.OpenRead(filePath)))
             {
-                //
+                // Act
+                var famosFile = new FamosFile(reader);
+
+                // Assert
             }
         }
     }
