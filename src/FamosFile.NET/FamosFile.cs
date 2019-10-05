@@ -8,6 +8,8 @@ namespace FamosFile.NET
 {
     public class FamosFile : FamosFileBase
     {
+#warning CodePage is redundant.
+
         #region Fields
 
         private const int SUPPORTED_VERSION = 2;
@@ -31,7 +33,7 @@ namespace FamosFile.NET
 
             try
             {
-                this.ParseFile();
+                this.DeserializeFile();
             }
             catch (EndOfStreamException)
             {
@@ -76,29 +78,22 @@ namespace FamosFile.NET
         #region KeyParsing
 
         // parse file
-        private void ParseFile()
+        private void DeserializeFile()
         {
             // CF
-            this.ParseCF();
+            this.DeserializeCF();
 
             // CK
-            this.ParseCK();
+            this.DeserializeCK();
 
             //
             this.DataOrigin = FamosFileDataOrigin.Unknown;
             this.Name = string.Empty;
             this.Comment = string.Empty;
 
-            var nextKeyType = FamosFileKeyType.Unknown;
-            var parseKey = true;
-
             while (true)
             {
-                // if key has not been parsed yet
-                if (parseKey)
-                    nextKeyType = this.ParseKeyType();
-                else
-                    parseKey = true;
+                var nextKeyType = this.DeserializeKeyType();
 
                 // Unknown
                 if (nextKeyType == FamosFileKeyType.Unknown)
@@ -109,68 +104,62 @@ namespace FamosFile.NET
 
                 // NO
                 else if (nextKeyType == FamosFileKeyType.NO)
-                    this.ParseNO();
+                    this.DeserializeNO();
 
                 // NL 
                 else if (nextKeyType == FamosFileKeyType.NL)
-                    this.ParseNL();
+                    this.DeserializeNL();
 
                 // CB
                 else if (nextKeyType == FamosFileKeyType.CB)
-                    this.ParseCB();
+                    this.DeserializeCB();
 
                 // CT
                 else if (nextKeyType == FamosFileKeyType.CT)
-                    this.ParseCT();
+                    this.DeserializeCT();
 
                 // CI
                 else if (nextKeyType == FamosFileKeyType.CI)
-                    this.ParseCI();
+                    this.DeserializeCI();
 
                 // CV
                 else if (nextKeyType == FamosFileKeyType.CV)
-                    this.ParseCV();
+                    this.DeserializeCV();
 
                 // CS 
                 else if (nextKeyType == FamosFileKeyType.CS)
-                    this.ParseCS();
+                    this.DeserializeCS();
 
                 // CG
                 else if (nextKeyType == FamosFileKeyType.CG)
                 {
                     var group = new FamosFileDataField(this.Reader, this.CodePage);
-
-                    nextKeyType = group.Parse();
-                    parseKey = false;
-
                     this.DataFields.Add(group);
                 }
 
                 else
-                {
-                    this.SkipKey();
                     //throw new FormatException($"Unexpected key '{keyType}'.");
-                }
+                    this.SkipKey();
             }
         }
 
         // Format version and processor type.
-        private void ParseCF()
+        private void DeserializeCF()
         {
-            this.ParseKey(FamosFileKeyType.CF, expectedKeyVersion: SUPPORTED_VERSION, keySize =>
+            this.DeserializeKey(FamosFileKeyType.CF, expectedKeyVersion: SUPPORTED_VERSION, keySize =>
             {
                 this.FormatVersion = 2;
-                this.Processor = this.ParseInt32();
+                this.Processor = this.DeserializeInt32();
             });
         }
 
         // Starts a group of keys.
-        private void ParseCK()
+        private void DeserializeCK()
         {
-            this.ParseKey(FamosFileKeyType.CK, expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(FamosFileKeyType.CK, expectedKeyVersion: 1, keySize =>
             {
-                var unknown = this.ParseInt32();
-                var keyGroupIsClosed = this.ParseInt32() == 1;
+                var unknown = this.DeserializeInt32();
+                var keyGroupIsClosed = this.DeserializeInt32() == 1;
 
                 if (!keyGroupIsClosed)
                     throw new FormatException($"The key group is not closed. This may be a hint to an interruption that occured while writing the file content to disk.");
@@ -178,69 +167,69 @@ namespace FamosFile.NET
         }
 
         // Origin of data.
-        private void ParseNO()
+        private void DeserializeNO()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.DataOrigin = (FamosFileDataOrigin)this.ParseInt32();
-                this.Name = this.ParseString();
-                this.Comment = this.ParseString();
+                this.DataOrigin = (FamosFileDataOrigin)this.DeserializeInt32();
+                this.Name = this.DeserializeString();
+                this.Comment = this.DeserializeString();
             });
         }
 
         // Code page.
-        private void ParseNL()
+        private void DeserializeNL()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.CodePage = this.ParseInt32();
-                this.Language = this.ParseHex();
+                this.CodePage = this.DeserializeInt32();
+                this.Language = this.DeserializeHex();
             });
         }
 
         // Group definition.
-        private void ParseCB()
+        private void DeserializeCB()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var groupIndex = this.ParseInt32();
+                var groupIndex = this.DeserializeInt32();
                 var group = this.GetOrCreateGroup(groupIndex);
 
-                group.Name = this.ParseString();
-                group.Comment = this.ParseString();
+                group.Name = this.DeserializeString();
+                group.Comment = this.DeserializeString();
             });
         }
 
         // Text definition.
-        private void ParseCT()
+        private void DeserializeCT()
         {
-            var keyVersion = this.ParseInt32();
+            var keyVersion = this.DeserializeInt32();
 
             if (keyVersion == 1)
             {
-                this.ParseKey(keySize =>
+                this.DeserializeKey(keySize =>
                 {
-                    var groupIndex = this.ParseInt32();
+                    var groupIndex = this.DeserializeInt32();
                     var group = this.GetOrCreateGroup(groupIndex);
 
                     group.Texts.Add(new FamosFileText()
                     {
-                        Name = this.ParseString(),
-                        Text = this.ParseString(),
-                        Comment = this.ParseString()
+                        Name = this.DeserializeString(),
+                        Text = this.DeserializeString(),
+                        Comment = this.DeserializeString()
                     });
                 });
             }
             else if (keyVersion == 2)
             {
-                this.ParseKey(keySize =>
+                this.DeserializeKey(keySize =>
                 {
-                    var blockIndex = this.ParseInt32();
+                    var blockIndex = this.DeserializeInt32();
                     var group = this.GetOrCreateGroup(blockIndex);
 
-                    var name = this.ParseString();
-                    var texts = this.ParseStringArray();
-                    var comment = this.ParseString();
+                    var name = this.DeserializeString();
+                    var texts = this.DeserializeStringArray();
+                    var comment = this.DeserializeString();
 
                     group.Texts.Add(new FamosFileText(texts: texts)
                     {
@@ -256,15 +245,15 @@ namespace FamosFile.NET
         }
 
         // Single value.
-        private void ParseCI()
+        private void DeserializeCI()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var groupIndex = this.ParseInt32();
+                var groupIndex = this.DeserializeInt32();
                 var group = this.GetOrCreateGroup(groupIndex);
 
-                var dataType = (FamosFileDataType)this.ParseInt32();
-                var name = this.ParseString();
+                var dataType = (FamosFileDataType)this.DeserializeInt32();
+                var name = this.DeserializeString();
 
                 var value = dataType switch
                 {
@@ -284,9 +273,9 @@ namespace FamosFile.NET
                 // read left over comma
                 this.Reader.ReadByte();
 
-                var unit = this.ParseString();
-                var comment = this.ParseString();
-                var time = BitConverter.ToDouble(this.ParseKeyPart());
+                var unit = this.DeserializeString();
+                var comment = this.DeserializeString();
+                var time = BitConverter.ToDouble(this.DeserializeKeyPart());
 
                 group.SingleValues.Add(new FamosFileSingleValue(value)
                 {
@@ -300,15 +289,15 @@ namespace FamosFile.NET
         }
 
         // Event data.
-        private void ParseCV()
+        private void DeserializeCV()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var eventCount = this.ParseInt32();
+                var eventCount = this.DeserializeInt32();
 
                 for (int i = 0; i < eventCount; i++)
                 {
-                    var index = this.ParseInt32();
+                    var index = this.DeserializeInt32();
                     var offsetLo = this.Reader.ReadUInt32();
                     var lengthLo = this.Reader.ReadUInt32();
                     var time = this.Reader.ReadDouble();
@@ -342,13 +331,13 @@ namespace FamosFile.NET
         }
 
         // Raw data.
-        private void ParseCS()
+        private void DeserializeCS()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.RawData.Add(new FamosFileRawData()
                 {
-                    Index = this.ParseInt32(),
+                    Index = this.DeserializeInt32(),
                     Length = keySize,
                     FileOffset = this.Reader.BaseStream.Position
                 });

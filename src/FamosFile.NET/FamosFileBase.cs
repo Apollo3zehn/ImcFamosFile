@@ -17,6 +17,11 @@ namespace FamosFile.NET
 
         #region Constructors
 
+        public FamosFileBase(BinaryReader reader, int codePage) : this(reader)
+        {
+            this.CodePage = codePage;
+        }
+
         public FamosFileBase(BinaryReader reader)
         {
             this.Reader = reader;
@@ -38,36 +43,36 @@ namespace FamosFile.NET
 
         protected void SkipKey()
         {
-            this.ParseInt32();
-            this.ParseKey(null);
+            this.DeserializeInt32();
+            this.DeserializeKey(null);
         }
 
-        protected void ParseKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> parseKeyDataAction)
+        protected void DeserializeKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> parseKeyDataAction)
         {
             // key type
-            var keyType = this.ParseKeyType();
+            var keyType = this.DeserializeKeyType();
 
             if (keyType != expectedKeyType)
                 throw new FormatException($"Expected key '{expectedKeyType.ToString()}', got '{keyType.ToString()}'.");
 
-            this.ParseKey(expectedKeyVersion, parseKeyDataAction);
+            this.DeserializeKey(expectedKeyVersion, parseKeyDataAction);
         }
 
-        protected void ParseKey(int expectedKeyVersion, Action<long> parseKeyDataAction)
+        protected void DeserializeKey(int expectedKeyVersion, Action<long> parseKeyDataAction)
         {
             // key version
-            var keyVersion = this.ParseInt32();
+            var keyVersion = this.DeserializeInt32();
 
             if (keyVersion != expectedKeyVersion)
                 throw new FormatException($"Expected key version '{expectedKeyVersion}', got '{keyVersion}'.");
 
-            this.ParseKey(parseKeyDataAction);
+            this.DeserializeKey(parseKeyDataAction);
         }
 
-        protected void ParseKey(Action<long> parseKeyDataAction)
+        protected void DeserializeKey(Action<long> parseKeyDataAction)
         {
             // key length
-            var keyLength = this.ParseInt64();
+            var keyLength = this.DeserializeInt64();
 
             // data
             if (parseKeyDataAction == null)
@@ -79,7 +84,7 @@ namespace FamosFile.NET
             this.ConsumeSpaces();
         }
 
-        protected byte[] ParseKeyPart()
+        protected byte[] DeserializeKeyPart()
         {
             var bytes = new List<byte>();
             var counter = 0;
@@ -101,31 +106,31 @@ namespace FamosFile.NET
             return bytes.ToArray();
         }
 
-        protected int ParseHex()
+        protected int DeserializeHex()
         {
-            var bytes = this.ParseKeyPart();
+            var bytes = this.DeserializeKeyPart();
             return Convert.ToInt32(Encoding.ASCII.GetString(bytes), 16);
         }
 
-        protected int ParseInt32()
+        protected int DeserializeInt32()
         {
-            var bytes = this.ParseKeyPart();
+            var bytes = this.DeserializeKeyPart();
             return int.Parse(Encoding.ASCII.GetString(bytes));
         }
 
-        protected long ParseInt64()
+        protected long DeserializeInt64()
         {
-            var bytes = this.ParseKeyPart();
+            var bytes = this.DeserializeKeyPart();
             return long.Parse(Encoding.ASCII.GetString(bytes));
         }
 
-        protected double ParseFloat64()
+        protected double DeserializeFloat64()
         {
-            var bytes = this.ParseKeyPart();
+            var bytes = this.DeserializeKeyPart();
             return double.Parse(Encoding.ASCII.GetString(bytes));
         }
 
-        protected FamosFileKeyType ParseKeyType()
+        protected FamosFileKeyType DeserializeKeyType()
         {
             var keyName = Encoding.ASCII.GetString(this.Reader.ReadBytes(4));
 
@@ -138,9 +143,9 @@ namespace FamosFile.NET
                 return FamosFileKeyType.Unknown;
         }
 
-        protected string ParseString()
+        protected string DeserializeString()
         {
-            var length = this.ParseInt32();
+            var length = this.DeserializeInt32();
             var value = Encoding.GetEncoding(this.CodePage).GetString(this.Reader.ReadBytes(length));
 
             this.Reader.ReadByte();
@@ -148,14 +153,14 @@ namespace FamosFile.NET
             return value;
         }
 
-        protected List<string> ParseStringArray()
+        protected List<string> DeserializeStringArray()
         {
-            var elementCount = this.ParseInt32();
+            var elementCount = this.DeserializeInt32();
 
             if (elementCount < 0 || elementCount > int.MaxValue)
                 throw new FormatException("The number of texts is out of range.");
 
-            return Enumerable.Range(0, elementCount).Select(current => this.ParseString()).ToList();
+            return Enumerable.Range(0, elementCount).Select(current => this.DeserializeString()).ToList();
         }
 
         private void ConsumeSpaces()
@@ -175,42 +180,42 @@ namespace FamosFile.NET
         #region Keys
 
         // Component scaling (x-axis scaling for single component, parameter for 2-component components.
-        protected FamosFileXAxisScaling ParseCD()
+        protected FamosFileXAxisScaling DeserializeCD()
         {
             FamosFileXAxisScaling axisScaling = null;
 
-            var keyVersion = this.ParseInt32();
+            var keyVersion = this.DeserializeInt32();
 
             if (keyVersion == 1)
             {
-                this.ParseKey(keySize =>
+                this.DeserializeKey(keySize =>
                 {
-                    var dx = this.ParseFloat64();
-                    var isCalibrated = this.ParseInt32() == 1;
-                    var unit = this.ParseString();
+                    var dx = this.DeserializeFloat64();
+                    var isCalibrated = this.DeserializeInt32() == 1;
+                    var unit = this.DeserializeString();
 
-                    this.ParseInt32();
-                    this.ParseInt32();
-                    this.ParseInt32();
+                    this.DeserializeInt32();
+                    this.DeserializeInt32();
+                    this.DeserializeInt32();
 
                     axisScaling = new FamosFileXAxisScaling(dx, isCalibrated, unit);
                 });
             }
             else if (keyVersion == 2)
             {
-                this.ParseKey(keySize =>
+                this.DeserializeKey(keySize =>
                 {
-                    var dx = this.ParseInt32();
-                    var isCalibrated = this.ParseInt32() == 1;
-                    var unit = this.ParseString();
+                    var dx = this.DeserializeInt32();
+                    var isCalibrated = this.DeserializeInt32() == 1;
+                    var unit = this.DeserializeString();
 
                     // some data is not defined in imc document.
-                    this.ParseKeyPart();
-                    this.ParseKeyPart();
-                    this.ParseKeyPart();
+                    this.DeserializeKeyPart();
+                    this.DeserializeKeyPart();
+                    this.DeserializeKeyPart();
 
-                    var x0 = this.ParseInt32();
-                    var PretriggerUsage = (FamosFilePretriggerUsage)this.ParseInt32();
+                    var x0 = this.DeserializeInt32();
+                    var PretriggerUsage = (FamosFilePretriggerUsage)this.DeserializeInt32();
 
                     axisScaling = new FamosFileXAxisScaling(dx, isCalibrated, unit, x0, PretriggerUsage);
                 });
@@ -224,20 +229,20 @@ namespace FamosFile.NET
         }
 
         // Z-axis scaling.
-        protected FamosFileZAxisScaling ParseCZ()
+        protected FamosFileZAxisScaling DeserializeCZ()
         {
             FamosFileZAxisScaling axisScaling = null;
 
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var dz = this.ParseFloat64();
-                var isDzCalibrated = this.ParseInt32() == 1;
+                var dz = this.DeserializeFloat64();
+                var isDzCalibrated = this.DeserializeInt32() == 1;
 
-                var z0 = this.ParseFloat64();
-                var isZ0Calibrated = this.ParseInt32() == 1;
+                var z0 = this.DeserializeFloat64();
+                var isZ0Calibrated = this.DeserializeInt32() == 1;
 
-                var unit = this.ParseString();
-                var segmentSize = this.ParseInt32();
+                var unit = this.DeserializeString();
+                var segmentSize = this.DeserializeInt32();
 
                 axisScaling = new FamosFileZAxisScaling(dz, isDzCalibrated, z0, isZ0Calibrated, unit, segmentSize);
             });
@@ -246,21 +251,21 @@ namespace FamosFile.NET
         }
 
         // Trigger time
-        protected (DateTime TriggerTime, FamosFileTimeMode TimeMode) ParseNT()
+        protected FamosFileTriggerTimeInfo DeserializeNT()
         {
             DateTime triggerTime = default;
             FamosFileTimeMode timeMode = FamosFileTimeMode.Unknown;
 
-            var keyVersion = this.ParseInt32();
+            var keyVersion = this.DeserializeInt32();
 
-            this.ParseKey(keySize =>
+            this.DeserializeKey(keySize =>
             {
-                var day = this.ParseInt32();
-                var month = this.ParseInt32();
-                var year = this.ParseInt32();
-                var hour = this.ParseInt32();
-                var minute = this.ParseInt32();
-                var second = this.ParseInt32();
+                var day = this.DeserializeInt32();
+                var month = this.DeserializeInt32();
+                var year = this.DeserializeInt32();
+                var hour = this.DeserializeInt32();
+                var minute = this.DeserializeInt32();
+                var second = this.DeserializeInt32();
 
                 if (keyVersion == 1)
                 {
@@ -268,9 +273,9 @@ namespace FamosFile.NET
                 }
                 else if (keyVersion == 2)
                 {
-                    var timeZone = this.ParseInt32();
+                    var timeZone = this.DeserializeInt32();
 
-                    timeMode = (FamosFileTimeMode)this.ParseInt32();
+                    timeMode = (FamosFileTimeMode)this.DeserializeInt32();
                     triggerTime = new DateTimeOffset(year, month, day, hour, minute, second, TimeSpan.FromMinutes(timeZone)).UtcDateTime;
                 }
                 else
@@ -279,7 +284,11 @@ namespace FamosFile.NET
                 }
             });
 
-            return (triggerTime, timeMode);
+            return new FamosFileTriggerTimeInfo()
+            {
+                DateTime = triggerTime,
+                TimeMode = timeMode
+            };
         }
 
         #endregion

@@ -8,39 +8,22 @@ namespace FamosFile.NET
     {
         #region Constructors
 
-        public FamosFileDataField(BinaryReader reader, int codePage) : base(reader)
+        public FamosFileDataField(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             this.Components = new List<FamosFileComponent>();
-            this.CodePage = codePage;
-        }
 
-        #endregion
-
-        #region Properties
-
-        public FamosFileDataFieldType Type { get; set; }
-        public int Dimension { get; set; }
-        public List<FamosFileComponent> Components { get; set; }
-
-        #endregion
-
-        #region KeyParsing
-
-        public FamosFileKeyType Parse()
-        {
             var nextKeyType = FamosFileKeyType.Unknown;
 
             FamosFileXAxisScaling currentXAxisScaling = null;
             FamosFileZAxisScaling currentZAxisScaling = null;
-            DateTime currentTriggerTime = default;
-            FamosFileTimeMode currentTimeMode = default;
+            FamosFileTriggerTimeInfo currentTriggerTimeInfo = null;
 
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var componentCount = this.ParseInt32();
+                var componentCount = this.DeserializeInt32();
 
-                this.Type = (FamosFileDataFieldType)this.ParseInt32();
-                this.Dimension = this.ParseInt32();
+                this.Type = (FamosFileDataFieldType)this.DeserializeInt32();
+                this.Dimension = this.DeserializeInt32();
 
                 if (this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime &&
                     this.Dimension != 1)
@@ -51,15 +34,9 @@ namespace FamosFile.NET
                     throw new FormatException($"The field dimension is invalid. Expected '2', got '{this.Dimension}'.");
             });
 
-            var parseKey = true;
-
             while (true)
             {
-                // if key has not been parsed yet
-                if (parseKey)
-                    nextKeyType = this.ParseKeyType();
-                else
-                    parseKey = true;
+                nextKeyType = this.DeserializeKeyType();
 
                 if (nextKeyType == FamosFileKeyType.Unknown)
                 {
@@ -68,30 +45,36 @@ namespace FamosFile.NET
                 }
 
                 else if (nextKeyType == FamosFileKeyType.CD)
-                    currentXAxisScaling = base.ParseCD();
+                    currentXAxisScaling = base.DeserializeCD();
 
                 else if (nextKeyType == FamosFileKeyType.CZ)
-                    currentZAxisScaling = base.ParseCZ();
+                    currentZAxisScaling = base.DeserializeCZ();
 
                 else if (nextKeyType == FamosFileKeyType.NT)
-                    (currentTriggerTime, currentTimeMode) = base.ParseNT();
+                    currentTriggerTimeInfo = base.DeserializeNT();
 
                 else if (nextKeyType == FamosFileKeyType.CC)
                 {
-                    var component = new FamosFileComponent(this.Reader, this.CodePage);
-
-                    nextKeyType = component.Parse(currentXAxisScaling, currentZAxisScaling, currentTriggerTime, currentTimeMode);
-                    parseKey = false;
-
+                    var component = new FamosFileComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
                     this.Components.Add(component);
                 }
 
                 else
+                {
+                    // go back to start of key
+                    this.Reader.BaseStream.Position -= 4;
                     break;
+                }
             }
-
-            return nextKeyType;
         }
+
+        #endregion
+
+        #region Properties
+
+        public FamosFileDataFieldType Type { get; set; }
+        public int Dimension { get; set; }
+        public List<FamosFileComponent> Components { get; set; }
 
         #endregion
     }

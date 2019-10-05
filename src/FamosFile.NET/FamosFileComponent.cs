@@ -8,12 +8,79 @@ namespace FamosFile.NET
     {
         #region Constructors
 
-        public FamosFileComponent(BinaryReader reader, int codePage) : base(reader)
+        public FamosFileComponent(BinaryReader reader,
+                                  int codePage,
+                                  FamosFileXAxisScaling currentXAxisScaling,
+                                  FamosFileZAxisScaling currentZAxisScaling,
+                                  FamosFileTriggerTimeInfo currentTriggerTimeInfo) : base(reader, codePage)
         {
-            this.CodePage = codePage;
-
             this.Buffers = new List<FamosFileBuffer>();
             this.ChannelInfos = new List<FamosFileChannelInfo>();
+
+            var nextKeyType = FamosFileKeyType.Unknown;
+
+            this.XAxisScaling = currentXAxisScaling;
+            this.ZAxisScaling = currentZAxisScaling;
+            this.TriggerTimeInfo = currentTriggerTimeInfo;
+
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            {
+                this.ComponentIndex = this.DeserializeInt32();
+                this.AnalogDigital = (FamosFileAnalogDigital)this.DeserializeInt32();
+            });
+
+            while (true)
+            {
+                nextKeyType = this.DeserializeKeyType();
+
+                // end of CC reached
+                if (nextKeyType == FamosFileKeyType.CT ||
+                    nextKeyType == FamosFileKeyType.CB ||
+                    nextKeyType == FamosFileKeyType.CI ||
+                    nextKeyType == FamosFileKeyType.CG)
+                {
+                    // go back to start of key
+                    this.Reader.BaseStream.Position -= 4;
+                    break;
+                }
+
+                else if (nextKeyType == FamosFileKeyType.Unknown)
+                {
+                    this.SkipKey();
+                    continue;
+                }
+
+                else if (nextKeyType == FamosFileKeyType.CD)
+                    this.XAxisScaling = base.DeserializeCD();
+
+                else if (nextKeyType == FamosFileKeyType.CZ)
+                    this.ZAxisScaling = base.DeserializeCZ();
+
+                else if (nextKeyType == FamosFileKeyType.NT)
+                    this.TriggerTimeInfo = base.DeserializeNT();
+
+                else if (nextKeyType == FamosFileKeyType.CP)
+                    this.DeserializeCP();
+
+                else if (nextKeyType == FamosFileKeyType.Cb)
+                    this.DeserializeCb();
+
+                else if (nextKeyType == FamosFileKeyType.CR)
+                    this.DeserializeCR();
+
+                else if (nextKeyType == FamosFileKeyType.ND)
+                    this.DeserializeND();
+
+                else if (nextKeyType == FamosFileKeyType.Cv)
+                    this.DeserializeCv();
+
+                else if (nextKeyType == FamosFileKeyType.CN)
+                    this.DeserializeCN();
+
+                else
+                    // should never happen
+                    throw new FormatException("An unexpected state has been reached.");
+            }
         }
 
         #endregion
@@ -23,14 +90,11 @@ namespace FamosFile.NET
         public int ComponentIndex { get; private set; }
         public FamosFileAnalogDigital AnalogDigital { get; private set; }
 
-        public DateTime TriggerTime { get; private set; }
-        public FamosFileTimeMode TimeMode { get; private set; }
-
         public FamosFileXAxisScaling XAxisScaling { get; private set; }
         public FamosFileZAxisScaling ZAxisScaling { get; private set; }
+        public FamosFileTriggerTimeInfo TriggerTimeInfo { get; private set; }
 
         public FamosFilePackInfo PackInfo { get; private set; }
-        public FamosFileBufferInfo BufferInfo { get; private set; }
         public FamosFileCalibrationInfo CalibrationInfo { get; private set; }
         public FamosFileDisplayInfo DisplayInfo { get; private set; }
         public FamosFileEventInfo EventInfo { get; private set; }
@@ -65,180 +129,113 @@ namespace FamosFile.NET
 
         #region KeyParsing
 
-        public FamosFileKeyType Parse(FamosFileXAxisScaling currentXAxisScaling, FamosFileZAxisScaling currentZAxisScaling, DateTime currentTriggerTime, FamosFileTimeMode currentTimeMode)
-        {
-            var nextKeyType = FamosFileKeyType.Unknown;
-
-            this.XAxisScaling = currentXAxisScaling;
-            this.ZAxisScaling = currentZAxisScaling;
-            this.TriggerTime = currentTriggerTime;
-
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
-            {
-                this.ComponentIndex = this.ParseInt32();
-                this.AnalogDigital = (FamosFileAnalogDigital)this.ParseInt32();
-            });
-
-            while (true)
-            {
-                nextKeyType = this.ParseKeyType();
-
-                // end of CC reached
-                if (nextKeyType == FamosFileKeyType.CT ||
-                    nextKeyType == FamosFileKeyType.CB ||
-                    nextKeyType == FamosFileKeyType.CI ||
-                    nextKeyType == FamosFileKeyType.CG)
-                {
-                    break;
-                }
-
-                else if (nextKeyType == FamosFileKeyType.Unknown)
-                {
-                    this.SkipKey();
-                    continue;
-                }
-
-                else if (nextKeyType == FamosFileKeyType.CD)
-                    this.XAxisScaling = base.ParseCD();
-
-                else if (nextKeyType == FamosFileKeyType.CZ)
-                    this.ZAxisScaling = base.ParseCZ();
-
-                else if (nextKeyType == FamosFileKeyType.NT)
-                    (this.TriggerTime, this.TimeMode) = base.ParseNT();
-
-                else if (nextKeyType == FamosFileKeyType.CP)
-                    this.ParseCP();
-
-                else if (nextKeyType == FamosFileKeyType.Cb)
-                    this.ParseCb();
-
-                else if (nextKeyType == FamosFileKeyType.CR)
-                    this.ParseCR();
-
-                else if (nextKeyType == FamosFileKeyType.ND)
-                    this.ParseND();
-
-                else if (nextKeyType == FamosFileKeyType.Cv)
-                    this.ParseCv();
-
-                else if (nextKeyType == FamosFileKeyType.CN)
-                    this.ParseCN();
-
-                else
-                    break;
-            }
-
-            return nextKeyType;
-        }
-
         // Pack information for this component.
-        private void ParseCP()
+        private void DeserializeCP()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.PackInfo = new FamosFilePackInfo()
                 {
-                    BufferReference = this.ParseInt32(),
-                    ValueSize = this.ParseInt32(),
-                    DataType = (FamosFileDataType)this.ParseInt32(),
-                    SignificantBits = this.ParseInt32(),
-                    Offset = Math.Max(this.ParseInt32(), this.ParseInt32()),
-                    GroupSize = this.ParseInt32(),
-                    GapSize = this.ParseInt32(),
+                    BufferReference = this.DeserializeInt32(),
+                    ValueSize = this.DeserializeInt32(),
+                    DataType = (FamosFileDataType)this.DeserializeInt32(),
+                    SignificantBits = this.DeserializeInt32(),
+                    Offset = Math.Max(this.DeserializeInt32(), this.DeserializeInt32()),
+                    GroupSize = this.DeserializeInt32(),
+                    GapSize = this.DeserializeInt32(),
                 };
             });
         }
 
         // Buffer description.
-        private void ParseCb()
+        private void DeserializeCb()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var bufferCount = this.ParseInt32();
-                var userInfoSize = this.ParseInt32();
+                var bufferCount = this.DeserializeInt32();
+                var userInfoSize = this.DeserializeInt32();
 
                 for (int i = 0; i < bufferCount; i++)
                 {
                     this.Buffers.Add(new FamosFileBuffer()
                     {
-                        Reference = this.ParseInt32(),
-                        CsKeyReference = this.ParseInt32(),
-                        CsKeyOffset = this.ParseInt32(),
-                        Length = this.ParseInt32(),
-                        Offset = this.ParseInt32(),
-                        ConsumedBytes = this.ParseInt32(),
-                        IsNewEvent = this.ParseInt32() == 1,
-                        x0 = this.ParseInt32(),
-                        TriggerAddTime = this.ParseInt32(),
-                        UserInfo = this.ParseKeyPart()
+                        Reference = this.DeserializeInt32(),
+                        CsKeyReference = this.DeserializeInt32(),
+                        CsKeyOffset = this.DeserializeInt32(),
+                        Length = this.DeserializeInt32(),
+                        Offset = this.DeserializeInt32(),
+                        ConsumedBytes = this.DeserializeInt32(),
+                        IsNewEvent = this.DeserializeInt32() == 1,
+                        x0 = this.DeserializeInt32(),
+                        TriggerAddTime = this.DeserializeInt32(),
+                        UserInfo = this.DeserializeKeyPart()
                     });
                 }
             });
         }
 
         // Calibration information.
-        private void ParseCR()
+        private void DeserializeCR()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.CalibrationInfo = new FamosFileCalibrationInfo()
                 {
-                    ApplyTransformation = this.ParseInt32() == 1,
-                    Factor = this.ParseFloat64(),
-                    Offset = this.ParseFloat64(),
-                    IsCalibrated = this.ParseInt32() == 1,
-                    Unit = this.ParseString()
+                    ApplyTransformation = this.DeserializeInt32() == 1,
+                    Factor = this.DeserializeFloat64(),
+                    Offset = this.DeserializeFloat64(),
+                    IsCalibrated = this.DeserializeInt32() == 1,
+                    Unit = this.DeserializeString()
                 };
             });
         }
 
         // Display information.
-        private void ParseND()
+        private void DeserializeND()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.DisplayInfo = new FamosFileDisplayInfo()
                 {
-                    R = this.ParseInt32(),
-                    G = this.ParseInt32(),
-                    B = this.ParseInt32(),
-                    YMin = this.ParseFloat64(),
-                    YMax = this.ParseFloat64()
+                    R = this.DeserializeInt32(),
+                    G = this.DeserializeInt32(),
+                    B = this.DeserializeInt32(),
+                    YMin = this.DeserializeFloat64(),
+                    YMax = this.DeserializeFloat64()
                 };
             });
         }
 
         // Event information.
-        private void ParseCv()
+        private void DeserializeCv()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.EventInfo = new FamosFileEventInfo()
                 {
-                    IndexEventListKey = this.ParseInt32(),
-                    OffsetInEventList = this.ParseInt32(),
-                    SubsequentEventCount = this.ParseInt32(),
-                    EventDistance = this.ParseInt32(),
-                    EventCount = this.ParseInt32(),
-                    ValidNT = (FamosFileValidNTType)this.ParseInt32(),
-                    ValidCD = (FamosFileValidCDType)this.ParseInt32(),
-                    ValidCR1 = (FamosFileValidCR1Type)this.ParseInt32(),
-                    ValidCR2 = (FamosFileValidCR2Type)this.ParseInt32(),
+                    IndexEventListKey = this.DeserializeInt32(),
+                    OffsetInEventList = this.DeserializeInt32(),
+                    SubsequentEventCount = this.DeserializeInt32(),
+                    EventDistance = this.DeserializeInt32(),
+                    EventCount = this.DeserializeInt32(),
+                    ValidNT = (FamosFileValidNTType)this.DeserializeInt32(),
+                    ValidCD = (FamosFileValidCDType)this.DeserializeInt32(),
+                    ValidCR1 = (FamosFileValidCR1Type)this.DeserializeInt32(),
+                    ValidCR2 = (FamosFileValidCR2Type)this.DeserializeInt32(),
                 };
             });
         }
 
         // Channel information.
-        private void ParseCN()
+        private void DeserializeCN()
         {
-            this.ParseKey(expectedKeyVersion: 1, keySize =>
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var groupIndex = this.ParseInt32();
-                this.ParseInt32();
-                var bitIndex = this.ParseInt32();
-                var name = this.ParseString();
-                var comment = this.ParseString();
+                var groupIndex = this.DeserializeInt32();
+                this.DeserializeInt32();
+                var bitIndex = this.DeserializeInt32();
+                var name = this.DeserializeString();
+                var comment = this.DeserializeString();
 
                 this.ChannelInfos.Add(new FamosFileChannelInfo()
                 {
