@@ -4,10 +4,7 @@ namespace ImcFamosFile
 {
     public class FamosFileText
     {
-        public FamosFileText(List<string> texts) : base()
-        {
-            this.Texts.AddRange(texts);
-        }
+        #region Constructors
 
         public FamosFileText()
         {
@@ -17,9 +14,20 @@ namespace ImcFamosFile
             this.Texts = new List<string>();
         }
 
+        public FamosFileText(List<string> texts) : this()
+        {
+            this.Texts.AddRange(texts);
+        }
+
+        #endregion
+
+        #region Properties
+
         public string Name { get; set; }
         public string Text { get; set; }
         public string Comment { get; set; }
         public List<string> Texts { get; private set; }
+
+        #endregion
     }
 }

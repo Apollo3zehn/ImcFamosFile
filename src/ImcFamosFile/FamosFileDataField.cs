@@ -8,9 +8,14 @@ namespace ImcFamosFile
     {
         #region Constructors
 
+        public FamosFileDataField()
+        {
+            this.Initialize();
+        }
+
         public FamosFileDataField(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.Components = new List<FamosFileComponent>();
+            this.Initialize();
 
             var nextKeyType = FamosFileKeyType.Unknown;
 
@@ -75,6 +80,17 @@ namespace ImcFamosFile
         public FamosFileDataFieldType Type { get; set; }
         public int Dimension { get; set; }
         public List<FamosFileComponent> Components { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public void Initialize()
+        {
+            this.Type = FamosFileDataFieldType.MultipleYToSingleEquidistantTime;
+            this.Dimension = 1;
+            this.Components = new List<FamosFileComponent>();
+        }
 
         #endregion
     }

@@ -2,6 +2,15 @@
 {
     public class FamosFileCalibrationInfo
     {
+        #region Constructors
+
+        public FamosFileCalibrationInfo()
+        {
+            this.Unit = string.Empty;
+        }
+
+        #endregion
+
         #region Properties
 
         public bool ApplyTransformation { get; set; }

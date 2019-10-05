@@ -18,18 +18,19 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFile(BinaryReader reader)
-            : base(reader)
+        public FamosFile()
+        {
+            this.Initialize();
+        }
+
+        public FamosFile(BinaryReader reader) : base(reader)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             if (!this.Reader.BaseStream.CanSeek)
                 throw new NotSupportedException("The underlying stream must be seekable.");
 
-            this.Groups = new List<FamosFileGroup>();
-            this.DataFields = new List<FamosFileDataField>();
-            this.Events = new List<FamosFileEvent>();
-            this.RawData = new List<FamosFileRawData>();
+            this.Initialize();
 
             try
             {
@@ -60,6 +61,25 @@ namespace ImcFamosFile
 
         #region "Methods"
 
+        public void Save(string filePath)
+        {
+#warning TODO: implement Save()
+        }
+
+        private void Initialize()
+        {
+            this.Comment = string.Empty;
+            this.DataFields = new List<FamosFileDataField>();
+            this.DataOrigin = FamosFileDataOrigin.Original;
+            this.Events = new List<FamosFileEvent>();
+            this.FormatVersion = 2;
+            this.Groups = new List<FamosFileGroup>();
+            this.Language = 0x0C09; // Englisch
+            this.Name = string.Empty;
+            this.Processor = 1;
+            this.RawData = new List<FamosFileRawData>();
+        }
+
         private FamosFileGroup GetOrCreateGroup(int id)
         {
             var group = this.Groups.FirstOrDefault(current => current.Index == id);
@@ -85,11 +105,6 @@ namespace ImcFamosFile
 
             // CK
             this.DeserializeCK();
-
-            //
-            this.DataOrigin = FamosFileDataOrigin.Unknown;
-            this.Name = string.Empty;
-            this.Comment = string.Empty;
 
             while (true)
             {

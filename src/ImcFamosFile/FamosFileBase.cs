@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace ImcFamosFile
 {
-    public class FamosFileBase
+    public abstract class FamosFileBase
     {
         #region Fields
 
@@ -27,6 +27,11 @@ namespace ImcFamosFile
             this.Reader = reader;
 
             _matchKey = new Regex("[|][a-zA-Z]{2},");
+        }
+
+        public FamosFileBase()
+        {
+            //
         }
 
         #endregion
