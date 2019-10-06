@@ -4,7 +4,7 @@
     {
         #region Properties
 
-        public int Index { get; set; }
+        internal int Index { get; set; }
         public long Length { get; set; }
         public long FileOffset { get; set; }
 

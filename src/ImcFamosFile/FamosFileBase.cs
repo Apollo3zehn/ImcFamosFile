@@ -11,22 +11,21 @@ namespace ImcFamosFile
     {
         #region Fields
 
-        private Regex _matchKey;
+        BinaryReader? _reader;
 
         #endregion
 
         #region Constructors
 
-        public FamosFileBase(BinaryReader reader, int codePage) : this(reader)
+        public FamosFileBase(BinaryReader reader, int codePage)
         {
+            _reader = reader;
             this.CodePage = codePage;
         }
 
         public FamosFileBase(BinaryReader reader)
         {
-            this.Reader = reader;
-
-            _matchKey = new Regex("[|][a-zA-Z]{2},");
+            _reader = reader;
         }
 
         public FamosFileBase()
@@ -38,23 +37,36 @@ namespace ImcFamosFile
 
         #region Properties
 
-        protected BinaryReader Reader { get; private set; }
-
+        private Regex MatchKey { get; } = new Regex("[|][a-zA-Z]{2},");
         protected int CodePage { get; set; }
+
+        protected BinaryReader Reader
+        { 
+            get
+            {
+                if (_reader == null)
+                    throw new NullReferenceException($"{nameof(this.Reader)} is null.");
+
+                return _reader;
+            }
+        }
 
         #endregion
 
         #region Methods
 
+        internal abstract void Prepare();
+
+        internal abstract void Validate();
+
         protected void SkipKey()
         {
             this.DeserializeInt32();
-            this.DeserializeKey(null);
+            this.DeserializeKey(parseKeyDataAction: null);
         }
 
         protected void DeserializeKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> parseKeyDataAction)
         {
-            // key type
             var keyType = this.DeserializeKeyType();
 
             if (keyType != expectedKeyType)
@@ -74,7 +86,7 @@ namespace ImcFamosFile
             this.DeserializeKey(parseKeyDataAction);
         }
 
-        protected void DeserializeKey(Action<long> parseKeyDataAction)
+        protected void DeserializeKey(Action<long>? parseKeyDataAction)
         {
             // key length
             var keyLength = this.DeserializeInt64();
@@ -139,7 +151,7 @@ namespace ImcFamosFile
         {
             var keyName = Encoding.ASCII.GetString(this.Reader.ReadBytes(4));
 
-            if (!_matchKey.IsMatch(keyName))
+            if (!this.MatchKey.IsMatch(keyName))
                 throw new FormatException("The format of the current key is invalid.");
 
             if (Enum.TryParse<FamosFileKeyType>(keyName[1..3], out var result))
@@ -187,7 +199,7 @@ namespace ImcFamosFile
         // Component scaling (x-axis scaling for single component, parameter for 2-component components.
         protected FamosFileXAxisScaling DeserializeCD()
         {
-            FamosFileXAxisScaling axisScaling = null;
+            FamosFileXAxisScaling axisScaling = new FamosFileXAxisScaling();
 
             var keyVersion = this.DeserializeInt32();
 
@@ -236,7 +248,7 @@ namespace ImcFamosFile
         // Z-axis scaling.
         protected FamosFileZAxisScaling DeserializeCZ()
         {
-            FamosFileZAxisScaling axisScaling = null;
+            FamosFileZAxisScaling axisScaling = new FamosFileZAxisScaling();
 
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {

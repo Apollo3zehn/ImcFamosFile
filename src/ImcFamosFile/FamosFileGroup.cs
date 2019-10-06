@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ImcFamosFile
 {
@@ -12,25 +13,27 @@ namespace ImcFamosFile
             this.Comment = string.Empty;
             this.Texts = new List<FamosFileText>();
             this.SingleValues = new List<FamosFileSingleValue>();
+            this.ChannelInfos = new List<FamosFileChannelInfo>();
         }
 
-        public FamosFileGroup(int index) : this()
+        internal FamosFileGroup(int index) : this()
         {
             this.Index = index;
 
-            if (index == 0)
-                this.Name = "default";
+            if (index <= 0)
+                throw new FormatException($"Expected group index >= '1', got '{index}'.");
         }
 
         #endregion
 
         #region Properties
 
-        public int Index { get; private set; }
+        internal int Index { get; private set; }
         public string Name { get; set; }
         public string Comment { get; set; }
         public List<FamosFileText> Texts { get; private set; }
         public List<FamosFileSingleValue> SingleValues { get; private set; }
+        public List<FamosFileChannelInfo> ChannelInfos { get; private set; }
 
         #endregion
     }

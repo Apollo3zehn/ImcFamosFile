@@ -4,6 +4,9 @@
     <Description>A imc Famos file reader and writer.</Description>
     <PackageTags>imc Famos dat raw</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>

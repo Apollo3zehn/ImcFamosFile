@@ -7,7 +7,7 @@ namespace FamosFileSample
         static void Main(string[] args)
         {
             // prepare group
-            var group = new FamosFileGroup() // remove index requirement
+            var group = new FamosFileGroup()
             {
                 Name = "My first group.",
                 Comment = "My group comment.",

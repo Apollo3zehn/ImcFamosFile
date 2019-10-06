@@ -1,23 +1,24 @@
 ﻿namespace ImcFamosFile
 {
-    public class FamosFileChannelInfo
+    public class FamosFileDataOriginInfo
     {
         #region Constructors
 
-        public FamosFileChannelInfo()
+        public FamosFileDataOriginInfo()
         {
             this.Name = string.Empty;
             this.Comment = string.Empty;
+            this.DataOrigin = FamosFileDataOrigin.Original;
         }
 
         #endregion
 
         #region Properties
 
-        internal int GroupIndex { get; set; }
-        public int BitIndex { get; set; }
         public string Name { get; set; }
         public string Comment { get; set; }
+
+        public FamosFileDataOrigin DataOrigin { get; set; }
 
         #endregion
     }

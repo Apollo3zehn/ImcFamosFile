@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImcFamosFile
 {
@@ -8,30 +9,41 @@ namespace ImcFamosFile
     {
         #region Constructors
 
+        public FamosFileComponent()
+        {
+            //
+        }
+
         public FamosFileComponent(BinaryReader reader,
                                   int codePage,
-                                  FamosFileXAxisScaling currentXAxisScaling,
-                                  FamosFileZAxisScaling currentZAxisScaling,
-                                  FamosFileTriggerTimeInfo currentTriggerTimeInfo) : base(reader, codePage)
+                                  FamosFileXAxisScaling? currentXAxisScaling,
+                                  FamosFileZAxisScaling? currentZAxisScaling,
+                                  FamosFileTriggerTimeInfo? currentTriggerTimeInfo) : base(reader, codePage)
         {
-            this.Buffers = new List<FamosFileBuffer>();
-            this.ChannelInfos = new List<FamosFileChannelInfo>();
-
-            var nextKeyType = FamosFileKeyType.Unknown;
-
             this.XAxisScaling = currentXAxisScaling;
             this.ZAxisScaling = currentZAxisScaling;
             this.TriggerTimeInfo = currentTriggerTimeInfo;
 
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.ComponentIndex = this.DeserializeInt32();
-                this.AnalogDigital = (FamosFileAnalogDigital)this.DeserializeInt32();
+                // index
+                var index = this.DeserializeInt32();
+
+                if (index != 1 && index != 2)
+                    throw new FormatException($"Expected index value '1' or '2', got {index}");
+
+                // analog / digital
+                var analogDigital = this.DeserializeInt32();
+
+                if (analogDigital != 1 && analogDigital != 2)
+                    throw new FormatException($"Expected analog / digital value '1' or '2', got {analogDigital}");
+
+                this.IsDigital = analogDigital == 2;
             });
 
             while (true)
             {
-                nextKeyType = this.DeserializeKeyType();
+                var nextKeyType = this.DeserializeKeyType();
 
                 // end of CC reached
                 if (nextKeyType == FamosFileKeyType.CT ||
@@ -87,20 +99,20 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public int ComponentIndex { get; private set; }
-        public FamosFileAnalogDigital AnalogDigital { get; private set; }
+        public int Index { get; private set; }
+        public bool IsDigital { get; set; }
 
-        public FamosFileXAxisScaling XAxisScaling { get; private set; }
-        public FamosFileZAxisScaling ZAxisScaling { get; private set; }
-        public FamosFileTriggerTimeInfo TriggerTimeInfo { get; private set; }
+        public FamosFileXAxisScaling? XAxisScaling { get; set; }
+        public FamosFileZAxisScaling? ZAxisScaling { get; set; }
+        public FamosFileTriggerTimeInfo? TriggerTimeInfo { get; set; }
 
-        public FamosFilePackInfo PackInfo { get; private set; }
-        public FamosFileCalibrationInfo CalibrationInfo { get; private set; }
-        public FamosFileDisplayInfo DisplayInfo { get; private set; }
-        public FamosFileEventInfo EventInfo { get; private set; }
+        public FamosFilePackInfo? PackInfo { get; set; }
+        public FamosFileCalibrationInfo? CalibrationInfo { get; set; }
+        public FamosFileDisplayInfo? DisplayInfo { get; set; }
+        public FamosFileEventInfo? EventInfo { get; set; }
 
-        public List<FamosFileBuffer> Buffers { get; private set; }
-        public List<FamosFileChannelInfo> ChannelInfos { get; private set; }
+        public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
+        public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
 
         #endregion
 
@@ -127,6 +139,49 @@ namespace ImcFamosFile
 
         #endregion
 
+        #region Methods
+
+        internal override void Prepare()
+        {
+            // sort buffers
+            this.Buffers = this.Buffers.OrderBy(buffer => buffer.Reference).ToList();
+
+            // associate buffers to pack info
+            this.PackInfo?.Buffers.AddRange(this.Buffers.Where(buffer => buffer.Reference == this.PackInfo.BufferReference));
+        }
+
+        internal override void Validate()
+        {
+            // analog vs. digital
+            if (!this.IsDigital && this.CalibrationInfo == null)
+                throw new FormatException($"The analog component '{this.Name}' does not define calibration information.");
+
+            if (this.IsDigital && this.CalibrationInfo != null)
+                throw new FormatException($"The digital component '{this.Name}' defines analog calibration information.");
+
+            // pack info
+            if (this.PackInfo == null)
+                throw new FormatException("The component's pack info must be provided.");
+
+            if (!this.PackInfo.Buffers.Any())
+                throw new FormatException("The pack info's buffers collection must container at least a single buffer instance.");
+
+            foreach (var buffer in this.PackInfo.Buffers)
+            {
+                if (!this.Buffers.Contains(buffer))
+                    throw new FormatException("The pack info's buffers must be part of the component's buffer collection.");
+            }
+
+            // buffers
+            foreach (var buffer in this.Buffers)
+            {
+                if (buffer.RawData == null)
+                    throw new FormatException("The buffer's raw data must be provided.");
+            }
+        }
+
+        #endregion
+
         #region KeyParsing
 
         // Pack information for this component.
@@ -134,9 +189,8 @@ namespace ImcFamosFile
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.PackInfo = new FamosFilePackInfo()
+                this.PackInfo = new FamosFilePackInfo(this.DeserializeInt32())
                 {
-                    BufferReference = this.DeserializeInt32(),
                     ValueSize = this.DeserializeInt32(),
                     DataType = (FamosFileDataType)this.DeserializeInt32(),
                     SignificantBits = this.DeserializeInt32(),
@@ -157,11 +211,9 @@ namespace ImcFamosFile
 
                 for (int i = 0; i < bufferCount; i++)
                 {
-                    this.Buffers.Add(new FamosFileBuffer()
+                    this.Buffers.Add(new FamosFileBuffer(this.DeserializeInt32(), this.DeserializeInt32())
                     {
-                        Reference = this.DeserializeInt32(),
-                        CsKeyReference = this.DeserializeInt32(),
-                        CsKeyOffset = this.DeserializeInt32(),
+                        RawDataOffset = this.DeserializeInt32(),
                         Length = this.DeserializeInt32(),
                         Offset = this.DeserializeInt32(),
                         ConsumedBytes = this.DeserializeInt32(),

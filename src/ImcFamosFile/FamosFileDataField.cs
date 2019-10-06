@@ -10,25 +10,27 @@ namespace ImcFamosFile
 
         public FamosFileDataField()
         {
-            this.Initialize();
+            //
         }
 
         public FamosFileDataField(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.Initialize();
-
             var nextKeyType = FamosFileKeyType.Unknown;
 
-            FamosFileXAxisScaling currentXAxisScaling = null;
-            FamosFileZAxisScaling currentZAxisScaling = null;
-            FamosFileTriggerTimeInfo currentTriggerTimeInfo = null;
+            FamosFileXAxisScaling? currentXAxisScaling = null;
+            FamosFileZAxisScaling? currentZAxisScaling = null;
+            FamosFileTriggerTimeInfo? currentTriggerTimeInfo = null;
 
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 var componentCount = this.DeserializeInt32();
+                var type = (FamosFileDataFieldType)this.DeserializeInt32();
+                var dimension = this.DeserializeInt32();
 
-                this.Type = (FamosFileDataFieldType)this.DeserializeInt32();
-                this.Dimension = this.DeserializeInt32();
+                this.Type = type;
+
+                if (dimension != this.Dimension)
+                        throw new FormatException($"Expected data field dimension '{this.Dimension}', got '{dimension}'.");
 
                 if (this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime &&
                     this.Dimension != 1)
@@ -77,19 +79,31 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public FamosFileDataFieldType Type { get; set; }
-        public int Dimension { get; set; }
-        public List<FamosFileComponent> Components { get; set; }
+        public FamosFileDataFieldType Type { get; set; } = FamosFileDataFieldType.MultipleYToSingleEquidistantTime;
+        public int Dimension => this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
+        public List<FamosFileComponent> Components { get; set; } = new List<FamosFileComponent>();
 
         #endregion
 
         #region Methods
 
-        public void Initialize()
+        internal override void Prepare()
         {
-            this.Type = FamosFileDataFieldType.MultipleYToSingleEquidistantTime;
-            this.Dimension = 1;
-            this.Components = new List<FamosFileComponent>();
+            foreach (var component in this.Components)
+            {
+                component.Prepare();
+            }
+        }
+
+        internal override void Validate()
+        {
+            if (this.Components.Count < this.Dimension)
+                throw new FormatException($"Expected number of data field components is >= '{this.Dimension}', got '{this.Components.Count}'.");
+
+            foreach (var component in this.Components)
+            {
+                component.Validate();
+            }
         }
 
         #endregion
