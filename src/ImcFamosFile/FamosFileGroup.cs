@@ -5,6 +5,12 @@ namespace ImcFamosFile
 {
     public class FamosFileGroup
     {
+        #region Fields
+
+        private int _index;
+
+        #endregion
+
         #region Constructors
 
         public FamosFileGroup()
@@ -19,16 +25,24 @@ namespace ImcFamosFile
         internal FamosFileGroup(int index) : this()
         {
             this.Index = index;
-
-            if (index <= 0)
-                throw new FormatException($"Expected group index >= '1', got '{index}'.");
         }
 
         #endregion
 
         #region Properties
 
-        internal int Index { get; private set; }
+        internal int Index
+        {
+            get { return _index; }
+            private set
+            {
+                if (value <= 0)
+                    throw new FormatException($"Expected index > '0', got '{value}'.");
+
+                _index = value;
+            }
+        }
+
         public string Name { get; set; }
         public string Comment { get; set; }
         public List<FamosFileText> Texts { get; private set; }

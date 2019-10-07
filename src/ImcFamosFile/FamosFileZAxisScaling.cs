@@ -1,7 +1,16 @@
-﻿namespace ImcFamosFile
+﻿using System;
+
+namespace ImcFamosFile
 {
     public class FamosFileZAxisScaling
     {
+        #region Fields
+
+        private double _dz;
+        private int _segmentSize;
+
+        #endregion
+
         #region Constructors
 
         public FamosFileZAxisScaling()
@@ -9,26 +18,39 @@
             this.Unit = string.Empty;
         }
 
-        public FamosFileZAxisScaling(double dz, bool isDzCalibrated, double z0, bool isZ0Calibrated, string unit, int segmentSize) : this()
-        {
-            this.dz = dz;
-            this.IsDzCalibrated = isDzCalibrated;
-            this.z0 = z0;
-            this.isZ0Calibrated = isZ0Calibrated;
-            this.Unit = unit;
-            this.SegmentSize = segmentSize;
-        }
-
         #endregion
 
         #region Properties
 
-        public double dz { get; private set; }
-        public bool IsDzCalibrated { get; private set; }
-        public double z0 { get; private set; }
-        public bool isZ0Calibrated { get; private set; }
-        public string Unit { get; private set; }
-        public int SegmentSize { get; private set; }
+        public double dz
+        {
+            get { return _dz; }
+            set
+            {
+                if (value <= 0)
+                    throw new FormatException($"Expected dz value > '0', got '{value}'.");
+
+                _dz = value;
+            }
+        }
+
+        public bool IsDzCalibrated { get; set; }
+        public double z0 { get; set; }
+        public bool IsZ0Calibrated { get; set; }
+        public string Unit { get; set; }
+
+        public int SegmentSize
+        {
+            get { return _segmentSize; }
+            set
+            {
+                if (value < 0)
+                    throw new 
+                        FormatException($"Expected segment size value >= '0', got '{value}'.");
+
+                _segmentSize = value;
+            }
+        }
 
         #endregion
     }

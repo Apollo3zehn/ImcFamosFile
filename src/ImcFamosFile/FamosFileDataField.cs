@@ -30,7 +30,7 @@ namespace ImcFamosFile
                 this.Type = type;
 
                 if (dimension != this.Dimension)
-                        throw new FormatException($"Expected data field dimension '{this.Dimension}', got '{dimension}'.");
+                    throw new FormatException($"Expected data field dimension '{this.Dimension}', got '{dimension}'.");
 
                 if (this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime &&
                     this.Dimension != 1)
@@ -80,8 +80,9 @@ namespace ImcFamosFile
         #region Properties
 
         public FamosFileDataFieldType Type { get; set; } = FamosFileDataFieldType.MultipleYToSingleEquidistantTime;
+        public List<FamosFileComponent> Components { get; } = new List<FamosFileComponent>();
+
         public int Dimension => this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
-        public List<FamosFileComponent> Components { get; set; } = new List<FamosFileComponent>();
 
         #endregion
 

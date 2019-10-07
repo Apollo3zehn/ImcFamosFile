@@ -215,7 +215,12 @@ namespace ImcFamosFile
                     this.DeserializeInt32();
                     this.DeserializeInt32();
 
-                    axisScaling = new FamosFileXAxisScaling(dx, isCalibrated, unit);
+                    axisScaling = new FamosFileXAxisScaling
+                    {
+                        dx = dx,
+                        IsCalibrated = isCalibrated,
+                        Unit = unit
+                    };
                 });
             }
             else if (keyVersion == 2)
@@ -232,9 +237,16 @@ namespace ImcFamosFile
                     this.DeserializeKeyPart();
 
                     var x0 = this.DeserializeInt32();
-                    var PretriggerUsage = (FamosFilePretriggerUsage)this.DeserializeInt32();
+                    var pretriggerUsage = (FamosFilePretriggerUsage)this.DeserializeInt32();
 
-                    axisScaling = new FamosFileXAxisScaling(dx, isCalibrated, unit, x0, PretriggerUsage);
+                    axisScaling = new FamosFileXAxisScaling
+                    {
+                        dx = dx,
+                        IsCalibrated = isCalibrated,
+                        Unit = unit,
+                        x0 = x0,
+                        PretriggerUsage = pretriggerUsage
+                    };
                 });
             }
             else
@@ -261,7 +273,14 @@ namespace ImcFamosFile
                 var unit = this.DeserializeString();
                 var segmentSize = this.DeserializeInt32();
 
-                axisScaling = new FamosFileZAxisScaling(dz, isDzCalibrated, z0, isZ0Calibrated, unit, segmentSize);
+                axisScaling = new FamosFileZAxisScaling
+                {
+                    dz = dz,
+                    IsDzCalibrated = isDzCalibrated,
+                    IsZ0Calibrated = isZ0Calibrated,
+                    Unit = unit,
+                    SegmentSize = segmentSize
+                };
             });
 
             return axisScaling;
@@ -277,23 +296,57 @@ namespace ImcFamosFile
 
             this.DeserializeKey(keySize =>
             {
+                // day
                 var day = this.DeserializeInt32();
-                var month = this.DeserializeInt32();
-                var year = this.DeserializeInt32();
-                var hour = this.DeserializeInt32();
-                var minute = this.DeserializeInt32();
-                var second = this.DeserializeInt32();
 
+                if (!(1 <= day && day <= 31))
+                    throw new FormatException($"Expected value for 'day' property: '1..31'. Got {day}.");
+
+                // month
+                var month = this.DeserializeInt32();
+
+                if (!(1 <= month && month <= 12))
+                    throw new FormatException($"Expected value for 'month' property: '1..12'. Got {month}.");
+
+                // year
+                var year = this.DeserializeInt32();
+
+                if (year < 1980)
+                    throw new FormatException($"Expected value for 'year' property: >= '1980'. Got {year}.");
+
+                // hour
+                var hour = this.DeserializeInt32();
+
+                if (!(0 <= hour && hour <= 23))
+                    throw new FormatException($"Expected value for 'hour' property: '0..23'. Got {hour}.");
+
+                // minute
+                var minute = this.DeserializeInt32();
+
+                if (!(0 <= minute && minute <= 59))
+                    throw new FormatException($"Expected value for 'minute' property: '0..59'. Got {minute}.");
+
+                // second
+                var second = this.DeserializeFloat64();
+
+                if (!(0 <= second && second <= 60))
+                    throw new FormatException($"Expected value for 'day' property: '0.0..60.0'. Got {second}.");
+
+                // millisecond
+                var millisecond = (int)((second - Math.Truncate(second)) * 1000);
+                var intSecond = (int)Math.Truncate(second);
+
+                // parse
                 if (keyVersion == 1)
                 {
-                    triggerTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Unspecified);
+                    triggerTime = new DateTime(year, month, day, hour, minute, intSecond, millisecond, DateTimeKind.Unspecified);
                 }
                 else if (keyVersion == 2)
                 {
                     var timeZone = this.DeserializeInt32();
 
                     timeMode = (FamosFileTimeMode)this.DeserializeInt32();
-                    triggerTime = new DateTimeOffset(year, month, day, hour, minute, second, TimeSpan.FromMinutes(timeZone)).UtcDateTime;
+                    triggerTime = new DateTimeOffset(year, month, day, hour, minute, intSecond, millisecond, TimeSpan.FromMinutes(timeZone)).UtcDateTime;
                 }
                 else
                 {

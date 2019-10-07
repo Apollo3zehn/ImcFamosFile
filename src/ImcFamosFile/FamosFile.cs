@@ -12,12 +12,15 @@ namespace ImcFamosFile
 
         private const int SUPPORTED_VERSION = 2;
 
+        private int _processor;
+
         #endregion
 
         #region Constructors
 
         public FamosFile()
         {
+#warning TODO: move deserialization work into corresponding classes
             //
         }
 
@@ -38,12 +41,26 @@ namespace ImcFamosFile
         #region Properties
 
         public int FormatVersion { get; } = 2;
-        public int Processor { get; } = 1;
+
+        public int Processor
+        {
+            get { return _processor; }
+            set
+            {
+                if (value != 1)
+                    throw new FormatException($"Expected processor value '1', got '{value}'.");
+
+                _processor = value;
+            }
+        }
+
         public int Language { get; set; } = 0;
 
         public FamosFileDataOriginInfo? DataOriginInfo { get; set; }
 
         public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
+        public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
+
         public List<FamosFileGroup> Groups { get; private set; } = new List<FamosFileGroup>();
         public List<FamosFileDataField> DataFields { get; private set; } = new List<FamosFileDataField>();
         public List<FamosFileEvent> Events { get; private set; } = new List<FamosFileEvent>();
@@ -93,10 +110,9 @@ namespace ImcFamosFile
                 buffer.RawData = this.RawData.FirstOrDefault(rawData => rawData.Index == buffer.RawDataReference);
             }
 
-            // sort groups
+            // sort
             this.Groups = this.Groups.OrderBy(x => x.Index).ToList();
-
-            // sort raw data
+            this.Events = this.Events.OrderBy(x => x.Index).ToList();
             this.RawData = this.RawData.OrderBy(x => x.Index).ToList();
 
             // prepare data fields
@@ -105,7 +121,6 @@ namespace ImcFamosFile
                 dataField.Prepare();
             }
         }
-
         internal override void Validate()
         {
             // check if group indices are consistent
@@ -116,6 +131,16 @@ namespace ImcFamosFile
 
                 if (expected != actual)
                     throw new FormatException($"The group indices are not consistent. Expected '{expected}', got '{actual}'.");
+            }
+
+            // check if event indices are consistent
+            foreach (var @event in this.Events)
+            {
+                var expected = @event.Index;
+                var actual = this.Events.IndexOf(@event) + 1;
+
+                if (expected != actual)
+                    throw new FormatException($"The event indices are not consistent. Expected '{expected}', got '{actual}'.");
             }
 
             // check if raw data indices are consistent
@@ -131,7 +156,9 @@ namespace ImcFamosFile
             // check if buffer's raw data is part of this instance
             foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.Buffers)))
             {
-#warning: Solve this.
+                if (buffer.RawData == null)
+                    throw new FormatException("The buffer's raw data must be provided.");
+
                 if (!this.RawData.Contains(buffer.RawData))
                 {
                     throw new FormatException("The buffers' raw data must be part of the famos file's raw data collection.");
@@ -223,9 +250,7 @@ namespace ImcFamosFile
             this.DeserializeKey(FamosFileKeyType.CF, expectedKeyVersion: SUPPORTED_VERSION, keySize =>
             {
                 var processor = this.DeserializeInt32();
-
-                if (processor != 1)
-                    throw new FormatException($"Expected processor value '1', got '{processor}'.");
+                this.Processor = processor;
             });
         }
 
@@ -289,11 +314,15 @@ namespace ImcFamosFile
                 this.DeserializeKey(keySize =>
                 {
                     var groupIndex = this.DeserializeInt32();
-                    var text = new FamosFileText()
+
+                    var name = this.DeserializeString();
+                    var message = this.DeserializeString();
+                    var comment = this.DeserializeString();
+
+                    var text = new FamosFileText(message)
                     {
-                        Name = this.DeserializeString(),
-                        Text = this.DeserializeString(),
-                        Comment = this.DeserializeString()
+                        Name = name,
+                        Comment = comment
                     };
 
                     if (groupIndex == 0)
@@ -312,9 +341,10 @@ namespace ImcFamosFile
                     var groupIndex = this.DeserializeInt32();
 
                     var name = this.DeserializeString();
-                    var texts = this.DeserializeStringArray();
+                    var messages = this.DeserializeStringArray();
                     var comment = this.DeserializeString();
-                    var text = new FamosFileText(texts: texts)
+
+                    var text = new FamosFileText(texts: messages)
                     {
                         Name = name,
                         Comment = comment
@@ -341,8 +371,6 @@ namespace ImcFamosFile
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 var groupIndex = this.DeserializeInt32();
-                var group = this.GetOrCreateGroup(groupIndex);
-
                 var dataType = (FamosFileDataType)this.DeserializeInt32();
                 var name = this.DeserializeString();
 
@@ -368,14 +396,22 @@ namespace ImcFamosFile
                 var comment = this.DeserializeString();
                 var time = BitConverter.ToDouble(this.DeserializeKeyPart());
 
-                group.SingleValues.Add(new FamosFileSingleValue(value)
+                var singleValue = new FamosFileSingleValue(value)
                 {
                     DataType = dataType,
                     Name = name,
                     Unit = unit,
                     Comment = comment,
                     Time = time
-                });
+                };
+
+                if (groupIndex == 0)
+                    this.SingleValues.Add(singleValue);
+                else
+                {
+                    var group = this.GetOrCreateGroup(groupIndex);
+                    group.SingleValues.Add(singleValue);
+                }
             });
         }
 
@@ -404,9 +440,8 @@ namespace ImcFamosFile
                     var offset = offsetLo + (offsetHi << 32);
                     var length = lengthLo + (lengthHi << 32);
 
-                    this.Events.Add(new FamosFileEvent()
+                    this.Events.Add(new FamosFileEvent(index)
                     {
-                        Index = index,
                         Offset = offset,
                         Length = length,
                         Time = time,
@@ -426,9 +461,10 @@ namespace ImcFamosFile
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.RawData.Add(new FamosFileRawData()
+                var index = this.DeserializeInt32();
+
+                this.RawData.Add(new FamosFileRawData(index: index)
                 {
-                    Index = this.DeserializeInt32(),
                     Length = keySize,
                     FileOffset = this.Reader.BaseStream.Position
                 });

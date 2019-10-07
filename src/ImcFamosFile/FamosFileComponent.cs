@@ -32,6 +32,8 @@ namespace ImcFamosFile
                 if (index != 1 && index != 2)
                     throw new FormatException($"Expected index value '1' or '2', got {index}");
 
+                this.Index = index;
+
                 // analog / digital
                 var analogDigital = this.DeserializeInt32();
 
@@ -99,7 +101,7 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public int Index { get; private set; }
+        public int Index { get; set; }
         public bool IsDigital { get; set; }
 
         public FamosFileXAxisScaling? XAxisScaling { get; set; }
@@ -112,7 +114,7 @@ namespace ImcFamosFile
         public FamosFileEventInfo? EventInfo { get; set; }
 
         public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
-        public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
+        public List<FamosFileChannelInfo> ChannelInfos { get; } = new List<FamosFileChannelInfo>();
 
         #endregion
 
@@ -170,13 +172,6 @@ namespace ImcFamosFile
             {
                 if (!this.Buffers.Contains(buffer))
                     throw new FormatException("The pack info's buffers must be part of the component's buffer collection.");
-            }
-
-            // buffers
-            foreach (var buffer in this.Buffers)
-            {
-                if (buffer.RawData == null)
-                    throw new FormatException("The buffer's raw data must be provided.");
             }
         }
 
@@ -265,10 +260,10 @@ namespace ImcFamosFile
             {
                 this.EventInfo = new FamosFileEventInfo()
                 {
-                    IndexEventListKey = this.DeserializeInt32(),
-                    OffsetInEventList = this.DeserializeInt32(),
-                    SubsequentEventCount = this.DeserializeInt32(),
-                    EventDistance = this.DeserializeInt32(),
+                    FirstEventIndex = this.DeserializeInt32(),
+                    Offset = this.DeserializeInt32(),
+                    GroupSize = this.DeserializeInt32(),
+                    GapSize = this.DeserializeInt32(),
                     EventCount = this.DeserializeInt32(),
                     ValidNT = (FamosFileValidNTType)this.DeserializeInt32(),
                     ValidCD = (FamosFileValidCDType)this.DeserializeInt32(),
@@ -289,9 +284,8 @@ namespace ImcFamosFile
                 var name = this.DeserializeString();
                 var comment = this.DeserializeString();
 
-                this.ChannelInfos.Add(new FamosFileChannelInfo()
+                this.ChannelInfos.Add(new FamosFileChannelInfo(groupIndex)
                 {
-                    GroupIndex = groupIndex,
                     BitIndex = bitIndex,
                     Name = name,
                     Comment = comment

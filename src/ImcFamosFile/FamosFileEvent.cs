@@ -1,10 +1,43 @@
-﻿namespace ImcFamosFile
+﻿using System;
+
+namespace ImcFamosFile
 {
     public class FamosFileEvent
     {
+        #region Fields
+
+        private int _index;
+
+        #endregion
+
+        #region Constructors
+
+        public FamosFileEvent()
+        {
+            //
+        }
+
+        internal FamosFileEvent(int index)
+        {
+            this.Index = index;
+        }
+
+        #endregion
+
         #region Properties
 
-        public int Index { get; set; }
+        internal int Index
+        {
+            get { return _index; }
+            private set
+            {
+                if (value <= 0)
+                    throw new FormatException($"Expected index > '0', got '{value}'.");
+
+                _index = value;
+            }
+        }
+
         public ulong Offset { get; set; }
         public ulong Length { get; set; }
         public double Time { get; set; }
