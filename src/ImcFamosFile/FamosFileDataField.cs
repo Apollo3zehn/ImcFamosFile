@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileDataField : FamosFileBase
+    public class FamosFileDataField : FamosFileBaseExtended
     {
         #region Constructors
 
@@ -15,8 +15,6 @@ namespace ImcFamosFile
 
         public FamosFileDataField(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            var nextKeyType = FamosFileKeyType.Unknown;
-
             FamosFileXAxisScaling? currentXAxisScaling = null;
             FamosFileZAxisScaling? currentZAxisScaling = null;
             FamosFileTriggerTimeInfo? currentTriggerTimeInfo = null;
@@ -43,7 +41,7 @@ namespace ImcFamosFile
 
             while (true)
             {
-                nextKeyType = this.DeserializeKeyType();
+                var nextKeyType = this.DeserializeKeyType();
 
                 if (nextKeyType == FamosFileKeyType.Unknown)
                 {
@@ -52,13 +50,13 @@ namespace ImcFamosFile
                 }
 
                 else if (nextKeyType == FamosFileKeyType.CD)
-                    currentXAxisScaling = base.DeserializeCD();
+                    currentXAxisScaling = new FamosFileXAxisScaling(this.Reader, this.CodePage);
 
                 else if (nextKeyType == FamosFileKeyType.CZ)
-                    currentZAxisScaling = base.DeserializeCZ();
+                    currentZAxisScaling = new FamosFileZAxisScaling(this.Reader, this.CodePage);
 
                 else if (nextKeyType == FamosFileKeyType.NT)
-                    currentTriggerTimeInfo = base.DeserializeNT();
+                    currentTriggerTimeInfo = new FamosFileTriggerTimeInfo(this.Reader);
 
                 else if (nextKeyType == FamosFileKeyType.CC)
                 {

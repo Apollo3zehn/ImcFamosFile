@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileGroup
+    public class FamosFileGroup : FamosFileBaseExtended
     {
         #region Fields
 
@@ -15,16 +16,18 @@ namespace ImcFamosFile
 
         public FamosFileGroup()
         {
-            this.Name = string.Empty;
-            this.Comment = string.Empty;
-            this.Texts = new List<FamosFileText>();
-            this.SingleValues = new List<FamosFileSingleValue>();
-            this.ChannelInfos = new List<FamosFileChannelInfo>();
+            //
         }
 
-        internal FamosFileGroup(int index) : this()
+        internal FamosFileGroup(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.Index = index;
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            {
+                this.Index = this.DeserializeInt32();
+
+                this.Name = this.DeserializeString();
+                this.Comment = this.DeserializeString();
+            });
         }
 
         #endregion
@@ -43,11 +46,11 @@ namespace ImcFamosFile
             }
         }
 
-        public string Name { get; set; }
-        public string Comment { get; set; }
-        public List<FamosFileText> Texts { get; private set; }
-        public List<FamosFileSingleValue> SingleValues { get; private set; }
-        public List<FamosFileChannelInfo> ChannelInfos { get; private set; }
+        public string Name { get; set; } = string.Empty;
+        public string Comment { get; set; } = string.Empty;
+        public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
+        public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
+        public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
 
         #endregion
     }

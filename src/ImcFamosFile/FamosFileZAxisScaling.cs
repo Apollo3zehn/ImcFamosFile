@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileZAxisScaling
+    public class FamosFileZAxisScaling : FamosFileBaseExtended
     {
         #region Fields
 
@@ -15,7 +16,22 @@ namespace ImcFamosFile
 
         public FamosFileZAxisScaling()
         {
-            this.Unit = string.Empty;
+            //
+        }
+
+        internal FamosFileZAxisScaling(BinaryReader reader, int codePage) : base(reader, codePage)
+        {
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            {
+                this.dz = this.DeserializeFloat64();
+                this.IsDzCalibrated = this.DeserializeInt32() == 1;
+
+                this.z0 = this.DeserializeFloat64();
+                this.IsZ0Calibrated = this.DeserializeInt32() == 1;
+
+                this.Unit = this.DeserializeString();
+                this.SegmentSize = this.DeserializeInt32();
+            });
         }
 
         #endregion
@@ -37,7 +53,7 @@ namespace ImcFamosFile
         public bool IsDzCalibrated { get; set; }
         public double z0 { get; set; }
         public bool IsZ0Calibrated { get; set; }
-        public string Unit { get; set; }
+        public string Unit { get; set; } = string.Empty;
 
         public int SegmentSize
         {

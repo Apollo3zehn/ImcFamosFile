@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileRawData
+    public class FamosFileRawData : FamosFileBase
     {
         #region Fields
 
@@ -17,9 +18,17 @@ namespace ImcFamosFile
             //
         }
 
-        internal FamosFileRawData(int index)
+        internal FamosFileRawData(BinaryReader reader) : base(reader)
         {
-            this.Index = index;
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            {
+                this.Index = this.DeserializeInt32();
+
+                this.Length = keySize;
+                this.FileOffset = this.Reader.BaseStream.Position;
+
+                this.Reader.BaseStream.Seek(keySize, SeekOrigin.Current);
+            });
         }
 
         #endregion

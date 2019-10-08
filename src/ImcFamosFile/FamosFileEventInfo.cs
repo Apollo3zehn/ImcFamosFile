@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileEventInfo
+    public class FamosFileEventInfo : FamosFileBase
     {
         #region Fields
 
@@ -13,6 +14,32 @@ namespace ImcFamosFile
 
         #endregion
 
+        #region Constructors
+
+        public FamosFileEventInfo()
+        {
+            //
+        }
+
+        internal FamosFileEventInfo(BinaryReader reader) : base(reader)
+        {
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            {
+                this.FirstEventIndex = this.DeserializeInt32();
+                this.Offset = this.DeserializeInt32();
+                this.GroupSize = this.DeserializeInt32();
+                this.GapSize = this.DeserializeInt32();
+                this.EventCount = this.DeserializeInt32();
+
+                this.ValidNT = (FamosFileValidNTType)this.DeserializeInt32();
+                this.ValidCD = (FamosFileValidCDType)this.DeserializeInt32();
+                this.ValidCR1 = (FamosFileValidCR1Type)this.DeserializeInt32();
+                this.ValidCR2 = (FamosFileValidCR2Type)this.DeserializeInt32();
+            });
+        }
+
+        #endregion
+
         #region Properties
 
         public int FirstEventIndex { get; set; }
@@ -20,7 +47,7 @@ namespace ImcFamosFile
         public int Offset
         {
             get { return _offset; }
-            private set
+            set
             {
                 if (value < 0)
                     throw new FormatException($"Expected offset >= '0', got '{value}'.");
@@ -32,7 +59,7 @@ namespace ImcFamosFile
         public int GroupSize
         {
             get { return _groupSize; }
-            private set
+            set
             {
                 if (value <= 0)
                     throw new FormatException($"Expected group size >= '1', got '{value}'.");
@@ -44,7 +71,7 @@ namespace ImcFamosFile
         public int GapSize
         {
             get { return _gapSize; }
-            private set
+            set
             {
                 if (!(0 <= value && value <= 1000))
                     throw new FormatException($"Expected gap size '0..1000', got '{value}'.");
@@ -56,7 +83,7 @@ namespace ImcFamosFile
         public int EventCount
         {
             get { return _eventCount; }
-            private set
+            set
             {
                 if (value < 0)
                     throw new FormatException($"Expected offset >= '0', got '{value}'.");

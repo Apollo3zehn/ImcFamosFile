@@ -1,9 +1,31 @@
 ﻿using System;
+using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileDisplayInfo
+    public class FamosFileDisplayInfo : FamosFileBase
     {
+        #region Constructors
+
+        public FamosFileDisplayInfo()
+        {
+            //
+        }
+
+        internal FamosFileDisplayInfo(BinaryReader reader) : base(reader)
+        {
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            {
+                this.R = this.DeserializeInt32();
+                this.G = this.DeserializeInt32();
+                this.B = this.DeserializeInt32();
+                this.YMin = this.DeserializeFloat64();
+                this.YMax = this.DeserializeFloat64();
+            });
+        }
+
+        #endregion
+
         #region Fields
 
         private int _r;
@@ -40,7 +62,6 @@ namespace ImcFamosFile
             }
         }
 
-
         public int B
         {
             get { return _b; }
@@ -54,9 +75,18 @@ namespace ImcFamosFile
             }
         }
 
-#warning TODO: Validate that ymin < ymax
         public double YMin { get; set; }
         public double YMax { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        internal override void Validate()
+        {
+            if (this.YMin >= this.YMax)
+                throw new FormatException("YMin must be < YMax.");
+        }
 
         #endregion
     }

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileChannelInfo
+    public class FamosFileChannelInfo : FamosFileBaseExtended
     {
         #region Fields
 
@@ -14,13 +15,22 @@ namespace ImcFamosFile
 
         public FamosFileChannelInfo()
         {
-            this.Name = string.Empty;
-            this.Comment = string.Empty;
+            //
         }
 
-        internal FamosFileChannelInfo(int groupIndex) : this()
+        internal FamosFileChannelInfo(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.GroupIndex = groupIndex;
+            //
+
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            {
+                this.GroupIndex = this.DeserializeInt32();
+
+                this.DeserializeInt32();
+                this.BitIndex = this.DeserializeInt32();
+                this.Name = this.DeserializeString();
+                this.Comment = this.DeserializeString();
+            });
         }
 
         #endregion
@@ -40,8 +50,8 @@ namespace ImcFamosFile
         }
 
         public int BitIndex { get; set; }
-        public string Name { get; set; }
-        public string Comment { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Comment { get; set; } = string.Empty;
 
         #endregion
     }
