@@ -41,6 +41,9 @@ namespace ImcFamosFile
 
             while (true)
             {
+                if (this.Reader.BaseStream.Position >= this.Reader.BaseStream.Length)
+                    return;
+
                 var nextKeyType = this.DeserializeKeyType();
 
                 if (nextKeyType == FamosFileKeyType.Unknown)

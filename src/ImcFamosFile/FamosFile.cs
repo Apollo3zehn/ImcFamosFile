@@ -124,73 +124,69 @@ namespace ImcFamosFile
                     throw new FormatException($"The key group is not closed. This may be a hint to an interruption that occured while writing the file content to disk.");
             });
 
-            try
+            while (true)
             {
-                while (true)
+                if (this.Reader.BaseStream.Position >= this.Reader.BaseStream.Length)
+                    return;
+
+                var nextKeyType = this.DeserializeKeyType();
+
+                // Unknown
+                if (nextKeyType == FamosFileKeyType.Unknown)
                 {
-                    var nextKeyType = this.DeserializeKeyType();
-
-                    // Unknown
-                    if (nextKeyType == FamosFileKeyType.Unknown)
-                    {
-                        this.SkipKey();
-                        continue;
-                    }
-
-                    // NO
-                    else if (nextKeyType == FamosFileKeyType.NO)
-                        this.DataOriginInfo = new FamosFileDataOriginInfo(this.Reader, this.CodePage);
-
-                    // NL
-                    else if (nextKeyType == FamosFileKeyType.NL)
-                    {
-                        this.LanguageInfo = new FamosFileLanguageInfo(this.Reader);
-                        this.CodePage = this.LanguageInfo.CodePage;
-                    }
-
-                    // CB
-                    else if (nextKeyType == FamosFileKeyType.CB)
-                        this.Groups.Add(new FamosFileGroup(this.Reader, this.CodePage));
-
-                    // CT
-                    else if (nextKeyType == FamosFileKeyType.CT)
-                        _texts.Add(new FamosFileText(this.Reader, this.CodePage));
-
-                    // CI
-                    else if (nextKeyType == FamosFileKeyType.CI)
-                        _singleValues.Add(new FamosFileSingleValue(this.Reader, this.CodePage));
-
-                    // CV
-                    else if (nextKeyType == FamosFileKeyType.CV)
-                    {
-                        this.DeserializeKey(expectedKeyVersion: 1, keySize =>
-                        {
-                            var eventCount = this.DeserializeInt32();
-
-                            for (int i = 0; i < eventCount; i++)
-                            {
-                                var @event = new FamosFileEvent(this.Reader);
-                                this.Events.Add(@event);
-                            }
-                        });
-                    }
-
-                    // CS 
-                    else if (nextKeyType == FamosFileKeyType.CS)
-                        this.RawData.Add(new FamosFileRawData(this.Reader));
-
-                    // CG
-                    else if (nextKeyType == FamosFileKeyType.CG)
-                        this.DataFields.Add(new FamosFileDataField(this.Reader, this.CodePage));
-
-                    else
-                        //throw new FormatException($"Unexpected key '{keyType}'.");
-                        this.SkipKey();
+                    this.SkipKey();
+                    continue;
                 }
-            }
-            catch (EndOfStreamException)
-            {
-                //
+
+                // NO
+                else if (nextKeyType == FamosFileKeyType.NO)
+                    this.DataOriginInfo = new FamosFileDataOriginInfo(this.Reader, this.CodePage);
+
+                // NL
+                else if (nextKeyType == FamosFileKeyType.NL)
+                {
+                    this.LanguageInfo = new FamosFileLanguageInfo(this.Reader);
+                    this.CodePage = this.LanguageInfo.CodePage;
+                }
+
+                // CB
+                else if (nextKeyType == FamosFileKeyType.CB)
+                    this.Groups.Add(new FamosFileGroup(this.Reader, this.CodePage));
+
+                // CT
+                else if (nextKeyType == FamosFileKeyType.CT)
+                    _texts.Add(new FamosFileText(this.Reader, this.CodePage));
+
+                // CI
+                else if (nextKeyType == FamosFileKeyType.CI)
+                    _singleValues.Add(new FamosFileSingleValue(this.Reader, this.CodePage));
+
+                // CV
+                else if (nextKeyType == FamosFileKeyType.CV)
+                {
+                    this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+                    {
+                        var eventCount = this.DeserializeInt32();
+
+                        for (int i = 0; i < eventCount; i++)
+                        {
+                            var @event = new FamosFileEvent(this.Reader);
+                            this.Events.Add(@event);
+                        }
+                    });
+                }
+
+                // CS 
+                else if (nextKeyType == FamosFileKeyType.CS)
+                    this.RawData.Add(new FamosFileRawData(this.Reader));
+
+                // CG
+                else if (nextKeyType == FamosFileKeyType.CG)
+                    this.DataFields.Add(new FamosFileDataField(this.Reader, this.CodePage));
+
+                else
+                    //throw new FormatException($"Unexpected key '{keyType}'.");
+                    this.SkipKey();
             }
         }
 

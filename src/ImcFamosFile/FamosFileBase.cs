@@ -161,11 +161,17 @@ namespace ImcFamosFile
 
         private void ConsumeSpaces()
         {
+            if (this.Reader.BaseStream.Position >= this.Reader.BaseStream.Length)
+                return;
+
             var data = this.Reader.ReadByte();
 
             while (string.IsNullOrWhiteSpace(Encoding.ASCII.GetString(new[] { data })))
             {
-                data = this.Reader.ReadByte();
+                if (this.Reader.BaseStream.Position < this.Reader.BaseStream.Length)
+                    data = this.Reader.ReadByte();
+                else
+                    return;
             }
 
             this.Reader.BaseStream.Position -= 1;
