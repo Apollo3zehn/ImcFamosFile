@@ -40,10 +40,10 @@ namespace ImcFamosFile
         internal int GroupIndex
         {
             get { return _groupIndex; }
-            private set
+            set
             {
-                if (value <= 0)
-                    throw new FormatException($"Expected group index > '0', got '{value}'.");
+                if (value < 0)
+                    throw new FormatException($"Expected group index >= '0', got '{value}'.");
 
                 _groupIndex = value;
             }
@@ -52,6 +52,23 @@ namespace ImcFamosFile
         public int BitIndex { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.GroupIndex,
+                this.BitIndex,
+                this.Name.Length, this.Name,
+                this.Comment.Length, this.Comment
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.CN, 1, data);
+        }
 
         #endregion
     }

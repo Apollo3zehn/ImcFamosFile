@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImcFamosFile
 {
@@ -89,14 +90,6 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal override void Prepare()
-        {
-            foreach (var component in this.Components)
-            {
-                component.Prepare();
-            }
-        }
-
         internal override void Validate()
         {
             if (this.Components.Count < this.Dimension)
@@ -105,6 +98,64 @@ namespace ImcFamosFile
             foreach (var component in this.Components)
             {
                 component.Validate();
+            }
+        }
+
+        #endregion
+
+        #region Serialization
+
+        internal override void BeforeSerialize()
+        {
+            foreach (var component in this.Components)
+            {
+                component.BeforeSerialize();
+            }
+        }
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.Components.Count,
+                (int)this.Type,
+                this.Dimension
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.CG, 1, data);
+
+            if (this.Components.Any())
+            {
+                var firstComponent = this.Components.First();
+
+                // CD
+                if (firstComponent.XAxisScaling != null)
+                    firstComponent.XAxisScaling.Serialize(writer);
+
+                // CZ
+                if (firstComponent.ZAxisScaling != null)
+                    firstComponent.ZAxisScaling.Serialize(writer);
+
+                // NT
+                if (firstComponent.TriggerTimeInfo != null)
+                    firstComponent.TriggerTimeInfo.Serialize(writer);
+
+                foreach (var component in this.Components)
+                {
+                    component.Serialize(writer);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Deserialization
+
+        internal override void AfterDeserialize()
+        {
+            foreach (var component in this.Components)
+            {
+                component.AfterDeserialize();
             }
         }
 

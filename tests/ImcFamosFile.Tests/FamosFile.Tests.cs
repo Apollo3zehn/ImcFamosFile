@@ -11,13 +11,28 @@ namespace ImcFamosFile.Tests
             // Arrange
             var filePath = "testdata.dat";
 
-            using (var reader = new BinaryReader(File.OpenRead(filePath)))
+            // Act
+            using (var famosFile = FamosFile.Open(filePath))
+            {
+                //
+            }
+
+            // Assert
+        }
+
+        [Fact]
+        public void CanWriteHeader()
+        {
+            // Arrange
+            var filePath = "testdata.dat";
+
+            using (var famosFile = FamosFile.Open(filePath))
             {
                 // Act
-                var famosFile = new FamosFile(reader);
-
-                // Assert
+                famosFile.Save("testdata_out.dat", FileMode.Create);
             }
+
+            // Assert
         }
     }
 }

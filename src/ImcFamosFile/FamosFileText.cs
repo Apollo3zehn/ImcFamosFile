@@ -71,7 +71,7 @@ namespace ImcFamosFile
         internal int GroupIndex
         {
             get { return _groupIndex; }
-            private set
+            set
             {
                 if (value < 0)
                     throw new FormatException($"Expected group index >= '0', got '{value}'.");
@@ -86,6 +86,15 @@ namespace ImcFamosFile
         public string Text { get; private set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
         public List<string> Texts { get; } = new List<string>();
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,7 +11,7 @@ namespace ImcFamosFile
     {
         #region Fields
 
-        BinaryReader? _reader;
+        private readonly BinaryReader? _reader;
 
         #endregion
 
@@ -48,12 +48,55 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal virtual void Prepare()
+        internal virtual void Validate()
         {
             //
         }
 
-        internal virtual void Validate()
+        #endregion
+
+        #region Serialization
+
+        internal virtual void BeforeSerialize()
+        {
+            //
+        }
+
+        protected void SerializeKey(StreamWriter writer, FamosFileKeyType keyType, int keyVersion, string data, bool addLineBreak = true)
+        {
+            writer.Write($"|{keyType.ToString()},{keyVersion},{data.Length},");
+            writer.Write(data);
+
+            this.CloseKey(writer, addLineBreak);
+        }
+
+        protected void SerializeKey(StreamWriter writer, FamosFileKeyType keyType, int keyVersion, string dataPre, string dataPost, Action additionalWriteAction, bool addLineBreak = true)
+        {
+            writer.Write($"|{keyType.ToString()},{keyVersion},{dataPre.Length + dataPost.Length},");
+            writer.Write(dataPre);
+#warning TODO: this causes wrong length in key
+            additionalWriteAction.Invoke();
+            writer.Write(dataPost);
+
+            this.CloseKey(writer, addLineBreak);
+        }
+
+
+        private void CloseKey(StreamWriter writer, bool addLineBreak)
+        {
+            writer.Write(';');
+
+            if (addLineBreak)
+                writer.Write($"\r\n");
+        }
+
+        internal abstract void Serialize(StreamWriter writer);
+
+        #endregion
+
+        #region Deserialization
+
+        internal virtual void AfterDeserialize()
         {
             //
         }
@@ -61,20 +104,20 @@ namespace ImcFamosFile
         protected void SkipKey()
         {
             this.DeserializeInt32();
-            this.DeserializeKey(parseKeyDataAction: null);
+            this.DeserializeKey(deserializeKeyAction: null);
         }
 
-        protected void DeserializeKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> parseKeyDataAction)
+        protected void DeserializeKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> deserializeKeyAction)
         {
             var keyType = this.DeserializeKeyType();
 
             if (keyType != expectedKeyType)
                 throw new FormatException($"Expected key '{expectedKeyType.ToString()}', got '{keyType.ToString()}'.");
 
-            this.DeserializeKey(expectedKeyVersion, parseKeyDataAction);
+            this.DeserializeKey(expectedKeyVersion, deserializeKeyAction);
         }
 
-        protected void DeserializeKey(int expectedKeyVersion, Action<long> parseKeyDataAction)
+        protected void DeserializeKey(int expectedKeyVersion, Action<long> deserializeKeyAction)
         {
             // key version
             var keyVersion = this.DeserializeInt32();
@@ -82,19 +125,19 @@ namespace ImcFamosFile
             if (keyVersion != expectedKeyVersion)
                 throw new FormatException($"Expected key version '{expectedKeyVersion}', got '{keyVersion}'.");
 
-            this.DeserializeKey(parseKeyDataAction);
+            this.DeserializeKey(deserializeKeyAction);
         }
 
-        protected void DeserializeKey(Action<long>? parseKeyDataAction)
+        protected void DeserializeKey(Action<long>? deserializeKeyAction)
         {
             // key length
             var keyLength = this.DeserializeInt64();
 
             // data
-            if (parseKeyDataAction is null)
+            if (deserializeKeyAction is null)
                 this.Reader.ReadBytes(unchecked((int)(keyLength + 1))); // should not fail as this is intended only for short keys
             else
-                parseKeyDataAction?.Invoke(keyLength);
+                deserializeKeyAction?.Invoke(keyLength);
 
             // consume spaces
             this.ConsumeSpaces();
@@ -143,7 +186,9 @@ namespace ImcFamosFile
         protected double DeserializeFloat64()
         {
             var bytes = this.DeserializeKeyPart();
-            return double.Parse(Encoding.ASCII.GetString(bytes));
+            var numberStyle = NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent;
+
+            return double.Parse(Encoding.ASCII.GetString(bytes), numberStyle, CultureInfo.InvariantCulture);
         }
 
         protected FamosFileKeyType DeserializeKeyType()

@@ -9,9 +9,9 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileComponent()
+        public FamosFileComponent(FamosFilePackInfo packInfo)
         {
-            //
+            this.PackInfo = packInfo;
         }
 
         public FamosFileComponent(BinaryReader reader,
@@ -23,6 +23,8 @@ namespace ImcFamosFile
             this.XAxisScaling = currentXAxisScaling;
             this.ZAxisScaling = currentZAxisScaling;
             this.TriggerTimeInfo = currentTriggerTimeInfo;
+
+            FamosFilePackInfo? packInfo = null;
 
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
@@ -74,7 +76,7 @@ namespace ImcFamosFile
                     this.TriggerTimeInfo = new FamosFileTriggerTimeInfo(this.Reader);
 
                 else if (nextKeyType == FamosFileKeyType.CP)
-                    this.PackInfo = new FamosFilePackInfo(this.Reader);
+                    packInfo = new FamosFilePackInfo(this.Reader);
 
                 else if (nextKeyType == FamosFileKeyType.Cb)
                 {
@@ -88,6 +90,11 @@ namespace ImcFamosFile
                             var buffer = new FamosFileBuffer(this.Reader);
                             this.Buffers.Add(buffer);
                         }
+
+                        this.UserInfo = this.DeserializeKeyPart();
+
+                        if (this.UserInfo.Length != userInfoSize)
+                            throw new FormatException("The given size of the user info does not match the actual size.");
                     });
                 }
 
@@ -107,6 +114,11 @@ namespace ImcFamosFile
                     // should never happen
                     throw new FormatException("An unexpected state has been reached.");
             }
+
+            if (packInfo is null)
+                throw new FormatException("No pack information was found in the component.");
+            else
+                this.PackInfo = packInfo;
         }
 
         #endregion
@@ -120,11 +132,12 @@ namespace ImcFamosFile
         public FamosFileZAxisScaling? ZAxisScaling { get; set; }
         public FamosFileTriggerTimeInfo? TriggerTimeInfo { get; set; }
 
-        public FamosFilePackInfo? PackInfo { get; set; }
+        public FamosFilePackInfo PackInfo { get; set; }
         public FamosFileCalibrationInfo? CalibrationInfo { get; set; }
         public FamosFileDisplayInfo? DisplayInfo { get; set; }
         public FamosFileEventInfo? EventInfo { get; set; }
 
+        public byte[]? UserInfo { get; set; }
         public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
         public List<FamosFileChannelInfo> ChannelInfos { get; } = new List<FamosFileChannelInfo>();
 
@@ -154,15 +167,6 @@ namespace ImcFamosFile
         #endregion
 
         #region Methods
-
-        internal override void Prepare()
-        {
-            // sort buffers
-            this.Buffers = this.Buffers.OrderBy(buffer => buffer.Reference).ToList();
-
-            // associate buffers to pack info
-            this.PackInfo?.Buffers.AddRange(this.Buffers.Where(buffer => buffer.Reference == this.PackInfo.BufferReference));
-        }
 
         internal override void Validate()
         {
@@ -197,6 +201,88 @@ namespace ImcFamosFile
 
             // validate pack info
             this.PackInfo?.Validate();
+        }
+
+        #endregion
+
+        #region Serialization
+
+        internal override void BeforeSerialize()
+        {
+#warning TODO: It is unclear if there may be buffers defined which do NOT contain data of this component. Are these dangling buffers?
+
+            // reset all buffer references to a value != 1
+            foreach (var buffer in this.Buffers)
+            {
+                buffer.Reference = 2;
+            }
+
+            // update buffer reference of pack info and its corresponding buffers
+            this.PackInfo.BufferReference = 1;
+
+            foreach (var buffer in this.PackInfo.Buffers)
+            {
+                buffer.Reference = this.PackInfo.BufferReference;
+            }
+        }
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.Index,
+                this.IsDigital ? 2 : 1
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.CC, 1, data);
+
+#warning TODO: do not write these always
+            this.XAxisScaling?.Serialize(writer);
+            this.ZAxisScaling?.Serialize(writer);
+            this.TriggerTimeInfo?.Serialize(writer);
+
+            this.PackInfo.Serialize(writer);
+            this.CalibrationInfo?.Serialize(writer);
+            this.DisplayInfo?.Serialize(writer);
+            this.EventInfo?.Serialize(writer);
+
+            if (this.UserInfo != null)
+            {
+                foreach (var buffer in this.Buffers)
+                {
+                    var dataPre = string.Join(',', new object[]
+                    {
+                        this.Buffers.Count,
+                        this.UserInfo.Length,
+                    });
+
+                    var dataPost = string.Join(',', new object[]
+                    {
+                        this.UserInfo
+#warning TODO: byte[] is not written correctly
+                    });
+
+                    this.SerializeKey(writer, FamosFileKeyType.Cb, 1, dataPre, dataPost, () => buffer.Serialize(writer));
+                }
+            }
+
+            foreach (var channelInfo in this.ChannelInfos)
+            {
+                channelInfo.Serialize(writer);
+            }
+        }
+
+        #endregion
+
+        #region Deserialization
+
+        internal override void AfterDeserialize()
+        {
+            // sort buffers
+            this.Buffers = this.Buffers.OrderBy(buffer => buffer.Reference).ToList();
+
+            // associate buffers to pack info
+            this.PackInfo?.Buffers.AddRange(this.Buffers.Where(buffer => buffer.Reference == this.PackInfo.BufferReference));
         }
 
         #endregion

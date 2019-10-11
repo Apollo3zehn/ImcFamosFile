@@ -30,5 +30,21 @@ namespace ImcFamosFile
         public FamosFileDataOrigin DataOrigin { get; set; } = FamosFileDataOrigin.Original;
 
         #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                (int)this.DataOrigin,
+                this.Name.Length, this.Name,
+                this.Comment.Length, this.Comment
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.NO, 1, data);
+        }
+
+        #endregion
     }
 }

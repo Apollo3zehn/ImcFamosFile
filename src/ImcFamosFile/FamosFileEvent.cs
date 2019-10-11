@@ -58,7 +58,7 @@ namespace ImcFamosFile
         internal int Index
         {
             get { return _index; }
-            private set
+            set
             {
                 if (value <= 0)
                     throw new FormatException($"Expected index > '0', got '{value}'.");
@@ -76,6 +76,15 @@ namespace ImcFamosFile
         public double AmplificationFactor0 { get; set; }
         public double AmplificationFactor1 { get; set; }
         public double dx { get; set; }
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }

@@ -29,5 +29,20 @@ namespace ImcFamosFile
         public int Language { get; set; }
 
         #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.CodePage,
+                $"0x{this.Language.ToString("X4")}"
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.NL, 1, data);
+        }
+
+        #endregion
     }
 }

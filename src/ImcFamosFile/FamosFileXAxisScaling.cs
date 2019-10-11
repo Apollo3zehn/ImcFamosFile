@@ -24,9 +24,9 @@ namespace ImcFamosFile
                     this.IsCalibrated = this.DeserializeInt32() == 1;
                     this.Unit = this.DeserializeString();
 
-                    this.DeserializeInt32();
-                    this.DeserializeInt32();
-                    this.DeserializeInt32();
+                    this.Reduction = this.DeserializeInt32();
+                    this.IsMultiEvents = this.DeserializeInt32();
+                    this.SortBuffers = this.DeserializeInt32();
                 });
             }
             else if (keyVersion == 2)
@@ -37,10 +37,9 @@ namespace ImcFamosFile
                     this.IsCalibrated = this.DeserializeInt32() == 1;
                     this.Unit = this.DeserializeString();
 
-                    // some data is not defined in imc document.
-                    this.DeserializeKeyPart();
-                    this.DeserializeKeyPart();
-                    this.DeserializeKeyPart();
+                    this.Reduction = this.DeserializeInt32();
+                    this.IsMultiEvents = this.DeserializeInt32();
+                    this.SortBuffers = this.DeserializeInt32();
 
                     this.x0 = this.DeserializeInt32();
                     this.PretriggerUsage = (FamosFilePretriggerUsage)this.DeserializeInt32();
@@ -59,8 +58,37 @@ namespace ImcFamosFile
         public double dx { get; set; }
         public bool IsCalibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
+
+#warning TODO: Find definitions for these properties.
+        private int Reduction { get; set; }
+        private int IsMultiEvents { get; set; }
+        private int SortBuffers { get; set; }
+
         public double x0 { get; set; }
         public FamosFilePretriggerUsage PretriggerUsage { get; set; }
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.dx,
+                this.IsCalibrated ? 1 : 0,
+                this.Unit.Length, this.Unit,
+                this.Reduction,
+                this.IsMultiEvents,
+                this.SortBuffers,
+                this.x0,
+                (int)this.PretriggerUsage
+            });
+
+#warning TODO: Check if double is serialized correctly (# of significant values)
+
+            this.SerializeKey(writer, FamosFileKeyType.CD, 2, data);
+        }
 
         #endregion
     }

@@ -38,7 +38,7 @@ namespace ImcFamosFile
         internal int Index
         {
             get { return _index; }
-            private set
+            set
             {
                 if (value <= 0)
                     throw new FormatException($"Expected index > '0', got '{value}'.");
@@ -49,6 +49,15 @@ namespace ImcFamosFile
 
         public long Length { get; set; }
         public long FileOffset { get; set; }
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }

@@ -98,5 +98,30 @@ namespace ImcFamosFile
         public FamosFileValidCR2Type ValidCR2 { get; set; }
 
         #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+#warning TODO: Check if this event index is related to EventInfo index. Then check general usage of these indices.
+#warning TODO: this key is valid only for subsequent CN keys.
+                this.FirstEventIndex,
+                this.Offset,
+                this.GroupSize,
+                this.GapSize,
+                this.EventCount,
+
+                (int)this.ValidNT,
+                (int)this.ValidCD,
+                (int)this.ValidCR1,
+                (int)this.ValidCR2
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.Cv, 1, data);
+        }
+
+        #endregion
     }
 }

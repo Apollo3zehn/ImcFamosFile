@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace ImcFamosFile
 {
@@ -32,6 +33,25 @@ namespace ImcFamosFile
         public double Offset { get; set; }
         public bool IsCalibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+#warning TODO: Check if data is integer, only then is ApplyTransformation = true allowed
+            var data = string.Join(',', new object[]
+            {
+                this.ApplyTransformation ? 1 : 0,
+                this.Factor,
+                this.Offset,
+                this.IsCalibrated ? 1 : 0,
+                this.Unit.Length, this.Unit
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.CR, 1, data);
+        }
 
         #endregion
     }

@@ -45,7 +45,7 @@ namespace ImcFamosFile
         internal int BufferReference
         {
             get { return _bufferReference; }
-            private set
+            set
             {
                 if (value <= 0)
                     throw new FormatException($"Expected buffer reference > '0', got '{value}'.");
@@ -130,6 +130,26 @@ namespace ImcFamosFile
         {
             if (this.SignificantBits > this.ValueSize * 8)
                 throw new FormatException("The value of the pack info's significant bits property must be <= the buffer's value size property multiplied by 8.");
+        }
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.BufferReference,
+                this.ValueSize,
+                (int)this.DataType,
+                this.SignificantBits,
+                this.Offset,
+                this.GroupSize,
+                this.GapSize
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.CP, 1, data);
         }
 
         #endregion

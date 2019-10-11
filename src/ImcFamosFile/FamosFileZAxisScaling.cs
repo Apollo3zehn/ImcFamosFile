@@ -69,5 +69,24 @@ namespace ImcFamosFile
         }
 
         #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.dz,
+                this.IsDzCalibrated ? 1 : 0,
+                this.z0,
+                this.IsZ0Calibrated ? 1 : 0,
+                this.Unit.Length, this.Unit,
+                this.SegmentSize
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.CZ, 1, data);
+        }
+
+        #endregion
     }
 }

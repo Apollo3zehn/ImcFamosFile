@@ -37,7 +37,7 @@ namespace ImcFamosFile
         internal int Index
         {
             get { return _index; }
-            private set
+            set
             {
                 if (value <= 0)
                     throw new FormatException($"Expected index > '0', got '{value}'.");
@@ -51,6 +51,23 @@ namespace ImcFamosFile
         public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
         public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
         public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.Index,
+                this.Name.Length, this.Name,
+                this.Comment.Length, this.Comment
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.CB, 1, data);
+#warning TODO: Enforce static (?) KeyType { get } property on all classes that implement FamosFileBase.
+        }
 
         #endregion
     }

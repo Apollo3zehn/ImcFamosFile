@@ -91,5 +91,26 @@ namespace ImcFamosFile
         public FamosFileTimeMode TimeMode { get; set; }
 
         #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.DateTime.Day,
+                this.DateTime.Month,
+                this.DateTime.Year,
+                this.DateTime.Hour,
+                this.DateTime.Minute,
+                (double)this.DateTime.Second + this.DateTime.Millisecond / 1000,
+                0, // since it is UTC+0 now
+                0  // since it is UTC+0 now
+            });
+
+            this.SerializeKey(writer, FamosFileKeyType.NT, 2, data);
+        }
+
+        #endregion
     }
 }

@@ -8,10 +8,12 @@ namespace ImcFamosFile
         #region Fields
 
         private int _reference;
-        private int _rawDataReference;
+        private int _rawDataIndex;
         private int _length;
         private int _offset;
         private int _consumedBytes;
+
+        private FamosFileRawData? _rawData;
 
         #endregion
 
@@ -25,7 +27,7 @@ namespace ImcFamosFile
         internal FamosFileBuffer(BinaryReader reader) : base(reader)
         {
             this.Reference = this.DeserializeInt32();
-            this.RawDataReference = this.DeserializeInt32();
+            this.RawDataIndex = this.DeserializeInt32();
 
             this.RawDataOffset = this.DeserializeInt32();
             this.Length = this.DeserializeInt32();
@@ -34,7 +36,6 @@ namespace ImcFamosFile
             this.IsNewEvent = this.DeserializeInt32() == 1;
             this.x0 = this.DeserializeInt32();
             this.TriggerAddTime = this.DeserializeInt32();
-            this.UserInfo = this.DeserializeKeyPart();
         }
 
         #endregion
@@ -44,7 +45,7 @@ namespace ImcFamosFile
         internal int Reference
         {
             get { return _reference; }
-            private set
+            set
             {
                 if (value <= 0)
                     throw new FormatException($"Expected reference value > '0', got '{value}'.");
@@ -53,19 +54,30 @@ namespace ImcFamosFile
             }
         }
 
-        internal int RawDataReference
+        internal int RawDataIndex
         {
-            get { return _rawDataReference; }
-            private set
+            get { return _rawDataIndex; }
+            set
             {
                 if (value <= 0)
-                    throw new FormatException($"Expected raw data reference value > '0', got '{value}'.");
+                    throw new FormatException($"Expected raw data index value > '0', got '{value}'.");
 
-                _rawDataReference = value;
+                _rawDataIndex = value;
             }
         }
 
-        public FamosFileRawData? RawData { get; set; }
+        public FamosFileRawData RawData
+        {
+            get
+            {
+                if (_rawData is null)
+                    throw new FormatException("A raw data instance must be assigned to the buffer's raw data property.");
+
+                return _rawData;
+            }
+            set { _rawData = value; }
+        }
+
         public int RawDataOffset { get; set; }
 
         public int Length
@@ -109,7 +121,6 @@ namespace ImcFamosFile
 
         public int x0 { get; set; }
         public int TriggerAddTime { get; set; }
-        public byte[]? UserInfo { get; set; }
         public bool IsNewEvent { get; set; }
 
         public bool IsRingBuffer => this.Offset > 0;
@@ -120,9 +131,6 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
-            if (this.RawData is null)
-                throw new FormatException("The buffer's raw data property must be assigned to a raw data instance.");
-
             if (this.RawDataOffset + this.Length > this.RawData.Length)
                 throw new FormatException("The sum of the raw data offset and the buffer length must be <= raw data length.");
 
@@ -131,6 +139,29 @@ namespace ImcFamosFile
 
             if (this.ConsumedBytes > this.Length)
                 throw new FormatException("The value of the buffer's consumed bytes property must be <= the buffer's length property.");
+        }
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var data = string.Join(',', new object[]
+            {
+                this.Reference,
+                this.RawDataIndex,
+
+                this.RawDataOffset,
+                this.Length,
+                this.Offset,
+                this.ConsumedBytes,
+                this.IsNewEvent ? 1 : 0,
+                this.x0,
+                this.TriggerAddTime
+            });
+
+            writer.Write(data);
         }
 
         #endregion
