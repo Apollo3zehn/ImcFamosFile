@@ -228,6 +228,7 @@ namespace ImcFamosFile
 
         internal override void Serialize(StreamWriter writer)
         {
+            // CC
             var data = string.Join(',', new object[]
             {
                 this.Index,
@@ -237,15 +238,28 @@ namespace ImcFamosFile
             this.SerializeKey(writer, FamosFileKeyType.CC, 1, data);
 
 #warning TODO: do not write these always
+            // CD
             this.XAxisScaling?.Serialize(writer);
+
+            // CZ
             this.ZAxisScaling?.Serialize(writer);
+
+            // NT
             this.TriggerTimeInfo?.Serialize(writer);
 
+            // CP
             this.PackInfo.Serialize(writer);
+
+            // CR
             this.CalibrationInfo?.Serialize(writer);
+
+            // ND
             this.DisplayInfo?.Serialize(writer);
+
+            // Cv
             this.EventInfo?.Serialize(writer);
 
+            // Cb
             if (this.UserInfo != null)
             {
                 foreach (var buffer in this.Buffers)

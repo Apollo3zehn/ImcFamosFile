@@ -44,6 +44,8 @@ namespace ImcFamosFile
             }
         }
 
+        protected abstract FamosFileKeyType KeyType { get; }
+
         #endregion
 
         #region Methods

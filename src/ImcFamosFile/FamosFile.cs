@@ -264,6 +264,28 @@ namespace ImcFamosFile
             {
                 dataField.Serialize(writer);
             }
+
+            // CT
+            foreach (var text in this.Texts)
+            {
+                text.Serialize(writer);
+            }
+
+            foreach (var text in this.Groups.SelectMany(group => group.Texts))
+            {
+                text.Serialize(writer);
+            }
+
+            // CI
+            foreach (var singleValue in this.SingleValues)
+            {
+                singleValue.Serialize(writer);
+            }
+
+            foreach (var singleValue in this.Groups.SelectMany(group => group.SingleValues))
+            {
+                singleValue.Serialize(writer);
+            }
         }
 
         #endregion
