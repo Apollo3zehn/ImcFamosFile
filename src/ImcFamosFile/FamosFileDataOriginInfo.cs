@@ -29,20 +29,22 @@ namespace ImcFamosFile
         public string Comment { get; set; } = string.Empty;
         public FamosFileDataOrigin DataOrigin { get; set; } = FamosFileDataOrigin.Original;
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.NO;
+
         #endregion
 
         #region Serialization
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 (int)this.DataOrigin,
                 this.Name.Length, this.Name,
                 this.Comment.Length, this.Comment
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.NO, 1, data);
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImcFamosFile
 {
@@ -87,13 +88,40 @@ namespace ImcFamosFile
         public string Comment { get; set; } = string.Empty;
         public List<string> Texts { get; } = new List<string>();
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CT;
+
         #endregion
 
         #region Serialization
 
         internal override void Serialize(StreamWriter writer)
         {
-            throw new NotImplementedException();
+            var data = new List<object>
+            {
+                this.GroupIndex,
+                this.Name.Length, this.Name,
+            };
+
+            if (this.Version == 1)
+            {
+                data.Add(this.Text.Length);
+                data.Add(this.Text);
+            }
+            else
+            {
+                data.Add(this.Texts.Count);
+
+                foreach (var text in this.Texts)
+                {
+                    data.Add(text.Length);
+                    data.Add(text);
+                }
+            }
+
+            data.Add(this.Comment.Length);
+            data.Add(this.Comment);
+
+            this.SerializeKey(writer, this.Version, data.ToArray());
         }
 
         #endregion

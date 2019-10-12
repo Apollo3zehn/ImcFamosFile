@@ -52,21 +52,22 @@ namespace ImcFamosFile
         public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
         public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CB;
+
         #endregion
 
         #region Serialization
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.Index,
                 this.Name.Length, this.Name,
                 this.Comment.Length, this.Comment
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.CB, 1, data);
-#warning TODO: Enforce static (?) KeyType { get } property on all classes that implement FamosFileBase.
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

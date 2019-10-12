@@ -17,6 +17,11 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        static FamosFileBase()
+        {
+
+        }
+
         public FamosFileBase(BinaryReader reader)
         {
             _reader = reader;
@@ -64,25 +69,20 @@ namespace ImcFamosFile
             //
         }
 
-        protected void SerializeKey(StreamWriter writer, FamosFileKeyType keyType, int keyVersion, string data, bool addLineBreak = true)
+        protected void SerializeKey(StreamWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
         {
-            writer.Write($"|{keyType.ToString()},{keyVersion},{data.Length},");
-            writer.Write(data);
+            this.SerializeKey(writer, this.KeyType, keyVersion, data, addLineBreak);
+        }
+
+        protected void SerializeKey(StreamWriter writer, FamosFileKeyType keyType, int keyVersion, object[] data, bool addLineBreak = true)
+        {
+            var combinedData = string.Join(',', data);
+
+            writer.Write($"|{keyType.ToString()},{keyVersion},{combinedData.Length},");
+            writer.Write(combinedData);
 
             this.CloseKey(writer, addLineBreak);
         }
-
-        protected void SerializeKey(StreamWriter writer, FamosFileKeyType keyType, int keyVersion, string dataPre, string dataPost, Action additionalWriteAction, bool addLineBreak = true)
-        {
-            writer.Write($"|{keyType.ToString()},{keyVersion},{dataPre.Length + dataPost.Length},");
-            writer.Write(dataPre);
-#warning TODO: this causes wrong length in key
-            additionalWriteAction.Invoke();
-            writer.Write(dataPost);
-
-            this.CloseKey(writer, addLineBreak);
-        }
-
 
         private void CloseKey(StreamWriter writer, bool addLineBreak)
         {

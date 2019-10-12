@@ -122,6 +122,8 @@ namespace ImcFamosFile
             }
         }
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CP;
+
         #endregion
 
         #region Methods
@@ -138,7 +140,7 @@ namespace ImcFamosFile
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.BufferReference,
                 this.ValueSize,
@@ -147,9 +149,9 @@ namespace ImcFamosFile
                 this.Offset,
                 this.GroupSize,
                 this.GapSize
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.CP, 1, data);
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

@@ -34,6 +34,8 @@ namespace ImcFamosFile
         public bool IsCalibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CR;
+
         #endregion
 
         #region Serialization
@@ -41,16 +43,16 @@ namespace ImcFamosFile
         internal override void Serialize(StreamWriter writer)
         {
 #warning TODO: Check if data is integer, only then is ApplyTransformation = true allowed
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.ApplyTransformation ? 1 : 0,
                 this.Factor,
                 this.Offset,
                 this.IsCalibrated ? 1 : 0,
                 this.Unit.Length, this.Unit
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.CR, 1, data);
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

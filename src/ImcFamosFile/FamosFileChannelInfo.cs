@@ -53,21 +53,23 @@ namespace ImcFamosFile
         public string Name { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CN;
+
         #endregion
 
         #region Serialization
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.GroupIndex,
                 this.BitIndex,
                 this.Name.Length, this.Name,
                 this.Comment.Length, this.Comment
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.CN, 1, data);
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

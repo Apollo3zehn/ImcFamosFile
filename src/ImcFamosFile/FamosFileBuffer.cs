@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ImcFamosFile
@@ -141,13 +142,9 @@ namespace ImcFamosFile
                 throw new FormatException("The value of the buffer's consumed bytes property must be <= the buffer's length property.");
         }
 
-        #endregion
-
-        #region Serialization
-
-        internal override void Serialize(StreamWriter writer)
+        internal object[] GetBufferData()
         {
-            var data = string.Join(',', new object[]
+            return new object[]
             {
                 this.Reference,
                 this.RawDataIndex,
@@ -159,9 +156,18 @@ namespace ImcFamosFile
                 this.IsNewEvent ? 1 : 0,
                 this.x0,
                 this.TriggerAddTime
-            });
+            };
+        }
 
-            writer.Write(data);
+        protected override FamosFileKeyType KeyType => throw new NotImplementedException();
+
+        #endregion
+
+        #region Serialization
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -67,6 +67,8 @@ namespace ImcFamosFile
 
         public Dictionary<string, byte[]> UserDefinedKeys { get; private set; } = new Dictionary<string, byte[]>();
 
+        protected override FamosFileKeyType KeyType => throw new NotImplementedException();
+
         #endregion
 
         #region "Methods"
@@ -228,22 +230,22 @@ namespace ImcFamosFile
 
         internal override void Serialize(StreamWriter writer)
         {
-            string data;
+            object[] data;
 
             // CF
-            data = string.Join(',', new object[]
+            data = new object[]
             {
                 this.Processor
-            });
+            };
 
             this.SerializeKey(writer, FamosFileKeyType.CF, SUPPORTED_VERSION, data, addLineBreak: false);
 
             // CK
-            data = string.Join(',', new object[]
+            data = new object[]
             {
                 1,
                 0
-            });
+            };
 
             this.SerializeKey(writer, FamosFileKeyType.CK, 1, data);
 
@@ -285,6 +287,25 @@ namespace ImcFamosFile
             foreach (var singleValue in this.Groups.SelectMany(group => group.SingleValues))
             {
                 singleValue.Serialize(writer);
+            }
+
+            // CV
+            if (this.Events.Any())
+            {
+#warning TODO: Make sure byte array is serialized correctly.
+
+                var eventData = new List<object>
+                {
+                    this.Events.Count
+                };
+
+                foreach (var @event in this.Events)
+                {
+                    eventData.Add(@event.Index);
+                    eventData.Add(@event.GetEventData());
+                }
+
+                this.SerializeKey(writer, FamosFileKeyType.CV, 1, eventData.ToArray());
             }
         }
 

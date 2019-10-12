@@ -67,13 +67,15 @@ namespace ImcFamosFile
         public double x0 { get; set; }
         public FamosFilePretriggerUsage PretriggerUsage { get; set; }
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CD;
+
         #endregion
 
         #region Serialization
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.dx,
                 this.IsCalibrated ? 1 : 0,
@@ -83,11 +85,11 @@ namespace ImcFamosFile
                 this.SortBuffers,
                 this.x0,
                 (int)this.PretriggerUsage
-            });
+            };
 
 #warning TODO: Check if double is serialized correctly (# of significant values)
 
-            this.SerializeKey(writer, FamosFileKeyType.CD, 2, data);
+            this.SerializeKey(writer, 2, data);
         }
 
         #endregion

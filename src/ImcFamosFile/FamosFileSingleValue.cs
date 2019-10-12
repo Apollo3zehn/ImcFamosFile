@@ -7,19 +7,22 @@ namespace ImcFamosFile
     {
         #region Fields
 
+        private DateTime _referenceTime = new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private int _groupIndex;
 
         #endregion
 
         #region Constructors
 
-        public FamosFileSingleValue()
+        public FamosFileSingleValue(byte[] value)
         {
-            //
+            this.Value = value;
         }
 
         internal FamosFileSingleValue(BinaryReader reader, int codePage) : base(reader, codePage)
         {
+            this.Value = new byte[0];
+
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.GroupIndex = this.DeserializeInt32();
@@ -28,17 +31,17 @@ namespace ImcFamosFile
 
                 this.Value = this.DataType switch
                 {
-                    FamosFileDataType.UInt8 => this.Reader.ReadByte(),
-                    FamosFileDataType.Int8 => this.Reader.ReadSByte(),
-                    FamosFileDataType.UInt16 => this.Reader.ReadUInt16(),
-                    FamosFileDataType.Int16 => this.Reader.ReadInt16(),
-                    FamosFileDataType.UInt32 => this.Reader.ReadUInt32(),
-                    FamosFileDataType.Int32 => this.Reader.ReadInt32(),
-                    FamosFileDataType.Float32 => this.Reader.ReadSingle(),
-                    FamosFileDataType.Float64 => this.Reader.ReadDouble(),
-                    FamosFileDataType.Digital16Bit => this.Reader.ReadUInt16(),
-                    FamosFileDataType.UInt48 => BitConverter.ToUInt64(this.Reader.ReadBytes(6)),
-                    _ => throw new FormatException("The data type of the single value is invalid.")
+                    FamosFileDataType.UInt8 => this.Reader.ReadBytes(1),
+                    FamosFileDataType.Int8 => this.Reader.ReadBytes(1),
+                    FamosFileDataType.UInt16 => this.Reader.ReadBytes(2),
+                    FamosFileDataType.Int16 => this.Reader.ReadBytes(2),
+                    FamosFileDataType.UInt32 => this.Reader.ReadBytes(4),
+                    FamosFileDataType.Int32 => this.Reader.ReadBytes(4),
+                    FamosFileDataType.Float32 => this.Reader.ReadBytes(4),
+                    FamosFileDataType.Float64 => this.Reader.ReadBytes(8),
+                    FamosFileDataType.Digital16Bit => this.Reader.ReadBytes(2),
+                    FamosFileDataType.UInt48 => this.Reader.ReadBytes(6),
+                    _ => throw new FormatException("The data type is invalid.")
                 };
 
                 // read left over comma
@@ -46,7 +49,7 @@ namespace ImcFamosFile
 
                 this.Unit = this.DeserializeString();
                 this.Comment = this.DeserializeString();
-                this.Time = BitConverter.ToDouble(this.DeserializeKeyPart());
+                this.Time = _referenceTime.AddSeconds(BitConverter.ToDouble(this.DeserializeKeyPart()));
             });
         }
 
@@ -68,10 +71,12 @@ namespace ImcFamosFile
 
         public FamosFileDataType DataType { get; set; }
         public string Name { get; set; } = string.Empty;
-        public double Value { get; set; }
+        public byte[] Value { get; set; }
         public string Unit { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
-        public double Time { get; set; }
+        public DateTime Time { get; set; }
+
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CI;
 
         #endregion
 
@@ -79,7 +84,18 @@ namespace ImcFamosFile
 
         internal override void Serialize(StreamWriter writer)
         {
-            throw new NotImplementedException();
+            var data = new object[]
+            {
+                this.GroupIndex,
+                (int)this.DataType,
+                this.Name.Length, this.Name,
+                this.Value,
+                this.Unit.Length, this.Unit,
+                this.Comment.Length, this.Comment,
+                (this.Time - _referenceTime).TotalSeconds
+            };
+
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

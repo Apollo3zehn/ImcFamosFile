@@ -68,13 +68,15 @@ namespace ImcFamosFile
             }
         }
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CZ;
+
         #endregion
 
         #region Serialization
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.dz,
                 this.IsDzCalibrated ? 1 : 0,
@@ -82,9 +84,9 @@ namespace ImcFamosFile
                 this.IsZ0Calibrated ? 1 : 0,
                 this.Unit.Length, this.Unit,
                 this.SegmentSize
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.CZ, 1, data);
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

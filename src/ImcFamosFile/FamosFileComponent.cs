@@ -141,6 +141,8 @@ namespace ImcFamosFile
         public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
         public List<FamosFileChannelInfo> ChannelInfos { get; } = new List<FamosFileChannelInfo>();
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CC;
+
         #endregion
 
         #region Relay Properties
@@ -229,13 +231,13 @@ namespace ImcFamosFile
         internal override void Serialize(StreamWriter writer)
         {
             // CC
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.Index,
                 this.IsDigital ? 2 : 1
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.CC, 1, data);
+            this.SerializeKey(writer, 1, data);
 
 #warning TODO: do not write these always
             // CD
@@ -262,22 +264,20 @@ namespace ImcFamosFile
             // Cb
             if (this.UserInfo != null)
             {
+                var bufferData = new List<object>
+                {
+                    this.Buffers.Count,
+                    this.UserInfo.Length,
+                };
+
                 foreach (var buffer in this.Buffers)
                 {
-                    var dataPre = string.Join(',', new object[]
-                    {
-                        this.Buffers.Count,
-                        this.UserInfo.Length,
-                    });
-
-                    var dataPost = string.Join(',', new object[]
-                    {
-                        this.UserInfo
-#warning TODO: byte[] is not written correctly
-                    });
-
-                    this.SerializeKey(writer, FamosFileKeyType.Cb, 1, dataPre, dataPost, () => buffer.Serialize(writer));
+                    bufferData.AddRange(buffer.GetBufferData());
                 }
+
+                bufferData.Add(this.UserInfo);
+
+                this.SerializeKey(writer, FamosFileKeyType.Cb, 1, bufferData.ToArray());
             }
 
             foreach (var channelInfo in this.ChannelInfos)

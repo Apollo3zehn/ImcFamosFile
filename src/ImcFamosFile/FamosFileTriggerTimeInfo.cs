@@ -90,13 +90,15 @@ namespace ImcFamosFile
         public DateTime DateTime { get; set; }
         public FamosFileTimeMode TimeMode { get; set; }
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.NT;
+
         #endregion
 
         #region Serialization
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.DateTime.Day,
                 this.DateTime.Month,
@@ -106,9 +108,9 @@ namespace ImcFamosFile
                 (double)this.DateTime.Second + this.DateTime.Millisecond / 1000,
                 0, // since it is UTC+0 now
                 0  // since it is UTC+0 now
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.NT, 2, data);
+            this.SerializeKey(writer, 2, data);
         }
 
         #endregion

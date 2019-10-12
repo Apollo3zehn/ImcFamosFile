@@ -78,6 +78,8 @@ namespace ImcFamosFile
         public double YMin { get; set; }
         public double YMax { get; set; }
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.ND;
+
         #endregion
 
         #region Methods
@@ -94,16 +96,16 @@ namespace ImcFamosFile
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.R,
                 this.G,
                 this.B,
                 this.YMin,
                 this.YMax
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.ND, 1, data);
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

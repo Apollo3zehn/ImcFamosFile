@@ -28,19 +28,21 @@ namespace ImcFamosFile
 
         public int Language { get; set; }
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.NL;
+
         #endregion
 
         #region Serialization
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.CodePage,
                 $"0x{this.Language.ToString("X4")}"
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.NL, 1, data);
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

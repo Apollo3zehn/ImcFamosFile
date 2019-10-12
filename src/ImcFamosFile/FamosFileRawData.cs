@@ -50,6 +50,8 @@ namespace ImcFamosFile
         public long Length { get; set; }
         public long FileOffset { get; set; }
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CS;
+
         #endregion
 
         #region Serialization

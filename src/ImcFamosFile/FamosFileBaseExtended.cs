@@ -10,7 +10,7 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileBaseExtended() : base()
+        public FamosFileBaseExtended()
         {
             //
         }

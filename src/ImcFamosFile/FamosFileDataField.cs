@@ -86,6 +86,8 @@ namespace ImcFamosFile
 
         public int Dimension => this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
 
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
+
         #endregion
 
         #region Methods
@@ -115,14 +117,14 @@ namespace ImcFamosFile
 
         internal override void Serialize(StreamWriter writer)
         {
-            var data = string.Join(',', new object[]
+            var data = new object[]
             {
                 this.Components.Count,
                 (int)this.Type,
                 this.Dimension
-            });
+            };
 
-            this.SerializeKey(writer, FamosFileKeyType.CG, 1, data);
+            this.SerializeKey(writer, 1, data);
 
             if (this.Components.Any())
             {
