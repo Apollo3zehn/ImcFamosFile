@@ -23,7 +23,7 @@ namespace ImcFamosFile
 
         public FamosFile()
         {
-#warning TODO: Improve SingleValue
+            //
         }
 
         private FamosFile(string filePath) : base(new BinaryReader(File.OpenRead(filePath)), 0)
@@ -58,7 +58,7 @@ namespace ImcFamosFile
 
         public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
         public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
-        public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
+        public List<FamosFileChannelInfo> Channels { get; private set; } = new List<FamosFileChannelInfo>();
 
         public List<FamosFileCustomKey> CustomKeys { get; private set; } = new List<FamosFileCustomKey>();
         public List<FamosFileGroup> Groups { get; private set; } = new List<FamosFileGroup>();
@@ -74,11 +74,29 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
+            // validate data fields
+            foreach (var dataField in this.DataFields)
+            {
+                dataField.Validate();
+            }
+
+            // check if all channels are assigned to a group
+            var channelsByGroup = this.GetChannelsByGroups();
+
+            if (channelsByGroup.Count() != channelsByGroup.Distinct().Count())
+                throw new FormatException("A channel must be assigned to a single group only.");
+
+            foreach (var channel in this.GetChannelsByDataFields())
+            {
+                if (!channelsByGroup.Contains(channel))
+                    throw new FormatException($"The channel named '{channel.Name}' must be assigned to a group.");
+            }
+
             // check if all custom keys are unique
             var distinctCount = this.CustomKeys.Select(customKey => customKey.Key).Distinct().Count();
 
             if (this.CustomKeys.Count != distinctCount)
-                throw new FormatException($"Custom key IDs must be globally unique.");
+                throw new FormatException($"Custom keys must be globally unique.");
 
             // check if group indices are consistent
             foreach (var group in this.Groups)
@@ -107,12 +125,6 @@ namespace ImcFamosFile
                 {
                     throw new FormatException("The buffers' raw data must be part of the famos file's raw data collection.");
                 };
-            }
-
-            // validate data fields
-            foreach (var dataField in this.DataFields)
-            {
-                dataField.Validate();
             }
         }
 
@@ -144,8 +156,24 @@ namespace ImcFamosFile
             }
         }
 
+        private List<FamosFileChannelInfo> GetChannelsByGroups()
+        {
+            return this.Channels.Concat(this.Groups.SelectMany(group => group.Channels)).ToList();
+        }
+
+        private List<FamosFileChannelInfo> GetChannelsByDataFields()
+        {
+            return this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.Channels)).ToList();
+        }
+
         internal override void BeforeSerialize()
         {
+            // prepare data fields
+            foreach (var dataField in this.DataFields)
+            {
+                dataField.BeforeSerialize();
+            }
+
             // update raw data indices
             foreach (var rawData in this.RawData)
             {
@@ -189,17 +217,17 @@ namespace ImcFamosFile
             }
 
             // update group index of channels
-            foreach (var channelInfo in this.ChannelInfos)
+            foreach (var channel in this.Channels)
             {
-                channelInfo.GroupIndex = 0;
+                channel.GroupIndex = 0;
             }
 
             foreach (var group in this.Groups)
             {
-                foreach (var channelInfo in group.ChannelInfos)
+                foreach (var channel in group.Channels)
                 {
                     var groupIndex = this.Groups.IndexOf(group) + 1;
-                    channelInfo.GroupIndex = groupIndex;
+                    channel.GroupIndex = groupIndex;
                 }
             }
 
@@ -208,12 +236,6 @@ namespace ImcFamosFile
             {
                 var rawDataIndex = this.RawData.IndexOf(buffer.RawData) + 1;
                 buffer.RawDataIndex = rawDataIndex;
-            }
-
-            // prepare data fields
-            foreach (var dataField in this.DataFields)
-            {
-                dataField.BeforeSerialize();
             }
         }
 
@@ -373,6 +395,12 @@ namespace ImcFamosFile
 
         internal override void AfterDeserialize()
         {
+            // prepare data fields
+            foreach (var dataField in this.DataFields)
+            {
+                dataField.AfterDeserialize();
+            }
+
             // assign text to group
             foreach (var text in _texts)
             {
@@ -386,9 +414,9 @@ namespace ImcFamosFile
             }
 
             // assign channel info to group
-            foreach (var channelInfo in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.ChannelInfos)))
+            foreach (var channel in this.GetChannelsByDataFields())
             {
-                this.AssignToGroup(channelInfo.GroupIndex, channelInfo, group => group.ChannelInfos, () => this.ChannelInfos);
+                this.AssignToGroup(channel.GroupIndex, channel, group => group.Channels, () => this.Channels);
             }
 
             // assign raw data to buffer
@@ -400,12 +428,6 @@ namespace ImcFamosFile
             // sort
             this.Groups = this.Groups.OrderBy(x => x.Index).ToList();
             this.RawData = this.RawData.OrderBy(x => x.Index).ToList();
-
-            // prepare data fields
-            foreach (var dataField in this.DataFields)
-            {
-                dataField.AfterDeserialize();
-            }
         }
 
         #endregion

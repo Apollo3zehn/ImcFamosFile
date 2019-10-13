@@ -38,7 +38,7 @@ namespace ImcFamosFile
         public string Comment { get; set; } = string.Empty;
         public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
         public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
-        public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
+        public List<FamosFileChannelInfo> Channels { get; private set; } = new List<FamosFileChannelInfo>();
 
         internal int Index
         {

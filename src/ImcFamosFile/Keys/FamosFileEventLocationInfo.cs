@@ -107,7 +107,6 @@ namespace ImcFamosFile
             var data = new object[]
             {
 #warning TODO: Check if this event index is related to EventInfo index. Then check general usage of these indices.
-#warning TODO: This key is valid only for subsequent CN keys.
                 this.FirstEventIndex,
                 this.Offset,
                 this.GroupSize,

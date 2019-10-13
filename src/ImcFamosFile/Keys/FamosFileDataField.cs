@@ -73,6 +73,11 @@ namespace ImcFamosFile
                 else if (nextKeyType == FamosFileKeyType.CC)
                 {
                     var component = new FamosFileComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+
+                    currentXAxisScaling = component.XAxisScaling;
+                    currentZAxisScaling = component.ZAxisScaling;
+                    currentTriggerTimeInfo = component.TriggerTimeInfo;
+
                     this.Components.Add(component);
                 }
 
@@ -101,14 +106,14 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
-            if (this.Components.Count < this.Dimension)
-                throw new FormatException($"Expected number of data field components is >= '{this.Dimension}', got '{this.Components.Count}'.");
-
             // validate components
             foreach (var component in this.Components)
             {
                 component.Validate();
             }
+
+            if (this.Components.Count < this.Dimension)
+                throw new FormatException($"Expected number of data field components is >= '{this.Dimension}', got '{this.Components.Count}'.");
 
             // validate event info
             this.EventInfo?.Validate();

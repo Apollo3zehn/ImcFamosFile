@@ -59,7 +59,7 @@ namespace ImcFamosFile
         public bool IsCalibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
 
-#warning TODO: Find definitions for these properties.
+#warning TODO: Find definitions for this group of properties.
         private int Reduction { get; set; }
         private int IsMultiEvents { get; set; }
         private int SortBuffers { get; set; }

@@ -93,7 +93,7 @@ namespace ImcFamosFile
                     this.EventLocationInfo = new FamosFileEventLocationInfo(this.Reader);
 
                 else if (nextKeyType == FamosFileKeyType.CN)
-                    this.ChannelInfos.Add(new FamosFileChannelInfo(this.Reader, this.CodePage));
+                    this.Channels.Add(new FamosFileChannelInfo(this.Reader, this.CodePage));
 
                 else
                     // should never happen
@@ -129,7 +129,7 @@ namespace ImcFamosFile
         public FamosFileDisplayInfo? DisplayInfo { get; set; }
         public FamosFileEventLocationInfo? EventLocationInfo { get; set; }
 
-        public List<FamosFileChannelInfo> ChannelInfos { get; } = new List<FamosFileChannelInfo>();
+        public List<FamosFileChannelInfo> Channels { get; } = new List<FamosFileChannelInfo>();
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CC;
 
@@ -143,7 +143,7 @@ namespace ImcFamosFile
             {
                 var name = string.Empty;
 
-                foreach (var channelInfo in this.ChannelInfos)
+                foreach (var channelInfo in this.Channels)
                 {
                     if (!string.IsNullOrWhiteSpace(channelInfo.Name))
                     {
@@ -226,7 +226,6 @@ namespace ImcFamosFile
 
             this.SerializeKey(writer, 1, data);
 
-#warning TODO: do not write these always
             // CD
             this.XAxisScaling?.Serialize(writer);
 
@@ -252,7 +251,7 @@ namespace ImcFamosFile
             this.EventLocationInfo?.Serialize(writer);
 
             // CN
-            foreach (var channelInfo in this.ChannelInfos)
+            foreach (var channelInfo in this.Channels)
             {
                 channelInfo.Serialize(writer);
             }
