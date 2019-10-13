@@ -66,7 +66,6 @@ namespace ImcFamosFile
 
         public double x0 { get; set; }
         public FamosFilePretriggerUsage PretriggerUsage { get; set; }
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CD;
 
         #endregion

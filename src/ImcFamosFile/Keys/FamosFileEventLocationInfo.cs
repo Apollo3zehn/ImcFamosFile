@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileEventInfo : FamosFileBase
+    public class FamosFileEventLocationInfo : FamosFileBase
     {
         #region Fields
 
@@ -16,12 +16,12 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileEventInfo()
+        public FamosFileEventLocationInfo()
         {
             //
         }
 
-        internal FamosFileEventInfo(BinaryReader reader) : base(reader)
+        internal FamosFileEventLocationInfo(BinaryReader reader) : base(reader)
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
@@ -96,7 +96,6 @@ namespace ImcFamosFile
         public FamosFileValidCDType ValidCD { get; set; }
         public FamosFileValidCR1Type ValidCR1 { get; set; }
         public FamosFileValidCR2Type ValidCR2 { get; set; }
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.Cv;
 
         #endregion

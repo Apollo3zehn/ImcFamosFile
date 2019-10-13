@@ -34,6 +34,12 @@ namespace ImcFamosFile
 
         #region Properties
 
+        public string Name { get; set; } = string.Empty;
+        public string Comment { get; set; } = string.Empty;
+        public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
+        public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
+        public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
+
         internal int Index
         {
             get { return _index; }
@@ -45,12 +51,6 @@ namespace ImcFamosFile
                 _index = value;
             }
         }
-
-        public string Name { get; set; } = string.Empty;
-        public string Comment { get; set; } = string.Empty;
-        public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
-        public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
-        public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CB;
 

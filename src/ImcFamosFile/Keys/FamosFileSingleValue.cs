@@ -57,6 +57,13 @@ namespace ImcFamosFile
 
         #region Properties
 
+        public FamosFileDataType DataType { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public byte[] Value { get; set; }
+        public string Unit { get; set; } = string.Empty;
+        public string Comment { get; set; } = string.Empty;
+        public DateTime Time { get; set; }
+
         internal int GroupIndex
         {
             get { return _groupIndex; }
@@ -68,13 +75,6 @@ namespace ImcFamosFile
                 _groupIndex = value;
             }
         }
-
-        public FamosFileDataType DataType { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public byte[] Value { get; set; }
-        public string Unit { get; set; } = string.Empty;
-        public string Comment { get; set; } = string.Empty;
-        public DateTime Time { get; set; }
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CI;
 

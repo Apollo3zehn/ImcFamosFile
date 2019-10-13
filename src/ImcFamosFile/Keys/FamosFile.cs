@@ -60,14 +60,13 @@ namespace ImcFamosFile
         public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
         public List<FamosFileChannelInfo> ChannelInfos { get; private set; } = new List<FamosFileChannelInfo>();
 
+        public List<FamosFileCustomKey> CustomKeys { get; private set; } = new List<FamosFileCustomKey>();
         public List<FamosFileGroup> Groups { get; private set; } = new List<FamosFileGroup>();
         public List<FamosFileDataField> DataFields { get; private set; } = new List<FamosFileDataField>();
-        public List<FamosFileEvent> Events { get; private set; } = new List<FamosFileEvent>();
         public List<FamosFileRawData> RawData { get; private set; } = new List<FamosFileRawData>();
 
-        public Dictionary<string, byte[]> UserDefinedKeys { get; private set; } = new Dictionary<string, byte[]>();
 
-        protected override FamosFileKeyType KeyType => throw new NotImplementedException();
+        protected override FamosFileKeyType KeyType => FamosFileKeyType.CF;
 
         #endregion
 
@@ -75,6 +74,12 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
+            // check if all custom keys are unique
+            var distinctCount = this.CustomKeys.Select(customKey => customKey.Key).Distinct().Count();
+
+            if (this.CustomKeys.Count != distinctCount)
+                throw new FormatException($"Custom key IDs must be globally unique.");
+
             // check if group indices are consistent
             foreach (var group in this.Groups)
             {
@@ -83,16 +88,6 @@ namespace ImcFamosFile
 
                 if (expected != actual)
                     throw new FormatException($"The group indices are not consistent. Expected '{expected}', got '{actual}'.");
-            }
-
-            // check if event indices are consistent
-            foreach (var @event in this.Events)
-            {
-                var expected = @event.Index;
-                var actual = this.Events.IndexOf(@event) + 1;
-
-                if (expected != actual)
-                    throw new FormatException($"The event indices are not consistent. Expected '{expected}', got '{actual}'.");
             }
 
             // check if raw data indices are consistent
@@ -106,7 +101,7 @@ namespace ImcFamosFile
             }
 
             // check if buffer's raw data is part of this instance
-            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.Buffers)))
+            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.BufferInfo.Buffers)))
             {
                 if (!this.RawData.Contains(buffer.RawData))
                 {
@@ -155,12 +150,6 @@ namespace ImcFamosFile
             foreach (var rawData in this.RawData)
             {
                 rawData.Index = this.RawData.IndexOf(rawData) + 1;
-            }
-
-            // update event indices
-            foreach (var @event in this.Events)
-            {
-                @event.Index = this.Events.IndexOf(@event) + 1;
             }
 
             // update group indices
@@ -215,7 +204,7 @@ namespace ImcFamosFile
             }
 
             // update raw data index of buffers
-            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.Buffers)))
+            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.BufferInfo.Buffers)))
             {
                 var rawDataIndex = this.RawData.IndexOf(buffer.RawData) + 1;
                 buffer.RawDataIndex = rawDataIndex;
@@ -230,30 +219,28 @@ namespace ImcFamosFile
 
         internal override void Serialize(StreamWriter writer)
         {
-            object[] data;
-
             // CF
-            data = new object[]
+            var data = new object[]
             {
                 this.Processor
             };
 
-            this.SerializeKey(writer, FamosFileKeyType.CF, SUPPORTED_VERSION, data, addLineBreak: false);
+            this.SerializeKey(writer, SUPPORTED_VERSION, data, addLineBreak: false);
 
             // CK
-            data = new object[]
-            {
-                1,
-                0
-            };
-
-            this.SerializeKey(writer, FamosFileKeyType.CK, 1, data);
+            new FamosFileKeyGroup().Serialize(writer);
 
             // NO
             this.DataOriginInfo?.Serialize(writer);
 
             // NL
             this.LanguageInfo?.Serialize(writer);
+
+            // NU
+            foreach (var customKey in this.CustomKeys)
+            {
+                customKey.Serialize(writer);
+            }
 
             // CB
             foreach (var group in this.Groups)
@@ -288,25 +275,6 @@ namespace ImcFamosFile
             {
                 singleValue.Serialize(writer);
             }
-
-            // CV
-            if (this.Events.Any())
-            {
-#warning TODO: Make sure byte array is serialized correctly.
-
-                var eventData = new List<object>
-                {
-                    this.Events.Count
-                };
-
-                foreach (var @event in this.Events)
-                {
-                    eventData.Add(@event.Index);
-                    eventData.Add(@event.GetEventData());
-                }
-
-                this.SerializeKey(writer, FamosFileKeyType.CV, 1, eventData.ToArray());
-            }
         }
 
         #endregion
@@ -328,14 +296,7 @@ namespace ImcFamosFile
             });
 
             // CK
-            this.DeserializeKey(FamosFileKeyType.CK, expectedKeyVersion: 1, keySize =>
-            {
-                var unknown = this.DeserializeInt32();
-                var keyGroupIsClosed = this.DeserializeInt32() == 1;
-
-                if (!keyGroupIsClosed)
-                    throw new FormatException($"The key group is not closed. This may be a hint to an interruption that occured while writing the file content to disk.");
-            });
+            new FamosFileKeyGroup(this.Reader);
 
             while (true)
             {
@@ -362,21 +323,6 @@ namespace ImcFamosFile
                     this.CodePage = this.LanguageInfo.CodePage;
                 }
 
-                // NU
-                else if (nextKeyType == FamosFileKeyType.NU)
-                {
-                    this.DeserializeKey(expectedKeyVersion: 1, keySize =>
-                    {
-                        var key = this.DeserializeString();
-                        var value = this.DeserializeKeyPart();
-
-                        if (this.UserDefinedKeys.ContainsKey(key))
-                            throw new FormatException($"User defined key IDs must be globally unique. The key '{key}' is already part of the collection.");
-
-                        this.UserDefinedKeys.Add(key, value);
-                    });
-                }
-
                 // NE - only imc internal
                 else if (nextKeyType == FamosFileKeyType.NE)
                     this.SkipKey();
@@ -384,6 +330,10 @@ namespace ImcFamosFile
                 // Ca
                 else if (nextKeyType == FamosFileKeyType.Ca)
                     throw new FormatException("The functionality of the 'Ca'-key is not supported. Please submit a sample .dat or .raw file to the package author to find a solution.");
+
+                // NU
+                else if (nextKeyType == FamosFileKeyType.NU)
+                    this.CustomKeys.Add(new FamosFileCustomKey(this.Reader, this.CodePage));
 
                 // CB
                 else if (nextKeyType == FamosFileKeyType.CB)
@@ -396,21 +346,6 @@ namespace ImcFamosFile
                 // CI
                 else if (nextKeyType == FamosFileKeyType.CI)
                     _singleValues.Add(new FamosFileSingleValue(this.Reader, this.CodePage));
-
-                // CV
-                else if (nextKeyType == FamosFileKeyType.CV)
-                {
-                    this.DeserializeKey(expectedKeyVersion: 1, keySize =>
-                    {
-                        var eventCount = this.DeserializeInt32();
-
-                        for (int i = 0; i < eventCount; i++)
-                        {
-                            var @event = new FamosFileEvent(this.Reader);
-                            this.Events.Add(@event);
-                        }
-                    });
-                }
 
                 // CS 
                 else if (nextKeyType == FamosFileKeyType.CS)
@@ -457,14 +392,13 @@ namespace ImcFamosFile
             }
 
             // assign raw data to buffer
-            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.Buffers)))
+            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.BufferInfo.Buffers)))
             {
                 buffer.RawData = this.RawData.FirstOrDefault(rawData => rawData.Index == buffer.RawDataIndex);
             }
 
             // sort
             this.Groups = this.Groups.OrderBy(x => x.Index).ToList();
-            this.Events = this.Events.OrderBy(x => x.Index).ToList();
             this.RawData = this.RawData.OrderBy(x => x.Index).ToList();
 
             // prepare data fields

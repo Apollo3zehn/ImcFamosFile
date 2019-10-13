@@ -42,18 +42,6 @@ namespace ImcFamosFile
 
         #region Properties
 
-        internal int BufferReference
-        {
-            get { return _bufferReference; }
-            set
-            {
-                if (value <= 0)
-                    throw new FormatException($"Expected buffer reference > '0', got '{value}'.");
-
-                _bufferReference = value;
-            }
-        }
-
         public List<FamosFileBuffer> Buffers { get; } = new List<FamosFileBuffer>();
 
         public int ValueSize
@@ -119,6 +107,18 @@ namespace ImcFamosFile
                         FormatException($"Expected gap size >= '0', got '{value}'.");
 
                 _gapSize = value;
+            }
+        }
+
+        internal int BufferReference
+        {
+            get { return _bufferReference; }
+            set
+            {
+                if (value <= 0)
+                    throw new FormatException($"Expected buffer reference > '0', got '{value}'.");
+
+                _bufferReference = value;
             }
         }
 

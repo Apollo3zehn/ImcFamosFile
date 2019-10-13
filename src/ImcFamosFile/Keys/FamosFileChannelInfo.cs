@@ -37,6 +37,10 @@ namespace ImcFamosFile
 
         #region Properties
 
+        public int BitIndex { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Comment { get; set; } = string.Empty;
+
         internal int GroupIndex
         {
             get { return _groupIndex; }
@@ -48,10 +52,6 @@ namespace ImcFamosFile
                 _groupIndex = value;
             }
         }
-
-        public int BitIndex { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Comment { get; set; } = string.Empty;
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CN;
 

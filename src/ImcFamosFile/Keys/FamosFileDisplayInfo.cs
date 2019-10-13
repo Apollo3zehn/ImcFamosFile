@@ -5,6 +5,14 @@ namespace ImcFamosFile
 {
     public class FamosFileDisplayInfo : FamosFileBase
     {
+        #region Fields
+
+        private int _r;
+        private int _g;
+        private int _b;
+
+        #endregion
+
         #region Constructors
 
         public FamosFileDisplayInfo()
@@ -23,14 +31,6 @@ namespace ImcFamosFile
                 this.YMax = this.DeserializeFloat64();
             });
         }
-
-        #endregion
-
-        #region Fields
-
-        private int _r;
-        private int _g;
-        private int _b;
 
         #endregion
 
@@ -77,7 +77,6 @@ namespace ImcFamosFile
 
         public double YMin { get; set; }
         public double YMax { get; set; }
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.ND;
 
         #endregion

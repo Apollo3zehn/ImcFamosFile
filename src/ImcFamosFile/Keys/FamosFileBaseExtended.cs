@@ -28,7 +28,7 @@ namespace ImcFamosFile
 
         #endregion
 
-        #region Methods
+        #region Deserialization
 
         protected string DeserializeString()
         {

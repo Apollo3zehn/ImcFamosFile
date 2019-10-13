@@ -25,9 +25,7 @@ namespace ImcFamosFile
         #region Properties
 
         public int CodePage { get; set; }
-
         public int Language { get; set; }
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.NL;
 
         #endregion

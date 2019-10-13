@@ -28,7 +28,6 @@ namespace ImcFamosFile
         public string Name { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
         public FamosFileDataOrigin DataOrigin { get; set; } = FamosFileDataOrigin.Original;
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.NO;
 
         #endregion

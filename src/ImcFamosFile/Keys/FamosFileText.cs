@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace ImcFamosFile
 {
@@ -69,6 +68,11 @@ namespace ImcFamosFile
 
         #region Properties
 
+        public string Name { get; set; } = string.Empty;
+        public string Text { get; private set; } = string.Empty;
+        public string Comment { get; set; } = string.Empty;
+        public List<string> Texts { get; } = new List<string>();
+
         internal int GroupIndex
         {
             get { return _groupIndex; }
@@ -82,12 +86,6 @@ namespace ImcFamosFile
         }
 
         protected int Version { get; }
-
-        public string Name { get; set; } = string.Empty;
-        public string Text { get; private set; } = string.Empty;
-        public string Comment { get; set; } = string.Empty;
-        public List<string> Texts { get; } = new List<string>();
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CT;
 
         #endregion

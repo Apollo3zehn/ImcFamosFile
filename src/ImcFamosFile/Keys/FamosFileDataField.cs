@@ -53,15 +53,23 @@ namespace ImcFamosFile
                     continue;
                 }
 
+                // CV
+                else if (nextKeyType == FamosFileKeyType.CV)
+                    this.EventInfo = new FamosFileEventInfo(this.Reader);
+
+                // CD
                 else if (nextKeyType == FamosFileKeyType.CD)
                     currentXAxisScaling = new FamosFileXAxisScaling(this.Reader, this.CodePage);
 
+                // CZ
                 else if (nextKeyType == FamosFileKeyType.CZ)
                     currentZAxisScaling = new FamosFileZAxisScaling(this.Reader, this.CodePage);
 
+                // NT
                 else if (nextKeyType == FamosFileKeyType.NT)
                     currentTriggerTimeInfo = new FamosFileTriggerTimeInfo(this.Reader);
 
+                // CC
                 else if (nextKeyType == FamosFileKeyType.CC)
                 {
                     var component = new FamosFileComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
@@ -82,10 +90,9 @@ namespace ImcFamosFile
         #region Properties
 
         public FamosFileDataFieldType Type { get; set; } = FamosFileDataFieldType.MultipleYToSingleEquidistantTime;
-        public List<FamosFileComponent> Components { get; } = new List<FamosFileComponent>();
-
         public int Dimension => this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
-
+        public List<FamosFileComponent> Components { get; } = new List<FamosFileComponent>();
+        public FamosFileEventInfo? EventInfo { get; private set; }
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
 
         #endregion
@@ -97,10 +104,14 @@ namespace ImcFamosFile
             if (this.Components.Count < this.Dimension)
                 throw new FormatException($"Expected number of data field components is >= '{this.Dimension}', got '{this.Components.Count}'.");
 
+            // validate components
             foreach (var component in this.Components)
             {
                 component.Validate();
             }
+
+            // validate event info
+            this.EventInfo?.Validate();
         }
 
         #endregion
@@ -109,10 +120,14 @@ namespace ImcFamosFile
 
         internal override void BeforeSerialize()
         {
+            // prepare components
             foreach (var component in this.Components)
             {
                 component.BeforeSerialize();
             }
+
+            // prepare event info
+            this.EventInfo?.BeforeSerialize();
         }
 
         internal override void Serialize(StreamWriter writer)
@@ -147,18 +162,21 @@ namespace ImcFamosFile
                     component.Serialize(writer);
                 }
             }
+
+            // CV
+            this.EventInfo?.Serialize(writer);
         }
-
-        #endregion
-
-        #region Deserialization
 
         internal override void AfterDeserialize()
         {
+            // prepare components
             foreach (var component in this.Components)
             {
                 component.AfterDeserialize();
             }
+
+            // prepare event info
+            this.EventInfo?.AfterDeserialize();
         }
 
         #endregion

@@ -35,6 +35,9 @@ namespace ImcFamosFile
 
         #region Properties
 
+        public long Length { get; set; }
+        public long FileOffset { get; set; }
+
         internal int Index
         {
             get { return _index; }
@@ -46,9 +49,6 @@ namespace ImcFamosFile
                 _index = value;
             }
         }
-
-        public long Length { get; set; }
-        public long FileOffset { get; set; }
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CS;
 

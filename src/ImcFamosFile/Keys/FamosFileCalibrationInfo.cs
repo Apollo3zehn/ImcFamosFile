@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace ImcFamosFile
 {
@@ -33,7 +32,6 @@ namespace ImcFamosFile
         public double Offset { get; set; }
         public bool IsCalibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CR;
 
         #endregion

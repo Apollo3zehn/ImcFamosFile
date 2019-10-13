@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileBuffer : FamosFileBase
+    public class FamosFileBuffer
     {
         #region Fields
 
@@ -15,29 +13,6 @@ namespace ImcFamosFile
         private int _consumedBytes;
 
         private FamosFileRawData? _rawData;
-
-        #endregion
-
-        #region Constructors
-
-        public FamosFileBuffer(FamosFileRawData rawData)
-        {
-            this.RawData = rawData;
-        }
-
-        internal FamosFileBuffer(BinaryReader reader) : base(reader)
-        {
-            this.Reference = this.DeserializeInt32();
-            this.RawDataIndex = this.DeserializeInt32();
-
-            this.RawDataOffset = this.DeserializeInt32();
-            this.Length = this.DeserializeInt32();
-            this.Offset = this.DeserializeInt32();
-            this.ConsumedBytes = this.DeserializeInt32();
-            this.IsNewEvent = this.DeserializeInt32() == 1;
-            this.x0 = this.DeserializeInt32();
-            this.TriggerAddTime = this.DeserializeInt32();
-        }
 
         #endregion
 
@@ -130,18 +105,6 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal override void Validate()
-        {
-            if (this.RawDataOffset + this.Length > this.RawData.Length)
-                throw new FormatException("The sum of the raw data offset and the buffer length must be <= raw data length.");
-
-            if (this.Offset >= this.Length)
-                throw new FormatException("The value of the buffer's offset property must be < the buffer's length property.");
-
-            if (this.ConsumedBytes > this.Length)
-                throw new FormatException("The value of the buffer's consumed bytes property must be <= the buffer's length property.");
-        }
-
         internal object[] GetBufferData()
         {
             return new object[]
@@ -157,17 +120,6 @@ namespace ImcFamosFile
                 this.x0,
                 this.TriggerAddTime
             };
-        }
-
-        protected override FamosFileKeyType KeyType => throw new NotImplementedException();
-
-        #endregion
-
-        #region Serialization
-
-        internal override void Serialize(StreamWriter writer)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

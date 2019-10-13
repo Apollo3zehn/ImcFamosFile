@@ -9,9 +9,10 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileComponent(FamosFilePackInfo packInfo)
+        public FamosFileComponent(FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo)
         {
             this.PackInfo = packInfo;
+            this.BufferInfo = bufferInfo;
         }
 
         public FamosFileComponent(BinaryReader reader,
@@ -25,6 +26,7 @@ namespace ImcFamosFile
             this.TriggerTimeInfo = currentTriggerTimeInfo;
 
             FamosFilePackInfo? packInfo = null;
+            FamosFileBufferInfo? bufferInfo = null;
 
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
@@ -79,24 +81,7 @@ namespace ImcFamosFile
                     packInfo = new FamosFilePackInfo(this.Reader);
 
                 else if (nextKeyType == FamosFileKeyType.Cb)
-                {
-                    this.DeserializeKey(expectedKeyVersion: 1, keySize =>
-                    {
-                        var bufferCount = this.DeserializeInt32();
-                        var userInfoSize = this.DeserializeInt32();
-
-                        for (int i = 0; i < bufferCount; i++)
-                        {
-                            var buffer = new FamosFileBuffer(this.Reader);
-                            this.Buffers.Add(buffer);
-                        }
-
-                        this.UserInfo = this.DeserializeKeyPart();
-
-                        if (this.UserInfo.Length != userInfoSize)
-                            throw new FormatException("The given size of the user info does not match the actual size.");
-                    });
-                }
+                    bufferInfo = new FamosFileBufferInfo(this.Reader);
 
                 else if (nextKeyType == FamosFileKeyType.CR)
                     this.CalibrationInfo = new FamosFileCalibrationInfo(this.Reader, this.CodePage);
@@ -105,7 +90,7 @@ namespace ImcFamosFile
                     this.DisplayInfo = new FamosFileDisplayInfo(this.Reader);
 
                 else if (nextKeyType == FamosFileKeyType.Cv)
-                    this.EventInfo = new FamosFileEventInfo(this.Reader);
+                    this.EventLocationInfo = new FamosFileEventLocationInfo(this.Reader);
 
                 else if (nextKeyType == FamosFileKeyType.CN)
                     this.ChannelInfos.Add(new FamosFileChannelInfo(this.Reader, this.CodePage));
@@ -119,6 +104,11 @@ namespace ImcFamosFile
                 throw new FormatException("No pack information was found in the component.");
             else
                 this.PackInfo = packInfo;
+
+            if (bufferInfo is null)
+                throw new FormatException("No buffer information was found in the component.");
+            else
+                this.BufferInfo = bufferInfo;
         }
 
         #endregion
@@ -133,12 +123,12 @@ namespace ImcFamosFile
         public FamosFileTriggerTimeInfo? TriggerTimeInfo { get; set; }
 
         public FamosFilePackInfo PackInfo { get; set; }
+        public FamosFileBufferInfo BufferInfo { get; set; }
+
         public FamosFileCalibrationInfo? CalibrationInfo { get; set; }
         public FamosFileDisplayInfo? DisplayInfo { get; set; }
-        public FamosFileEventInfo? EventInfo { get; set; }
+        public FamosFileEventLocationInfo? EventLocationInfo { get; set; }
 
-        public byte[]? UserInfo { get; set; }
-        public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
         public List<FamosFileChannelInfo> ChannelInfos { get; } = new List<FamosFileChannelInfo>();
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CC;
@@ -188,15 +178,12 @@ namespace ImcFamosFile
 
             foreach (var buffer in this.PackInfo.Buffers)
             {
-                if (!this.Buffers.Contains(buffer))
+                if (!this.BufferInfo.Buffers.Contains(buffer))
                     throw new FormatException("The pack info's buffers must be part of the component's buffer collection.");
             }
 
-            // validate buffers
-            foreach (var buffer in this.Buffers)
-            {
-                buffer.Validate();
-            }
+            // validate buffer info
+            this.BufferInfo.Validate();
 
             // validate display info
             this.DisplayInfo?.Validate();
@@ -214,7 +201,7 @@ namespace ImcFamosFile
 #warning TODO: It is unclear if there may be buffers defined which do NOT contain data of this component. Are these dangling buffers?
 
             // reset all buffer references to a value != 1
-            foreach (var buffer in this.Buffers)
+            foreach (var buffer in this.BufferInfo.Buffers)
             {
                 buffer.Reference = 2;
             }
@@ -252,6 +239,9 @@ namespace ImcFamosFile
             // CP
             this.PackInfo.Serialize(writer);
 
+            // Cb
+            this.BufferInfo?.Serialize(writer);
+
             // CR
             this.CalibrationInfo?.Serialize(writer);
 
@@ -259,44 +249,22 @@ namespace ImcFamosFile
             this.DisplayInfo?.Serialize(writer);
 
             // Cv
-            this.EventInfo?.Serialize(writer);
+            this.EventLocationInfo?.Serialize(writer);
 
-            // Cb
-            if (this.UserInfo != null)
-            {
-                var bufferData = new List<object>
-                {
-                    this.Buffers.Count,
-                    this.UserInfo.Length,
-                };
-
-                foreach (var buffer in this.Buffers)
-                {
-                    bufferData.AddRange(buffer.GetBufferData());
-                }
-
-                bufferData.Add(this.UserInfo);
-
-                this.SerializeKey(writer, FamosFileKeyType.Cb, 1, bufferData.ToArray());
-            }
-
+            // CN
             foreach (var channelInfo in this.ChannelInfos)
             {
                 channelInfo.Serialize(writer);
             }
         }
 
-        #endregion
-
-        #region Deserialization
-
         internal override void AfterDeserialize()
         {
-            // sort buffers
-            this.Buffers = this.Buffers.OrderBy(buffer => buffer.Reference).ToList();
+            // prepare buffer info
+            this.BufferInfo.AfterDeserialize();
 
             // associate buffers to pack info
-            this.PackInfo?.Buffers.AddRange(this.Buffers.Where(buffer => buffer.Reference == this.PackInfo.BufferReference));
+            this.PackInfo?.Buffers.AddRange(this.BufferInfo.Buffers.Where(buffer => buffer.Reference == this.PackInfo.BufferReference));
         }
 
         #endregion

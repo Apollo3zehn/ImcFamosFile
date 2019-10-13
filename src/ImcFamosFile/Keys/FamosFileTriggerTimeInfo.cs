@@ -89,7 +89,6 @@ namespace ImcFamosFile
 
         public DateTime DateTime { get; set; }
         public FamosFileTimeMode TimeMode { get; set; }
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.NT;
 
         #endregion

@@ -36,8 +36,6 @@ namespace ImcFamosFile
 
         #region Properties
 
-        private Regex MatchKey { get; } = new Regex("[|][a-zA-Z]{2},");
-
         protected BinaryReader Reader
         { 
             get
@@ -50,6 +48,8 @@ namespace ImcFamosFile
         }
 
         protected abstract FamosFileKeyType KeyType { get; }
+
+        private Regex MatchKey { get; } = new Regex("[|][a-zA-Z]{2},");
 
         #endregion
 
@@ -69,16 +69,13 @@ namespace ImcFamosFile
             //
         }
 
-        protected void SerializeKey(StreamWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
-        {
-            this.SerializeKey(writer, this.KeyType, keyVersion, data, addLineBreak);
-        }
+        internal abstract void Serialize(StreamWriter writer);
 
-        protected void SerializeKey(StreamWriter writer, FamosFileKeyType keyType, int keyVersion, object[] data, bool addLineBreak = true)
+        protected void SerializeKey(StreamWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
         {
             var combinedData = string.Join(',', data);
 
-            writer.Write($"|{keyType.ToString()},{keyVersion},{combinedData.Length},");
+            writer.Write($"|{this.KeyType.ToString()},{keyVersion},{combinedData.Length},");
             writer.Write(combinedData);
 
             this.CloseKey(writer, addLineBreak);
@@ -91,8 +88,6 @@ namespace ImcFamosFile
             if (addLineBreak)
                 writer.Write($"\r\n");
         }
-
-        internal abstract void Serialize(StreamWriter writer);
 
         #endregion
 
