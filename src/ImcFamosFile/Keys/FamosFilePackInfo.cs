@@ -146,7 +146,7 @@ namespace ImcFamosFile
                 this.ValueSize,
                 (int)this.DataType,
                 this.SignificantBits,
-                this.Offset,
+                this.Offset, this.Offset,
                 this.GroupSize,
                 this.GapSize
             };

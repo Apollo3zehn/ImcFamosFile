@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -98,7 +98,7 @@ namespace ImcFamosFile
             if (channelsByGroup.Count() != channelsByGroup.Distinct().Count())
                 throw new FormatException("A channel must be assigned to a single group only.");
 
-            foreach (var channel in this.GetChannelsByDataFields())
+            foreach (var channel in this.GetItemsByComponents(component => component.Channels))
             {
                 if (!channelsByGroup.Contains(channel))
                     throw new FormatException($"The channel named '{channel.Name}' must be assigned to a group.");
@@ -111,7 +111,7 @@ namespace ImcFamosFile
                 throw new FormatException($"Custom keys must be globally unique.");
 
             // check if buffer's raw data is part of this instance
-            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.BufferInfo.Buffers)))
+            foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
                 if (!this.RawData.Contains(buffer.RawData))
                 {
@@ -153,9 +153,9 @@ namespace ImcFamosFile
             return getDefaultCollection().Concat(this.Groups.SelectMany(group => getGroupCollection(group))).ToList();
         }
 
-        private List<FamosFileChannelInfo> GetChannelsByDataFields()
+        private List<T> GetItemsByComponents<T>(Func<FamosFileComponent, List<T>> getComponentCollection)
         {
-            return this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.Channels)).ToList();
+            return this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => getComponentCollection(component))).ToList();
         }
 
         internal override void BeforeSerialize()
@@ -296,6 +296,8 @@ namespace ImcFamosFile
 
 #warning TODO: Write CS key data.
 
+            // Nv - do nothing
+
             // Close CK.
             writer.BaseStream.Seek(20, SeekOrigin.Begin);
             writer.Write('1');
@@ -397,6 +399,10 @@ namespace ImcFamosFile
                 else if (nextKeyType == FamosFileKeyType.CS)
                     this.RawData.Add(new FamosFileRawData(this.Reader));
 
+                // Nv - only for data manager
+                else if (nextKeyType == FamosFileKeyType.Nv)
+                    this.SkipKey();
+
                 else
                     //throw new FormatException($"Unexpected key '{keyType}'.");
                     this.SkipKey();
@@ -458,13 +464,21 @@ namespace ImcFamosFile
             }
 
             // assign channel info to group
-            foreach (var channel in this.GetChannelsByDataFields())
+            foreach (var channel in this.GetItemsByComponents(component => component.Channels))
             {
                 this.AssignToGroup(channel.GroupIndex, channel, group => group.Channels, () => this.Channels);
             }
 
+            // assign buffers to pack info
+            var buffers = this.GetItemsByComponents(component => component.BufferInfo.Buffers);
+
+            foreach (var packInfo in this.DataFields.SelectMany(dataField => dataField.Components.Select(component => component.PackInfo)))
+            {
+                packInfo.Buffers.AddRange(buffers.Where(buffer => buffer.Reference == packInfo.BufferReference));
+            }
+
             // assign raw data to buffer
-            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.BufferInfo.Buffers)))
+            foreach (var buffer in buffers)
             {
                 buffer.RawData = this.RawData.FirstOrDefault(rawData => rawData.Index == buffer.RawDataIndex);
             }

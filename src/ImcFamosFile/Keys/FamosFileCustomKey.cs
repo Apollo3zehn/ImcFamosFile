@@ -26,7 +26,6 @@ namespace ImcFamosFile
 
         public string Key { get; set; } = string.Empty;
         public byte[] Value { get; set; } = new byte[0];
-
         protected override FamosFileKeyType KeyType => FamosFileKeyType.NU;
 
         #endregion

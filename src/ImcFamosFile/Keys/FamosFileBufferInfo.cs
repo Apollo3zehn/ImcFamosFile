@@ -37,6 +37,7 @@ namespace ImcFamosFile
 
         #region Properties
 
+#warning TODO: Probably the user info is repeated for each buffer. But why is there only a single user info length in this key? The user info is probably trigger related.
         public byte[] UserInfo { get; set; } = new byte[0];
 
         public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
@@ -95,7 +96,6 @@ namespace ImcFamosFile
             {
                 Reference = this.DeserializeInt32(),
                 RawDataIndex = this.DeserializeInt32(),
-
                 RawDataOffset = this.DeserializeInt32(),
                 Length = this.DeserializeInt32(),
                 Offset = this.DeserializeInt32(),
