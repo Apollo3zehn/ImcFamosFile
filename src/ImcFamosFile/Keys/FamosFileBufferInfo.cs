@@ -62,23 +62,6 @@ namespace ImcFamosFile
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.Cb;
 
-        private FamosFileBuffer DeserializeBuffer()
-        {
-            return new FamosFileBuffer()
-            {
-                Reference = this.DeserializeInt32(),
-                RawDataIndex = this.DeserializeInt32(),
-
-                RawDataOffset = this.DeserializeInt32(),
-                Length = this.DeserializeInt32(),
-                Offset = this.DeserializeInt32(),
-                ConsumedBytes = this.DeserializeInt32(),
-                IsNewEvent = this.DeserializeInt32() == 1,
-                x0 = this.DeserializeInt32(),
-                TriggerAddTime = this.DeserializeInt32()
-            };
-        }
-
         #endregion
 
         #region Serialization
@@ -104,6 +87,23 @@ namespace ImcFamosFile
         internal override void AfterDeserialize()
         {
             this.Buffers = this.Buffers.OrderBy(buffer => buffer.Reference).ToList();
+        }
+
+        private FamosFileBuffer DeserializeBuffer()
+        {
+            return new FamosFileBuffer()
+            {
+                Reference = this.DeserializeInt32(),
+                RawDataIndex = this.DeserializeInt32(),
+
+                RawDataOffset = this.DeserializeInt32(),
+                Length = this.DeserializeInt32(),
+                Offset = this.DeserializeInt32(),
+                ConsumedBytes = this.DeserializeInt32(),
+                IsNewEvent = this.DeserializeInt32() == 1,
+                x0 = this.DeserializeInt32(),
+                TriggerAddTime = this.DeserializeInt32()
+            };
         }
 
         #endregion

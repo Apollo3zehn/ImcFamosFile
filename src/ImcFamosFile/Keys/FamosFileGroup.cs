@@ -24,7 +24,6 @@ namespace ImcFamosFile
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.Index = this.DeserializeInt32();
-
                 this.Name = this.DeserializeString();
                 this.Comment = this.DeserializeString();
             });

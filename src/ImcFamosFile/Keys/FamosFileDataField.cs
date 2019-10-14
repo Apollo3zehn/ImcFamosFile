@@ -29,7 +29,7 @@ namespace ImcFamosFile
                 this.Type = type;
 
                 if (dimension != this.Dimension)
-                    throw new FormatException($"Expected data field dimension '{this.Dimension}', got '{dimension}'.");
+                    throw new FormatException($"The data field dimension is invalid. Expected '{this.Dimension}', got '{dimension}'.");
 
                 if (this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime &&
                     this.Dimension != 1)
@@ -52,10 +52,6 @@ namespace ImcFamosFile
                     this.SkipKey();
                     continue;
                 }
-
-                // CV
-                else if (nextKeyType == FamosFileKeyType.CV)
-                    this.EventInfo = new FamosFileEventInfo(this.Reader);
 
                 // CD
                 else if (nextKeyType == FamosFileKeyType.CD)
@@ -80,6 +76,10 @@ namespace ImcFamosFile
 
                     this.Components.Add(component);
                 }
+
+                // CV
+                else if (nextKeyType == FamosFileKeyType.CV)
+                    this.EventInfo = new FamosFileEventInfo(this.Reader);
 
                 else
                 {
@@ -106,17 +106,14 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
+            if (this.Components.Count < this.Dimension)
+                throw new FormatException($"Expected number of data field components is >= '{this.Dimension}', got '{this.Components.Count}'.");
+
             // validate components
             foreach (var component in this.Components)
             {
                 component.Validate();
             }
-
-            if (this.Components.Count < this.Dimension)
-                throw new FormatException($"Expected number of data field components is >= '{this.Dimension}', got '{this.Components.Count}'.");
-
-            // validate event info
-            this.EventInfo?.Validate();
         }
 
         #endregion
@@ -162,6 +159,7 @@ namespace ImcFamosFile
                 if (firstComponent.TriggerTimeInfo != null)
                     firstComponent.TriggerTimeInfo.Serialize(writer);
 
+                // CC
                 foreach (var component in this.Components)
                 {
                     component.Serialize(writer);

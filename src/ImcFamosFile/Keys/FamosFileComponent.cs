@@ -55,7 +55,8 @@ namespace ImcFamosFile
                 if (nextKeyType == FamosFileKeyType.CT ||
                     nextKeyType == FamosFileKeyType.CB ||
                     nextKeyType == FamosFileKeyType.CI ||
-                    nextKeyType == FamosFileKeyType.CG)
+                    nextKeyType == FamosFileKeyType.CG ||
+                    nextKeyType == FamosFileKeyType.CS)
                 {
                     // go back to start of key
                     this.Reader.BaseStream.Position -= 4;
@@ -68,30 +69,39 @@ namespace ImcFamosFile
                     continue;
                 }
 
+                // CD
                 else if (nextKeyType == FamosFileKeyType.CD)
                     this.XAxisScaling = new FamosFileXAxisScaling(this.Reader, this.CodePage);
 
+                // CZ
                 else if (nextKeyType == FamosFileKeyType.CZ)
                     this.ZAxisScaling = new FamosFileZAxisScaling(this.Reader, this.CodePage);
 
+                // NT
                 else if (nextKeyType == FamosFileKeyType.NT)
                     this.TriggerTimeInfo = new FamosFileTriggerTimeInfo(this.Reader);
 
+                // CP
                 else if (nextKeyType == FamosFileKeyType.CP)
                     packInfo = new FamosFilePackInfo(this.Reader);
 
+                // Cb
                 else if (nextKeyType == FamosFileKeyType.Cb)
                     bufferInfo = new FamosFileBufferInfo(this.Reader);
 
+                // CR
                 else if (nextKeyType == FamosFileKeyType.CR)
                     this.CalibrationInfo = new FamosFileCalibrationInfo(this.Reader, this.CodePage);
 
+                // ND
                 else if (nextKeyType == FamosFileKeyType.ND)
                     this.DisplayInfo = new FamosFileDisplayInfo(this.Reader);
 
+                // Cv
                 else if (nextKeyType == FamosFileKeyType.Cv)
                     this.EventLocationInfo = new FamosFileEventLocationInfo(this.Reader);
 
+                // CN
                 else if (nextKeyType == FamosFileKeyType.CN)
                     this.Channels.Add(new FamosFileChannelInfo(this.Reader, this.CodePage));
 
@@ -169,10 +179,7 @@ namespace ImcFamosFile
             if (this.IsDigital && this.CalibrationInfo != null)
                 throw new FormatException($"The digital component '{this.Name}' defines analog calibration information.");
 
-            // pack info
-            if (this.PackInfo is null)
-                throw new FormatException("The component's pack info must be provided.");
-
+            // pack info's buffers
             if (!this.PackInfo.Buffers.Any())
                 throw new FormatException("The pack info's buffers collection must container at least a single buffer instance.");
 
@@ -182,14 +189,14 @@ namespace ImcFamosFile
                     throw new FormatException("The pack info's buffers must be part of the component's buffer collection.");
             }
 
+            // validate pack info
+            this.PackInfo.Validate();
+
             // validate buffer info
             this.BufferInfo.Validate();
 
             // validate display info
             this.DisplayInfo?.Validate();
-
-            // validate pack info
-            this.PackInfo?.Validate();
         }
 
         #endregion

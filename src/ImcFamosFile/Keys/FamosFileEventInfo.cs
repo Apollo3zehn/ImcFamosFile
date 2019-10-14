@@ -36,10 +36,37 @@ namespace ImcFamosFile
 
         #endregion
 
-        #region Methods
+        #region Serialization
 
-        internal override void Validate()
+        internal override void BeforeSerialize()
         {
+#warning TODO: Since events are not associated to any event location info, the indices should not be modified.
+            // update event indices
+            foreach (var @event in this.Events)
+            {
+                @event.Index = this.Events.IndexOf(@event) + 1;
+            }
+        }
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            var eventData = new List<object>
+            {
+                this.Events.Count
+            };
+
+            foreach (var @event in this.Events)
+            {
+                eventData.Add(@event.Index);
+                eventData.Add(@event.GetEventData());
+            }
+
+            this.SerializeKey(writer, 1, eventData.ToArray());
+        }
+
+        internal override void AfterDeserialize()
+        {
+            // check if event indices are consistent
             foreach (var @event in this.Events)
             {
                 var expected = @event.Index;
@@ -48,6 +75,8 @@ namespace ImcFamosFile
                 if (expected != actual)
                     throw new FormatException($"The event indices are not consistent. Expected '{expected}', got '{actual}'.");
             }
+
+            this.Events = this.Events.OrderBy(x => x.Index).ToList();
         }
 
         private FamosFileEvent DeserializeEvent()
@@ -82,43 +111,7 @@ namespace ImcFamosFile
                 AmplificationFactor0 = amplificationFactor0,
                 AmplificationFactor1 = amplificationFactor1,
                 dx = dx
-            }; 
-        }
-
-        #endregion
-
-        #region Serialization
-
-        internal override void BeforeSerialize()
-        {
-#warning TODO: Since events are not associated to any event location info, the indices should not be modified.
-            // update event indices
-            foreach (var @event in this.Events)
-            {
-                @event.Index = this.Events.IndexOf(@event) + 1;
-            }
-        }
-
-        internal override void Serialize(StreamWriter writer)
-        {
-            var eventData = new List<object>
-            {
-                this.Events.Count
             };
-
-            foreach (var @event in this.Events)
-            {
-                eventData.Add(@event.Index);
-                eventData.Add(@event.GetEventData());
-            }
-
-            this.SerializeKey(writer, 1, eventData.ToArray());
-        }
-
-        internal override void AfterDeserialize()
-        {
-            // sort
-            this.Events = this.Events.OrderBy(x => x.Index).ToList();
         }
 
         #endregion

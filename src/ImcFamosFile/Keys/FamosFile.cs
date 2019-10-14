@@ -80,8 +80,20 @@ namespace ImcFamosFile
                 dataField.Validate();
             }
 
-            // check if all channels are assigned to a group
-            var channelsByGroup = this.GetChannelsByGroups();
+            // check if all texts are assigned to a single group
+            var textsByGroup = this.GetItemsByGroups(group => group.Texts, () => this.Texts);
+
+            if (textsByGroup.Count() != textsByGroup.Distinct().Count())
+                throw new FormatException("A text must be assigned to a single group only.");
+
+            // check if all single values are assigned to a single group
+            var singleValuesByGroup = this.GetItemsByGroups(group => group.SingleValues, () => this.SingleValues);
+
+            if (singleValuesByGroup.Count() != singleValuesByGroup.Distinct().Count())
+                throw new FormatException("A single value must be assigned to a single group only.");
+
+            // check if all channels are assigned to a single group
+            var channelsByGroup = this.GetItemsByGroups(group => group.Channels, () => this.Channels);
 
             if (channelsByGroup.Count() != channelsByGroup.Distinct().Count())
                 throw new FormatException("A channel must be assigned to a single group only.");
@@ -97,26 +109,6 @@ namespace ImcFamosFile
 
             if (this.CustomKeys.Count != distinctCount)
                 throw new FormatException($"Custom keys must be globally unique.");
-
-            // check if group indices are consistent
-            foreach (var group in this.Groups)
-            {
-                var expected = group.Index;
-                var actual = this.Groups.IndexOf(group) + 1;
-
-                if (expected != actual)
-                    throw new FormatException($"The group indices are not consistent. Expected '{expected}', got '{actual}'.");
-            }
-
-            // check if raw data indices are consistent
-            foreach (var rawData in this.RawData)
-            {
-                var expected = rawData.Index;
-                var actual = this.RawData.IndexOf(rawData) + 1;
-
-                if (expected != actual)
-                    throw new FormatException($"The raw data indices are not consistent. Expected '{expected}', got '{actual}'.");
-            }
 
             // check if buffer's raw data is part of this instance
             foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.BufferInfo.Buffers)))
@@ -156,9 +148,9 @@ namespace ImcFamosFile
             }
         }
 
-        private List<FamosFileChannelInfo> GetChannelsByGroups()
+        private List<T> GetItemsByGroups<T>(Func<FamosFileGroup, List<T>> getGroupCollection, Func<List<T>> getDefaultCollection)
         {
-            return this.Channels.Concat(this.Groups.SelectMany(group => group.Channels)).ToList();
+            return getDefaultCollection().Concat(this.Groups.SelectMany(group => getGroupCollection(group))).ToList();
         }
 
         private List<FamosFileChannelInfo> GetChannelsByDataFields()
@@ -258,6 +250,10 @@ namespace ImcFamosFile
             // NL
             this.LanguageInfo?.Serialize(writer);
 
+            // NE - do nothing
+
+            // Ca - do nothing
+
             // NU
             foreach (var customKey in this.CustomKeys)
             {
@@ -297,6 +293,12 @@ namespace ImcFamosFile
             {
                 singleValue.Serialize(writer);
             }
+
+#warning TODO: Write CS key data.
+
+            // Close CK.
+            writer.BaseStream.Seek(20, SeekOrigin.Begin);
+            writer.Write('1');
         }
 
         #endregion
@@ -311,11 +313,29 @@ namespace ImcFamosFile
         private void Deserialize()
         {
             // CF
-            this.DeserializeKey(FamosFileKeyType.CF, expectedKeyVersion: SUPPORTED_VERSION, keySize =>
+            var keyType = this.DeserializeKeyType();
+
+            if (keyType != FamosFileKeyType.CF)
+                throw new FormatException("The file is not a FAMOS file.");
+
+            var keyVersion = this.DeserializeInt32();
+
+            if (keyVersion == 1)
             {
-                var processor = this.DeserializeInt32();
-                this.Processor = processor;
-            });
+                throw new FormatException($"Only files of format version '2' can be read.");
+            }
+            else if (keyVersion == SUPPORTED_VERSION)
+            {
+                this.DeserializeKey(keySize =>
+                {
+                    var processor = this.DeserializeInt32();
+                    this.Processor = processor;
+                });
+            }
+            else
+            {
+                throw new FormatException($"Expected key version '2', got '{keyVersion}'.");
+            }
 
             // CK
             new FamosFileKeyGroup(this.Reader);
@@ -361,6 +381,10 @@ namespace ImcFamosFile
                 else if (nextKeyType == FamosFileKeyType.CB)
                     this.Groups.Add(new FamosFileGroup(this.Reader, this.CodePage));
 
+                // CG
+                else if (nextKeyType == FamosFileKeyType.CG)
+                    this.DataFields.Add(new FamosFileDataField(this.Reader, this.CodePage));
+
                 // CT
                 else if (nextKeyType == FamosFileKeyType.CT)
                     _texts.Add(new FamosFileText(this.Reader, this.CodePage));
@@ -372,10 +396,6 @@ namespace ImcFamosFile
                 // CS 
                 else if (nextKeyType == FamosFileKeyType.CS)
                     this.RawData.Add(new FamosFileRawData(this.Reader));
-
-                // CG
-                else if (nextKeyType == FamosFileKeyType.CG)
-                    this.DataFields.Add(new FamosFileDataField(this.Reader, this.CodePage));
 
                 else
                     //throw new FormatException($"Unexpected key '{keyType}'.");
@@ -401,6 +421,30 @@ namespace ImcFamosFile
                 dataField.AfterDeserialize();
             }
 
+            // check if group indices are consistent
+            foreach (var group in this.Groups)
+            {
+                var expected = group.Index;
+                var actual = this.Groups.IndexOf(group) + 1;
+
+                if (expected != actual)
+                    throw new FormatException($"The group indices are not consistent. Expected '{expected}', got '{actual}'.");
+            }
+
+            this.Groups = this.Groups.OrderBy(x => x.Index).ToList();
+
+            // check if raw data indices are consistent
+            foreach (var rawData in this.RawData)
+            {
+                var expected = rawData.Index;
+                var actual = this.RawData.IndexOf(rawData) + 1;
+
+                if (expected != actual)
+                    throw new FormatException($"The raw data indices are not consistent. Expected '{expected}', got '{actual}'.");
+            }
+
+            this.RawData = this.RawData.OrderBy(x => x.Index).ToList();
+
             // assign text to group
             foreach (var text in _texts)
             {
@@ -424,10 +468,6 @@ namespace ImcFamosFile
             {
                 buffer.RawData = this.RawData.FirstOrDefault(rawData => rawData.Index == buffer.RawDataIndex);
             }
-
-            // sort
-            this.Groups = this.Groups.OrderBy(x => x.Index).ToList();
-            this.RawData = this.RawData.OrderBy(x => x.Index).ToList();
         }
 
         #endregion

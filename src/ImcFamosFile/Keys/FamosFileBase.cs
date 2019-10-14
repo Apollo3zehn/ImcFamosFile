@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -36,6 +37,7 @@ namespace ImcFamosFile
 
         #region Properties
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected BinaryReader Reader
         { 
             get
@@ -49,6 +51,7 @@ namespace ImcFamosFile
 
         protected abstract FamosFileKeyType KeyType { get; }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Regex MatchKey { get; } = new Regex("[|][a-zA-Z]{2},");
 
         #endregion
@@ -183,7 +186,7 @@ namespace ImcFamosFile
         protected double DeserializeFloat64()
         {
             var bytes = this.DeserializeKeyPart();
-            var numberStyle = NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent;
+            var numberStyle = NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent;
 
             return double.Parse(Encoding.ASCII.GetString(bytes), numberStyle, CultureInfo.InvariantCulture);
         }
