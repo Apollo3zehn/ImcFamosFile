@@ -1,0 +1,721 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/wilvin/Desktop/Git/GitHub/ImcFamosFile/doc",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFile.html",
+          "hash": "H//kSRS8WoHp5isxhnkPRg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileAnalogComponent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileAnalogComponent.html",
+          "hash": "sPx/3I5+2S1tDIj1vIgKlA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileBase.html",
+          "hash": "FXUhQ9zhPhBHCaKW2lvz6A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileBaseExtended.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileBaseExtended.html",
+          "hash": "F7eKUc9BQ2REy5fzyOtXow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileBaseProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileBaseProperty.html",
+          "hash": "C0r8vJy2ycotk8P90FNIuA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileBuffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileBuffer.html",
+          "hash": "KXJXRl/sYl44mA5HQZmfxw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileBufferInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileBufferInfo.html",
+          "hash": "hr8ati969KmiOmOV9237Gw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileCalibrationInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileCalibrationInfo.html",
+          "hash": "vM0iaDJqyhP4H4nJXE1+EA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileChannelInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileChannelInfo.html",
+          "hash": "JXE/8nrWEzWvGUoksUyhsg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileComponent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileComponent.html",
+          "hash": "8u8PNDFC5XLuCPEXCrbJWw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileCustomKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileCustomKey.html",
+          "hash": "inpDSNFCLsGB04aNA6QD2w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileData-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileData-1.html",
+          "hash": "87PkG8l1y8ubZRNlIPFWFA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileData.html",
+          "hash": "1qeMbNRyhc5Z+pfCR/B+iQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileDataDirection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileDataDirection.html",
+          "hash": "PgCZUCRuEwJeAF+x/5ML9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileDataField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileDataField.html",
+          "hash": "BnjqcbJfjLkXUsExId99QQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileDataFieldType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileDataFieldType.html",
+          "hash": "10aazfnCFmov+TKJFw1LLQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileDataOrigin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileDataOrigin.html",
+          "hash": "I9Phn7ZKvCCTHubK6GXTfg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileDataOriginInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileDataOriginInfo.html",
+          "hash": "4wbtcRHX77J4l7TsVL0YRA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileDataType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileDataType.html",
+          "hash": "SYLYBTnVrvMG7fFP+MSlaA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileDigitalComponent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileDigitalComponent.html",
+          "hash": "Ve2axW/lNi4tDEl4Jn0W4Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileDisplayInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileDisplayInfo.html",
+          "hash": "ClhpnZP2rTy1HBKOFXGe3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileEvent.html",
+          "hash": "pC7CCkGOjhWcLJ8ygZ8TAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileEventInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileEventInfo.html",
+          "hash": "IWLSRpYLrNAqfz7OFGiYDw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileEventLocationInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileEventLocationInfo.html",
+          "hash": "rMdDOECiOcktDSQbdyTpFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileGroup.html",
+          "hash": "H7u2MOl7KFMCA7g+79mU/A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileKeyGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileKeyGroup.html",
+          "hash": "VAOHTPO8YuduIY/bKEg92Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileKeyType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileKeyType.html",
+          "hash": "iEK1/ahbiE1YCGohjhRYgA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileLanguageInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileLanguageInfo.html",
+          "hash": "sTtUi9TnMWsqqTk9uOX9lQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFilePackInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFilePackInfo.html",
+          "hash": "5vwxgLjRGa1AuYEoGYZFyQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFilePretriggerUsage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFilePretriggerUsage.html",
+          "hash": "ZEj07AsbWc6/XbPoSbwJRw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileProperty.html",
+          "hash": "TMDEK6qw+EXAezpYpwjlXQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFilePropertyFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFilePropertyFlags.html",
+          "hash": "NfL0rg47jGw1pxvHKUZmGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFilePropertyInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFilePropertyInfo.html",
+          "hash": "duRkU5VuQobtt4G+wNvIOg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFilePropertyType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFilePropertyType.html",
+          "hash": "K9mFc4aX2hzWL/VWEiYtaQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileRawData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileRawData.html",
+          "hash": "LUmDgb6ZYoYFSWZA5E3XYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileSingleValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileSingleValue.html",
+          "hash": "to1CPClCl4b/4X3KPHWhIg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileText.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileText.html",
+          "hash": "9ZiidmfLRARal2RxhhGiLw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileTimeMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileTimeMode.html",
+          "hash": "A7Gfgu0nanqi15QHF5UVAw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileTriggerTimeInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileTriggerTimeInfo.html",
+          "hash": "a9cPS3wpsCoRHIb+cZID1w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileValidCDType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileValidCDType.html",
+          "hash": "QWz7U6vhNBYo9BOlkNlzTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileValidCR1Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileValidCR1Type.html",
+          "hash": "gPZdBLnmPNof6TtAJFAR7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileValidCR2Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileValidCR2Type.html",
+          "hash": "n4oYJqtC3RK3SBwf6Rj61Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileValidNTType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileValidNTType.html",
+          "hash": "r7n3fyWBSS6IvcsTix97VQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileVariable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileVariable.html",
+          "hash": "Eelc3GDHgvVxr3tqynwd5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileXAxisScaling.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileXAxisScaling.html",
+          "hash": "pNH0mcT77kPrisgQ4nUROA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileZAxisScaling.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileZAxisScaling.html",
+          "hash": "OyPvaoGjh+lsrVuKW+05Iw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.html",
+          "hash": "I7dC4LsPhhEg2A93KSwXvA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "v1LLtJT9qaeFaRJsUKVsxA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "SZ23NzpRbQwtSCI5G3v3pA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/icon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "images/icon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.svg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "rUjHzRVc02/344H4MKXjBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "samples/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "samples/intro.html",
+          "hash": "lDZc/TO73Z1SENBji/q7lg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "samples/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "samples/toc.html",
+          "hash": "t7iiFrmuYmrKWisdq+lN6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "fnWRLlWCjQ+oVvYV1HlcRA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 47,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
