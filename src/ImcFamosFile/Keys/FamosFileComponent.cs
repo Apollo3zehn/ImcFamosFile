@@ -34,7 +34,7 @@ namespace ImcFamosFile
             {
                 var nextKeyType = this.DeserializeKeyType();
 
-                if (nextKeyType != FamosFileKeyType.CN)
+                if (propertyInfo != null && nextKeyType != FamosFileKeyType.CN)
                     throw new FormatException("A channel info of type '|CN' was expected because a property info of type '|Np' has been defined previously.");
 
                 // end of CC reached
@@ -419,12 +419,12 @@ namespace ImcFamosFile
 
             foreach (var channel in this.Channels)
             {
-                if (!(1 <= channel.BitIndex && channel.BitIndex <= 16))
+                if (channel.BitIndex != 0)
                     throw new FormatException("For analog components the channel bit indices must be set to '0'.");
             }
 
-            if (this.PackInfo.DataType != FamosFileDataType.Digital16Bit)
-                throw new FormatException($"For digital components the data type must be '{nameof(FamosFileDataType.Digital16Bit)}'.");
+            if (this.PackInfo.DataType == FamosFileDataType.Digital16Bit)
+                throw new FormatException($"For analog components the data type must be not '{nameof(FamosFileDataType.Digital16Bit)}'.");
         }
 
         #endregion
