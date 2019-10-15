@@ -18,18 +18,18 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        internal FamosFileSingleValue(byte[] rawValue)
+        internal FamosFileSingleValue(byte[] rawData)
         {
-            _rawData = rawValue;
+            _rawData = rawData;
         }
 
-        internal unsafe FamosFileSingleValue(byte* rawValue, int size)
+        internal unsafe FamosFileSingleValue(byte* rawData, int size)
         {
             _rawData = new byte[size];
 
             for (int i = 0; i < size; i++)
             {
-                _rawData[i] = rawValue[i];
+                _rawData[i] = rawData[i];
             }
         }
 
@@ -39,7 +39,7 @@ namespace ImcFamosFile
 
         public FamosFileDataType DataType { get; protected set; }
         public string Name { get; set; } = string.Empty;
-        public ReadOnlyCollection<byte> RawValue => Array.AsReadOnly(_rawData);
+        public ReadOnlyCollection<byte> RawData => Array.AsReadOnly(_rawData);
         public string Unit { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
         public DateTime Time { get; set; }
@@ -69,7 +69,7 @@ namespace ImcFamosFile
                 this.GroupIndex,
                 (int)this.DataType,
                 this.Name.Length, this.Name,
-                this.RawValue,
+                this.RawData,
                 this.Unit.Length, this.Unit,
                 this.Comment.Length, this.Comment,
                 (this.Time - _referenceTime).TotalSeconds
@@ -109,7 +109,7 @@ namespace ImcFamosFile
                     var dataType = (FamosFileDataType)this.DeserializeInt32();
                     var name = this.DeserializeString();
 
-                    var rawValue = dataType switch
+                    var rawData = dataType switch
                     {
                         FamosFileDataType.UInt8 => this.Reader.ReadBytes(1),
                         FamosFileDataType.Int8 => this.Reader.ReadBytes(1),
@@ -130,16 +130,16 @@ namespace ImcFamosFile
                     // create single value
                     singleValue = dataType switch
                     {
-                        FamosFileDataType.UInt8 => new FamosFileSingleValue<Byte>(rawValue),
-                        FamosFileDataType.Int8 => new FamosFileSingleValue<SByte>(rawValue),
-                        FamosFileDataType.UInt16 => new FamosFileSingleValue<UInt16>(rawValue),
-                        FamosFileDataType.Int16 => new FamosFileSingleValue<Int16>(rawValue),
-                        FamosFileDataType.UInt32 => new FamosFileSingleValue<UInt32>(rawValue),
-                        FamosFileDataType.Int32 => new FamosFileSingleValue<Int32>(rawValue),
-                        FamosFileDataType.Float32 => new FamosFileSingleValue<Single>(rawValue),
-                        FamosFileDataType.Float64 => new FamosFileSingleValue<Double>(rawValue),
-                        FamosFileDataType.Digital16Bit => new FamosFileSingleValue<UInt16>(rawValue),
-                        FamosFileDataType.UInt48 => new FamosFileSingleValue<Int64>(new byte[] { 0, 0 }.Concat(rawValue).ToArray()),
+                        FamosFileDataType.UInt8 => new FamosFileSingleValue<Byte>(rawData),
+                        FamosFileDataType.Int8 => new FamosFileSingleValue<SByte>(rawData),
+                        FamosFileDataType.UInt16 => new FamosFileSingleValue<UInt16>(rawData),
+                        FamosFileDataType.Int16 => new FamosFileSingleValue<Int16>(rawData),
+                        FamosFileDataType.UInt32 => new FamosFileSingleValue<UInt32>(rawData),
+                        FamosFileDataType.Int32 => new FamosFileSingleValue<Int32>(rawData),
+                        FamosFileDataType.Float32 => new FamosFileSingleValue<Single>(rawData),
+                        FamosFileDataType.Float64 => new FamosFileSingleValue<Double>(rawData),
+                        FamosFileDataType.Digital16Bit => new FamosFileSingleValue<UInt16>(rawData),
+                        FamosFileDataType.UInt48 => new FamosFileSingleValue<Int64>(new byte[] { 0, 0 }.Concat(rawData).ToArray()),
                         _ => throw new FormatException("The data type is invalid.")
                     };
 
@@ -165,7 +165,7 @@ namespace ImcFamosFile
 
     public class FamosFileSingleValue<T> : FamosFileSingleValue where T : unmanaged
     {
-        internal unsafe FamosFileSingleValue(byte[] rawValue) : base(rawValue)
+        internal unsafe FamosFileSingleValue(byte[] rawData) : base(rawData)
         {
             this.DataType = default(T) switch
             {

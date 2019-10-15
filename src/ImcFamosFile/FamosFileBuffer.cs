@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 
 namespace ImcFamosFile
 {
@@ -13,6 +14,17 @@ namespace ImcFamosFile
         private int _consumedBytes;
 
         private FamosFileRawData? _rawData;
+
+        private byte[] _userInfo;
+
+        #endregion
+
+        #region Constructors
+
+        public FamosFileBuffer(byte[] userInfo)
+        {
+            _userInfo = userInfo;
+        }
 
         #endregion
 
@@ -98,7 +110,7 @@ namespace ImcFamosFile
         public int x0 { get; set; }
         public int TriggerAddTime { get; set; }
         public bool IsNewEvent { get; set; }
-
+        public ReadOnlyCollection<byte> UserInfo => Array.AsReadOnly(_userInfo);
         public bool IsRingBuffer => this.Offset > 0;
 
         #endregion
@@ -111,14 +123,14 @@ namespace ImcFamosFile
             {
                 this.Reference,
                 this.RawDataIndex,
-
                 this.RawDataOffset,
                 this.Length,
                 this.Offset,
                 this.ConsumedBytes,
                 this.IsNewEvent ? 1 : 0,
                 this.x0,
-                this.TriggerAddTime
+                this.TriggerAddTime,
+                this.UserInfo
             };
         }
 

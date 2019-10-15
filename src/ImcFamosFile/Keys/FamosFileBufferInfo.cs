@@ -19,26 +19,20 @@ namespace ImcFamosFile
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 var bufferCount = this.DeserializeInt32();
+
+                // This value denotes the minimum size of all buffer's user data. Set it to 0 to avoid errors.
                 var userInfoSize = this.DeserializeInt32();
 
                 for (int i = 0; i < bufferCount; i++)
                 {
                     this.Buffers.Add(this.DeserializeBuffer());
                 }
-
-                this.UserInfo = this.DeserializeKeyPart();
-
-                if (this.UserInfo.Length != userInfoSize)
-                    throw new FormatException("The given size of the user info does not match the actual size.");
             });
         }
 
         #endregion
 
         #region Properties
-
-#warning TODO: Probably the user info is repeated for each buffer. But why is there only a single user info length in this key? The user info is probably trigger related.
-        public byte[] UserInfo { get; set; } = new byte[0];
 
         public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
 
@@ -72,15 +66,13 @@ namespace ImcFamosFile
             var bufferData = new List<object>
             {
                 this.Buffers.Count,
-                this.UserInfo.Length,
+                0, // User info size, see above for explanation.
             };
 
             foreach (var buffer in this.Buffers)
             {
                 bufferData.AddRange(buffer.GetBufferData());
             }
-
-            bufferData.Add(this.UserInfo);
 
             this.SerializeKey(writer, 1, bufferData.ToArray());
         }
@@ -92,17 +84,28 @@ namespace ImcFamosFile
 
         private FamosFileBuffer DeserializeBuffer()
         {
-            return new FamosFileBuffer()
+            var reference = this.DeserializeInt32();
+            var rawDataIndex = this.DeserializeInt32();
+            var rawDataOffset = this.DeserializeInt32();
+            var length = this.DeserializeInt32();
+            var offset = this.DeserializeInt32();
+            var consumedBytes = this.DeserializeInt32();
+            var isNewEvent = this.DeserializeInt32() == 1;
+            var x0 = this.DeserializeInt32();
+            var triggerAddTime = this.DeserializeInt32();
+            var userInfo = this.DeserializeKeyPart();
+
+            return new FamosFileBuffer(userInfo)
             {
-                Reference = this.DeserializeInt32(),
-                RawDataIndex = this.DeserializeInt32(),
-                RawDataOffset = this.DeserializeInt32(),
-                Length = this.DeserializeInt32(),
-                Offset = this.DeserializeInt32(),
-                ConsumedBytes = this.DeserializeInt32(),
-                IsNewEvent = this.DeserializeInt32() == 1,
-                x0 = this.DeserializeInt32(),
-                TriggerAddTime = this.DeserializeInt32()
+                Reference = reference,
+                RawDataIndex = rawDataIndex,
+                RawDataOffset = rawDataOffset,
+                Length = length,
+                Offset = offset,
+                ConsumedBytes = consumedBytes,
+                IsNewEvent = isNewEvent,
+                x0 = x0,
+                TriggerAddTime = triggerAddTime
             };
         }
 
