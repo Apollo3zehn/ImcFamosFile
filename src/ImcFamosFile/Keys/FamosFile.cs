@@ -23,12 +23,12 @@ namespace ImcFamosFile
 
         public FamosFile()
         {
-            //
+            this.Initialize();
         }
 
         private FamosFile(string filePath) : base(new BinaryReader(File.OpenRead(filePath)), 0)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            this.Initialize();
 
             this.Deserialize();
             this.AfterDeserialize();
@@ -71,6 +71,11 @@ namespace ImcFamosFile
         #endregion
 
         #region "Methods"
+
+        public void Dispose()
+        {
+            this.Reader.Dispose();
+        }
 
         internal override void Validate()
         {
@@ -120,9 +125,12 @@ namespace ImcFamosFile
             }
         }
 
-        public void Dispose()
+        private void Initialize()
         {
-            this.Reader.Dispose();
+            if (!BitConverter.IsLittleEndian)
+                throw new NotSupportedException("Only little-endian systems are supported.");
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         #endregion

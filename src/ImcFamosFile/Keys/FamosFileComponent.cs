@@ -5,7 +5,63 @@ using System.Linq;
 
 namespace ImcFamosFile
 {
-    public class FamosFileComponent : FamosFileBaseExtended
+    internal class FamosFileComponentDeserializer : FamosFileBaseExtended
+    {
+        #region Properties
+
+        protected override FamosFileKeyType KeyType => throw new NotImplementedException();
+
+        #endregion
+
+        #region Methods
+
+        internal FamosFileComponent Deserialize(BinaryReader reader,
+                                                int codePage,
+                                                FamosFileXAxisScaling? currentXAxisScaling,
+                                                FamosFileZAxisScaling? currentZAxisScaling,
+                                                FamosFileTriggerTimeInfo? currentTriggerTimeInfo)
+        {
+            int index = 0;
+            bool isDigital = false;
+
+            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            {
+                // index
+                index = this.DeserializeInt32();
+
+                if (index != 1 && index != 2)
+                    throw new FormatException($"Expected index value '1' or '2', got {index}");
+
+                // analog / digital
+                var analogDigital = this.DeserializeInt32();
+
+                if (analogDigital != 1 && analogDigital != 2)
+                    throw new FormatException($"Expected analog / digital value '1' or '2', got {analogDigital}");
+
+                isDigital = analogDigital == 2;
+            });
+
+            FamosFileComponent component;
+
+            if (isDigital)
+                component = new FamosFileDigitalComponent(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+            else
+                component = new FamosFileAnalogComponent(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+
+            component.Index = index;
+
+            return component;
+        }
+
+        internal override void Serialize(StreamWriter writer)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    public abstract class FamosFileComponent : FamosFileBaseExtended
     {
         #region Constructors
 
@@ -15,37 +71,18 @@ namespace ImcFamosFile
             this.BufferInfo = bufferInfo;
         }
 
-        public FamosFileComponent(BinaryReader reader,
-                                  int codePage,
-                                  FamosFileXAxisScaling? currentXAxisScaling,
-                                  FamosFileZAxisScaling? currentZAxisScaling,
-                                  FamosFileTriggerTimeInfo? currentTriggerTimeInfo) : base(reader, codePage)
+        internal FamosFileComponent(BinaryReader reader,
+                                    int codePage,
+                                    FamosFileXAxisScaling? currentXAxisScaling,
+                                    FamosFileZAxisScaling? currentZAxisScaling,
+                                    FamosFileTriggerTimeInfo? currentTriggerTimeInfo) : base(reader, codePage)
         {
-            this.XAxisScaling = currentXAxisScaling;
-            this.ZAxisScaling = currentZAxisScaling;
-            this.TriggerTimeInfo = currentTriggerTimeInfo;
-
             FamosFilePackInfo? packInfo = null;
             FamosFileBufferInfo? bufferInfo = null;
 
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
-            {
-                // index
-                var index = this.DeserializeInt32();
-
-                if (index != 1 && index != 2)
-                    throw new FormatException($"Expected index value '1' or '2', got {index}");
-
-                this.Index = index;
-
-                // analog / digital
-                var analogDigital = this.DeserializeInt32();
-
-                if (analogDigital != 1 && analogDigital != 2)
-                    throw new FormatException($"Expected analog / digital value '1' or '2', got {analogDigital}");
-
-                this.IsDigital = analogDigital == 2;
-            });
+            this.XAxisScaling = currentXAxisScaling;
+            this.ZAxisScaling = currentZAxisScaling;
+            this.TriggerTimeInfo = currentTriggerTimeInfo;
 
             while (true)
             {
@@ -91,7 +128,7 @@ namespace ImcFamosFile
 
                 // CR
                 else if (nextKeyType == FamosFileKeyType.CR)
-                    this.CalibrationInfo = new FamosFileCalibrationInfo(this.Reader, this.CodePage);
+                    this.DeserializeCR();
 
                 // ND
                 else if (nextKeyType == FamosFileKeyType.ND)
@@ -126,7 +163,6 @@ namespace ImcFamosFile
         #region Properties
 
         public int Index { get; set; }
-        public bool IsDigital { get; set; }
 
         public FamosFileXAxisScaling? XAxisScaling { get; set; }
         public FamosFileZAxisScaling? ZAxisScaling { get; set; }
@@ -135,7 +171,6 @@ namespace ImcFamosFile
         public FamosFilePackInfo PackInfo { get; set; }
         public FamosFileBufferInfo BufferInfo { get; set; }
 
-        public FamosFileCalibrationInfo? CalibrationInfo { get; set; }
         public FamosFileDisplayInfo? DisplayInfo { get; set; }
         public FamosFileEventLocationInfo? EventLocationInfo { get; set; }
 
@@ -172,13 +207,6 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
-            // analog vs. digital
-            if (!this.IsDigital && this.CalibrationInfo is null)
-                throw new FormatException($"The analog component '{this.Name}' does not define calibration information.");
-
-            if (this.IsDigital && this.CalibrationInfo != null)
-                throw new FormatException($"The digital component '{this.Name}' defines analog calibration information.");
-
             // pack info's buffers
             if (!this.PackInfo.Buffers.Any())
                 throw new FormatException("The pack info's buffers collection must container at least a single buffer instance.");
@@ -198,6 +226,9 @@ namespace ImcFamosFile
             // validate display info
             this.DisplayInfo?.Validate();
         }
+
+        protected abstract void SerializeCR(StreamWriter writer);
+        protected abstract void DeserializeCR();
 
         #endregion
 
@@ -227,8 +258,8 @@ namespace ImcFamosFile
             // CC
             var data = new object[]
             {
-                this.Index,
-                this.IsDigital ? 2 : 1
+                    this.Index,
+                    this.GetType() == typeof(FamosFileAnalogComponent) ? 1 : 2
             };
 
             this.SerializeKey(writer, 1, data);
@@ -249,7 +280,7 @@ namespace ImcFamosFile
             this.BufferInfo?.Serialize(writer);
 
             // CR
-            this.CalibrationInfo?.Serialize(writer);
+            this.SerializeCR(writer);
 
             // ND
             this.DisplayInfo?.Serialize(writer);
@@ -268,11 +299,57 @@ namespace ImcFamosFile
         {
             // prepare buffer info
             this.BufferInfo.AfterDeserialize();
-
-            // associate buffers to pack info
-            this.PackInfo?.Buffers.AddRange(this.BufferInfo.Buffers.Where(buffer => buffer.Reference == this.PackInfo.BufferReference));
         }
 
         #endregion
+    }
+
+    public class FamosFileDigitalComponent : FamosFileComponent
+    {
+        public FamosFileDigitalComponent(BinaryReader reader,
+                                         int codePage,
+                                         FamosFileXAxisScaling? currentXAxisScaling,
+                                         FamosFileZAxisScaling? currentZAxisScaling,
+                                         FamosFileTriggerTimeInfo? currentTriggerTimeInfo)
+            : base(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo)
+        {
+            //
+        }
+
+        protected override void SerializeCR(StreamWriter writer)
+        {
+            //
+        }
+
+        protected override void DeserializeCR()
+        {
+            throw new FormatException($"The digital component '{this.Name}' defines analog calibration information.");
+        }
+    }
+
+    public class FamosFileAnalogComponent : FamosFileComponent
+    {
+        public FamosFileAnalogComponent(BinaryReader reader,
+                                        int codePage,
+                                        FamosFileXAxisScaling? currentXAxisScaling,
+                                        FamosFileZAxisScaling? currentZAxisScaling,
+                                        FamosFileTriggerTimeInfo? currentTriggerTimeInfo)
+            : base(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo)
+        {
+            if (this.CalibrationInfo is null)
+                throw new FormatException($"The analog component '{this.Name}' does not define calibration information.");
+        }
+
+        public FamosFileCalibrationInfo? CalibrationInfo { get; set; }
+
+        protected override void SerializeCR(StreamWriter writer)
+        {
+            this.CalibrationInfo?.Serialize(writer);
+        }
+
+        protected override void DeserializeCR()
+        {
+            this.CalibrationInfo = new FamosFileCalibrationInfo(this.Reader, this.CodePage);
+        }
     }
 }
