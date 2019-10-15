@@ -303,6 +303,11 @@ namespace ImcFamosFile
 
     public class FamosFileDigitalComponent : FamosFileComponent
     {
+        public FamosFileDigitalComponent(FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo) : base(packInfo, bufferInfo)
+        {
+            //
+        }
+
         public FamosFileDigitalComponent(BinaryReader reader,
                                          int codePage,
                                          FamosFileXAxisScaling? currentXAxisScaling,
@@ -326,6 +331,12 @@ namespace ImcFamosFile
 
     public class FamosFileAnalogComponent : FamosFileComponent
     {
+        public FamosFileAnalogComponent(FamosFileCalibrationInfo calibrationInfo, FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo) : base(packInfo, bufferInfo)
+        {
+            this.CalibrationInfo = calibrationInfo;
+        }
+
+#pragma warning disable CS8618
         public FamosFileAnalogComponent(BinaryReader reader,
                                         int codePage,
                                         FamosFileXAxisScaling? currentXAxisScaling,
@@ -337,7 +348,7 @@ namespace ImcFamosFile
                 throw new FormatException($"The analog component '{this.Name}' does not define calibration information.");
         }
 
-        public FamosFileCalibrationInfo? CalibrationInfo { get; set; }
+        public FamosFileCalibrationInfo CalibrationInfo { get; set; }
 
         protected override void SerializeCR(StreamWriter writer)
         {
