@@ -7,10 +7,13 @@ namespace ImcFamosFile
     {
         #region Fields
 
+        private int _eventInfoIndex;
         private int _offset;
         private int _groupSize;
         private int _gapSize;
         private int _eventCount;
+
+        private FamosFileEventInfo? _eventInfo;
 
         #endregion
 
@@ -25,7 +28,7 @@ namespace ImcFamosFile
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.FirstEventIndex = this.DeserializeInt32();
+                this.EventInfoIndex = this.DeserializeInt32();
                 this.Offset = this.DeserializeInt32();
                 this.GroupSize = this.DeserializeInt32();
                 this.GapSize = this.DeserializeInt32();
@@ -42,7 +45,17 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public int FirstEventIndex { get; set; }
+        public FamosFileEventInfo EventInfo
+        {
+            get
+            {
+                if (_eventInfo is null)
+                    throw new FormatException("An event info instance must be assigned to the event location info's event info property.");
+
+                return _eventInfo;
+            }
+            set { _eventInfo = value; }
+        }
 
         public int Offset
         {
@@ -96,6 +109,19 @@ namespace ImcFamosFile
         public FamosFileValidCDType ValidCD { get; set; }
         public FamosFileValidCR1Type ValidCR1 { get; set; }
         public FamosFileValidCR2Type ValidCR2 { get; set; }
+
+        internal int EventInfoIndex
+        {
+            get { return _eventInfoIndex; }
+            set
+            {
+                if (value <= 0)
+                    throw new FormatException($"Expected index value > '0', got '{value}'.");
+
+                _eventInfoIndex = value;
+            }
+        }
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.Cv;
 
         #endregion
@@ -106,8 +132,7 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-#warning TODO: Check if this event index is related to EventInfo index. Then check general usage of these indices.
-                this.FirstEventIndex,
+                this.EventInfoIndex,
                 this.Offset,
                 this.GroupSize,
                 this.GapSize,

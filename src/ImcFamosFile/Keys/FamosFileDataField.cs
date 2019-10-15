@@ -79,7 +79,7 @@ namespace ImcFamosFile
 
                 // CV
                 else if (nextKeyType == FamosFileKeyType.CV)
-                    this.EventInfo = new FamosFileEventInfo(this.Reader);
+                    this.EventInfos.Add(new FamosFileEventInfo(this.Reader));
 
                 else
                 {
@@ -97,7 +97,7 @@ namespace ImcFamosFile
         public FamosFileDataFieldType Type { get; set; } = FamosFileDataFieldType.MultipleYToSingleEquidistantTime;
         public int Dimension => this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
         public List<FamosFileComponent> Components { get; } = new List<FamosFileComponent>();
-        public FamosFileEventInfo? EventInfo { get; private set; }
+        public List<FamosFileEventInfo> EventInfos { get; private set; } = new List<FamosFileEventInfo>();
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
 
         #endregion
@@ -106,6 +106,12 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
+            // validate components
+            foreach (var component in this.Components)
+            {
+                component.Validate();
+            }
+
             // check that there are at least as many components as we have dimensions
             if (this.Components.Count < this.Dimension)
                 throw new FormatException($"Expected number of data field components is >= '{this.Dimension}', got '{this.Components.Count}'.");
@@ -114,10 +120,20 @@ namespace ImcFamosFile
             if (!this.Components.SelectMany(component => component.Channels).Any())
                 throw new FormatException($"For a data field there must be at least one component with a minimum of one channel defined.");
 
-            // validate components
-            foreach (var component in this.Components)
+            // check that ValidCR2 is 0 if there is only a single component
+            if (this.Components.Count == 1 && this.Components.First().EventLocationInfo?.ValidCR2 != 0)
+                throw new FormatException($"For a data field with a single component, the ValidCR2 property of the component's event location info must be '0'.");
+
+            // check if event locations info's event info is part of this instance
+            foreach (var eventLocationInfo in this.Components.Select(component => component.EventLocationInfo))
             {
-                component.Validate();
+                if (eventLocationInfo != null)
+                {
+                    if (!this.EventInfos.Contains(eventLocationInfo.EventInfo))
+                    {
+                        throw new FormatException("The event location info' event info must be part of the data field's event info collection.");
+                    };
+                }
             }
         }
 
@@ -133,8 +149,21 @@ namespace ImcFamosFile
                 component.BeforeSerialize();
             }
 
-            // prepare event info
-            this.EventInfo?.BeforeSerialize();
+            // update event info indices
+            foreach (var eventInfo in this.EventInfos)
+            {
+                eventInfo.Index = this.EventInfos.IndexOf(eventInfo) + 1;
+            }
+
+            // update event info index of event location infos
+            foreach (var eventLocationInfo in this.Components.Select(component => component.EventLocationInfo))
+            {
+                if (eventLocationInfo != null)
+                {
+                    var eventInfoIndex = this.EventInfos.IndexOf(eventLocationInfo.EventInfo) + 1;
+                    eventLocationInfo.EventInfoIndex = eventInfoIndex;
+                }
+            }
         }
 
         internal override void Serialize(StreamWriter writer)
@@ -172,19 +201,35 @@ namespace ImcFamosFile
             }
 
             // CV
-            this.EventInfo?.Serialize(writer);
+            foreach (var eventInfo in this.EventInfos)
+            {
+                eventInfo.Serialize(writer);
+            }
         }
 
         internal override void AfterDeserialize()
         {
+            // check if event info indices are consistent
+            base.CheckIndexConsistency("event info", this.EventInfos, current => current.Index);
+            this.EventInfos = this.EventInfos.OrderBy(x => x.Index).ToList();
+
+            foreach (var eventInfo in this.EventInfos)
+            {
+                eventInfo.AfterDeserialize();
+            }
+
+            // assign event info to event location info
+            foreach (var eventLocationInfo in this.Components.Select(component => component.EventLocationInfo))
+            {
+                if (eventLocationInfo != null)
+                    eventLocationInfo.EventInfo = this.EventInfos.First(eventInfo => eventInfo.Index == eventLocationInfo.EventInfoIndex);
+            }
+
             // prepare components
             foreach (var component in this.Components)
             {
                 component.AfterDeserialize();
             }
-
-            // prepare event info
-            this.EventInfo?.AfterDeserialize();
         }
 
         #endregion

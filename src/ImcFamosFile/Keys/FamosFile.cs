@@ -175,6 +175,11 @@ namespace ImcFamosFile
             return this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => getComponentCollection(component))).ToList();
         }
 
+        private List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
+        {
+            return this.DataFields.SelectMany(dataField => dataField.Components.Select(component => getComponentValue(component))).ToList();
+        }
+
         internal override void BeforeSerialize()
         {
             // prepare data fields
@@ -311,9 +316,9 @@ namespace ImcFamosFile
                 singleValue.Serialize(writer);
             }
 
-#warning TODO: Write CS key data.
-
             // Nv - do nothing
+
+#warning TODO: Write CS key data.
 
             // Close CK.
             writer.BaseStream.Seek(20, SeekOrigin.Begin);
@@ -474,27 +479,11 @@ namespace ImcFamosFile
             }
 
             // check if group indices are consistent
-            foreach (var group in this.Groups)
-            {
-                var expected = group.Index;
-                var actual = this.Groups.IndexOf(group) + 1;
-
-                if (expected != actual)
-                    throw new FormatException($"The group indices are not consistent. Expected '{expected}', got '{actual}'.");
-            }
-
+            base.CheckIndexConsistency("group", this.Groups, current => current.Index);
             this.Groups = this.Groups.OrderBy(x => x.Index).ToList();
 
             // check if raw data indices are consistent
-            foreach (var rawData in this.RawData)
-            {
-                var expected = rawData.Index;
-                var actual = this.RawData.IndexOf(rawData) + 1;
-
-                if (expected != actual)
-                    throw new FormatException($"The raw data indices are not consistent. Expected '{expected}', got '{actual}'.");
-            }
-
+            base.CheckIndexConsistency("raw data", this.RawData, current => current.Index);
             this.RawData = this.RawData.OrderBy(x => x.Index).ToList();
 
             // assign text to group
@@ -518,7 +507,7 @@ namespace ImcFamosFile
             // assign buffers to pack info
             var buffers = this.GetItemsByComponents(component => component.BufferInfo.Buffers);
 
-            foreach (var packInfo in this.DataFields.SelectMany(dataField => dataField.Components.Select(component => component.PackInfo)))
+            foreach (var packInfo in this.GetItemsByComponents(component => component.PackInfo))
             {
                 packInfo.Buffers.AddRange(buffers.Where(buffer => buffer.Reference == packInfo.BufferReference));
             }
@@ -526,7 +515,7 @@ namespace ImcFamosFile
             // assign raw data to buffer
             foreach (var buffer in buffers)
             {
-                buffer.RawData = this.RawData.FirstOrDefault(rawData => rawData.Index == buffer.RawDataIndex);
+                buffer.RawData = this.RawData.First(rawData => rawData.Index == buffer.RawDataIndex);
             }
         }
 

@@ -30,30 +30,6 @@ namespace ImcFamosFile
 
         #region Properties
 
-        internal int Reference
-        {
-            get { return _reference; }
-            set
-            {
-                if (value <= 0)
-                    throw new FormatException($"Expected reference value > '0', got '{value}'.");
-
-                _reference = value;
-            }
-        }
-
-        internal int RawDataIndex
-        {
-            get { return _rawDataIndex; }
-            set
-            {
-                if (value <= 0)
-                    throw new FormatException($"Expected raw data index value > '0', got '{value}'.");
-
-                _rawDataIndex = value;
-            }
-        }
-
         public FamosFileRawData RawData
         {
             get
@@ -112,6 +88,30 @@ namespace ImcFamosFile
         public bool IsNewEvent { get; set; }
         public ReadOnlyCollection<byte> UserInfo => Array.AsReadOnly(_userInfo);
         public bool IsRingBuffer => this.Offset > 0;
+
+        internal int Reference
+        {
+            get { return _reference; }
+            set
+            {
+                if (value <= 0)
+                    throw new FormatException($"Expected reference value > '0', got '{value}'.");
+
+                _reference = value;
+            }
+        }
+
+        internal int RawDataIndex
+        {
+            get { return _rawDataIndex; }
+            set
+            {
+                if (value <= 0)
+                    throw new FormatException($"Expected raw data index value > '0', got '{value}'.");
+
+                _rawDataIndex = value;
+            }
+        }
 
         #endregion
 

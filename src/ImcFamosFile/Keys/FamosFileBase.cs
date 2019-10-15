@@ -63,6 +63,18 @@ namespace ImcFamosFile
             //
         }
 
+        internal void CheckIndexConsistency<T>(string name, List<T> collection, Func<T, int> getIndex)
+        {
+            foreach (var item in collection)
+            {
+                var expected = getIndex(item);
+                var actual = collection.IndexOf(item) + 1;
+
+                if (expected != actual)
+                    throw new FormatException($"The {name} indices are not consistent. Expected '{expected}', got '{actual}'.");
+            }
+        }
+
         #endregion
 
         #region Serialization

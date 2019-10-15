@@ -40,7 +40,6 @@ namespace ImcFamosFile
 
         internal override void Serialize(StreamWriter writer)
         {
-#warning TODO: Check if data is integer, only then is ApplyTransformation = true allowed
             var data = new object[]
             {
                 this.ApplyTransformation ? 1 : 0,

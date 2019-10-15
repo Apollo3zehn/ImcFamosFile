@@ -14,7 +14,6 @@ namespace ImcFamosFile
         private int _offset;
         private int _groupSize;
         private int _gapSize;
-        private bool sizeIsInvalid;
 
         #endregion
 
@@ -131,44 +130,42 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
-            var invalidSize = false;
+            var sizeIsInvalid = false;
 
             switch (this.DataType)
             {
                 case FamosFileDataType.UInt8:
                 case FamosFileDataType.Int8:
-                    invalidSize = this.ValueSize != 1;
+                    sizeIsInvalid = this.ValueSize != 1;
                     break;
 
                 case FamosFileDataType.UInt16:
                 case FamosFileDataType.Int16:
-                    invalidSize = this.ValueSize != 2;
+                    sizeIsInvalid = this.ValueSize != 2;
                     break;
 
                 case FamosFileDataType.UInt32:
                 case FamosFileDataType.Int32:
                 case FamosFileDataType.Float32:
-                    invalidSize = this.ValueSize != 4;
+                    sizeIsInvalid = this.ValueSize != 4;
                     break;
 
                 case FamosFileDataType.Float64:
-                    invalidSize = this.ValueSize != 8;
+                    sizeIsInvalid = this.ValueSize != 8;
                     break;
 
                 case FamosFileDataType.ImcDevicesTransitionalRecording:
-#warning TODO: Validate this.
                     break;
 
                 case FamosFileDataType.AsciiTimeStamp:
-#warning TODO: Validate this.
                     break;
 
                 case FamosFileDataType.Digital16Bit:
-                    invalidSize = this.ValueSize != 8;
+                    sizeIsInvalid = this.ValueSize != 8;
                     break;
 
                 case FamosFileDataType.UInt48:
-                    invalidSize = this.ValueSize != 6;
+                    sizeIsInvalid = this.ValueSize != 6;
                     break;
 
                 default:

@@ -7,6 +7,12 @@ namespace ImcFamosFile
 {
     public class FamosFileEventInfo : FamosFileBase
     {
+        #region Fields
+
+        private int _index;
+
+        #endregion
+
         #region Constructors
 
         public FamosFileEventInfo()
@@ -18,6 +24,8 @@ namespace ImcFamosFile
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
+                this.Index = this.DeserializeInt32();
+
                 var eventCount = this.DeserializeInt32();
 
                 for (int i = 0; i < eventCount; i++)
@@ -34,19 +42,21 @@ namespace ImcFamosFile
         public List<FamosFileEvent> Events { get; private set; } = new List<FamosFileEvent>();
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CV;
 
+        internal int Index
+        {
+            get { return _index; }
+            set
+            {
+                if (value <= 0)
+                    throw new FormatException($"Expected index > '0', got '{value}'.");
+
+                _index = value;
+            }
+        }
+
         #endregion
 
         #region Serialization
-
-        internal override void BeforeSerialize()
-        {
-#warning TODO: Since events are not associated to any event location info, the indices should not be modified.
-            // update event indices
-            foreach (var @event in this.Events)
-            {
-                @event.Index = this.Events.IndexOf(@event) + 1;
-            }
-        }
 
         internal override void Serialize(StreamWriter writer)
         {
@@ -58,7 +68,7 @@ namespace ImcFamosFile
             foreach (var @event in this.Events)
             {
                 eventData.Add(@event.Index);
-                eventData.Add(@event.GetEventData());
+                eventData.AddRange(@event.GetEventData());
             }
 
             this.SerializeKey(writer, 1, eventData.ToArray());
@@ -67,15 +77,7 @@ namespace ImcFamosFile
         internal override void AfterDeserialize()
         {
             // check if event indices are consistent
-            foreach (var @event in this.Events)
-            {
-                var expected = @event.Index;
-                var actual = this.Events.IndexOf(@event) + 1;
-
-                if (expected != actual)
-                    throw new FormatException($"The event indices are not consistent. Expected '{expected}', got '{actual}'.");
-            }
-
+            base.CheckIndexConsistency("event", this.Events, current => current.Index);
             this.Events = this.Events.OrderBy(x => x.Index).ToList();
         }
 

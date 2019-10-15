@@ -425,6 +425,11 @@ namespace ImcFamosFile
 
             if (this.PackInfo.DataType == FamosFileDataType.Digital16Bit)
                 throw new FormatException($"For analog components the data type must be not '{nameof(FamosFileDataType.Digital16Bit)}'.");
+
+            if ((this.PackInfo.DataType == FamosFileDataType.Float32 
+              || this.PackInfo.DataType == FamosFileDataType.Float64) 
+              && this.CalibrationInfo.ApplyTransformation)
+                throw new FormatException($"Components with raw data of type '{nameof(FamosFileDataType.Float32)}' or '{nameof(FamosFileDataType.Float64)}' are not allowed to set the calibration info's property '{nameof(this.CalibrationInfo.ApplyTransformation)}' to 'true'.");
         }
 
         #endregion

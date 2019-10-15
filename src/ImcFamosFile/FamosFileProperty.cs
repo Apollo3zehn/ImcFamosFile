@@ -63,11 +63,9 @@ namespace ImcFamosFile
                     break;
 
                 case FamosFilePropertyType.TimeStampInDMFormat:
-#warning TODO: Validate this and the following.
                     break;
 
                 case FamosFilePropertyType.Enumeration:
-#warning TODO: Validate this and the following.
                     break;
 
                 case FamosFilePropertyType.Boolean:

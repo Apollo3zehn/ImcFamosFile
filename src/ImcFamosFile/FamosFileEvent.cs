@@ -5,26 +5,9 @@ namespace ImcFamosFile
 {
     public class FamosFileEvent
     {
-        #region Fields
-
-        private int _index;
-
-        #endregion
-
         #region Properties
 
-        internal int Index
-        {
-            get { return _index; }
-            set
-            {
-                if (value <= 0)
-                    throw new FormatException($"Expected index > '0', got '{value}'.");
-
-                _index = value;
-            }
-        }
-
+        public int Index { get; set; }
         public ulong Offset { get; set; }
         public ulong Length { get; set; }
         public double Time { get; set; }
@@ -39,7 +22,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal byte[] GetEventData()
+        internal object[] GetEventData()
         {
             var stream = new MemoryStream();
             var binaryWriter = new BinaryWriter(stream);
@@ -62,7 +45,7 @@ namespace ImcFamosFile
             binaryWriter.Write(offsetHi);
             binaryWriter.Write(lengthHi);
 
-            return stream.ToArray();
+            return new object[] { this.Index, stream.ToArray() };
         }
 
         #endregion
