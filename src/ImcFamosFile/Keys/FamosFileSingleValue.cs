@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace ImcFamosFile
 {
-    public abstract class FamosFileSingleValue : FamosFileBaseExtended
+    public abstract class FamosFileSingleValue : FamosFileBaseProperty
     {
         #region Fields
 
@@ -76,6 +76,7 @@ namespace ImcFamosFile
             };
 
             this.SerializeKey(writer, 1, data);
+            base.Serialize(writer);
         }
 
         #endregion

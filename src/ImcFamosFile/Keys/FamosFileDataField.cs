@@ -106,8 +106,13 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
+            // check that there are at least as many components as we have dimensions
             if (this.Components.Count < this.Dimension)
                 throw new FormatException($"Expected number of data field components is >= '{this.Dimension}', got '{this.Components.Count}'.");
+
+            // check that there is at least a single channel defined
+            if (!this.Components.SelectMany(component => component.Channels).Any())
+                throw new FormatException($"For a data field there must be at least one component with a minimum of one channel defined.");
 
             // validate components
             foreach (var component in this.Components)

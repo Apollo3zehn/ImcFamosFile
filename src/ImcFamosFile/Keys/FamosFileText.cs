@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileText : FamosFileBaseExtended
+    public class FamosFileText : FamosFileBaseProperty
     {
         #region Fields
 
@@ -120,6 +120,7 @@ namespace ImcFamosFile
             data.Add(this.Comment);
 
             this.SerializeKey(writer, this.Version, data.ToArray());
+            base.Serialize(writer);
         }
 
         #endregion

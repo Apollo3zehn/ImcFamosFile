@@ -28,9 +28,14 @@ namespace ImcFamosFile
             this.ZAxisScaling = currentZAxisScaling;
             this.TriggerTimeInfo = currentTriggerTimeInfo;
 
+            FamosFilePropertyInfo? propertyInfo = null;
+
             while (true)
             {
                 var nextKeyType = this.DeserializeKeyType();
+
+                if (nextKeyType != FamosFileKeyType.CN)
+                    throw new FormatException("A channel info of type '|CN' was expected because a property info of type '|Np' has been defined previously.");
 
                 // end of CC reached
                 if (nextKeyType == FamosFileKeyType.CT ||
@@ -84,7 +89,16 @@ namespace ImcFamosFile
 
                 // CN
                 else if (nextKeyType == FamosFileKeyType.CN)
+                {
                     this.Channels.Add(new FamosFileChannelInfo(this.Reader, this.CodePage));
+                    this.Channels.Last().PropertyInfo = propertyInfo;
+
+                    propertyInfo = null;
+                }
+
+                // Np
+                else if (nextKeyType == FamosFileKeyType.Np)
+                    propertyInfo = new FamosFilePropertyInfo(this.Reader, this.CodePage);
 
                 else
                     // should never happen
@@ -310,6 +324,8 @@ namespace ImcFamosFile
 
     public class FamosFileDigitalComponent : FamosFileComponent
     {
+        #region Constructors
+
         public FamosFileDigitalComponent(FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo) : base(packInfo, bufferInfo)
         {
             //
@@ -325,6 +341,34 @@ namespace ImcFamosFile
             //
         }
 
+        #endregion
+
+        #region Methods
+
+        internal override void Validate()
+        {
+            base.Validate();
+
+            if (!this.Channels.Any())
+                throw new FormatException("At least a single channel must be defined.");
+
+            if (this.Channels.Count() > 16)
+                throw new FormatException("A maximum number of 16 channels can be defined for digital components.");
+
+            foreach (var channel in this.Channels)
+            {
+                if (!(1 <= channel.BitIndex && channel.BitIndex <= 16))
+                    throw new FormatException("For digital components the channel bit indices must be within the range '1..16'.");
+            }
+
+            if (this.PackInfo.DataType != FamosFileDataType.Digital16Bit)
+                throw new FormatException("For digital components the data type must be 'Digital16Bit'.");
+        }
+
+        #endregion
+
+        #region Serialization
+
         protected override void SerializeCR(StreamWriter writer)
         {
             //
@@ -334,10 +378,14 @@ namespace ImcFamosFile
         {
             throw new FormatException($"The digital component '{this.Name}' defines analog calibration information.");
         }
+
+        #endregion
     }
 
     public class FamosFileAnalogComponent : FamosFileComponent
     {
+        #region Constructors
+
         public FamosFileAnalogComponent(FamosFileCalibrationInfo calibrationInfo, FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo) : base(packInfo, bufferInfo)
         {
             this.CalibrationInfo = calibrationInfo;
@@ -355,7 +403,44 @@ namespace ImcFamosFile
                 throw new FormatException($"The analog component '{this.Name}' does not define calibration information.");
         }
 
+        #endregion
+
+        #region Properties
+
         public FamosFileCalibrationInfo CalibrationInfo { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        internal override void Validate()
+        {
+            base.Validate();
+
+            foreach (var channel in this.Channels)
+            {
+                if (!(1 <= channel.BitIndex && channel.BitIndex <= 16))
+                    throw new FormatException("For analog components the channel bit indices must be set to '0'.");
+            }
+
+            if (this.PackInfo.DataType != FamosFileDataType.Digital16Bit)
+                throw new FormatException($"For digital components the data type must be '{nameof(FamosFileDataType.Digital16Bit)}'.");
+        }
+
+        #endregion
+
+        #region Serialization
+
+        internal override void BeforeSerialize()
+        {
+            base.BeforeSerialize();
+
+            // remove all channel property infos, except of the first to keep Famos happy.
+            foreach (var channel in this.Channels.Skip(1))
+            {
+                channel.PropertyInfo = null;
+            }
+        }
 
         protected override void SerializeCR(StreamWriter writer)
         {
@@ -366,5 +451,7 @@ namespace ImcFamosFile
         {
             this.CalibrationInfo = new FamosFileCalibrationInfo(this.Reader, this.CodePage);
         }
+
+        #endregion
     }
 }

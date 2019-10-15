@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -114,6 +114,15 @@ namespace ImcFamosFile
 
             if (this.CustomKeys.Count != distinctCount)
                 throw new FormatException($"Custom keys must be globally unique.");
+
+            // check if pack info's buffers are somewhere defined
+            var bufferInfoBuffers = this.GetItemsByComponents(component => component.BufferInfo.Buffers);
+
+            foreach (var buffer in this.GetItemsByComponents(component => component.PackInfo.Buffers))
+            {
+                if (!bufferInfoBuffers.Contains(buffer))
+                    throw new FormatException("Every buffer associated to a pack info must be also assigned to the components buffer info property.");
+            }
 
             // check if buffer's raw data is part of this instance
             foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
@@ -350,12 +359,19 @@ namespace ImcFamosFile
             // CK
             new FamosFileKeyGroup(this.Reader);
 
+            // Now, all other keys.
+            FamosFileBaseProperty? propertyInfoReceiver = null;
+
             while (true)
             {
                 if (this.Reader.BaseStream.Position >= this.Reader.BaseStream.Length)
                     return;
 
                 var nextKeyType = this.DeserializeKeyType();
+
+                // Reset propertyInfoReceiver if next key type is not 'Nv'.
+                if (nextKeyType != FamosFileKeyType.Nv)
+                    propertyInfoReceiver = null;
 
                 // Unknown
                 if (nextKeyType == FamosFileKeyType.Unknown)
@@ -389,7 +405,10 @@ namespace ImcFamosFile
 
                 // CB
                 else if (nextKeyType == FamosFileKeyType.CB)
+                {
                     this.Groups.Add(new FamosFileGroup(this.Reader, this.CodePage));
+                    propertyInfoReceiver = this.Groups.Last();
+                }
 
                 // CG
                 else if (nextKeyType == FamosFileKeyType.CG)
@@ -397,11 +416,17 @@ namespace ImcFamosFile
 
                 // CT
                 else if (nextKeyType == FamosFileKeyType.CT)
+                {
                     _texts.Add(new FamosFileText(this.Reader, this.CodePage));
+                    propertyInfoReceiver = _texts.Last();
+                }
 
                 // CI
                 else if (nextKeyType == FamosFileKeyType.CI)
+                {
                     _singleValues.Add(new FamosFileSingleValue.Deserializer(this.Reader, this.CodePage).Deserialize());
+                    propertyInfoReceiver = _singleValues.Last();
+                }
 
                 // CS 
                 else if (nextKeyType == FamosFileKeyType.CS)
@@ -410,6 +435,19 @@ namespace ImcFamosFile
                 // Nv - only for data manager
                 else if (nextKeyType == FamosFileKeyType.Nv)
                     this.SkipKey();
+
+                // Np
+                else if (nextKeyType == FamosFileKeyType.Np)
+                {
+                    var propertyInfo = new FamosFilePropertyInfo(this.Reader, this.CodePage);
+
+                    if (propertyInfoReceiver != null)
+                        propertyInfoReceiver.PropertyInfo = propertyInfo;
+                    else
+                        throw new FormatException("Found property key in an unexpected location.");
+
+                    propertyInfoReceiver = null;
+                }
 
                 else
                     //throw new FormatException($"Unexpected key '{keyType}'.");
