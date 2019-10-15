@@ -222,9 +222,6 @@ namespace ImcFamosFile
 
             // validate buffer info
             this.BufferInfo.Validate();
-
-            // validate display info
-            this.DisplayInfo?.Validate();
         }
 
         protected abstract void SerializeCR(StreamWriter writer);

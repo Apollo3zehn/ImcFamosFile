@@ -15,9 +15,12 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileDisplayInfo()
+        public FamosFileDisplayInfo(double ymin, double ymax)
         {
-            //
+            this.YMin = ymin;
+            this.YMax = ymax;
+
+            this.InternalValidate();
         }
 
         internal FamosFileDisplayInfo(BinaryReader reader) : base(reader)
@@ -30,6 +33,8 @@ namespace ImcFamosFile
                 this.YMin = this.DeserializeFloat64();
                 this.YMax = this.DeserializeFloat64();
             });
+
+            this.InternalValidate();
         }
 
         #endregion
@@ -75,15 +80,15 @@ namespace ImcFamosFile
             }
         }
 
-        public double YMin { get; set; }
-        public double YMax { get; set; }
+        public double YMin { get; private set; }
+        public double YMax { get; private set; }
         protected override FamosFileKeyType KeyType => FamosFileKeyType.ND;
 
         #endregion
 
         #region Methods
 
-        internal override void Validate()
+        private void InternalValidate()
         {
             if (this.YMin >= this.YMax)
                 throw new FormatException("YMin must be < YMax.");
