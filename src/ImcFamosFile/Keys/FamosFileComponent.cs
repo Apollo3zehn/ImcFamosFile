@@ -5,62 +5,6 @@ using System.Linq;
 
 namespace ImcFamosFile
 {
-    internal class FamosFileComponentDeserializer : FamosFileBaseExtended
-    {
-        #region Properties
-
-        protected override FamosFileKeyType KeyType => throw new NotImplementedException();
-
-        #endregion
-
-        #region Methods
-
-        internal FamosFileComponent Deserialize(BinaryReader reader,
-                                                int codePage,
-                                                FamosFileXAxisScaling? currentXAxisScaling,
-                                                FamosFileZAxisScaling? currentZAxisScaling,
-                                                FamosFileTriggerTimeInfo? currentTriggerTimeInfo)
-        {
-            int index = 0;
-            bool isDigital = false;
-
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
-            {
-                // index
-                index = this.DeserializeInt32();
-
-                if (index != 1 && index != 2)
-                    throw new FormatException($"Expected index value '1' or '2', got {index}");
-
-                // analog / digital
-                var analogDigital = this.DeserializeInt32();
-
-                if (analogDigital != 1 && analogDigital != 2)
-                    throw new FormatException($"Expected analog / digital value '1' or '2', got {analogDigital}");
-
-                isDigital = analogDigital == 2;
-            });
-
-            FamosFileComponent component;
-
-            if (isDigital)
-                component = new FamosFileDigitalComponent(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
-            else
-                component = new FamosFileAnalogComponent(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
-
-            component.Index = index;
-
-            return component;
-        }
-
-        internal override void Serialize(StreamWriter writer)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-    }
-
     public abstract class FamosFileComponent : FamosFileBaseExtended
     {
         #region Constructors
@@ -299,6 +243,69 @@ namespace ImcFamosFile
         }
 
         #endregion
+
+        internal class Deserializer : FamosFileBaseExtended
+        {
+            #region Constructors
+
+            public Deserializer(BinaryReader reader, int codePage) : base(reader, codePage)
+            {
+                //
+            }
+
+            #endregion
+
+            #region Properties
+
+            protected override FamosFileKeyType KeyType => throw new NotImplementedException();
+
+            #endregion
+
+            #region Methods
+
+            internal FamosFileComponent Deserialize(FamosFileXAxisScaling? currentXAxisScaling,
+                                                    FamosFileZAxisScaling? currentZAxisScaling,
+                                                    FamosFileTriggerTimeInfo? currentTriggerTimeInfo)
+            {
+                int index = 0;
+                bool isDigital = false;
+
+                this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+                {
+                    // index
+                    index = this.DeserializeInt32();
+
+                    if (index != 1 && index != 2)
+                        throw new FormatException($"Expected index value of '1' or '2', got {index}");
+
+                    // analog / digital
+                    var analogDigital = this.DeserializeInt32();
+
+                    if (analogDigital != 1 && analogDigital != 2)
+                        throw new FormatException($"Expected analog / digital value of '1' or '2', got {analogDigital}");
+
+                    isDigital = analogDigital == 2;
+                });
+
+                FamosFileComponent component;
+
+                if (isDigital)
+                    component = new FamosFileDigitalComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+                else
+                    component = new FamosFileAnalogComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+
+                component.Index = index;
+
+                return component;
+            }
+
+            internal override void Serialize(StreamWriter writer)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+        }
     }
 
     public class FamosFileDigitalComponent : FamosFileComponent

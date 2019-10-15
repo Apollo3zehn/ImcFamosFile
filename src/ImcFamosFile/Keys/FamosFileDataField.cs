@@ -68,7 +68,7 @@ namespace ImcFamosFile
                 // CC
                 else if (nextKeyType == FamosFileKeyType.CC)
                 {
-                    var component = new FamosFileComponentDeserializer().Deserialize(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+                    var component = new FamosFileComponent.Deserializer(this.Reader, this.CodePage).Deserialize(currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
 
                     currentXAxisScaling = component.XAxisScaling;
                     currentZAxisScaling = component.ZAxisScaling;

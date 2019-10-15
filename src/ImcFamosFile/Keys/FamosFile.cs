@@ -401,7 +401,7 @@ namespace ImcFamosFile
 
                 // CI
                 else if (nextKeyType == FamosFileKeyType.CI)
-                    _singleValues.Add(new FamosFileSingleValue(this.Reader, this.CodePage));
+                    _singleValues.Add(new FamosFileSingleValue.Deserializer(this.Reader, this.CodePage).Deserialize());
 
                 // CS 
                 else if (nextKeyType == FamosFileKeyType.CS)

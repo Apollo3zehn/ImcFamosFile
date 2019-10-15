@@ -1,65 +1,45 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ImcFamosFile
 {
-    public class FamosFileSingleValue : FamosFileBaseExtended
+    public abstract class FamosFileSingleValue : FamosFileBaseExtended
     {
         #region Fields
 
-        private DateTime _referenceTime = new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        protected byte[] _rawData;
+        private static DateTime _referenceTime = new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private int _groupIndex;
 
         #endregion
 
         #region Constructors
 
-        public FamosFileSingleValue(byte[] value)
+        internal FamosFileSingleValue(byte[] rawValue)
         {
-            this.Value = value;
+            _rawData = rawValue;
         }
 
-        internal FamosFileSingleValue(BinaryReader reader, int codePage) : base(reader, codePage)
+        internal unsafe FamosFileSingleValue(byte* rawValue, int size)
         {
-            this.Value = new byte[0];
+            _rawData = new byte[size];
 
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            for (int i = 0; i < size; i++)
             {
-                this.GroupIndex = this.DeserializeInt32();
-                this.DataType = (FamosFileDataType)this.DeserializeInt32();
-                this.Name = this.DeserializeString();
-
-                this.Value = this.DataType switch
-                {
-                    FamosFileDataType.UInt8 => this.Reader.ReadBytes(1),
-                    FamosFileDataType.Int8 => this.Reader.ReadBytes(1),
-                    FamosFileDataType.UInt16 => this.Reader.ReadBytes(2),
-                    FamosFileDataType.Int16 => this.Reader.ReadBytes(2),
-                    FamosFileDataType.UInt32 => this.Reader.ReadBytes(4),
-                    FamosFileDataType.Int32 => this.Reader.ReadBytes(4),
-                    FamosFileDataType.Float32 => this.Reader.ReadBytes(4),
-                    FamosFileDataType.Float64 => this.Reader.ReadBytes(8),
-                    FamosFileDataType.Digital16Bit => this.Reader.ReadBytes(2),
-                    FamosFileDataType.UInt48 => this.Reader.ReadBytes(6),
-                    _ => throw new FormatException("The data type is invalid.")
-                };
-
-                // read left over comma
-                this.Reader.ReadByte();
-
-                this.Unit = this.DeserializeString();
-                this.Comment = this.DeserializeString();
-                this.Time = _referenceTime.AddSeconds(BitConverter.ToDouble(this.DeserializeKeyPart()));
-            });
+                _rawData[i] = rawValue[i];
+            }
         }
 
         #endregion
 
         #region Properties
 
-        public FamosFileDataType DataType { get; set; }
+        public FamosFileDataType DataType { get; protected set; }
         public string Name { get; set; } = string.Empty;
-        public byte[] Value { get; set; }
+        public ReadOnlyCollection<byte> RawValue => Array.AsReadOnly(_rawData);
         public string Unit { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
         public DateTime Time { get; set; }
@@ -89,7 +69,7 @@ namespace ImcFamosFile
                 this.GroupIndex,
                 (int)this.DataType,
                 this.Name.Length, this.Name,
-                this.Value,
+                this.RawValue,
                 this.Unit.Length, this.Unit,
                 this.Comment.Length, this.Comment,
                 (this.Time - _referenceTime).TotalSeconds
@@ -99,5 +79,124 @@ namespace ImcFamosFile
         }
 
         #endregion
+
+        internal class Deserializer : FamosFileBaseExtended
+        {
+            #region Constructors
+
+            public Deserializer(BinaryReader reader, int codePage) : base(reader, codePage)
+            {
+                //
+            }
+
+            #endregion
+
+            #region Properties
+
+            protected override FamosFileKeyType KeyType => throw new NotImplementedException();
+
+            #endregion
+
+            #region Methods
+
+            public FamosFileSingleValue Deserialize()
+            {
+                FamosFileSingleValue? singleValue = null;
+
+                this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+                {
+                    var groupIndex = this.DeserializeInt32();
+                    var dataType = (FamosFileDataType)this.DeserializeInt32();
+                    var name = this.DeserializeString();
+
+                    var rawValue = dataType switch
+                    {
+                        FamosFileDataType.UInt8 => this.Reader.ReadBytes(1),
+                        FamosFileDataType.Int8 => this.Reader.ReadBytes(1),
+                        FamosFileDataType.UInt16 => this.Reader.ReadBytes(2),
+                        FamosFileDataType.Int16 => this.Reader.ReadBytes(2),
+                        FamosFileDataType.UInt32 => this.Reader.ReadBytes(4),
+                        FamosFileDataType.Int32 => this.Reader.ReadBytes(4),
+                        FamosFileDataType.Float32 => this.Reader.ReadBytes(4),
+                        FamosFileDataType.Float64 => this.Reader.ReadBytes(8),
+                        FamosFileDataType.Digital16Bit => this.Reader.ReadBytes(2),
+                        FamosFileDataType.UInt48 => this.Reader.ReadBytes(6),
+                        _ => throw new FormatException("The data type is invalid.")
+                    };
+
+                    // read left over comma
+                    this.Reader.ReadByte();
+
+                    // create single value
+                    singleValue = dataType switch
+                    {
+                        FamosFileDataType.UInt8 => new FamosFileSingleValue<Byte>(rawValue),
+                        FamosFileDataType.Int8 => new FamosFileSingleValue<SByte>(rawValue),
+                        FamosFileDataType.UInt16 => new FamosFileSingleValue<UInt16>(rawValue),
+                        FamosFileDataType.Int16 => new FamosFileSingleValue<Int16>(rawValue),
+                        FamosFileDataType.UInt32 => new FamosFileSingleValue<UInt32>(rawValue),
+                        FamosFileDataType.Int32 => new FamosFileSingleValue<Int32>(rawValue),
+                        FamosFileDataType.Float32 => new FamosFileSingleValue<Single>(rawValue),
+                        FamosFileDataType.Float64 => new FamosFileSingleValue<Double>(rawValue),
+                        FamosFileDataType.Digital16Bit => new FamosFileSingleValue<UInt16>(rawValue),
+                        FamosFileDataType.UInt48 => new FamosFileSingleValue<Int64>(new byte[] { 0, 0 }.Concat(rawValue).ToArray()),
+                        _ => throw new FormatException("The data type is invalid.")
+                    };
+
+                    singleValue.Unit = this.DeserializeString();
+                    singleValue.Comment = this.DeserializeString();
+                    singleValue.Time = _referenceTime.AddSeconds(BitConverter.ToDouble(this.DeserializeKeyPart()));
+                });
+
+                if (singleValue is null)
+                    throw new InvalidOperationException("An unexpected state has been reached.");
+
+                return singleValue;
+            }
+
+            internal override void Serialize(StreamWriter writer)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+        }
+    }
+
+    public class FamosFileSingleValue<T> : FamosFileSingleValue where T : unmanaged
+    {
+        internal unsafe FamosFileSingleValue(byte[] rawValue) : base(rawValue)
+        {
+            this.DataType = default(T) switch
+            {
+                SByte  _ => FamosFileDataType.UInt8,
+                Byte   _ => FamosFileDataType.Int8,
+                UInt16 _ => FamosFileDataType.UInt16,
+                Int16  _ => FamosFileDataType.Int16,
+                UInt32 _ => FamosFileDataType.UInt32,
+                Int32  _ => FamosFileDataType.Int32,
+                Single _ => FamosFileDataType.Float32,
+                Double _ => FamosFileDataType.Float64,
+                _ => throw new FormatException("The data type is invalid.")
+            };
+        }
+
+        public unsafe FamosFileSingleValue(T value) : base((byte*)(&value), Marshal.SizeOf<T>())
+        {
+            this.DataType = value switch
+            {
+                SByte  _ => FamosFileDataType.UInt8,
+                Byte   _ => FamosFileDataType.Int8,
+                UInt16 _ => FamosFileDataType.UInt16,
+                Int16  _ => FamosFileDataType.Int16,
+                UInt32 _ => FamosFileDataType.UInt32,
+                Int32  _ => FamosFileDataType.Int32,
+                Single _ => FamosFileDataType.Float32,
+                Double _ => FamosFileDataType.Float64,
+                _ => throw new FormatException("The data type is invalid.")
+            };
+        }
+
+        public T Value => MemoryMarshal.Cast<byte, T>(_rawData)[0];
     }
 }
