@@ -66,6 +66,21 @@ namespace ImcFamosFile.Tests
         }
 
         [Fact]
+        public void CanReadTestHeader2()
+        {
+            // Arrange
+            var filePath = "crafted_data1.dat";
+
+            // Act
+            using (var famosFile = FamosFile.Open(filePath))
+            {
+                //
+            }
+
+            // Assert
+        }
+
+        [Fact]
         public void CanWriteHeader()
         {
             // Arrange
