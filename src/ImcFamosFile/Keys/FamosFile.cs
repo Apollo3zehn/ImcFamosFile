@@ -462,12 +462,19 @@ namespace ImcFamosFile
 
         private void AssignToGroup<T>(int groupIndex, T value, Func<FamosFileGroup, List<T>> getGroupCollection, Func<List<T>> getDefaultCollection)
         {
-            var group = this.Groups.FirstOrDefault(group => group.Index == groupIndex);
-
-            if (group is null)
+            if (groupIndex == 0)
+            {
                 getDefaultCollection.Invoke().Add(value);
+            }
             else
-                getGroupCollection.Invoke(group).Add(value);
+            {
+                var group = this.Groups.FirstOrDefault(group => group.Index == groupIndex);
+
+                if (group != null)
+                    getGroupCollection.Invoke(group).Add(value);
+                else
+                    throw new FormatException("The referenced group does not exist.");
+            }
         }
 
         internal override void AfterDeserialize()
