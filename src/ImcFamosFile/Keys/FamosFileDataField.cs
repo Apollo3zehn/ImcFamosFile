@@ -121,15 +121,20 @@ namespace ImcFamosFile
                 throw new FormatException($"For a data field there must be at least one component with a minimum of one channel defined.");
 
             // check that ValidCR2 is 0 if there is only a single component
-            if (this.Components.Count == 1 && this.Components.First().EventLocationInfo?.ValidCR2 != 0)
-                throw new FormatException($"For a data field with a single component, the ValidCR2 property of the component's event location info must be '0'.");
+            var eventLocationInfo = this.Components.First().EventLocationInfo;
+
+            if (this.Components.Count == 1 && eventLocationInfo != null)
+            {
+                if (eventLocationInfo.ValidCR2 != 0)
+                    throw new FormatException($"For a data field with a single component, the ValidCR2 property of the component's event location info must be '0'.");
+            }
 
             // check if event locations info's event info is part of this instance
-            foreach (var eventLocationInfo in this.Components.Select(component => component.EventLocationInfo))
+            foreach (var current in this.Components.Select(component => component.EventLocationInfo))
             {
-                if (eventLocationInfo != null)
+                if (current != null)
                 {
-                    if (!this.EventInfos.Contains(eventLocationInfo.EventInfo))
+                    if (!this.EventInfos.Contains(current.EventInfo))
                     {
                         throw new FormatException("The event location info' event info must be part of the data field's event info collection.");
                     };
