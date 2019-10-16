@@ -11,6 +11,7 @@ namespace ImcFamosFile
         private int _bufferReference;
         private int _valueSize;
         private int _significantBits;
+        private int _mask;
         private int _offset;
         private int _groupSize;
         private int _gapSize;
@@ -32,7 +33,8 @@ namespace ImcFamosFile
                 this.ValueSize = this.DeserializeInt32();
                 this.DataType = (FamosFileDataType)this.DeserializeInt32();
                 this.SignificantBits = this.DeserializeInt32();
-                this.Offset = Math.Max(this.DeserializeInt32(), this.DeserializeInt32());
+                this.Mask = this.DeserializeInt32();
+                this.Offset = this.DeserializeInt32();
                 this.GroupSize = this.DeserializeInt32();
                 this.GapSize = this.DeserializeInt32();
             });
@@ -65,9 +67,21 @@ namespace ImcFamosFile
             set
             {
                 if (value < 0)
-                    throw new FormatException($"Expected reference value >= '0', got '{value}'.");
+                    throw new FormatException($"Expected significant bits value >= '0', got '{value}'.");
 
                 _significantBits = value;
+            }
+        }
+
+        public int Mask
+        {
+            get { return _mask; }
+            set
+            {
+                if (!(0 <= value && value <= 65534))
+                    throw new FormatException($"Expected mask value '0..65534', got '{value}'.");
+
+                _mask = value;
             }
         }
 
@@ -191,7 +205,8 @@ namespace ImcFamosFile
                 this.ValueSize,
                 (int)this.DataType,
                 this.SignificantBits,
-                this.Offset, this.Offset,
+                this.Mask,
+                this.Offset,
                 this.GroupSize,
                 this.GapSize
             };
