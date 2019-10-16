@@ -246,10 +246,19 @@ namespace ImcFamosFile
             }
 
             // update raw data index of buffers
-            foreach (var buffer in this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => component.BufferInfo.Buffers)))
+            foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
                 var rawDataIndex = this.RawData.IndexOf(buffer.RawData) + 1;
                 buffer.RawDataIndex = rawDataIndex;
+            }
+
+            // assign monotonous increasing buffer references to pack infos.
+            var i = 1;
+
+            foreach (var packInfo in this.GetItemsByComponents(component => component.PackInfo))
+            {
+                packInfo.BufferReference = i;
+                i++;
             }
         }
 
@@ -454,6 +463,10 @@ namespace ImcFamosFile
                     propertyInfoReceiver = null;
                 }
 
+                // Cb
+                else if (nextKeyType == FamosFileKeyType.Cb)
+                    throw new FormatException("Although the format specification allows '|Cb' keys at any level, this implementation supports this key only at component level. Please send a sample file to the project maintainer to overcome this limitation in future.");
+
                 else
                     //throw new FormatException($"Unexpected key '{keyType}'.");
                     this.SkipKey();
@@ -511,16 +524,8 @@ namespace ImcFamosFile
                 this.AssignToGroup(channel.GroupIndex, channel, group => group.Channels, () => this.Channels);
             }
 
-            // assign buffers to pack info
-            var buffers = this.GetItemsByComponents(component => component.BufferInfo.Buffers);
-
-            foreach (var packInfo in this.GetItemsByComponents(component => component.PackInfo))
-            {
-                packInfo.Buffers.AddRange(buffers.Where(buffer => buffer.Reference == packInfo.BufferReference));
-            }
-
             // assign raw data to buffer
-            foreach (var buffer in buffers)
+            foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
                 buffer.RawData = this.RawData.First(rawData => rawData.Index == buffer.RawDataIndex);
             }

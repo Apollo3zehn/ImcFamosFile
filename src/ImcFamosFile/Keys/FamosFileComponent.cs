@@ -73,7 +73,12 @@ namespace ImcFamosFile
 
                 // Cb
                 else if (nextKeyType == FamosFileKeyType.Cb)
-                    bufferInfo = new FamosFileBufferInfo(this.Reader);
+                {
+                    if (bufferInfo == null)
+                        bufferInfo = new FamosFileBufferInfo(this.Reader);
+                    else
+                        throw new FormatException("Although the format specification allows multiple '|Cb' keys, this implementation supports only a single definition per component. Please send a sample file to the project maintainer to overcome this limitation in future.");
+                }
 
                 // CR
                 else if (nextKeyType == FamosFileKeyType.CR)
@@ -191,17 +196,7 @@ namespace ImcFamosFile
 
         internal override void BeforeSerialize()
         {
-#warning TODO: It is unclear if there may be buffers defined which do NOT contain data of this component. Are these dangling buffers?
-
-            // reset all buffer references to a value != 1
-            foreach (var buffer in this.BufferInfo.Buffers)
-            {
-                buffer.Reference = 2;
-            }
-
-            // update buffer reference of pack info and its corresponding buffers
-            this.PackInfo.BufferReference = 1;
-
+            // The value of this.PackInfo.BufferReference is set in "FamosFile.cs" to a monotonous increasing value.
             foreach (var buffer in this.PackInfo.Buffers)
             {
                 buffer.Reference = this.PackInfo.BufferReference;
@@ -254,6 +249,9 @@ namespace ImcFamosFile
         {
             // prepare buffer info
             this.BufferInfo.AfterDeserialize();
+
+            // assign buffers to pack info
+            this.PackInfo.Buffers.AddRange(this.BufferInfo.Buffers.Where(buffer => buffer.Reference == this.PackInfo.BufferReference));
         }
 
         #endregion

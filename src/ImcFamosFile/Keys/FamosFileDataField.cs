@@ -81,6 +81,10 @@ namespace ImcFamosFile
                 else if (nextKeyType == FamosFileKeyType.CV)
                     this.EventInfos.Add(new FamosFileEventInfo(this.Reader));
 
+                // Cb
+                else if (nextKeyType == FamosFileKeyType.Cb)
+                    throw new FormatException("Although the format specification allows '|Cb' keys at any level, this implementation supports this key only at component level. Please send a sample file to the project maintainer to overcome this limitation in future.");
+
                 else
                 {
                     // go back to start of key

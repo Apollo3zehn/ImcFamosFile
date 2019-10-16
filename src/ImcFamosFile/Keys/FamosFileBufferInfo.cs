@@ -42,6 +42,9 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
+            if (this.Buffers.Count > 1)
+                throw new FormatException("Although the format specification allows multiple buffer definitions per '|Cb' key, this implementation supports only a single buffer per component. Please send a sample file to the project maintainer to overcome this limitation in future.");
+
             foreach (var buffer in this.Buffers)
             {
                 if (buffer.RawDataOffset + buffer.Length > buffer.RawData.Length)
