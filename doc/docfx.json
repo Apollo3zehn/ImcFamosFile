@@ -48,7 +48,7 @@
       "_appLogoPath": "images/logo.svg"
     },
     "fileMetadataFiles": [],
-    "template":["default","templates/darkfx"],
+    "template":["default","templates/material"],
     "markdownEngineName": "markdig"
   }
 }
