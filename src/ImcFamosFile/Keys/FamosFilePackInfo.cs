@@ -36,7 +36,7 @@ namespace ImcFamosFile
                 this.Mask = this.DeserializeInt32();
                 this.Offset = this.DeserializeInt32();
                 this.GroupSize = this.DeserializeInt32();
-                this.GapSize = this.DeserializeInt32();
+                this.ByteGapSize = this.DeserializeInt32();
             });
         }
 
@@ -111,7 +111,7 @@ namespace ImcFamosFile
             }
         }
 
-        public int GapSize
+        public int ByteGapSize
         {
             get { return _gapSize; }
             set
@@ -123,6 +123,10 @@ namespace ImcFamosFile
                 _gapSize = value;
             }
         }
+
+        public bool IsContiguous => this.ByteGapSize == 0;
+
+        public int ByteGroupSize => this.ValueSize * this.GroupSize;
 
         internal int BufferReference
         {
@@ -208,7 +212,7 @@ namespace ImcFamosFile
                 this.Mask,
                 this.Offset,
                 this.GroupSize,
-                this.GapSize
+                this.ByteGapSize
             };
 
             this.SerializeKey(writer, 1, data);

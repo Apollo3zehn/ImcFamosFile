@@ -95,7 +95,7 @@ namespace ImcFamosFile
                 // CN
                 else if (nextKeyType == FamosFileKeyType.CN)
                 {
-                    this.Channels.Add(new FamosFileChannelInfo(this.Reader, this.CodePage));
+                    this.Channels.Add(new FamosFileChannel(this.Reader, this.CodePage));
                     this.Channels.Last().PropertyInfo = propertyInfo;
 
                     propertyInfo = null;
@@ -137,7 +137,7 @@ namespace ImcFamosFile
         public FamosFileDisplayInfo? DisplayInfo { get; set; }
         public FamosFileEventLocationInfo? EventLocationInfo { get; set; }
 
-        public List<FamosFileChannelInfo> Channels { get; } = new List<FamosFileChannelInfo>();
+        public List<FamosFileChannel> Channels { get; } = new List<FamosFileChannel>();
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CC;
 
@@ -151,11 +151,11 @@ namespace ImcFamosFile
             {
                 var name = string.Empty;
 
-                foreach (var channelInfo in this.Channels)
+                foreach (var channel in this.Channels)
                 {
-                    if (!string.IsNullOrWhiteSpace(channelInfo.Name))
+                    if (!string.IsNullOrWhiteSpace(channel.Name))
                     {
-                        name = channelInfo.Name;
+                        name = channel.Name;
                         break;
                     }
                 }
@@ -170,7 +170,7 @@ namespace ImcFamosFile
 
         internal override void Validate()
         {
-            // pack info's buffers
+            // validate pack info's buffers
             if (!this.PackInfo.Buffers.Any())
                 throw new FormatException("The pack info's buffers collection must container at least a single buffer instance.");
 
@@ -239,9 +239,9 @@ namespace ImcFamosFile
             this.EventLocationInfo?.Serialize(writer);
 
             // CN
-            foreach (var channelInfo in this.Channels)
+            foreach (var channel in this.Channels)
             {
-                channelInfo.Serialize(writer);
+                channel.Serialize(writer);
             }
         }
 
@@ -352,6 +352,9 @@ namespace ImcFamosFile
 
             if (this.Channels.Count() > 16)
                 throw new FormatException("A maximum number of 16 channels can be defined for digital components.");
+
+            if (this.PackInfo.Mask != 0)
+                throw new FormatException($"For digital components the mask must be set to '0'.");
 
             foreach (var channel in this.Channels)
             {

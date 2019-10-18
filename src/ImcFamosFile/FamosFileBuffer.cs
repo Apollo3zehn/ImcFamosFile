@@ -9,9 +9,9 @@ namespace ImcFamosFile
 
         private int _reference;
         private int _rawDataIndex;
-        private int _length;
-        private int _offset;
-        private int _consumedBytes;
+        private long _length;
+        private long _offset;
+        private long _consumedBytes;
 
         private FamosFileRawData? _rawData;
 
@@ -42,9 +42,9 @@ namespace ImcFamosFile
             set { _rawData = value; }
         }
 
-        public int RawDataOffset { get; set; }
+        public long RawDataOffset { get; set; }
 
-        public int Length
+        public long Length
         {
             get { return _length; }
             set
@@ -57,7 +57,7 @@ namespace ImcFamosFile
             }
         }
 
-        public int Offset
+        public long Offset
         {
             get { return _offset; }
             set
@@ -70,7 +70,7 @@ namespace ImcFamosFile
             }
         }
 
-        public int ConsumedBytes
+        public long ConsumedBytes
         {
             get { return _consumedBytes; }
             set

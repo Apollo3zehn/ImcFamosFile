@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileChannelInfo : FamosFileBaseProperty
+    public class FamosFileChannel : FamosFileBaseProperty
     {
         #region Fields
 
@@ -13,18 +13,17 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileChannelInfo()
+        public FamosFileChannel()
         {
             //
         }
 
-        internal FamosFileChannelInfo(BinaryReader reader, int codePage) : base(reader, codePage)
+        internal FamosFileChannel(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.GroupIndex = this.DeserializeInt32();
-
-                this.DeserializeInt32();
+                this.DeserializeInt32(); // reserved parameter
                 this.BitIndex = this.DeserializeInt32();
                 this.Name = this.DeserializeString();
                 this.Comment = this.DeserializeString();
@@ -64,6 +63,7 @@ namespace ImcFamosFile
             var data = new object[]
             {
                 this.GroupIndex,
+                "0", // reserved parameter
                 this.BitIndex,
                 this.Name.Length, this.Name,
                 this.Comment.Length, this.Comment
