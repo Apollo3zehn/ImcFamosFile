@@ -3,16 +3,16 @@ using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileTriggerTimeInfo : FamosFileBase
+    public class FamosFileTriggerTime : FamosFileBase
     {
         #region Constructors
 
-        public FamosFileTriggerTimeInfo()
+        public FamosFileTriggerTime()
         {
             //
         }
 
-        internal FamosFileTriggerTimeInfo(BinaryReader reader) : base(reader)
+        internal FamosFileTriggerTime(BinaryReader reader) : base(reader)
         {
             DateTime triggerTime = default;
             FamosFileTimeMode timeMode = FamosFileTimeMode.Unknown;

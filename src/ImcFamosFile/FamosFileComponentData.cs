@@ -9,7 +9,15 @@ namespace ImcFamosFile
 
         internal FamosFileComponentData(FamosFileComponent component, byte[] data)
         {
-            this.Component = component;
+            this.XAxisScaling = component.XAxisScaling;
+            this.ZAxisScaling = component.ZAxisScaling;
+            this.TriggerTime = component.TriggerTime;
+
+            this.PackInfo = component.PackInfo;
+
+            this.DisplayInfo = component.DisplayInfo;
+            this.EventReference = component.EventReference;
+
             this.RawData = data;
         }
 
@@ -17,7 +25,14 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public FamosFileComponent Component { get; }
+        public FamosFileXAxisScaling? XAxisScaling { get; }
+        public FamosFileZAxisScaling? ZAxisScaling { get; }
+        public FamosFileTriggerTime? TriggerTime { get; }
+
+        public FamosFilePackInfo PackInfo { get; }
+
+        public FamosFileDisplayInfo? DisplayInfo { get; }
+        public FamosFileEventReference? EventReference { get; }
 
         public byte[] RawData { get; }
 

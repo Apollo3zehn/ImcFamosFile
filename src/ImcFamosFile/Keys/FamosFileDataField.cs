@@ -18,7 +18,7 @@ namespace ImcFamosFile
         {
             FamosFileXAxisScaling? currentXAxisScaling = null;
             FamosFileZAxisScaling? currentZAxisScaling = null;
-            FamosFileTriggerTimeInfo? currentTriggerTimeInfo = null;
+            FamosFileTriggerTime? currentTriggerTime = null;
 
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
@@ -63,16 +63,16 @@ namespace ImcFamosFile
 
                 // NT
                 else if (nextKeyType == FamosFileKeyType.NT)
-                    currentTriggerTimeInfo = new FamosFileTriggerTimeInfo(this.Reader);
+                    currentTriggerTime = new FamosFileTriggerTime(this.Reader);
 
                 // CC
                 else if (nextKeyType == FamosFileKeyType.CC)
                 {
-                    var component = new FamosFileComponent.Deserializer(this.Reader, this.CodePage).Deserialize(currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+                    var component = new FamosFileComponent.Deserializer(this.Reader, this.CodePage).Deserialize(currentXAxisScaling, currentZAxisScaling, currentTriggerTime);
 
                     currentXAxisScaling = component.XAxisScaling;
                     currentZAxisScaling = component.ZAxisScaling;
-                    currentTriggerTimeInfo = component.TriggerTimeInfo;
+                    currentTriggerTime = component.TriggerTime;
 
                     this.Components.Add(component);
                 }
@@ -125,16 +125,16 @@ namespace ImcFamosFile
                 throw new FormatException($"For a data field there must be at least one component with a minimum of one channel defined.");
 
             // check that ValidCR2 is 0 if there is only a single component
-            var eventLocationInfo = this.Components.First().EventLocationInfo;
+            var eventReference = this.Components.First().EventReference;
 
-            if (this.Components.Count == 1 && eventLocationInfo != null)
+            if (this.Components.Count == 1 && eventReference != null)
             {
-                if (eventLocationInfo.ValidCR2 != 0)
+                if (eventReference.ValidCR2 != 0)
                     throw new FormatException($"For a data field with a single component, the ValidCR2 property of the component's event location info must be '0'.");
             }
 
             // check if event locations info's event info is part of this instance
-            foreach (var current in this.Components.Select(component => component.EventLocationInfo))
+            foreach (var current in this.Components.Select(component => component.EventReference))
             {
                 if (current != null)
                 {
@@ -165,12 +165,12 @@ namespace ImcFamosFile
             }
 
             // update event info index of event location infos
-            foreach (var eventLocationInfo in this.Components.Select(component => component.EventLocationInfo))
+            foreach (var eventReference in this.Components.Select(component => component.EventReference))
             {
-                if (eventLocationInfo != null)
+                if (eventReference != null)
                 {
-                    var eventInfoIndex = this.EventInfos.IndexOf(eventLocationInfo.EventInfo) + 1;
-                    eventLocationInfo.EventInfoIndex = eventInfoIndex;
+                    var eventInfoIndex = this.EventInfos.IndexOf(eventReference.EventInfo) + 1;
+                    eventReference.EventInfoIndex = eventInfoIndex;
                 }
             }
         }
@@ -199,8 +199,8 @@ namespace ImcFamosFile
                     firstComponent.ZAxisScaling.Serialize(writer);
 
                 // NT
-                if (firstComponent.TriggerTimeInfo != null)
-                    firstComponent.TriggerTimeInfo.Serialize(writer);
+                if (firstComponent.TriggerTime != null)
+                    firstComponent.TriggerTime.Serialize(writer);
 
                 // CC
                 foreach (var component in this.Components)
@@ -228,10 +228,10 @@ namespace ImcFamosFile
             }
 
             // assign event info to event location info
-            foreach (var eventLocationInfo in this.Components.Select(component => component.EventLocationInfo))
+            foreach (var eventReference in this.Components.Select(component => component.EventReference))
             {
-                if (eventLocationInfo != null)
-                    eventLocationInfo.EventInfo = this.EventInfos.First(eventInfo => eventInfo.Index == eventLocationInfo.EventInfoIndex);
+                if (eventReference != null)
+                    eventReference.EventInfo = this.EventInfos.First(eventInfo => eventInfo.Index == eventReference.EventInfoIndex);
             }
 
             // prepare components

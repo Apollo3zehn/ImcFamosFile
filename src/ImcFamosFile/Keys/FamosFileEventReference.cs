@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileEventLocationInfo : FamosFileBase
+    public class FamosFileEventReference : FamosFileBase
     {
         #region Fields
 
@@ -19,12 +19,12 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileEventLocationInfo()
+        public FamosFileEventReference()
         {
             //
         }
 
-        internal FamosFileEventLocationInfo(BinaryReader reader) : base(reader)
+        internal FamosFileEventReference(BinaryReader reader) : base(reader)
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {

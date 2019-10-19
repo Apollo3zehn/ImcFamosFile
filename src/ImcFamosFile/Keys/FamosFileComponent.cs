@@ -7,10 +7,17 @@ namespace ImcFamosFile
 {
     public abstract class FamosFileComponent : FamosFileBaseExtended
     {
+        #region Fields
+
+        private FamosFileDataComponentType _type;
+
+        #endregion
+
         #region Constructors
 
-        public FamosFileComponent(FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo)
+        public FamosFileComponent(FamosFileDataComponentType type, FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo)
         {
+            this.Type = type;
             this.PackInfo = packInfo;
             this.BufferInfo = bufferInfo;
         }
@@ -19,14 +26,14 @@ namespace ImcFamosFile
                                     int codePage,
                                     FamosFileXAxisScaling? currentXAxisScaling,
                                     FamosFileZAxisScaling? currentZAxisScaling,
-                                    FamosFileTriggerTimeInfo? currentTriggerTimeInfo) : base(reader, codePage)
+                                    FamosFileTriggerTime? currentTriggerTime) : base(reader, codePage)
         {
             FamosFilePackInfo? packInfo = null;
             FamosFileBufferInfo? bufferInfo = null;
 
             this.XAxisScaling = currentXAxisScaling;
             this.ZAxisScaling = currentZAxisScaling;
-            this.TriggerTimeInfo = currentTriggerTimeInfo;
+            this.TriggerTime = currentTriggerTime;
 
             FamosFilePropertyInfo? propertyInfo = null;
 
@@ -65,7 +72,7 @@ namespace ImcFamosFile
 
                 // NT
                 else if (nextKeyType == FamosFileKeyType.NT)
-                    this.TriggerTimeInfo = new FamosFileTriggerTimeInfo(this.Reader);
+                    this.TriggerTime = new FamosFileTriggerTime(this.Reader);
 
                 // CP
                 else if (nextKeyType == FamosFileKeyType.CP)
@@ -90,7 +97,7 @@ namespace ImcFamosFile
 
                 // Cv
                 else if (nextKeyType == FamosFileKeyType.Cv)
-                    this.EventLocationInfo = new FamosFileEventLocationInfo(this.Reader);
+                    this.EventReference = new FamosFileEventReference(this.Reader);
 
                 // CN
                 else if (nextKeyType == FamosFileKeyType.CN)
@@ -125,17 +132,27 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public int Index { get; set; }
+        public FamosFileDataComponentType Type
+        {
+            get { return _type; }
+            private set
+            {
+                if (value != FamosFileDataComponentType.Primary && value != FamosFileDataComponentType.Secondary)
+                    throw new FormatException($"The component type enum value is invalid.");
+
+                _type = value;
+            }
+        }
 
         public FamosFileXAxisScaling? XAxisScaling { get; set; }
         public FamosFileZAxisScaling? ZAxisScaling { get; set; }
-        public FamosFileTriggerTimeInfo? TriggerTimeInfo { get; set; }
+        public FamosFileTriggerTime? TriggerTime { get; set; }
 
         public FamosFilePackInfo PackInfo { get; set; }
         public FamosFileBufferInfo BufferInfo { get; set; }
 
         public FamosFileDisplayInfo? DisplayInfo { get; set; }
-        public FamosFileEventLocationInfo? EventLocationInfo { get; set; }
+        public FamosFileEventReference? EventReference { get; set; }
 
         public List<FamosFileChannel> Channels { get; } = new List<FamosFileChannel>();
 
@@ -208,7 +225,7 @@ namespace ImcFamosFile
             // CC
             var data = new object[]
             {
-                    this.Index,
+                    (int)this.Type,
                     this.GetType() == typeof(FamosFileAnalogComponent) ? 1 : 2
             };
 
@@ -221,7 +238,7 @@ namespace ImcFamosFile
             this.ZAxisScaling?.Serialize(writer);
 
             // NT
-            this.TriggerTimeInfo?.Serialize(writer);
+            this.TriggerTime?.Serialize(writer);
 
             // CP
             this.PackInfo.Serialize(writer);
@@ -236,7 +253,7 @@ namespace ImcFamosFile
             this.DisplayInfo?.Serialize(writer);
 
             // Cv
-            this.EventLocationInfo?.Serialize(writer);
+            this.EventReference?.Serialize(writer);
 
             // CN
             foreach (var channel in this.Channels)
@@ -277,18 +294,18 @@ namespace ImcFamosFile
 
             internal FamosFileComponent Deserialize(FamosFileXAxisScaling? currentXAxisScaling,
                                                     FamosFileZAxisScaling? currentZAxisScaling,
-                                                    FamosFileTriggerTimeInfo? currentTriggerTimeInfo)
+                                                    FamosFileTriggerTime? currentTriggerTime)
             {
-                int index = 0;
+                int type = 0;
                 bool isDigital = false;
 
                 this.DeserializeKey(expectedKeyVersion: 1, keySize =>
                 {
-                    // index
-                    index = this.DeserializeInt32();
+                    // type
+                    type = this.DeserializeInt32();
 
-                    if (index != 1 && index != 2)
-                        throw new FormatException($"Expected index value of '1' or '2', got {index}");
+                    if (type != 1 && type != 2)
+                        throw new FormatException($"Expected index value of '1' or '2', got {type}");
 
                     // analog / digital
                     var analogDigital = this.DeserializeInt32();
@@ -302,11 +319,11 @@ namespace ImcFamosFile
                 FamosFileComponent component;
 
                 if (isDigital)
-                    component = new FamosFileDigitalComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+                    component = new FamosFileDigitalComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTime);
                 else
-                    component = new FamosFileAnalogComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo);
+                    component = new FamosFileAnalogComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTime);
 
-                component.Index = index;
+                component.Type = (FamosFileDataComponentType)type;
 
                 return component;
             }
@@ -324,7 +341,9 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileDigitalComponent(FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo) : base(packInfo, bufferInfo)
+        public FamosFileDigitalComponent(FamosFileDataComponentType type,
+                                         FamosFilePackInfo packInfo,
+                                         FamosFileBufferInfo bufferInfo) : base(type, packInfo, bufferInfo)
         {
             //
         }
@@ -333,8 +352,8 @@ namespace ImcFamosFile
                                          int codePage,
                                          FamosFileXAxisScaling? currentXAxisScaling,
                                          FamosFileZAxisScaling? currentZAxisScaling,
-                                         FamosFileTriggerTimeInfo? currentTriggerTimeInfo)
-            : base(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo)
+                                         FamosFileTriggerTime? currentTriggerTime)
+            : base(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTime)
         {
             //
         }
@@ -387,7 +406,11 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileAnalogComponent(FamosFileCalibrationInfo calibrationInfo, FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo) : base(packInfo, bufferInfo)
+        public FamosFileAnalogComponent(
+            FamosFileDataComponentType type,
+            FamosFileCalibrationInfo calibrationInfo,
+            FamosFilePackInfo packInfo,
+            FamosFileBufferInfo bufferInfo) : base(type, packInfo, bufferInfo)
         {
             this.CalibrationInfo = calibrationInfo;
         }
@@ -397,8 +420,8 @@ namespace ImcFamosFile
                                         int codePage,
                                         FamosFileXAxisScaling? currentXAxisScaling,
                                         FamosFileZAxisScaling? currentZAxisScaling,
-                                        FamosFileTriggerTimeInfo? currentTriggerTimeInfo)
-            : base(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTimeInfo)
+                                        FamosFileTriggerTime? currentTriggerTime)
+            : base(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTime)
         {
             if (this.CalibrationInfo is null)
                 throw new FormatException($"The analog component '{this.Name}' does not define calibration information.");
