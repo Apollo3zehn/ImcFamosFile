@@ -22,12 +22,14 @@ namespace ImcFamosFile
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
+                var startPosition = this.Reader.BaseStream.Position;
                 this.Index = this.DeserializeInt32();
+                var endPosition = this.Reader.BaseStream.Position;
 
-                this.Length = keySize;
-                this.FileOffset = this.Reader.BaseStream.Position;
+                this.Length = keySize - (endPosition - startPosition);
+                this.FileOffset = endPosition;
 
-                this.Reader.BaseStream.Seek(keySize, SeekOrigin.Current);
+                this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
             });
         }
 
@@ -59,7 +61,13 @@ namespace ImcFamosFile
 
         internal override void Serialize(BinaryWriter writer)
         {
-            this.SerializeKey(writer, 1, this.Length);
+            var data = new object[]
+            {
+                this.Index,
+                new FamosFilePlaceHolder() { Length = this.Length }
+            };
+
+            this.SerializeKey(writer, 1, data);
         }
 
         #endregion

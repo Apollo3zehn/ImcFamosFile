@@ -87,37 +87,33 @@ namespace ImcFamosFile
 
         internal abstract void Serialize(BinaryWriter writer);
 
-        protected void SerializeKey(BinaryWriter writer, int keyVersion, long length, bool addLineBreak = true)
-        {
-            writer.Write($"|{this.KeyType.ToString()},{keyVersion},".ToCharArray());
-            writer.BaseStream.Seek(length, SeekOrigin.Current);
-
-            this.CloseKey(writer, addLineBreak);
-        }
-
         protected void SerializeKey(BinaryWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
         {
             // convert data
-            var length = 0;
+            long length = 0;
 
             var combinedData = data.Select<object, object>(current =>
             {
                 switch (current)
                 {
-                    case byte[] x:
+                    case FamosFilePlaceHolder x:
                         length += x.Length;
+                        return x;
+
+                    case byte[] x:
+                        length += x.LongLength;
                         return x;
 
                     case decimal x:
                         var charArray1 = x.ToString("0.######################", CultureInfo.InvariantCulture).ToCharArray();
-                        length += charArray1.Length;
+                        length += charArray1.LongLength;
                         return charArray1;
 
                     case int _:
                     case long _:
                     case string _:
                         var charArray2 = $"{current}".ToCharArray();
-                        length += charArray2.Length;
+                        length += charArray2.LongLength;
                         return charArray2;
 
                     default:
@@ -140,6 +136,9 @@ namespace ImcFamosFile
 
                     case byte[] x:
                         writer.Write(x); break;
+
+                    case FamosFilePlaceHolder x:
+                        writer.BaseStream.Seek(x.Length, SeekOrigin.Current); break;
                 }
 
                 if (i < combinedData.Count - 1)
