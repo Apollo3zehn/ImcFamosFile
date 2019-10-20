@@ -1,4 +1,5 @@
 ﻿using ImcFamosFile;
+using System;
 
 namespace FamosFileSample
 {
@@ -14,34 +15,30 @@ namespace FamosFileSample
             };
 
             /* single values */
-            group.SingleValues.Add(new FamosFileSingleValue() // allow passing a byte array as value
+            group.SingleValues.Add(new FamosFileSingleValue<double>(1234)
             {
                  Name = "My first single value.",
                  Comment = "Single value comment.",
-                 DataType = FamosFileDataType.Int16,
                  Unit = "My first unit.",
-                 Value = 1234,
-                 Time = 111110111,
+                 Time = DateTime.Now,
             });
 
             /* texts */
-            group.Texts.Add(new FamosFileText() // v1 vs. v2
+            group.Texts.Add(new FamosFileText("Text") // v1 vs. v2
             {
                 Name = "Name",
-                Comment = "Comment",
-                Text = "Text"
+                Comment = "Comment"
             });
 
             // prepare famos file and add group to it
-            var famosFile = new FamosFile()
-            {
-                DataOrigin = FamosFileDataOrigin.Calculated,
-                Comment = "My first comment.",
-            };
+            var famosFile = new FamosFileHeader();
 
             famosFile.Groups.Add(group);
 
-            famosFile.Save("TestData.dat");
+            famosFile.Save("TestData.dat", write =>
+            {
+                //
+            });
         }
     }
 }
