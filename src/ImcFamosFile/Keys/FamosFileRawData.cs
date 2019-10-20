@@ -20,17 +20,39 @@ namespace ImcFamosFile
 
         internal FamosFileRawData(BinaryReader reader) : base(reader)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            var keyVersion = this.DeserializeInt32();
+
+            if (keyVersion == 1)
             {
-                var startPosition = this.Reader.BaseStream.Position;
-                this.Index = this.DeserializeInt32();
-                var endPosition = this.Reader.BaseStream.Position;
+                this.DeserializeKey(keySize =>
+                {
+                    var startPosition = this.Reader.BaseStream.Position;
+                    this.Index = this.DeserializeInt32();
+                    var endPosition = this.Reader.BaseStream.Position;
 
-                this.Length = keySize - (endPosition - startPosition);
-                this.FileOffset = endPosition;
+                    this.CompressionType = FamosFileCompressionType.Uncompressed;
+                    this.Length = keySize - (endPosition - startPosition);
+                    this.FileOffset = endPosition;
 
-                this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
-            });
+                    this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
+                });
+            }
+            else if (keyVersion == 2)
+            {
+                this.DeserializeKey(keySize =>
+                {
+                    this.Index = this.DeserializeInt32();
+                    this.CompressionType = (FamosFileCompressionType)this.DeserializeInt32();
+                    this.Length = this.DeserializeInt64();
+                    this.FileOffset = this.Reader.BaseStream.Position;
+
+                    this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
+                });
+            }
+            else
+            {
+                throw new FormatException($"Expected key version '1' or '2', got '{keyVersion}'.");
+            }
         }
 
         #endregion
@@ -38,6 +60,7 @@ namespace ImcFamosFile
         #region Properties
 
         public long Length { get; set; }
+        public FamosFileCompressionType CompressionType { get; set; }
 
         internal int Index
         {
@@ -64,10 +87,12 @@ namespace ImcFamosFile
             var data = new object[]
             {
                 this.Index,
+                (int)this.CompressionType,
+                this.Length,
                 new FamosFilePlaceHolder() { Length = this.Length }
             };
 
-            this.SerializeKey(writer, 1, data);
+            this.SerializeKey(writer, 2, data);
         }
 
         #endregion

@@ -74,6 +74,9 @@ namespace ImcFamosFile
             {
                 FamosFileComponentData componentData;
 
+                if (component.PackInfo.Buffers.First().RawData.CompressionType != FamosFileCompressionType.Uncompressed)
+                    throw new InvalidOperationException("This implementation does not support reading compressed data yet. Please send a sample file to the package author to find a solution.");
+
                 var data = this.ReadComponentData(component, start, length);
 
                 switch (component.PackInfo.DataType)

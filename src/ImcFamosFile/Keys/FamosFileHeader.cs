@@ -178,6 +178,9 @@ namespace ImcFamosFile
 
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, T[] data) where T : unmanaged
         {
+            if (component.PackInfo.Buffers.First().RawData.CompressionType != FamosFileCompressionType.Uncompressed)
+                throw new InvalidOperationException("This implementation does not support writing compressed data yet.");
+
 #warning TODO: Implement WriteSingle().
         }
 
