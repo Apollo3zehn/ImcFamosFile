@@ -52,7 +52,7 @@ namespace ImcFamosFile
                     throw new FormatException($"Expected value for 'minute' property: '0..59'. Got {minute}.");
 
                 // second
-                var second = this.DeserializeFloat64();
+                var second = this.DeserializeReal();
 
                 if (!(0 <= second && second <= 60))
                     throw new FormatException($"Expected value for 'day' property: '0.0..60.0'. Got {second}.");
@@ -95,7 +95,7 @@ namespace ImcFamosFile
 
         #region Serialization
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             var data = new object[]
             {
@@ -104,7 +104,7 @@ namespace ImcFamosFile
                 this.DateTime.Year,
                 this.DateTime.Hour,
                 this.DateTime.Minute,
-                (double)this.DateTime.Second + this.DateTime.Millisecond / 1000,
+                (decimal)this.DateTime.Second + this.DateTime.Millisecond / 1000,
                 0, // since it is UTC+0 now
                 0  // since it is UTC+0 now
             };

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -84,24 +85,79 @@ namespace ImcFamosFile
             //
         }
 
-        internal abstract void Serialize(StreamWriter writer);
+        internal abstract void Serialize(BinaryWriter writer);
 
-        protected void SerializeKey(StreamWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
+        protected void SerializeKey(BinaryWriter writer, int keyVersion, long length, bool addLineBreak = true)
         {
-            var combinedData = string.Join(',', data);
-
-            writer.Write($"|{this.KeyType.ToString()},{keyVersion},{combinedData.Length},");
-            writer.Write(combinedData);
+            writer.Write($"|{this.KeyType.ToString()},{keyVersion},".ToCharArray());
+            writer.BaseStream.Seek(length, SeekOrigin.Current);
 
             this.CloseKey(writer, addLineBreak);
         }
 
-        private void CloseKey(StreamWriter writer, bool addLineBreak)
+        protected void SerializeKey(BinaryWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
+        {
+            // convert data
+            var length = 0;
+
+            var combinedData = data.Select<object, object>(current =>
+            {
+                switch (current)
+                {
+                    case byte[] x:
+                        length += x.Length;
+                        return x;
+
+                    case decimal x:
+                        var charArray1 = x.ToString("0.######################", CultureInfo.InvariantCulture).ToCharArray();
+                        length += charArray1.Length;
+                        return charArray1;
+
+                    case int _:
+                    case long _:
+                    case string _:
+                        var charArray2 = $"{current}".ToCharArray();
+                        length += charArray2.Length;
+                        return charArray2;
+
+                    default:
+                        throw new InvalidOperationException($"The data type {current.GetType()} is not supported.");
+                }
+            }).ToList();
+
+            length += Math.Max(0, combinedData.Count() - 1);
+
+            // write key preamble
+            writer.Write($"|{this.KeyType.ToString()},{keyVersion},{length},".ToCharArray());
+
+            // write key content
+            for (int i = 0; i < combinedData.Count; i++)
+            {
+                switch (combinedData[i])
+                {
+                    case char[] x:
+                        writer.Write(x); break;
+
+                    case byte[] x:
+                        writer.Write(x); break;
+                }
+
+                if (i < combinedData.Count - 1)
+                    writer.Write(',');
+            }
+
+            this.CloseKey(writer, addLineBreak);
+        }
+
+        private void CloseKey(BinaryWriter writer, bool addLineBreak)
         {
             writer.Write(';');
 
             if (addLineBreak)
-                writer.Write($"\r\n");
+            {
+                writer.Write((byte)0x0D);
+                writer.Write((byte)0x0A);
+            }
         }
 
         #endregion
@@ -195,12 +251,12 @@ namespace ImcFamosFile
             return long.Parse(Encoding.ASCII.GetString(bytes));
         }
 
-        protected double DeserializeFloat64()
+        protected decimal DeserializeReal()
         {
             var bytes = this.DeserializeKeyPart();
             var numberStyle = NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent;
 
-            return double.Parse(Encoding.ASCII.GetString(bytes), numberStyle, CultureInfo.InvariantCulture);
+            return decimal.Parse(Encoding.ASCII.GetString(bytes), numberStyle, CultureInfo.InvariantCulture);
         }
 
         protected FamosFileKeyType DeserializeKeyType()

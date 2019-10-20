@@ -130,7 +130,7 @@ namespace ImcFamosFile
                 this.IsNewEvent ? 1 : 0,
                 this.x0,
                 this.TriggerAddTime,
-                this.UserInfo
+                _userInfo
             };
         }
 

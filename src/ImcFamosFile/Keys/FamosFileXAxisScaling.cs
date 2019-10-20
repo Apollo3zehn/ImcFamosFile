@@ -20,7 +20,7 @@ namespace ImcFamosFile
             {
                 this.DeserializeKey(keySize =>
                 {
-                    this.dx = this.DeserializeFloat64();
+                    this.dx = this.DeserializeReal();
                     this.IsCalibrated = this.DeserializeInt32() == 1;
                     this.Unit = this.DeserializeString();
 
@@ -55,7 +55,7 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public double dx { get; set; }
+        public decimal dx { get; set; }
         public bool IsCalibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
 
@@ -63,7 +63,7 @@ namespace ImcFamosFile
         private int IsMultiEvents { get; set; }
         private int SortBuffers { get; set; }
 
-        public double x0 { get; set; }
+        public decimal x0 { get; set; }
         public FamosFilePretriggerUsage PretriggerUsage { get; set; }
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CD;
 
@@ -71,7 +71,7 @@ namespace ImcFamosFile
 
         #region Serialization
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             var data = new object[]
             {
@@ -84,8 +84,6 @@ namespace ImcFamosFile
                 this.x0,
                 (int)this.PretriggerUsage
             };
-
-#warning TODO: Check if double is serialized correctly (# of significant values)
 
             this.SerializeKey(writer, 2, data);
         }

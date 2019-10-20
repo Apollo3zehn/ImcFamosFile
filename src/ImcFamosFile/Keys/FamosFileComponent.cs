@@ -185,6 +185,39 @@ namespace ImcFamosFile
 
         #region Methods
 
+        public long GetSize()
+        {
+            return this.GetSize(0, 0);
+        }
+
+        public long GetSize(long start, long length)
+        {
+            var packInfo = this.PackInfo;
+            var buffer = this.PackInfo.Buffers.First();
+
+            long maxLength;
+
+            var actualBufferLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset;
+
+            if (packInfo.IsContiguous)
+            {
+                maxLength = actualBufferLength / packInfo.ValueSize;
+            }
+            else
+            {
+                var rowSize = packInfo.ByteGroupSize + packInfo.ByteGapSize;
+                maxLength = actualBufferLength / rowSize;
+
+                if (actualBufferLength % rowSize >= packInfo.ValueSize)
+                    maxLength += 1;
+            }
+
+            if (start + length > maxLength)
+                throw new InvalidOperationException($"The specified '{nameof(start)}' and '{nameof(length)}' parameters lead to a dataset which is larger than the actual buffer.");
+
+            return length > 0 ? length : maxLength;
+        }
+
         internal override void Validate()
         {
             // validate pack info's buffers
@@ -204,7 +237,7 @@ namespace ImcFamosFile
             this.BufferInfo.Validate();
         }
 
-        protected abstract void SerializeCR(StreamWriter writer);
+        protected abstract void SerializeCR(BinaryWriter writer);
         protected abstract void DeserializeCR();
 
         #endregion
@@ -220,7 +253,7 @@ namespace ImcFamosFile
             }
         }
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             // CC
             var data = new object[]
@@ -328,7 +361,7 @@ namespace ImcFamosFile
                 return component;
             }
 
-            internal override void Serialize(StreamWriter writer)
+            internal override void Serialize(BinaryWriter writer)
             {
                 throw new NotImplementedException();
             }
@@ -389,7 +422,7 @@ namespace ImcFamosFile
 
         #region Serialization
 
-        protected override void SerializeCR(StreamWriter writer)
+        protected override void SerializeCR(BinaryWriter writer)
         {
             //
         }
@@ -471,7 +504,7 @@ namespace ImcFamosFile
             }
         }
 
-        protected override void SerializeCR(StreamWriter writer)
+        protected override void SerializeCR(BinaryWriter writer)
         {
             this.CalibrationInfo?.Serialize(writer);
         }

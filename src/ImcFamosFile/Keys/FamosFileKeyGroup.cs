@@ -34,7 +34,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             var data = new object[]
             {

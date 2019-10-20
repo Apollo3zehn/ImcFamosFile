@@ -15,7 +15,7 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileDisplayInfo(double ymin, double ymax)
+        public FamosFileDisplayInfo(decimal ymin, decimal ymax)
         {
             this.YMin = ymin;
             this.YMax = ymax;
@@ -30,8 +30,8 @@ namespace ImcFamosFile
                 this.R = this.DeserializeInt32();
                 this.G = this.DeserializeInt32();
                 this.B = this.DeserializeInt32();
-                this.YMin = this.DeserializeFloat64();
-                this.YMax = this.DeserializeFloat64();
+                this.YMin = this.DeserializeReal();
+                this.YMax = this.DeserializeReal();
             });
 
             this.InternalValidate();
@@ -80,8 +80,8 @@ namespace ImcFamosFile
             }
         }
 
-        public double YMin { get; private set; }
-        public double YMax { get; private set; }
+        public decimal YMin { get; private set; }
+        public decimal YMax { get; private set; }
         protected override FamosFileKeyType KeyType => FamosFileKeyType.ND;
 
         #endregion
@@ -98,7 +98,7 @@ namespace ImcFamosFile
 
         #region Serialization
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             var data = new object[]
             {

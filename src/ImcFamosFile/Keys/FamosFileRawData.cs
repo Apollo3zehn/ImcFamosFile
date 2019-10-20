@@ -36,7 +36,6 @@ namespace ImcFamosFile
         #region Properties
 
         public long Length { get; set; }
-        public long FileOffset { get; set; }
 
         internal int Index
         {
@@ -50,15 +49,17 @@ namespace ImcFamosFile
             }
         }
 
+        internal long FileOffset { get; private set; }
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CS;
 
         #endregion
 
         #region Serialization
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
-            throw new NotImplementedException();
+            this.SerializeKey(writer, 1, this.Length);
         }
 
         #endregion

@@ -7,7 +7,7 @@ namespace ImcFamosFile
     {
         #region Fields
 
-        private double _dz;
+        private decimal _dz;
         private int _segmentSize;
 
         #endregion
@@ -23,10 +23,10 @@ namespace ImcFamosFile
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.dz = this.DeserializeFloat64();
+                this.dz = this.DeserializeReal();
                 this.IsDzCalibrated = this.DeserializeInt32() == 1;
 
-                this.z0 = this.DeserializeFloat64();
+                this.z0 = this.DeserializeReal();
                 this.IsZ0Calibrated = this.DeserializeInt32() == 1;
 
                 this.Unit = this.DeserializeString();
@@ -38,7 +38,7 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public double dz
+        public decimal dz
         {
             get { return _dz; }
             set
@@ -51,7 +51,7 @@ namespace ImcFamosFile
         }
 
         public bool IsDzCalibrated { get; set; }
-        public double z0 { get; set; }
+        public decimal z0 { get; set; }
         public bool IsZ0Calibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
 
@@ -74,7 +74,7 @@ namespace ImcFamosFile
 
         #region Serialization
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             var data = new object[]
             {

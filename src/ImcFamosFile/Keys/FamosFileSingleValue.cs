@@ -62,17 +62,17 @@ namespace ImcFamosFile
 
         #region Serialization
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             var data = new object[]
             {
                 this.GroupIndex,
                 (int)this.DataType,
                 this.Name.Length, this.Name,
-                this.RawData,
+                _rawData,
                 this.Unit.Length, this.Unit,
                 this.Comment.Length, this.Comment,
-                (this.Time - _referenceTime).TotalSeconds
+                BitConverter.GetBytes((this.Time - _referenceTime).TotalSeconds)
             };
 
             this.SerializeKey(writer, 1, data);
@@ -144,6 +144,9 @@ namespace ImcFamosFile
                         _ => throw new FormatException("The data type is invalid.")
                     };
 
+                    singleValue.GroupIndex = groupIndex;
+                    singleValue.DataType = dataType;
+                    singleValue.Name = name;
                     singleValue.Unit = this.DeserializeString();
                     singleValue.Comment = this.DeserializeString();
                     singleValue.Time = _referenceTime.AddSeconds(BitConverter.ToDouble(this.DeserializeKeyPart()));
@@ -155,7 +158,7 @@ namespace ImcFamosFile
                 return singleValue;
             }
 
-            internal override void Serialize(StreamWriter writer)
+            internal override void Serialize(BinaryWriter writer)
             {
                 throw new NotImplementedException();
             }

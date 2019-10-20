@@ -51,13 +51,13 @@ namespace ImcFamosFile
                     break;
 
                 case FamosFilePropertyType.Integer:
-                    if (!int.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out int resultInt))
+                    if (!int.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out int _))
                         throw new FormatException($"The property value '{this.Value}' is not an integer number.");
 
                     break;
 
-                case FamosFilePropertyType.Reell:
-                    if (!double.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out double resultDouble))
+                case FamosFilePropertyType.Real:
+                    if (!double.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out double _))
                         throw new FormatException($"The property value '{this.Value}' is not a real numnber.");
 
                     break;

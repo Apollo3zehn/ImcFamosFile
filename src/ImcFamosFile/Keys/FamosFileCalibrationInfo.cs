@@ -16,8 +16,8 @@ namespace ImcFamosFile
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 ApplyTransformation = this.DeserializeInt32() == 1;
-                Factor = this.DeserializeFloat64();
-                Offset = this.DeserializeFloat64();
+                Factor = this.DeserializeReal();
+                Offset = this.DeserializeReal();
                 IsCalibrated = this.DeserializeInt32() == 1;
                 Unit = this.DeserializeString();
             });
@@ -28,8 +28,8 @@ namespace ImcFamosFile
         #region Properties
 
         public bool ApplyTransformation { get; set; }
-        public double Factor { get; set; }
-        public double Offset { get; set; }
+        public decimal Factor { get; set; }
+        public decimal Offset { get; set; }
         public bool IsCalibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CR;
@@ -38,7 +38,7 @@ namespace ImcFamosFile
 
         #region Serialization
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             var data = new object[]
             {

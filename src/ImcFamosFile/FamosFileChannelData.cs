@@ -6,8 +6,9 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        internal FamosFileChannelData(FamosFileDataFieldType type, List<FamosFileComponentData> componentsData)
+        internal FamosFileChannelData(string name, FamosFileDataFieldType type, List<FamosFileComponentData> componentsData)
         {
+            this.Name = name;
             this.Type = type;
             this.ComponentsData = componentsData;
         }
@@ -16,6 +17,7 @@ namespace ImcFamosFile
 
         #region Properties
 
+        public string Name { get; }
         public FamosFileDataFieldType Type { get; }
 
         public List<FamosFileComponentData> ComponentsData { get; }

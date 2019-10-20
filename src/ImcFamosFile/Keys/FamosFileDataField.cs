@@ -102,6 +102,26 @@ namespace ImcFamosFile
         public int Dimension => this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
         public List<FamosFileComponent> Components { get; } = new List<FamosFileComponent>();
         public List<FamosFileEventInfo> EventInfos { get; private set; } = new List<FamosFileEventInfo>();
+
+        public string Name
+        {
+            get
+            {
+                var name = string.Empty;
+
+                foreach (var component in this.Components)
+                {
+                    if (!string.IsNullOrWhiteSpace(component.Name))
+                    {
+                        name = component.Name;
+                        break;
+                    }
+                }
+
+                return name;
+            }
+        }
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
 
         #endregion
@@ -175,7 +195,7 @@ namespace ImcFamosFile
             }
         }
 
-        internal override void Serialize(StreamWriter writer)
+        internal override void Serialize(BinaryWriter writer)
         {
             var data = new object[]
             {
