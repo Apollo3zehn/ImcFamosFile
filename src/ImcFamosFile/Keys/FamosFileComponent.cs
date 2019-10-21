@@ -218,7 +218,7 @@ namespace ImcFamosFile
             return length > 0 ? length : maxLength;
         }
 
-        internal override void Validate()
+        public override void Validate()
         {
             // validate pack info's buffers
             if (!this.PackInfo.Buffers.Any())
@@ -395,7 +395,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal override void Validate()
+        public override void Validate()
         {
             base.Validate();
 
@@ -470,7 +470,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal override void Validate()
+        public override void Validate()
         {
             base.Validate();
 

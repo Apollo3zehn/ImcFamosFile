@@ -128,7 +128,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal override void Validate()
+        public override void Validate()
         {
             // validate components
             foreach (var component in this.Components)

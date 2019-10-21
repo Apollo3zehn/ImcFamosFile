@@ -123,7 +123,6 @@ namespace ImcFamosFile
                         componentData = new FamosFileComponentData<UInt16>(component, data);
                         break;
 
-
                     case FamosFileDataType.UInt48:
                         throw new NotSupportedException($"Reading data of type '{FamosFileDataType.UInt48}' is not supported.");
 
@@ -155,14 +154,9 @@ namespace ImcFamosFile
             if (component.PackInfo.Buffers.First().IsRingBuffer)
                 throw new InvalidOperationException("This implementation does not yet support reading ring buffers. Please send a sample file to the package author to find a solution.");
 
-            return this.InternalReadComponentData(component, start, length);
-        }
-        
-        private byte[] InternalReadComponentData(FamosFileComponent component, long start, long length)
-        {
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
-            var fileOffset = buffer.RawData.FileOffset + buffer.RawDataOffset + buffer.Offset + packInfo.Offset;
+            var fileOffset = buffer.RawData.FileReadOffset + buffer.RawDataOffset + buffer.Offset + packInfo.Offset;
 
             // read all data at once
             if (packInfo.IsContiguous)
@@ -178,12 +172,13 @@ namespace ImcFamosFile
             else
             {
                 if (packInfo.GroupSize > 1)
-                    throw new InvalidOperationException("This implementation does not yet support a pack info group size > '1'. Please send a sample file to the package author to find a solution.");
+                    throw new InvalidOperationException("This implementation does not yet support reading data with a pack info group size > '1'. Please send a sample file to the package author to find a solution.");
 
-                var actualBufferLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset;
-                var actualLength = component.GetSize(start, length);
-                var data = new byte[actualLength * packInfo.ValueSize];
+                var valueLength = component.GetSize(start, length);
                 var valueOffset = start * packInfo.ByteGroupSize;
+
+                var byteLength = valueLength * packInfo.ValueSize;
+                var data = new byte[byteLength];
 
                 this.Reader.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
 
@@ -196,20 +191,21 @@ namespace ImcFamosFile
                     for (int j = 0; j < packInfo.GroupSize; j++)
                     {
                         // read a single value
-                        if (actualBufferLength - bytePosition >= packInfo.ValueSize)
+                        if (valueLength - valuePosition >= 1)
                         {
                             for (int k = 0; k < packInfo.ValueSize; k++)
                             {
-                                data[valuePosition] = this.Reader.ReadByte();
-                                bytePosition += 1;
+                                var position = valuePosition * packInfo.ValueSize + k;
+                                data[position] = this.Reader.ReadByte();
                             }
 
+                            bytePosition += packInfo.ValueSize;
                             valuePosition += 1;
                         }
                     }
 
                     // skip x bytes
-                    if (actualBufferLength - bytePosition >= packInfo.ByteGapSize)
+                    if (byteLength - bytePosition >= packInfo.ByteGapSize)
                     {
                         this.Reader.BaseStream.Seek(packInfo.ByteGapSize, SeekOrigin.Current);
                         bytePosition += packInfo.ByteGapSize;

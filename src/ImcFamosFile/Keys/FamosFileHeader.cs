@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace ImcFamosFile
@@ -64,7 +65,7 @@ namespace ImcFamosFile
 
         #region "Methods"
 
-        internal override void Validate()
+        public override void Validate()
         {
             // validate data fields
             foreach (var dataField in this.DataFields)
@@ -171,18 +172,115 @@ namespace ImcFamosFile
 
             using (var writer = new BinaryWriter(stream, encoding))
             {
+                // Serialize header and leave CK key open.
                 this.Serialize(writer);
+
+                // Serialize data.
                 writeData.Invoke(writer);
+
+                // Close CK.
+                writer.BaseStream.Seek(20, SeekOrigin.Begin);
+                writer.Write('1');
             }
         }
 
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, T[] data) where T : unmanaged
         {
+            this.WriteSingle(writer, component, 0, data);
+        }
+
+        public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, Span<T> data) where T : unmanaged
+        {
+            this.WriteSingle(writer, component, 0, data);
+        }
+
+        public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, long start, T[] data) where T : unmanaged
+        {
+            this.WriteSingle(writer, component, start, data);
+        }
+
+        public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, long start, Span<T> data) where T : unmanaged
+        {
+#warning TODO: How to handle array length > 32 bit?
+
+            var bufferValueLength = component.GetSize() - start;
+            var bufferByteLength = bufferValueLength * component.PackInfo.ValueSize;
+            var dataLength = data.Length * Marshal.SizeOf<T>();
+
+            if (dataLength > bufferByteLength)
+                throw new InvalidOperationException("The start offset plus the size of the provided data array exceed the size of the component's buffer.");
+
+            if (bufferValueLength % (double)data.Length != 0)
+                throw new Exception("The length of the provided data array is not aligned to the component's buffer length, i.e. an incomplete value of the component's data type would be written to file.");
+
+            this.WriteComponentData(writer, component, start, MemoryMarshal.Cast<T, byte>(data), dataLength);
+        }
+
+        private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, long start, Span<byte> data, long byteLength)
+        {
             if (component.PackInfo.Buffers.First().RawData.CompressionType != FamosFileCompressionType.Uncompressed)
                 throw new InvalidOperationException("This implementation does not support writing compressed data yet.");
 
-#warning TODO: Implement WriteSingle().
+            var packInfo = component.PackInfo;
+            var buffer = packInfo.Buffers.First();
+            var fileOffset = buffer.RawData.FileWriteOffset + buffer.RawDataOffset + buffer.Offset + packInfo.Offset;
+
+            // write all data at once
+            if (packInfo.IsContiguous)
+            {
+                var valueOffset = start * packInfo.ValueSize;
+
+                writer.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
+                writer.Write(data);
+            }
+
+            // write grouped data
+            else
+            {
+                if (packInfo.GroupSize > 1)
+                    throw new InvalidOperationException("This implementation does not yet support writing data with a pack info group size > '1'.");
+
+                var valueLength = byteLength / packInfo.ValueSize;
+                var valueOffset = start * packInfo.ByteGroupSize;
+
+                writer.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
+
+                var bytePosition = 0;
+                var valuePosition = 0;
+
+                while (true)
+                {
+                    // write x subsequent values
+                    for (int j = 0; j < packInfo.GroupSize; j++)
+                    {
+                        // write a single value
+                        if (valueLength - valuePosition >= 1)
+                        {
+                            for (int k = 0; k < packInfo.ValueSize; k++)
+                            {
+                                var position = valuePosition * packInfo.ValueSize + k;
+                                writer.Write(data[position]);
+                            }
+
+                            bytePosition += packInfo.ValueSize;
+                            valuePosition += 1;
+                        }
+                    }
+
+                    // skip x bytes
+                    if (byteLength - bytePosition >= packInfo.ByteGapSize)
+                    {
+                        writer.BaseStream.Seek(packInfo.ByteGapSize, SeekOrigin.Current);
+                        bytePosition += packInfo.ByteGapSize;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
         }
+
 
         internal override void BeforeSerialize()
         {
@@ -337,10 +435,6 @@ namespace ImcFamosFile
                 rawData.Serialize(writer);
                 writer.Flush();
             }
-
-            // Close CK.
-            writer.BaseStream.Seek(20, SeekOrigin.Begin);
-            writer.Write('1');
         }
 
         #endregion

@@ -40,7 +40,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal override void Validate()
+        public override void Validate()
         {
             if (this.Buffers.Count > 1)
                 throw new FormatException("Although the format specification allows multiple buffer definitions per '|Cb' key, this implementation supports only a single buffer per component. Please send a sample file to the project maintainer to overcome this limitation in future.");

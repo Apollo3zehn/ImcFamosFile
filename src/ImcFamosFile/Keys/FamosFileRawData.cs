@@ -32,7 +32,7 @@ namespace ImcFamosFile
 
                     this.CompressionType = FamosFileCompressionType.Uncompressed;
                     this.Length = keySize - (endPosition - startPosition);
-                    this.FileOffset = endPosition;
+                    this.FileReadOffset = endPosition;
 
                     this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
                 });
@@ -44,7 +44,7 @@ namespace ImcFamosFile
                     this.Index = this.DeserializeInt32();
                     this.CompressionType = (FamosFileCompressionType)this.DeserializeInt32();
                     this.Length = this.DeserializeInt64();
-                    this.FileOffset = this.Reader.BaseStream.Position;
+                    this.FileReadOffset = this.Reader.BaseStream.Position;
 
                     this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
                 });
@@ -74,7 +74,9 @@ namespace ImcFamosFile
             }
         }
 
-        internal long FileOffset { get; private set; }
+        internal long FileReadOffset { get; private set; }
+
+        internal long FileWriteOffset { get; private set; }
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CS;
 
@@ -93,6 +95,7 @@ namespace ImcFamosFile
             };
 
             this.SerializeKey(writer, 2, data);
+            this.FileWriteOffset = writer.BaseStream.Position - this.Length - 1;
         }
 
         #endregion

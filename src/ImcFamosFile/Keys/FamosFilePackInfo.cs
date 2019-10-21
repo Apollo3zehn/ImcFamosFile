@@ -146,7 +146,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal override void Validate()
+        public override void Validate()
         {
             var sizeIsInvalid = false;
 

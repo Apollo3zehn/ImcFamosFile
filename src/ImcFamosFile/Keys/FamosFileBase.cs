@@ -59,7 +59,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        internal virtual void Validate()
+        public virtual void Validate()
         {
             //
         }
