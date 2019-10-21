@@ -28,8 +28,8 @@ namespace ImcFamosFile
         #region Properties
 
         public bool ApplyTransformation { get; set; }
-        public decimal Factor { get; set; }
-        public decimal Offset { get; set; }
+        public decimal Factor { get; set; } = 1;
+        public decimal Offset { get; set; } = 0;
         public bool IsCalibrated { get; set; }
         public string Unit { get; set; } = string.Empty;
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CR;

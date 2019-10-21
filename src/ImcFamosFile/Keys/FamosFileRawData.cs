@@ -94,8 +94,8 @@ namespace ImcFamosFile
                 new FamosFilePlaceHolder() { Length = this.Length }
             };
 
-            this.SerializeKey(writer, 2, data);
-            this.FileWriteOffset = writer.BaseStream.Position - this.Length - 1;
+            this.SerializeKey(writer, 2, data, addLineBreak: true); // --> -2 characters
+            this.FileWriteOffset = writer.BaseStream.Position - this.Length - 1 - 2;
         }
 
         #endregion

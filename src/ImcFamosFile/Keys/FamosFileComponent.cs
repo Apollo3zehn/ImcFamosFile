@@ -246,11 +246,7 @@ namespace ImcFamosFile
 
         internal override void BeforeSerialize()
         {
-            // The value of this.PackInfo.BufferReference is set in "FamosFile.cs" to a monotonous increasing value.
-            foreach (var buffer in this.PackInfo.Buffers)
-            {
-                buffer.Reference = this.PackInfo.BufferReference;
-            }
+            //
         }
 
         internal override void Serialize(BinaryWriter writer)

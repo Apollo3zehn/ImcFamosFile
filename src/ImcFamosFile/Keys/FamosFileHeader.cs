@@ -65,6 +65,11 @@ namespace ImcFamosFile
 
         #region "Methods"
 
+        public void AlignBuffers()
+        {
+#warning TODO: Implement AlignBuffers.
+        }
+
         public override void Validate()
         {
             // validate data fields
@@ -281,7 +286,6 @@ namespace ImcFamosFile
             }
         }
 
-
         internal override void BeforeSerialize()
         {
             // prepare data fields
@@ -360,6 +364,12 @@ namespace ImcFamosFile
             foreach (var packInfo in this.GetItemsByComponents(component => component.PackInfo))
             {
                 packInfo.BufferReference = i;
+
+                foreach (var buffer in packInfo.Buffers)
+                {
+                    buffer.Reference = i;
+                }
+
                 i++;
             }
         }
