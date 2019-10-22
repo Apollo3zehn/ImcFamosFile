@@ -11,7 +11,16 @@ namespace ImcFamosFile
             //
         }
 
-        public FamosFileCalibrationInfo(BinaryReader reader, int codePage) : base(reader, codePage)
+        public FamosFileCalibrationInfo(bool applyTransformation, decimal factor, decimal offset, bool isCalibrated, string unit)
+        {
+            this.ApplyTransformation = applyTransformation;
+            this.Factor = factor;
+            this.Offset = offset;
+            this.IsCalibrated = isCalibrated;
+            this.Unit = unit;
+        }
+
+        internal FamosFileCalibrationInfo(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {

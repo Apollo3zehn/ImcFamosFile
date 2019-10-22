@@ -21,6 +21,11 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        public FamosFileBuffer()
+        {
+            _userInfo = new byte[0];
+        }
+
         public FamosFileBuffer(byte[] userInfo)
         {
             _userInfo = userInfo;

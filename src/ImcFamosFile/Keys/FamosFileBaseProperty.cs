@@ -11,7 +11,7 @@ namespace ImcFamosFile
             //
         }
 
-        public FamosFileBaseProperty(BinaryReader reader, int codePage) : base(reader, codePage)
+        protected FamosFileBaseProperty(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             //
         }

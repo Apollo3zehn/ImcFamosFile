@@ -14,14 +14,17 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileText(string text)
+        public FamosFileText(string name, string text)
         {
+            this.Name = name;
             this.Text = text;
             this.Version = 1;
         }
 
-        public FamosFileText(List<string> texts)
+        public FamosFileText(string name, List<string> texts)
         {
+            this.Name = name;
+
             foreach (var text in texts)
             {
                 if (text.Length > int.MaxValue - 1) // = 2^31 - 2

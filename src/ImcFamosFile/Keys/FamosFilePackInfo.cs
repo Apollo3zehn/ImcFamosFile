@@ -9,19 +9,21 @@ namespace ImcFamosFile
         #region Fields
 
         private int _bufferReference;
-        private int _valueSize;
         private int _significantBits;
         private int _mask;
         private int _offset;
-        private int _groupSize;
-        private int _gapSize;
+        private int _groupSize = 1;
+        private int _gapSize = 0;
 
         #endregion
 
         #region Constructors
 
-        public FamosFilePackInfo(List<FamosFileBuffer> buffers)
+        public FamosFilePackInfo(FamosFileDataType dataType, List<FamosFileBuffer> buffers)
         {
+            this.DataType = dataType;
+            this.SignificantBits = this.ValueSize * 8;
+
             this.Buffers.AddRange(buffers);
         }
 
@@ -30,7 +32,7 @@ namespace ImcFamosFile
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.BufferReference = this.DeserializeInt32();
-                this.ValueSize = this.DeserializeInt32();
+                this.DeserializeInt32(); // value size will be calculated from data type
                 this.DataType = (FamosFileDataType)this.DeserializeInt32();
                 this.SignificantBits = this.DeserializeInt32();
                 this.Mask = this.DeserializeInt32();
@@ -45,19 +47,6 @@ namespace ImcFamosFile
         #region Properties
 
         public List<FamosFileBuffer> Buffers { get; } = new List<FamosFileBuffer>();
-
-        public int ValueSize
-        {
-            get { return _valueSize; }
-            set
-            {
-                if (!(1 <= value && value < 8))
-                    throw new
-                        FormatException($"Expected value size '1..8', got '{value}'.");
-
-                _valueSize = value;
-            }
-        }
 
         public FamosFileDataType DataType { get; set; }
 
@@ -137,6 +126,27 @@ namespace ImcFamosFile
                     throw new FormatException($"Expected buffer reference > '0', got '{value}'.");
 
                 _bufferReference = value;
+            }
+        }
+
+        internal int ValueSize
+        {
+            get
+            {
+                return this.DataType switch
+                {
+                    FamosFileDataType.UInt8 => 1,
+                    FamosFileDataType.Int8 => 1,
+                    FamosFileDataType.UInt16 => 2,
+                    FamosFileDataType.Int16 => 2,
+                    FamosFileDataType.UInt32 => 4,
+                    FamosFileDataType.Int32 => 4,
+                    FamosFileDataType.Float32 => 4,
+                    FamosFileDataType.Float64 => 8,
+                    FamosFileDataType.Digital16Bit => 2,
+                    FamosFileDataType.UInt48 => 6,
+                    _ => throw new FormatException("The data type is invalid.")
+                };
             }
         }
 

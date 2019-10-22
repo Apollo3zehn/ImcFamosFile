@@ -20,6 +20,11 @@ namespace ImcFamosFile
             //
         }
 
+        public FamosFileEventInfo(List<FamosFileEvent> events)
+        {
+            this.Events.AddRange(events);
+        }
+
         internal FamosFileEventInfo(BinaryReader reader) : base(reader)
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
@@ -62,12 +67,12 @@ namespace ImcFamosFile
         {
             var eventData = new List<object>
             {
-                this.Events.Count
+                this.Index,
+                this.Events.Count,
             };
 
             foreach (var @event in this.Events)
             {
-                eventData.Add(@event.Index);
                 eventData.AddRange(@event.GetEventData());
             }
 
@@ -99,6 +104,9 @@ namespace ImcFamosFile
 
             var offset = offsetLo + (offsetHi << 32);
             var length = lengthLo + (lengthHi << 32);
+
+            // read comma or semicolon
+            this.Reader.ReadByte();
 
             // assign properties
             return new FamosFileEvent()

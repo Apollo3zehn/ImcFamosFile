@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace ImcFamosFile
             //
         }
 
-        public FamosFileBaseExtended(BinaryReader reader, int codePage) : base(reader)
+        protected FamosFileBaseExtended(BinaryReader reader, int codePage) : base(reader)
         {
             this.CodePage = codePage;
         }
@@ -24,6 +25,7 @@ namespace ImcFamosFile
 
         #region Properties
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected int CodePage { get; set; }
 
         #endregion

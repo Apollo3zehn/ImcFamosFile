@@ -12,6 +12,12 @@ namespace ImcFamosFile
             //
         }
 
+        public FamosFileTriggerTime(DateTime dateTime, FamosFileTimeMode timeMode)
+        {
+            this.DateTime = dateTime;
+            this.TimeMode = timeMode;
+        }
+
         internal FamosFileTriggerTime(BinaryReader reader) : base(reader)
         {
             DateTime triggerTime = default;

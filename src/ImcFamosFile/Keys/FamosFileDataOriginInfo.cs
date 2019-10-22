@@ -6,9 +6,10 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileDataOriginInfo()
+        public FamosFileDataOriginInfo(string name, FamosFileDataOrigin origin)
         {
-            //
+            this.Name = name;
+            this.DataOrigin = origin;
         }
 
         internal FamosFileDataOriginInfo(BinaryReader reader, int codePage) : base(reader, codePage)

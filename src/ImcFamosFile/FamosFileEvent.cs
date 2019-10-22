@@ -26,11 +26,11 @@ namespace ImcFamosFile
             var stream = new MemoryStream();
             var binaryWriter = new BinaryWriter(stream);
 
-            var offsetLo = this.Offset & 0x00000000FFFFFFFF;
-            var offsetHi = this.Offset >> 32;
+            var offsetLo = (uint)(this.Offset & 0x00000000FFFFFFFF);
+            var offsetHi = (uint)(this.Offset >> 32);
 
-            var lengthLo = this.Length & 0x00000000FFFFFFFF;
-            var lengthHi = this.Length >> 32;
+            var lengthLo = (uint)(this.Length & 0x00000000FFFFFFFF);
+            var lengthHi = (uint)(this.Length >> 32);
 
             binaryWriter.Write(offsetLo);
             binaryWriter.Write(lengthLo);

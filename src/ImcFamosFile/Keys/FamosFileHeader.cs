@@ -13,7 +13,7 @@ namespace ImcFamosFile
 
         protected const int SUPPORTED_VERSION = 2;
 
-        private int _processor;
+        private int _processor = 1;
 
         #endregion
 
@@ -59,13 +59,26 @@ namespace ImcFamosFile
         public List<FamosFileDataField> DataFields { get; private set; } = new List<FamosFileDataField>();
         public List<FamosFileRawData> RawData { get; protected set; } = new List<FamosFileRawData>();
 
+        public string Name
+        {
+            get
+            {
+                return this.DataOriginInfo != null ? this.DataOriginInfo.Name : string.Empty;
+            }
+        }
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CF;
 
         #endregion
 
         #region "Methods"
 
-        public void AlignBuffers(FamosFileRawData rawData, List<FamosFileComponent> components, FamosFileAlignmentMode alignmentMode)
+        public void AlignBuffers(FamosFileRawData rawData, FamosFileAlignmentMode alignmentMode)
+        {
+            this.AlignBuffers(rawData, alignmentMode, this.DataFields.SelectMany(dataField => dataField.Components).ToList());
+        }
+
+        public void AlignBuffers(FamosFileRawData rawData, FamosFileAlignmentMode alignmentMode, List<FamosFileComponent> components)
         {
             var actualComponents = this.DataFields.SelectMany(dataField => dataField.Components);
 
@@ -74,16 +87,6 @@ namespace ImcFamosFile
 
             if (!components.Any(component => actualComponents.Contains(component)))
                 throw new InvalidOperationException("One or more passed component instances are not a member of this instance.");
-
-            if (components.Any() && alignmentMode == FamosFileAlignmentMode.Interlaced)
-            {
-                var commonSize = 1;
-
-                commonSize = components.First().GetSize();
-
-                if (components.Skip(1).Any(component => component.GetSize() != commonSize))
-                    throw new InvalidOperationException("In interlaced mode, all components must be of the same size.");
-            }
 
             switch (alignmentMode)
             {
@@ -111,6 +114,18 @@ namespace ImcFamosFile
 
                 case FamosFileAlignmentMode.Interlaced:
 
+                    if (components.Any())
+                    {
+                        var commonSize = components.First().GetSize();
+
+                        if (components.Skip(1).Any(component => component.GetSize() != commonSize))
+                            throw new InvalidOperationException("In interlaced mode, all components must be of the same size.");
+                    }
+                    else
+                    {
+                        return;
+                    }
+
                     var valueSizes = components.Select(component => component.PackInfo.ValueSize);
                     var totalSize = valueSizes.Sum();
                     var currentOffset = 0;
@@ -130,6 +145,16 @@ namespace ImcFamosFile
 
                         currentOffset += packInfo.ValueSize;
                         rawDataLength += buffer.Length;
+                    }
+
+                    if (rawDataLength > Math.Pow(10, 9))
+                        throw new InvalidOperationException("In interlaced mode, all buffers are combined into a single large buffer. This buffer would exceed the maximum allowed length of '10^9' bytes.");
+
+                    foreach (var component in components)
+                    {
+                        var buffer = component.PackInfo.Buffers.First();
+                        buffer.Length = (int)rawDataLength;
+                        buffer.ConsumedBytes = (int)rawDataLength;
                     }
 
                     rawData.Length = rawDataLength;
@@ -240,9 +265,6 @@ namespace ImcFamosFile
             if (!stream.CanWrite || !stream.CanSeek)
                 throw new InvalidOperationException("The stream must be writeable and seekable.");
 
-            this.Validate();
-            this.BeforeSerialize();
-
             if (autoAlign)
             {
                 var rawData = new FamosFileRawData();
@@ -250,8 +272,11 @@ namespace ImcFamosFile
                 this.RawData.Clear();
                 this.RawData.Add(rawData);
 
-                this.AlignBuffers(rawData, this.DataFields.SelectMany(dataField => dataField.Components).ToList(), FamosFileAlignmentMode.Continuous);
+                this.AlignBuffers(rawData, FamosFileAlignmentMode.Continuous);
             }
+
+            this.Validate();
+            this.BeforeSerialize();
 
             var codePage = this.LanguageInfo is null ? 0 : this.LanguageInfo.CodePage;
             var encoding = Encoding.GetEncoding(codePage);
@@ -272,7 +297,7 @@ namespace ImcFamosFile
 
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, T[] data) where T : unmanaged
         {
-            this.WriteSingle(writer, component, 0, data);
+            this.WriteSingle(writer, component, 0, data.AsSpan());
         }
 
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, Span<T> data) where T : unmanaged
@@ -282,7 +307,7 @@ namespace ImcFamosFile
 
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, T[] data) where T : unmanaged
         {
-            this.WriteSingle(writer, component, start, data);
+            this.WriteSingle(writer, component, start, data.AsSpan());
         }
 
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, Span<T> data) where T : unmanaged
@@ -300,7 +325,7 @@ namespace ImcFamosFile
             this.WriteComponentData(writer, component, start, MemoryMarshal.Cast<T, byte>(data), dataLength);
         }
 
-        private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, int start, Span<byte> data, int byteLength)
+        private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, int start, Span<byte> data, int dataByteLength)
         {
             if (component.PackInfo.Buffers.First().RawData.CompressionType != FamosFileCompressionType.Uncompressed)
                 throw new InvalidOperationException("This implementation does not support writing compressed data yet.");
@@ -324,7 +349,10 @@ namespace ImcFamosFile
                 if (packInfo.GroupSize > 1)
                     throw new InvalidOperationException("This implementation does not yet support writing data with a pack info group size > '1'.");
 
-                var valueLength = byteLength / packInfo.ValueSize;
+#warning TODO: Remove this.
+                var bufferByteLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset;
+
+                var valueLength = dataByteLength / packInfo.ValueSize;
                 var valueOffset = start * packInfo.ByteGroupSize;
 
                 writer.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
@@ -352,7 +380,7 @@ namespace ImcFamosFile
                     }
 
                     // skip x bytes
-                    if (byteLength - bytePosition >= packInfo.ByteGapSize)
+                    if (bufferByteLength - bytePosition >= packInfo.ByteGapSize)
                     {
                         writer.BaseStream.Seek(packInfo.ByteGapSize, SeekOrigin.Current);
                         bytePosition += packInfo.ByteGapSize;

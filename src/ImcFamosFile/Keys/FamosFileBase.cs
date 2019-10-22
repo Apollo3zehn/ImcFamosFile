@@ -50,6 +50,7 @@ namespace ImcFamosFile
             }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected abstract FamosFileKeyType KeyType { get; }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -68,8 +69,8 @@ namespace ImcFamosFile
         {
             foreach (var item in collection)
             {
-                var expected = getIndex(item);
-                var actual = collection.IndexOf(item) + 1;
+                var expected = collection.IndexOf(item) + 1;
+                var actual = getIndex(item);
 
                 if (expected != actual)
                     throw new FormatException($"The {name} indices are not consistent. Expected '{expected}', got '{actual}'.");
@@ -213,9 +214,8 @@ namespace ImcFamosFile
         protected byte[] DeserializeKeyPart()
         {
             var bytes = new List<byte>();
-            var counter = 0;
 
-            while (counter < 32)
+            while (true)
             {
                 var current = this.Reader.ReadByte();
 
@@ -223,11 +223,7 @@ namespace ImcFamosFile
                     break;
 
                 bytes.Add(current);
-                counter++;
             }
-
-            if (counter >= 32)
-                throw new FormatException("Value is too long or a comma is missing.");
 
             return bytes.ToArray();
         }

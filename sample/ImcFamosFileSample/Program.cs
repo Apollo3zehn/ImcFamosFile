@@ -8,16 +8,11 @@ namespace FamosFileSample
         static void Main(string[] args)
         {
             // prepare group
-            var group = new FamosFileGroup()
-            {
-                Name = "My first group.",
-                Comment = "My group comment.",
-            };
+            var group = new FamosFileGroup("My first group.") { Comment = "My group comment." };
 
             /* single values */
-            group.SingleValues.Add(new FamosFileSingleValue<double>(1234)
+            group.SingleValues.Add(new FamosFileSingleValue<double>("My first single value.", 1234)
             {
-                 Name = "My first single value.",
                  Comment = "Single value comment.",
                  Unit = "My first unit.",
                  Time = DateTime.Now,

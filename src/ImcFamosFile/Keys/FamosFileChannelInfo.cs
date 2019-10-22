@@ -13,9 +13,9 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileChannel()
+        public FamosFileChannel(string name)
         {
-            //
+            this.Name = name;
         }
 
         internal FamosFileChannel(BinaryReader reader, int codePage) : base(reader, codePage)

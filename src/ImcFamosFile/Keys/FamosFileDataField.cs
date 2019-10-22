@@ -14,7 +14,13 @@ namespace ImcFamosFile
             //
         }
 
-        public FamosFileDataField(BinaryReader reader, int codePage) : base(reader, codePage)
+        public FamosFileDataField(FamosFileDataFieldType type, List<FamosFileComponent> components)
+        {
+            this.Type = type;
+            this.Components.AddRange(components);
+        }
+
+        internal FamosFileDataField(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             FamosFileXAxisScaling? currentXAxisScaling = null;
             FamosFileZAxisScaling? currentZAxisScaling = null;

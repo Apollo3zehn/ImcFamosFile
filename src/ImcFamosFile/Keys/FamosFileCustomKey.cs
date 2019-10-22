@@ -6,9 +6,10 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileCustomKey()
+        public FamosFileCustomKey(string key, byte[] value)
         {
-            //
+            this.Key = key;
+            this.Value = value;
         }
 
         internal FamosFileCustomKey(BinaryReader reader, int codePage) : base(reader, codePage)
@@ -36,7 +37,7 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.Key,
+                this.Key.Length, this.Key,
                 this.Value
             };
 

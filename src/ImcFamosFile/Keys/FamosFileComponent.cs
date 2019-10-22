@@ -15,11 +15,16 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileComponent(FamosFileDataComponentType type, FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo)
+        public FamosFileComponent(FamosFileDataType dataType, FamosFileDataComponentType componentType, int length)
         {
-            this.Type = type;
-            this.PackInfo = packInfo;
-            this.BufferInfo = bufferInfo;
+            this.Type = componentType;
+            this.BufferInfo = new FamosFileBufferInfo(new List<FamosFileBuffer>() { new FamosFileBuffer() });
+            this.PackInfo = new FamosFilePackInfo(dataType, this.BufferInfo.Buffers.ToList());
+
+#warning TODO: Is this the best approach?
+            var buffer = this.BufferInfo.Buffers.First();
+            buffer.Length = length * this.PackInfo.ValueSize;
+            buffer.ConsumedBytes = buffer.Length; // This could theoretically be set to actual value during 'famosFile.Save(...);' but how handle interlaced data?
         }
 
         internal FamosFileComponent(BinaryReader reader,
@@ -46,9 +51,11 @@ namespace ImcFamosFile
 
                 // end of CC reached
                 if (nextKeyType == FamosFileKeyType.CT ||
-                    nextKeyType == FamosFileKeyType.CB ||
                     nextKeyType == FamosFileKeyType.CI ||
+                    nextKeyType == FamosFileKeyType.CB ||
                     nextKeyType == FamosFileKeyType.CG ||
+                    nextKeyType == FamosFileKeyType.CC ||
+                    nextKeyType == FamosFileKeyType.CV ||
                     nextKeyType == FamosFileKeyType.CS)
                 {
                     // go back to start of key
@@ -306,7 +313,7 @@ namespace ImcFamosFile
         {
             #region Constructors
 
-            public Deserializer(BinaryReader reader, int codePage) : base(reader, codePage)
+            internal Deserializer(BinaryReader reader, int codePage) : base(reader, codePage)
             {
                 //
             }
@@ -370,9 +377,7 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileDigitalComponent(FamosFileDataComponentType type,
-                                         FamosFilePackInfo packInfo,
-                                         FamosFileBufferInfo bufferInfo) : base(type, packInfo, bufferInfo)
+        public FamosFileDigitalComponent(FamosFileDataComponentType componentType, int length) : base(FamosFileDataType.Digital16Bit, componentType, length)
         {
             //
         }
@@ -436,10 +441,33 @@ namespace ImcFamosFile
         #region Constructors
 
         public FamosFileAnalogComponent(
-            FamosFileDataComponentType type,
-            FamosFileCalibrationInfo calibrationInfo,
-            FamosFilePackInfo packInfo,
-            FamosFileBufferInfo bufferInfo) : base(type, packInfo, bufferInfo)
+               FamosFileDataType dataType,
+               int length) : this(dataType, length, FamosFileDataComponentType.Primary, new FamosFileCalibrationInfo())
+        {
+            //
+        }
+
+        public FamosFileAnalogComponent(
+               FamosFileDataType dataType,
+               int length,
+               FamosFileCalibrationInfo calibrationInfo) : this(dataType, length, FamosFileDataComponentType.Primary, calibrationInfo)
+        {
+            //
+        }
+
+        public FamosFileAnalogComponent(
+               FamosFileDataType dataType,
+               int length,
+               FamosFileDataComponentType componentType) : this(dataType, length, componentType, new FamosFileCalibrationInfo())
+        {
+            //
+        }
+
+        public FamosFileAnalogComponent(
+               FamosFileDataType dataType,
+               int length,
+               FamosFileDataComponentType componentType,
+               FamosFileCalibrationInfo calibrationInfo) : base(dataType, componentType, length)
         {
             this.CalibrationInfo = calibrationInfo;
         }

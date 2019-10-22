@@ -260,8 +260,8 @@ namespace ImcFamosFile
 
                 var nextKeyType = this.DeserializeKeyType();
 
-                // Reset propertyInfoReceiver if next key type is not 'Nv'.
-                if (nextKeyType != FamosFileKeyType.Nv)
+                // Reset propertyInfoReceiver if next key type is not 'Np'.
+                if (nextKeyType != FamosFileKeyType.Np)
                     propertyInfoReceiver = null;
 
                 // Unknown

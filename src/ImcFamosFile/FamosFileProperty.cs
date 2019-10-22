@@ -7,7 +7,7 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileProperty(string name, string value, FamosFilePropertyType type, FamosFilePropertyFlags flags)
+        public FamosFileProperty(string name, string value, FamosFilePropertyType type, FamosFilePropertyFlags flags = 0)
         {
             this.Name = name;
             this.Value = value;
