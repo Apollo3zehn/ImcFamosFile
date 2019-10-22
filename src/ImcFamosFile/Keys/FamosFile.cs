@@ -58,7 +58,7 @@ namespace ImcFamosFile
             return this.ReadSingle(channel, 0, 0);
         }
 
-        public FamosFileChannelData ReadSingle(FamosFileChannel channel, long start, long length)
+        public FamosFileChannelData ReadSingle(FamosFileChannel channel, int start, int length)
         {
             if (channel.BitIndex > 0)
                 throw new InvalidOperationException("This implementation does not support reading boolean data yet. Please send a sample file to the package author to find a solution.");
@@ -146,7 +146,7 @@ namespace ImcFamosFile
             return this.GetItemsByComponents(component => component.Channels).Select(channel => this.ReadSingle(channel)).ToList();
         }
 
-        private byte[] ReadComponentData(FamosFileComponent component, long start, long length)
+        private byte[] ReadComponentData(FamosFileComponent component, int start, int length)
         {
             if (component.PackInfo.Mask != 0)
                 throw new InvalidOperationException("This implementation does not yet support reading masked data. Please send a sample file to the package author to find a solution.");

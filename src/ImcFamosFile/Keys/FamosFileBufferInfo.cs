@@ -47,6 +47,9 @@ namespace ImcFamosFile
 
             foreach (var buffer in this.Buffers)
             {
+                if (buffer.Length > Math.Pow(2, 10))
+                    throw new FormatException("A buffer length must not exceed 2^10 bytes.");
+
                 if (buffer.RawDataOffset + buffer.Length > buffer.RawData.Length)
                     throw new FormatException("The sum of the raw data offset and the buffer length must be <= raw data length.");
 

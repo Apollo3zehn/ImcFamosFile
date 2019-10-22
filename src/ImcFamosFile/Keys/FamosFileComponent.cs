@@ -185,17 +185,17 @@ namespace ImcFamosFile
 
         #region Methods
 
-        public long GetSize()
+        public int GetSize()
         {
             return this.GetSize(0, 0);
         }
 
-        public long GetSize(long start, long length)
+        public int GetSize(int start, int length)
         {
             var packInfo = this.PackInfo;
             var buffer = this.PackInfo.Buffers.First();
 
-            long maxLength;
+            int maxLength;
 
             var actualBufferLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset;
 
