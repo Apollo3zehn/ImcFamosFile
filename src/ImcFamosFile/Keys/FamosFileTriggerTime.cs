@@ -99,6 +99,15 @@ namespace ImcFamosFile
 
         #endregion
 
+        #region Methods
+
+        public FamosFileTriggerTime Clone()
+        {
+            return (FamosFileTriggerTime)this.MemberwiseClone();
+        }
+
+        #endregion
+
         #region Serialization
 
         internal override void Serialize(BinaryWriter writer)

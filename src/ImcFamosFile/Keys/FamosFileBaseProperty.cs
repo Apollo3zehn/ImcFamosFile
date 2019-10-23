@@ -6,7 +6,7 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileBaseProperty()
+        protected FamosFileBaseProperty()
         {
             //
         }

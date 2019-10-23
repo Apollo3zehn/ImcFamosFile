@@ -56,7 +56,7 @@ namespace ImcFamosFile
 
         public List<FamosFileCustomKey> CustomKeys { get; private set; } = new List<FamosFileCustomKey>();
         public List<FamosFileGroup> Groups { get; protected set; } = new List<FamosFileGroup>();
-        public List<FamosFileDataField> DataFields { get; private set; } = new List<FamosFileDataField>();
+        public List<FamosFileField> Fields { get; private set; } = new List<FamosFileField>();
         public List<FamosFileRawData> RawData { get; protected set; } = new List<FamosFileRawData>();
 
         public string Name
@@ -75,12 +75,12 @@ namespace ImcFamosFile
 
         public void AlignBuffers(FamosFileRawData rawData, FamosFileAlignmentMode alignmentMode)
         {
-            this.AlignBuffers(rawData, alignmentMode, this.DataFields.SelectMany(dataField => dataField.Components).ToList());
+            this.AlignBuffers(rawData, alignmentMode, this.Fields.SelectMany(field => field.Components).ToList());
         }
 
         public void AlignBuffers(FamosFileRawData rawData, FamosFileAlignmentMode alignmentMode, List<FamosFileComponent> components)
         {
-            var actualComponents = this.DataFields.SelectMany(dataField => dataField.Components);
+            var actualComponents = this.Fields.SelectMany(field => field.Components);
 
             if (!this.RawData.Contains(rawData))
                 throw new InvalidOperationException("The passed raw data instance is not a member of this instance.");
@@ -169,9 +169,9 @@ namespace ImcFamosFile
         public override void Validate()
         {
             // validate data fields
-            foreach (var dataField in this.DataFields)
+            foreach (var field in this.Fields)
             {
-                dataField.Validate();
+                field.Validate();
             }
 
             // check if all texts are assigned to a single group
@@ -221,6 +221,13 @@ namespace ImcFamosFile
                     throw new FormatException("The buffers' raw data must be part of the famos file's raw data collection.");
                 };
             }
+
+            /* not yet supported region */
+            foreach (var rawData in this.RawData)
+            {
+                if (rawData.CompressionType != FamosFileCompressionType.Uncompressed)
+                    throw new InvalidOperationException("This implementation does not support processing compressed data yet. Please send a sample file to the package author to find a solution.");
+            }
         }
 
         protected List<T> GetItemsByGroups<T>(Func<FamosFileGroup, List<T>> getGroupCollection, Func<List<T>> getDefaultCollection)
@@ -230,12 +237,12 @@ namespace ImcFamosFile
 
         protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, List<T>> getComponentCollection)
         {
-            return this.DataFields.SelectMany(dataField => dataField.Components.SelectMany(component => getComponentCollection(component))).ToList();
+            return this.Fields.SelectMany(field => field.Components.SelectMany(component => getComponentCollection(component))).ToList();
         }
 
         protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
         {
-            return this.DataFields.SelectMany(dataField => dataField.Components.Select(component => getComponentValue(component))).ToList();
+            return this.Fields.SelectMany(field => field.Components.Select(component => getComponentValue(component))).ToList();
         }
 
         private void Initialize()
@@ -327,9 +334,6 @@ namespace ImcFamosFile
 
         private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, int start, Span<byte> data, int dataByteLength)
         {
-            if (component.PackInfo.Buffers.First().RawData.CompressionType != FamosFileCompressionType.Uncompressed)
-                throw new InvalidOperationException("This implementation does not support writing compressed data yet.");
-
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
             var fileOffset = buffer.RawData.FileWriteOffset + buffer.RawDataOffset + buffer.Offset + packInfo.Offset;
@@ -346,9 +350,6 @@ namespace ImcFamosFile
             // write grouped data
             else
             {
-                if (packInfo.GroupSize > 1)
-                    throw new InvalidOperationException("This implementation does not yet support writing data with a pack info group size > '1'.");
-
 #warning TODO: Remove this.
                 var bufferByteLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset;
 
@@ -396,9 +397,9 @@ namespace ImcFamosFile
         internal override void BeforeSerialize()
         {
             // prepare data fields
-            foreach (var dataField in this.DataFields)
+            foreach (var field in this.Fields)
             {
-                dataField.BeforeSerialize();
+                field.BeforeSerialize();
             }
 
             // update raw data indices
@@ -517,9 +518,9 @@ namespace ImcFamosFile
             }
 
             // CG
-            foreach (var dataField in this.DataFields)
+            foreach (var field in this.Fields)
             {
-                dataField.Serialize(writer);
+                field.Serialize(writer);
             }
 
             // CT

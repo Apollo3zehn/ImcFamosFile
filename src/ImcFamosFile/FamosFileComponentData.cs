@@ -7,11 +7,17 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        internal FamosFileComponentData(FamosFileComponent component, byte[] data)
+        protected FamosFileComponentData(FamosFileComponent component,
+                                         FamosFileXAxisScaling? xAxisScaling,
+                                         FamosFileZAxisScaling? zAxisScaling,
+                                         FamosFileTriggerTime? triggerTime,
+                                         byte[] data)
         {
-            this.XAxisScaling = component.XAxisScaling;
-            this.ZAxisScaling = component.ZAxisScaling;
-            this.TriggerTime = component.TriggerTime;
+            this.Type = component.Type;
+
+            this.XAxisScaling = xAxisScaling?.Clone();
+            this.ZAxisScaling = zAxisScaling?.Clone();
+            this.TriggerTime = triggerTime?.Clone();
 
             this.PackInfo = component.PackInfo;
 
@@ -24,6 +30,8 @@ namespace ImcFamosFile
         #endregion
 
         #region Properties
+
+        public FamosFileComponentType Type { get; }
 
         public FamosFileXAxisScaling? XAxisScaling { get; }
         public FamosFileZAxisScaling? ZAxisScaling { get; }
@@ -43,7 +51,11 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileComponentData(FamosFileComponent component, byte[] buffer) : base(component, buffer)
+        internal FamosFileComponentData(FamosFileComponent component,
+                                        FamosFileXAxisScaling? xAxisScaling,
+                                        FamosFileZAxisScaling? zAxisScaling,
+                                        FamosFileTriggerTime? triggerTime,
+                                        byte[] buffer) : base(component, xAxisScaling, zAxisScaling, triggerTime, buffer)
         {
             //
         }

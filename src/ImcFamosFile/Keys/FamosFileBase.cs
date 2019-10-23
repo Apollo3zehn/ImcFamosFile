@@ -24,12 +24,12 @@ namespace ImcFamosFile
 
         }
 
-        public FamosFileBase(BinaryReader reader)
+        protected FamosFileBase(BinaryReader reader)
         {
             _reader = reader;
         }
 
-        public FamosFileBase()
+        protected FamosFileBase()
         {
             //
         }

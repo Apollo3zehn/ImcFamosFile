@@ -98,7 +98,7 @@ namespace ImcFamosFile
             var x0 = this.Reader.ReadDouble();
             var amplificationFactor0 = this.Reader.ReadDouble();
             var amplificationFactor1 = this.Reader.ReadDouble();
-            var dx = this.Reader.ReadDouble();
+            var deltaX = this.Reader.ReadDouble();
             var offsetHi = this.Reader.ReadUInt32();
             var lengthHi = this.Reader.ReadUInt32();
 
@@ -117,10 +117,10 @@ namespace ImcFamosFile
                 Time = time,
                 AmplitudeOffset0 = amplitudeOffset0,
                 AmplitudeOffset1 = amplitudeOffset1,
-                x0 = x0,
+                X0 = x0,
                 AmplificationFactor0 = amplificationFactor0,
                 AmplificationFactor1 = amplificationFactor1,
-                dx = dx
+                DeltaX = deltaX
             };
         }
 

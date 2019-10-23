@@ -12,10 +12,10 @@ namespace ImcFamosFile
         public double Time { get; set; }
         public double AmplitudeOffset0 { get; set; }
         public double AmplitudeOffset1 { get; set; }
-        public double x0 { get; set; }
+        public double X0 { get; set; }
         public double AmplificationFactor0 { get; set; }
         public double AmplificationFactor1 { get; set; }
-        public double dx { get; set; }
+        public double DeltaX { get; set; }
 
         #endregion
 
@@ -37,10 +37,10 @@ namespace ImcFamosFile
             binaryWriter.Write(this.Time);
             binaryWriter.Write(this.AmplitudeOffset0);
             binaryWriter.Write(this.AmplitudeOffset1);
-            binaryWriter.Write(this.x0);
+            binaryWriter.Write(this.X0);
             binaryWriter.Write(this.AmplificationFactor0);
             binaryWriter.Write(this.AmplificationFactor1);
-            binaryWriter.Write(this.dx);
+            binaryWriter.Write(this.DeltaX);
             binaryWriter.Write(offsetHi);
             binaryWriter.Write(lengthHi);
 

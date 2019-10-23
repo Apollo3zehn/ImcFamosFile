@@ -11,7 +11,7 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileBaseExtended()
+        protected FamosFileBaseExtended()
         {
             //
         }

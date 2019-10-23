@@ -60,80 +60,101 @@ namespace ImcFamosFile
 
         public FamosFileChannelData ReadSingle(FamosFileChannel channel, int start, int length)
         {
-            if (channel.BitIndex > 0)
-                throw new InvalidOperationException("This implementation does not support reading boolean data yet. Please send a sample file to the package author to find a solution.");
+            FamosFileField? foundField = null;
+            FamosFileComponent? foundComponent = null;
 
-            var dataField = this.DataFields.FirstOrDefault(dataField => dataField.Components.Any(current => current.Channels.Contains(channel)));
+            foreach (var field in this.Fields)
+            {
+                foreach (var component in field.Components)
+                {
+                    if (component.Channels.Contains(channel))
+                    {
+                        foundField = field;
+                        foundComponent = component;
+                        break;
+                    }
+                }
 
-            if (dataField is null)
-                throw new FormatException($"The provided channel is not part of any {nameof(FamosFileDataField)} instance.");
+                if (foundComponent != null)
+                    break;
+            }
+
+            if (foundField is null || foundComponent is null)
+                throw new FormatException($"The provided channel is not part of any {nameof(FamosFileField)} instance.");
+
+            List<FamosFileComponent> GetAlternatingComponents()
+            {
+                FamosFileComponentType filter;
+
+                if (foundComponent.Type == FamosFileComponentType.Primary)
+                    filter = FamosFileComponentType.Secondary;
+                else if (foundComponent.Type == FamosFileComponentType.Secondary)
+                    filter = FamosFileComponentType.Primary;
+                else
+                    throw new InvalidOperationException($"The component type '{foundComponent.Type}' is unknown.");
+
+                return new List<FamosFileComponent> { foundComponent, foundField.Components.First(component => component.Type == filter) };
+            }
+
+            var components = foundField.Type switch
+            {
+                FamosFileFieldType.MultipleYToSingleEquidistantTime => new List<FamosFileComponent>() { foundComponent },
+                FamosFileFieldType.MultipleYToSingleMonotonousTime  => GetAlternatingComponents().OrderBy(component => component.Type).ToList(),
+                FamosFileFieldType.MultipleYToSingleXOrViceVersa    => GetAlternatingComponents().OrderBy(component => component.Type).ToList(),
+                _                                                   => foundField.Components.OrderBy(component => component.Type).ToList()
+            };
 
             var componentsData = new List<FamosFileComponentData>();
 
-            foreach (var component in dataField.Components)
+            foreach (var component in components)
             {
-                FamosFileComponentData componentData;
+                T? FindFirst<T>(FamosFileField field, FamosFileComponent component, T? defaultValue, Func<FamosFileComponent, T?> getPropertyValue) where T : class
+                {
+                    var selfValue = getPropertyValue(component);
+                    var selfOrParentValue = selfValue ?? defaultValue;
 
-                if (component.PackInfo.Buffers.First().RawData.CompressionType != FamosFileCompressionType.Uncompressed)
-                    throw new InvalidOperationException("This implementation does not support reading compressed data yet. Please send a sample file to the package author to find a solution.");
+                    if (selfOrParentValue != null)
+                        return selfOrParentValue;
+                    else
+                    {
+                        var index = field.Components.IndexOf(component);
+                        var siblingValue = field.Components.Take(index).FirstOrDefault(component => getPropertyValue(component) != null);
+
+                        return siblingValue != null ? getPropertyValue(siblingValue) : null;
+                    }
+                }
+
+                // find shared instances
+                var xAxisScaling = FindFirst(foundField, component, foundField.XAxisScaling, component => component.XAxisScaling);
+                var zAxisScaling = FindFirst(foundField, component, foundField.ZAxisScaling, component => component.ZAxisScaling);
+                var triggerTime = FindFirst(foundField, component, foundField.TriggerTime, component => component.TriggerTime);
+
+                //
+                FamosFileComponentData componentData;
 
                 var data = this.ReadComponentData(component, start, length);
 
-                switch (component.PackInfo.DataType)
+                componentData = component.PackInfo.DataType switch
                 {
-                    case FamosFileDataType.UInt8:
-                        componentData = new FamosFileComponentData<Byte>(component, data);
-                        break;
-
-                    case FamosFileDataType.Int8:
-                        componentData = new FamosFileComponentData<SByte>(component, data);
-                        break;
-
-                    case FamosFileDataType.UInt16:
-                        componentData = new FamosFileComponentData<UInt16>(component, data);
-                        break;
-
-                    case FamosFileDataType.Int16:
-                        componentData = new FamosFileComponentData<Int16>(component, data);
-                        break;
-
-                    case FamosFileDataType.UInt32:
-                        componentData = new FamosFileComponentData<UInt32>(component, data);
-                        break;
-
-                    case FamosFileDataType.Int32:
-                        componentData = new FamosFileComponentData<Int32>(component, data);
-                        break;
-
-                    case FamosFileDataType.Float32:
-                        componentData = new FamosFileComponentData<Single>(component, data);
-                        break;
-
-                    case FamosFileDataType.Float64:
-                        componentData = new FamosFileComponentData<Double>(component, data);
-                        break;
-
-                    case FamosFileDataType.ImcDevicesTransitionalRecording:
-                        throw new NotSupportedException($"Reading data of type '{FamosFileDataType.ImcDevicesTransitionalRecording}' is not supported.");
-
-                    case FamosFileDataType.AsciiTimeStamp:
-                        throw new NotSupportedException($"Reading data of type '{FamosFileDataType.AsciiTimeStamp}' is not supported.");
-
-                    case FamosFileDataType.Digital16Bit:
-                        componentData = new FamosFileComponentData<UInt16>(component, data);
-                        break;
-
-                    case FamosFileDataType.UInt48:
-                        throw new NotSupportedException($"Reading data of type '{FamosFileDataType.UInt48}' is not supported.");
-
-                    default:
-                        throw new NotSupportedException($"The specified data type '{component.PackInfo.DataType}' is not supported.");
-                }
+                    FamosFileDataType.UInt8             => new FamosFileComponentData<Byte>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Int8              => new FamosFileComponentData<SByte>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.UInt16            => new FamosFileComponentData<UInt16>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Int16             => new FamosFileComponentData<Int16>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.UInt32            => new FamosFileComponentData<UInt32>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Int32             => new FamosFileComponentData<Int32>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Float32           => new FamosFileComponentData<Single>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Float64           => new FamosFileComponentData<Double>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.ImcDevicesTransitionalRecording => throw new NotSupportedException($"Reading data of type '{FamosFileDataType.ImcDevicesTransitionalRecording}' is not supported."),
+                    FamosFileDataType.AsciiTimeStamp    => throw new NotSupportedException($"Reading data of type '{FamosFileDataType.AsciiTimeStamp}' is not supported."),
+                    FamosFileDataType.Digital16Bit      => new FamosFileComponentData<UInt16>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.UInt48            => throw new NotSupportedException($"Reading data of type '{FamosFileDataType.UInt48}' is not supported."),
+                                                        _ => throw new NotSupportedException($"The specified data type '{component.PackInfo.DataType}' is not supported.")
+                };
 
                 componentsData.Add(componentData);
             }
 
-            return new FamosFileChannelData(dataField.Name, dataField.Type, componentsData);
+            return new FamosFileChannelData(foundComponent.Name, foundField.Type, componentsData);
         }
 
         public List<FamosFileChannelData> ReadGroup(List<FamosFileChannel> channels)
@@ -148,12 +169,6 @@ namespace ImcFamosFile
 
         private byte[] ReadComponentData(FamosFileComponent component, int start, int length)
         {
-            if (component.PackInfo.Mask != 0)
-                throw new InvalidOperationException("This implementation does not yet support reading masked data. Please send a sample file to the package author to find a solution.");
-
-            if (component.PackInfo.Buffers.First().IsRingBuffer)
-                throw new InvalidOperationException("This implementation does not yet support reading ring buffers. Please send a sample file to the package author to find a solution.");
-
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
             var fileOffset = buffer.RawData.FileReadOffset + buffer.RawDataOffset + buffer.Offset + packInfo.Offset;
@@ -171,9 +186,6 @@ namespace ImcFamosFile
             // read grouped data
             else
             {
-                if (packInfo.GroupSize > 1)
-                    throw new InvalidOperationException("This implementation does not yet support reading data with a pack info group size > '1'. Please send a sample file to the package author to find a solution.");
-
                 var valueLength = component.GetSize(start, length);
                 var valueOffset = start * packInfo.ByteGroupSize;
 
@@ -303,7 +315,7 @@ namespace ImcFamosFile
 
                 // CG
                 else if (nextKeyType == FamosFileKeyType.CG)
-                    this.DataFields.Add(new FamosFileDataField(this.Reader, this.CodePage));
+                    this.Fields.Add(new FamosFileField(this.Reader, this.CodePage));
 
                 // CT
                 else if (nextKeyType == FamosFileKeyType.CT)
@@ -370,9 +382,9 @@ namespace ImcFamosFile
         internal override void AfterDeserialize()
         {
             // prepare data fields
-            foreach (var dataField in this.DataFields)
+            foreach (var field in this.Fields)
             {
-                dataField.AfterDeserialize();
+                field.AfterDeserialize();
             }
 
             // check if group indices are consistent

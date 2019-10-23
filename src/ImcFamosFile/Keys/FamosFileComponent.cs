@@ -9,13 +9,13 @@ namespace ImcFamosFile
     {
         #region Fields
 
-        private FamosFileDataComponentType _type;
+        private FamosFileComponentType _type;
 
         #endregion
 
         #region Constructors
 
-        public FamosFileComponent(FamosFileDataType dataType, FamosFileDataComponentType componentType, int length)
+        protected FamosFileComponent(FamosFileDataType dataType, int length, FamosFileComponentType componentType)
         {
             this.Type = componentType;
             this.BufferInfo = new FamosFileBufferInfo(new List<FamosFileBuffer>() { new FamosFileBuffer() });
@@ -27,19 +27,10 @@ namespace ImcFamosFile
             buffer.ConsumedBytes = buffer.Length; // This could theoretically be set to actual value during 'famosFile.Save(...);' but how handle interlaced data?
         }
 
-        internal FamosFileComponent(BinaryReader reader,
-                                    int codePage,
-                                    FamosFileXAxisScaling? currentXAxisScaling,
-                                    FamosFileZAxisScaling? currentZAxisScaling,
-                                    FamosFileTriggerTime? currentTriggerTime) : base(reader, codePage)
+        protected FamosFileComponent(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             FamosFilePackInfo? packInfo = null;
             FamosFileBufferInfo? bufferInfo = null;
-
-            this.XAxisScaling = currentXAxisScaling;
-            this.ZAxisScaling = currentZAxisScaling;
-            this.TriggerTime = currentTriggerTime;
-
             FamosFilePropertyInfo? propertyInfo = null;
 
             while (true)
@@ -104,7 +95,8 @@ namespace ImcFamosFile
 
                 // Cv
                 else if (nextKeyType == FamosFileKeyType.Cv)
-                    this.EventReference = new FamosFileEventReference(this.Reader);
+                    throw new NotSupportedException("Events are not supported yet. Please send a sample file to the package author to find a solution.");
+                    //this.EventReference = new FamosFileEventReference(this.Reader);
 
                 // CN
                 else if (nextKeyType == FamosFileKeyType.CN)
@@ -139,12 +131,12 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public FamosFileDataComponentType Type
+        public FamosFileComponentType Type
         {
             get { return _type; }
             private set
             {
-                if (value != FamosFileDataComponentType.Primary && value != FamosFileDataComponentType.Secondary)
+                if (value != FamosFileComponentType.Primary && value != FamosFileComponentType.Secondary)
                     throw new FormatException($"The component type enum value is invalid.");
 
                 _type = value;
@@ -242,6 +234,25 @@ namespace ImcFamosFile
 
             // validate buffer info
             this.BufferInfo.Validate();
+
+            /* not yet supported region */
+            foreach (var channel in this.Channels)
+            {
+                if (channel.BitIndex > 0)
+                    throw new InvalidOperationException("This implementation does not support processing boolean data yet. Please send a sample file to the package author to find a solution.");
+            }
+
+            if (this.EventReference != null)
+                throw new NotSupportedException("Events are not supported yet. Please send a sample file to the package author to find a solution.");
+
+            if (this.PackInfo.GroupSize > 1)
+                throw new InvalidOperationException("This implementation does not yet support processing data with a pack info group size > '1'. Please send a sample file to the package author to find a solution.");
+
+            if (this.PackInfo.Mask != 0)
+                throw new InvalidOperationException("This implementation does not yet support processing masked data. Please send a sample file to the package author to find a solution.");
+
+            if (this.PackInfo.Buffers.First().IsRingBuffer)
+                throw new InvalidOperationException("This implementation does not yet support processing ring buffers. Please send a sample file to the package author to find a solution.");
         }
 
         protected abstract void SerializeCR(BinaryWriter writer);
@@ -328,9 +339,7 @@ namespace ImcFamosFile
 
             #region Methods
 
-            internal FamosFileComponent Deserialize(FamosFileXAxisScaling? currentXAxisScaling,
-                                                    FamosFileZAxisScaling? currentZAxisScaling,
-                                                    FamosFileTriggerTime? currentTriggerTime)
+            internal FamosFileComponent Deserialize()
             {
                 int type = 0;
                 bool isDigital = false;
@@ -355,11 +364,11 @@ namespace ImcFamosFile
                 FamosFileComponent component;
 
                 if (isDigital)
-                    component = new FamosFileDigitalComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTime);
+                    component = new FamosFileDigitalComponent(this.Reader, this.CodePage);
                 else
-                    component = new FamosFileAnalogComponent(this.Reader, this.CodePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTime);
+                    component = new FamosFileAnalogComponent(this.Reader, this.CodePage);
 
-                component.Type = (FamosFileDataComponentType)type;
+                component.Type = (FamosFileComponentType)type;
 
                 return component;
             }
@@ -377,17 +386,13 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        public FamosFileDigitalComponent(FamosFileDataComponentType componentType, int length) : base(FamosFileDataType.Digital16Bit, componentType, length)
+        public FamosFileDigitalComponent(FamosFileComponentType componentType,
+                                         int length) : base(FamosFileDataType.Digital16Bit, length, componentType)
         {
             //
         }
 
-        public FamosFileDigitalComponent(BinaryReader reader,
-                                         int codePage,
-                                         FamosFileXAxisScaling? currentXAxisScaling,
-                                         FamosFileZAxisScaling? currentZAxisScaling,
-                                         FamosFileTriggerTime? currentTriggerTime)
-            : base(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTime)
+        internal FamosFileDigitalComponent(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             //
         }
@@ -438,57 +443,87 @@ namespace ImcFamosFile
 
     public class FamosFileAnalogComponent : FamosFileComponent
     {
-        #region Constructors
+        #region Unnamed Constructors
 
-        public FamosFileAnalogComponent(
-               FamosFileDataType dataType,
-               int length) : this(dataType, length, FamosFileDataComponentType.Primary, new FamosFileCalibrationInfo())
+        public FamosFileAnalogComponent(FamosFileDataType dataType,
+                                        int length) : this(dataType, length, FamosFileComponentType.Primary, new FamosFileCalibrationInfo())
         {
             //
         }
 
-        public FamosFileAnalogComponent(
-               FamosFileDataType dataType,
-               int length,
-               FamosFileCalibrationInfo calibrationInfo) : this(dataType, length, FamosFileDataComponentType.Primary, calibrationInfo)
+        public FamosFileAnalogComponent(FamosFileDataType dataType,
+                                        int length,
+                                        FamosFileCalibrationInfo calibrationInfo) : this(dataType, length, FamosFileComponentType.Primary, calibrationInfo)
         {
             //
         }
 
-        public FamosFileAnalogComponent(
-               FamosFileDataType dataType,
-               int length,
-               FamosFileDataComponentType componentType) : this(dataType, length, componentType, new FamosFileCalibrationInfo())
+        public FamosFileAnalogComponent(FamosFileDataType dataType,
+                                        int length,
+                                        FamosFileComponentType componentType) : this(dataType, length, componentType, new FamosFileCalibrationInfo())
         {
             //
         }
 
-        public FamosFileAnalogComponent(
-               FamosFileDataType dataType,
-               int length,
-               FamosFileDataComponentType componentType,
-               FamosFileCalibrationInfo calibrationInfo) : base(dataType, componentType, length)
+        public FamosFileAnalogComponent(FamosFileDataType dataType,
+                                        int length,
+                                        FamosFileComponentType componentType,
+                                        FamosFileCalibrationInfo calibrationInfo) : base(dataType, length, componentType)
         {
             this.CalibrationInfo = calibrationInfo;
         }
 
-#pragma warning disable CS8618
-        public FamosFileAnalogComponent(BinaryReader reader,
-                                        int codePage,
-                                        FamosFileXAxisScaling? currentXAxisScaling,
-                                        FamosFileZAxisScaling? currentZAxisScaling,
-                                        FamosFileTriggerTime? currentTriggerTime)
-            : base(reader, codePage, currentXAxisScaling, currentZAxisScaling, currentTriggerTime)
+        #endregion
+
+        #region Named Constructors
+
+        public FamosFileAnalogComponent(string name,
+                                        FamosFileDataType dataType,
+                                        int length) : this(name, dataType, length, FamosFileComponentType.Primary, new FamosFileCalibrationInfo())
         {
-            if (this.CalibrationInfo is null)
-                throw new FormatException($"The analog component '{this.Name}' does not define calibration information.");
+            //
+        }
+
+        public FamosFileAnalogComponent(string name,
+                                        FamosFileDataType dataType,
+                                        int length,
+                                        FamosFileCalibrationInfo calibrationInfo) : this(name, dataType, length, FamosFileComponentType.Primary, calibrationInfo)
+        {
+            //
+        }
+
+        public FamosFileAnalogComponent(string name,
+                                        FamosFileDataType dataType,
+                                        int length,
+                                        FamosFileComponentType componentType) : this(name, dataType, length, componentType, new FamosFileCalibrationInfo())
+        {
+            //
+        }
+
+        public FamosFileAnalogComponent(string name,
+                                        FamosFileDataType dataType,
+                                        int length,
+                                        FamosFileComponentType componentType,
+                                        FamosFileCalibrationInfo calibrationInfo) : base(dataType, length, componentType)
+        {
+            this.Channels.Add(new FamosFileChannel(name));
+            this.CalibrationInfo = calibrationInfo;
+        }
+
+        #endregion
+
+        #region Constructors
+
+        internal FamosFileAnalogComponent(BinaryReader reader, int codePage) : base(reader, codePage)
+        {
+            //
         }
 
         #endregion
 
         #region Properties
 
-        public FamosFileCalibrationInfo CalibrationInfo { get; set; }
+        public FamosFileCalibrationInfo? CalibrationInfo { get; set; }
 
         #endregion
 
@@ -506,11 +541,6 @@ namespace ImcFamosFile
 
             if (this.PackInfo.DataType == FamosFileDataType.Digital16Bit)
                 throw new FormatException($"For analog components the data type must be not '{nameof(FamosFileDataType.Digital16Bit)}'.");
-
-            if ((this.PackInfo.DataType == FamosFileDataType.Float32 
-              || this.PackInfo.DataType == FamosFileDataType.Float64) 
-              && this.CalibrationInfo.ApplyTransformation)
-                throw new FormatException($"Components with raw data of type '{nameof(FamosFileDataType.Float32)}' or '{nameof(FamosFileDataType.Float64)}' are not allowed to set the calibration info's property '{nameof(this.CalibrationInfo.ApplyTransformation)}' to 'true'.");
         }
 
         #endregion

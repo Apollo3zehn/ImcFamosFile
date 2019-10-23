@@ -18,14 +18,14 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        internal FamosFileSingleValue(string name, byte[] rawData)
+        protected FamosFileSingleValue(string name, byte[] rawData)
         {
             this.Name = name;
 
             _rawData = rawData;
         }
 
-        internal unsafe FamosFileSingleValue(string name, byte* rawData, int size)
+        protected unsafe FamosFileSingleValue(string name, byte* rawData, int size)
         {
             this.Name = name;
 

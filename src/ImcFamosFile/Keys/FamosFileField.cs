@@ -5,31 +5,27 @@ using System.Linq;
 
 namespace ImcFamosFile
 {
-    public class FamosFileDataField : FamosFileBaseExtended
+    public class FamosFileField : FamosFileBaseExtended
     {
         #region Constructors
 
-        public FamosFileDataField()
+        public FamosFileField()
         {
             //
         }
 
-        public FamosFileDataField(FamosFileDataFieldType type, List<FamosFileComponent> components)
+        public FamosFileField(FamosFileFieldType type, List<FamosFileComponent> components)
         {
             this.Type = type;
             this.Components.AddRange(components);
         }
 
-        internal FamosFileDataField(BinaryReader reader, int codePage) : base(reader, codePage)
+        internal FamosFileField(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            FamosFileXAxisScaling? currentXAxisScaling = null;
-            FamosFileZAxisScaling? currentZAxisScaling = null;
-            FamosFileTriggerTime? currentTriggerTime = null;
-
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 var componentCount = this.DeserializeInt32();
-                var type = (FamosFileDataFieldType)this.DeserializeInt32();
+                var type = (FamosFileFieldType)this.DeserializeInt32();
                 var dimension = this.DeserializeInt32();
 
                 this.Type = type;
@@ -37,11 +33,11 @@ namespace ImcFamosFile
                 if (dimension != this.Dimension)
                     throw new FormatException($"The data field dimension is invalid. Expected '{this.Dimension}', got '{dimension}'.");
 
-                if (this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime &&
+                if (this.Type == FamosFileFieldType.MultipleYToSingleEquidistantTime &&
                     this.Dimension != 1)
                     throw new FormatException($"The field dimension is invalid. Expected '1', got '{this.Dimension}'.");
 
-                if (this.Type > FamosFileDataFieldType.MultipleYToSingleEquidistantTime &&
+                if (this.Type > FamosFileFieldType.MultipleYToSingleEquidistantTime &&
                     this.Dimension != 2)
                     throw new FormatException($"The field dimension is invalid. Expected '2', got '{this.Dimension}'.");
             });
@@ -61,31 +57,27 @@ namespace ImcFamosFile
 
                 // CD
                 else if (nextKeyType == FamosFileKeyType.CD)
-                    currentXAxisScaling = new FamosFileXAxisScaling(this.Reader, this.CodePage);
+                    this.XAxisScaling = new FamosFileXAxisScaling(this.Reader, this.CodePage);
 
                 // CZ
                 else if (nextKeyType == FamosFileKeyType.CZ)
-                    currentZAxisScaling = new FamosFileZAxisScaling(this.Reader, this.CodePage);
+                    this.ZAxisScaling = new FamosFileZAxisScaling(this.Reader, this.CodePage);
 
                 // NT
                 else if (nextKeyType == FamosFileKeyType.NT)
-                    currentTriggerTime = new FamosFileTriggerTime(this.Reader);
+                    this.TriggerTime = new FamosFileTriggerTime(this.Reader);
 
                 // CC
                 else if (nextKeyType == FamosFileKeyType.CC)
                 {
-                    var component = new FamosFileComponent.Deserializer(this.Reader, this.CodePage).Deserialize(currentXAxisScaling, currentZAxisScaling, currentTriggerTime);
-
-                    currentXAxisScaling = component.XAxisScaling;
-                    currentZAxisScaling = component.ZAxisScaling;
-                    currentTriggerTime = component.TriggerTime;
-
+                    var component = new FamosFileComponent.Deserializer(this.Reader, this.CodePage).Deserialize();
                     this.Components.Add(component);
                 }
 
                 // CV
                 else if (nextKeyType == FamosFileKeyType.CV)
-                    this.EventInfos.Add(new FamosFileEventInfo(this.Reader));
+                    throw new NotSupportedException("Events are not supported yet. Please send a sample file to the package author to find a solution.");
+                    //this.EventInfos.Add(new FamosFileEventInfo(this.Reader));
 
                 // Cb
                 else if (nextKeyType == FamosFileKeyType.Cb)
@@ -104,35 +96,25 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public FamosFileDataFieldType Type { get; set; } = FamosFileDataFieldType.MultipleYToSingleEquidistantTime;
-        public int Dimension => this.Type == FamosFileDataFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
+        public FamosFileFieldType Type { get; set; } = FamosFileFieldType.MultipleYToSingleEquidistantTime;
+        public int Dimension => this.Type == FamosFileFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
         public List<FamosFileComponent> Components { get; } = new List<FamosFileComponent>();
         public List<FamosFileEventInfo> EventInfos { get; private set; } = new List<FamosFileEventInfo>();
 
-        public string Name
-        {
-            get
-            {
-                var name = string.Empty;
-
-                foreach (var component in this.Components)
-                {
-                    if (!string.IsNullOrWhiteSpace(component.Name))
-                    {
-                        name = component.Name;
-                        break;
-                    }
-                }
-
-                return name;
-            }
-        }
+        public FamosFileXAxisScaling? XAxisScaling { get; set; }
+        public FamosFileZAxisScaling? ZAxisScaling { get; set; }
+        public FamosFileTriggerTime? TriggerTime { get; set; }
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
 
         #endregion
 
         #region Methods
+
+        public List<FamosFileChannel> GetChannels()
+        {
+            return this.Components.SelectMany(component => component.Channels).ToList();
+        }
 
         public override void Validate()
         {
@@ -170,6 +152,59 @@ namespace ImcFamosFile
                     };
                 }
             }
+
+            // check that the data type of time data is UInt32. (this causes no error in Famos)
+            //if (this.Type == FamosFileFieldType.MultipleYToSingleMonotonousTime
+            //&& !this.Components.Any(component => component.Type == FamosFileDataComponentType.Primary
+            //                                  && component.PackInfo.DataType == FamosFileDataType.UInt32))
+            //    throw new FormatException("A field with monotonous time axis must have a primary component with data type UInt32.");
+
+            // check number of components
+            var primaryCount = this.Components.Count(component => component.Type == FamosFileComponentType.Primary);
+            var secondaryCount = this.Components.Count(component => component.Type == FamosFileComponentType.Secondary);
+
+            switch (this.Type)
+            {
+                case FamosFileFieldType.MultipleYToSingleEquidistantTime:
+
+                    if (secondaryCount > 0)
+                        throw new FormatException($"A field of type '{nameof(FamosFileFieldType.MultipleYToSingleEquidistantTime)}', must have no components of type '{nameof(FamosFileComponentType.Secondary)}'.");
+
+                    break;
+
+                case FamosFileFieldType.MultipleYToSingleMonotonousTime:
+
+                    if (primaryCount == 0)
+                        throw new FormatException($"A field of type '{nameof(FamosFileFieldType.MultipleYToSingleMonotonousTime)}', must contain one or more '{nameof(FamosFileComponentType.Primary)}' components.");
+
+                    if (secondaryCount != 1)
+                        throw new FormatException($"A field of type '{nameof(FamosFileFieldType.MultipleYToSingleMonotonousTime)}', must contain a single '{nameof(FamosFileComponentType.Secondary)}' component (the time axis) and one or more '{nameof(FamosFileComponentType.Primary)}' components.");
+
+                    break;
+
+                case FamosFileFieldType.MultipleYToSingleXOrViceVersa:
+
+                    if (!(primaryCount == 1 && secondaryCount >= 1) || (primaryCount >= 1 && secondaryCount == 1))
+                        throw new FormatException($"A field of type '{nameof(FamosFileFieldType.MultipleYToSingleXOrViceVersa)}', must contain a single '{nameof(FamosFileComponentType.Primary)}' component and one or more '{nameof(FamosFileComponentType.Secondary)}' components or vice versa.");
+
+                    break;
+
+                case FamosFileFieldType.ComplexRealImaginary:
+                case FamosFileFieldType.ComplexMagnitudePhase:
+                case FamosFileFieldType.ComplexMagnitudeDBPhase:
+
+                    if (primaryCount != 1 || secondaryCount != 1)
+                        throw new FormatException($"A complex field must contain a single '{nameof(FamosFileComponentType.Primary)}' component and a single '{nameof(FamosFileComponentType.Secondary)}' component.");
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            /* not yet supported region */
+            if (this.EventInfos.Any())
+                throw new NotSupportedException("Events are not supported yet. Please send a sample file to the package author to find a solution.");
         }
 
         #endregion
@@ -212,27 +247,19 @@ namespace ImcFamosFile
 
             this.SerializeKey(writer, 1, data);
 
-            if (this.Components.Any())
+            // CD
+            this.XAxisScaling?.Serialize(writer);
+
+            // CZ
+            this.ZAxisScaling?.Serialize(writer);
+
+            // NT
+            this.TriggerTime?.Serialize(writer);
+
+            // CC
+            foreach (var component in this.Components)
             {
-                var firstComponent = this.Components.First();
-
-                // CD
-                if (firstComponent.XAxisScaling != null)
-                    firstComponent.XAxisScaling.Serialize(writer);
-
-                // CZ
-                if (firstComponent.ZAxisScaling != null)
-                    firstComponent.ZAxisScaling.Serialize(writer);
-
-                // NT
-                if (firstComponent.TriggerTime != null)
-                    firstComponent.TriggerTime.Serialize(writer);
-
-                // CC
-                foreach (var component in this.Components)
-                {
-                    component.Serialize(writer);
-                }
+                component.Serialize(writer);
             }
 
             // CV

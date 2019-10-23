@@ -1,6 +1,6 @@
 ﻿namespace ImcFamosFile
 {
-    public enum FamosFileDataFieldType
+    public enum FamosFileFieldType
     {
         MultipleYToSingleEquidistantTime = 1,
         MultipleYToSingleMonotonousTime = 2,

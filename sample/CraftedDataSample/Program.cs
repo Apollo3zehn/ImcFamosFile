@@ -11,10 +11,6 @@ namespace FamosFileSample
     {
         static void Main(string[] args)
         {
-#warning TODO: test events
-#warning TODO: test axis scaling
-            var famosFile1 = FamosFile.Open("crafted_continuous.dat");
-
             // famos file
             var famosFile = new FamosFileHeader();
             var encoding = Encoding.GetEncoding(1252);
@@ -34,26 +30,11 @@ namespace FamosFileSample
                 new FamosFileProperty("Sensor Location", "Below generator.", FamosFilePropertyType.String)
             });
 
-            // define channels
-            var channels = new List<FamosFileChannel>()
-            {
-                new FamosFileChannel("GEN_TEMP_1") { PropertyInfo = propertyInfo1 },
-                new FamosFileChannel("GEN_TEMP_2"),
-                new FamosFileChannel("GEN_TEMP_3"),
-                new FamosFileChannel("GEN_TEMP_4"),
+            // data fields
+            var length = 10; /* number of samples per channel or component, respectively. */
 
-                new FamosFileChannel("GEAR_TEMP_1"),
-                new FamosFileChannel("GEAR_TEMP_2"),
-                new FamosFileChannel("GEAR_TEMP_3"),
-
-                new FamosFileChannel("HYD_TEMP_1"),
-                new FamosFileChannel("HYD_TEMP_2"),
-
-                new FamosFileChannel("ENV_TEMP_1")
-            };
-
-            // calibration info (for third generator component)
-            var calibrationInfo = new FamosFileCalibrationInfo()
+            /* calibration info (for third generator component) */
+            var calibrationInfo1 = new FamosFileCalibrationInfo()
             {
                 ApplyTransformation = true,
                 Factor = 10,
@@ -61,91 +42,102 @@ namespace FamosFileSample
                 Unit = "°C"
             };
 
-            // trigger time for all components
-            var triggerTime = new FamosFileTriggerTime(DateTime.Now, FamosFileTimeMode.Normal);
-
-            // data fields
-            var length = 10; /* number of samples per channel or component, respectively. */
+            var calibrationInfo2 = new FamosFileCalibrationInfo()
+            {
+                Unit = "A"
+            };
 
             /* data field with equidistant time */
-            var dataField1 = new FamosFileDataField(FamosFileDataFieldType.MultipleYToSingleEquidistantTime, new List<FamosFileComponent>()
+            famosFile.Fields.Add(new FamosFileField(FamosFileFieldType.MultipleYToSingleEquidistantTime, new List<FamosFileComponent>()
             {
-                /* generator */
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length) { TriggerTime = triggerTime },
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length) { TriggerTime = triggerTime },
-                new FamosFileAnalogComponent(FamosFileDataType.Int32, length, calibrationInfo) { TriggerTime = triggerTime },
+                /* generator data */
+                new FamosFileAnalogComponent("GEN_TEMP_1", FamosFileDataType.Float32, length, calibrationInfo1),
+                new FamosFileAnalogComponent("GEN_TEMP_2", FamosFileDataType.Float32, length, calibrationInfo1),
+                new FamosFileAnalogComponent("GEN_TEMP_3", FamosFileDataType.Int32, length, calibrationInfo1),
 
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length) { TriggerTime = triggerTime },
-
-                /* gearbox */
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length) { TriggerTime = triggerTime },
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length) { TriggerTime = triggerTime },
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length) { TriggerTime = triggerTime },
+                new FamosFileAnalogComponent("GEN_TEMP_4", FamosFileDataType.Float32, length, calibrationInfo1),
 
                 /* no group */
-                new FamosFileAnalogComponent(FamosFileDataType.Int16, length) { TriggerTime = triggerTime }
+                new FamosFileAnalogComponent("ENV_TEMP_1", FamosFileDataType.Int16, length, calibrationInfo1)
+            })
+            {
+                TriggerTime = new FamosFileTriggerTime(DateTime.Now, FamosFileTimeMode.Normal),
+
+                XAxisScaling = new FamosFileXAxisScaling(deltaX: 985.0M)
+                {
+                    DeltaX = 0.01M,
+                    Unit = "Seconds"
+                }
             });
 
             /* data field with monotonous increasing time */
-            var dataField2 = new FamosFileDataField(FamosFileDataFieldType.MultipleYToSingleMonotonousTime, new List<FamosFileComponent>()
+            famosFile.Fields.Add(new FamosFileField(FamosFileFieldType.MultipleYToSingleMonotonousTime, new List<FamosFileComponent>()
             {
-                /* time-axis */
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length, FamosFileDataComponentType.Primary) { TriggerTime = triggerTime },
+                /* hydraulic data */
+                new FamosFileAnalogComponent("HYD_TEMP_1", FamosFileDataType.Float32, length, calibrationInfo1),
+                new FamosFileAnalogComponent("HYD_TEMP_2", FamosFileDataType.Float32, length, calibrationInfo1),
 
-                /* hydraulic */
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length, FamosFileDataComponentType.Secondary) { TriggerTime = triggerTime },
-                new FamosFileAnalogComponent(FamosFileDataType.Float32, length, FamosFileDataComponentType.Secondary) { TriggerTime = triggerTime },
+                /* time-axis */
+                new FamosFileAnalogComponent(FamosFileDataType.UInt32, length, FamosFileComponentType.Secondary),
+            })
+            {
+                XAxisScaling = new FamosFileXAxisScaling(deltaX: 100M)
+                {
+                    X0 = 0M,
+                    Unit = "Milliseconds"
+                }
             });
 
-            // add events to data field
-            dataField1.EventInfos.Add(new FamosFileEventInfo(new List<FamosFileEvent>()
+            /* data field with complex values */
+            famosFile.Fields.Add(new FamosFileField(FamosFileFieldType.ComplexRealImaginary, new List<FamosFileComponent>()
             {
-                new FamosFileEvent()
+                /* converter data (real part) */
+                new FamosFileAnalogComponent("CONV_CURRENT_L1", FamosFileDataType.Float32, length, FamosFileComponentType.Primary, calibrationInfo2),
+
+                /* converter data (imaginary part) */
+                new FamosFileAnalogComponent(FamosFileDataType.Float32, length, FamosFileComponentType.Secondary, calibrationInfo2),
+            })
+            {
+                XAxisScaling = new FamosFileXAxisScaling(deltaX: 1/25000M)
                 {
-                    AmplificationFactor0 = 0, AmplificationFactor1 = 1,
-                    AmplitudeOffset0 = 2, AmplitudeOffset1 = 3,
-                    dx = 4,
-                    Index = 1,
-                    Length = 6,
-                    Offset = 7,
-                    Time = 8,
-                    x0 = 9
+                    X0 = 0M,
+                    Unit = "Seconds"
                 },
-                new FamosFileEvent()
+                ZAxisScaling = new FamosFileZAxisScaling(deltaZ: 5M)
                 {
-                    AmplificationFactor0 = 10, AmplificationFactor1 = 11,
-                    AmplitudeOffset0 = 12, AmplitudeOffset1 = 13,
-                    dx = 14,
-                    Index = 2,
-                    Length = 16,
-                    Offset = 17,
-                    Time = 18,
-                    x0 = 19
+                    Z0 = 0M,
+                    SegmentSize = 2,
+                    Unit = "Meters"
                 }
-            }));
+            });
 
-            // add data fields to famosFile instance
-            famosFile.DataFields.Add(dataField1);
-            famosFile.DataFields.Add(dataField2);
+            // add events to data field (not supported yet)
 
-            // assign channels to components (generator)
-            dataField1.Components[0].Channels.Add(channels[0]);
-            dataField1.Components[1].Channels.Add(channels[1]);
-            dataField1.Components[2].Channels.Add(channels[2]);
-
-            dataField1.Components[3].Channels.Add(channels[3]);
-
-            // assign channels to components (gearbox)
-            dataField1.Components[4].Channels.Add(channels[4]);
-            dataField1.Components[5].Channels.Add(channels[5]);
-            dataField1.Components[6].Channels.Add(channels[6]);
-
-            // assign channels to components (hydraulic)
-            dataField2.Components[1].Channels.Add(channels[7]);
-            dataField2.Components[2].Channels.Add(channels[8]);
-
-            // assign channels to components (no group)
-            dataField1.Components[7].Channels.Add(channels[9]);
+            //field1.EventInfos.Add(new FamosFileEventInfo(new List<FamosFileEvent>()
+            //{
+            //    new FamosFileEvent()
+            //    {
+            //        AmplificationFactor0 = 0, AmplificationFactor1 = 1,
+            //        AmplitudeOffset0 = 2, AmplitudeOffset1 = 3,
+            //        deltaX = 4,
+            //        Index = 1,
+            //        Length = 6,
+            //        Offset = 7,
+            //        Time = 8,
+            //        x0 = 9
+            //    },
+            //    new FamosFileEvent()
+            //    {
+            //        AmplificationFactor0 = 10, AmplificationFactor1 = 11,
+            //        AmplitudeOffset0 = 12, AmplitudeOffset1 = 13,
+            //        deltaX = 14,
+            //        Index = 2,
+            //        Length = 16,
+            //        Offset = 17,
+            //        Time = 18,
+            //        x0 = 19
+            //    }
+            //}));
 
             // property info (for hydraulic group)
             var propertyInfo2 = new FamosFilePropertyInfo(new List<FamosFileProperty>()
@@ -159,21 +151,21 @@ namespace FamosFileSample
                 /* generator */
                 new FamosFileGroup("Generator") { Comment = "This group contains channels related to the generator." },
 
-                /* gearbox */
-                new FamosFileGroup("Gearbox") { Comment = "This group contains channels related to the gearbox." },
-
                 /* hydraulic */
                 new FamosFileGroup("Hydraulic")
                 {
-                    Comment = "This group contains channels related to the hydraulic.",
+                    Comment = "This group contains channels related to the hydraulic unit.",
                     PropertyInfo = propertyInfo2
-                }
+                },
+
+                /* converter */
+                new FamosFileGroup("Converter") { Comment = "This group contains channels related to the converter." }
             });
 
             // get group references
             var generatorGroup = famosFile.Groups[0];
-            var gearboxGroup = famosFile.Groups[1];
-            var hydraulicGroup = famosFile.Groups[2];
+            var hydraulicGroup = famosFile.Groups[1];
+            var converterGroup = famosFile.Groups[2];
 
             // add elements to the generator group
             generatorGroup.SingleValues.Add(new FamosFileSingleValue<double>("GEN_TEMP_1_AVG", 40.25)
@@ -192,37 +184,31 @@ namespace FamosFileSample
                 })
             });
 
-            generatorGroup.Channels.AddRange(channels.Skip(0).Take(4));
-
-            // add elements to the gearbox group
-            gearboxGroup.Channels.AddRange(channels.Skip(4).Take(3));
+            generatorGroup.Channels.AddRange(famosFile.Fields[0].GetChannels().Take(4));
 
             // add elements to the hydraulic group
-            hydraulicGroup.Channels.AddRange(channels.Skip(7).Take(2));
+            hydraulicGroup.Channels.AddRange(famosFile.Fields[1].GetChannels());
 
-            // add elements to top level (no group)
+            // add elements to the converter group
+            converterGroup.Channels.AddRange(famosFile.Fields[2].GetChannels());
+
+            // add other elements to top level (no group)
             famosFile.Texts.Add(new FamosFileText("Random list of texts.", new List<string>() { "Text 1.", "Text 2?", "Text 3!" }));
-            famosFile.Channels.Add(channels[9]);
+            famosFile.Channels.Add(famosFile.Fields[0].GetChannels().Last());
 
-            // save file normally (one buffer per component)
-            famosFile.Save("crafted_continuous.dat", FileMode.Create, writer =>
-            {
-                Program.WriteFileContent(famosFile, writer, length);
-            });
+            // OPTION 1: save file normally (one buffer per component)
+            famosFile.Save("crafted_continuous.dat", FileMode.Create, writer => Program.WriteFileContent(famosFile, writer, length));
 
-            // save file interlaced (a single buffer for all components, i.e. row-wise like an excel document)
+            // OPTION 2: save file interlaced (a single buffer for all components, i.e. write data row-wise like in an Excel document)
             var rawData = famosFile.RawData.First(); // This raw data instance was created by the previous call to 'famosFile.Save(...)'.
-            famosFile.AlignBuffers(rawData, FamosFileAlignmentMode.Interlaced);
 
-            famosFile.Save("crafted_interlaced.dat", FileMode.Create, writer =>
-            {
-                Program.WriteFileContent(famosFile, writer, length);
-            }, autoAlign: false);
+            famosFile.AlignBuffers(rawData, FamosFileAlignmentMode.Interlaced);
+            famosFile.Save("crafted_interlaced.dat", FileMode.Create, writer => Program.WriteFileContent(famosFile, writer, length), autoAlign: false);
         }
 
         private static void WriteFileContent(FamosFileHeader famosFile, BinaryWriter writer, int length)
         {
-            var components = famosFile.DataFields.SelectMany(dataField => dataField.Components).ToList();
+            var components = famosFile.Fields.SelectMany(field => field.Components).ToList();
 
             // Generate some 'random' datasets and write them to file. One dataset per component.
             for (int i = 0; i < components.Count(); i++)
@@ -237,6 +223,7 @@ namespace FamosFileSample
                         break;
 
                     case FamosFileDataType.Int32:
+                    case FamosFileDataType.UInt32:
                         var intData = Enumerable.Range(0, length).Select(value => value + i * 100).ToArray();
                         famosFile.WriteSingle(writer, component, intData);
                         break;

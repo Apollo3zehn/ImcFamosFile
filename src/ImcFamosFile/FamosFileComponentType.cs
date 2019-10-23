@@ -1,6 +1,6 @@
 ﻿namespace ImcFamosFile
 {
-    public enum FamosFileDataComponentType
+    public enum FamosFileComponentType
     {
         /// <summary>
         /// Depending on the data field type: single value, real part, magnitude, magnitude in dB, 'y' of XY or timestamp (ASCII).
