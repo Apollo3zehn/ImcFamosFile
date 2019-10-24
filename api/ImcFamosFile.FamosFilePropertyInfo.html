@@ -73,7 +73,8 @@
   
   <h1 id="ImcFamosFile_FamosFilePropertyInfo" data-uid="ImcFamosFile.FamosFilePropertyInfo" class="text-break">Class FamosFilePropertyInfo
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Contains a list of properties.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -97,7 +98,10 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader">FamosFileBase.Reader</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(StreamWriter, Int32, Object[], Boolean)</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate">FamosFileBase.Validate()</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey">FamosFileBase.SkipKey()</a>
@@ -124,7 +128,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64">FamosFileBase.DeserializeInt64()</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFloat64">FamosFileBase.DeserializeFloat64()</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal">FamosFileBase.DeserializeReal()</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType">FamosFileBase.DeserializeKeyType()</a>
@@ -164,16 +168,51 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFilePropertyInfo__ctor.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFilePropertyInfo.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L13">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L19">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFilePropertyInfo__ctor_" data-uid="ImcFamosFile.FamosFilePropertyInfo.#ctor*"></a>
   <h4 id="ImcFamosFile_FamosFilePropertyInfo__ctor" data-uid="ImcFamosFile.FamosFilePropertyInfo.#ctor">FamosFilePropertyInfo()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="ImcFamosFile.FamosFilePropertyInfo.html">FamosFilePropertyInfo</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public FamosFilePropertyInfo()</code></pre>
   </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFilePropertyInfo__ctor_System_Collections_Generic_List_ImcFamosFile_FamosFileProperty__.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFilePropertyInfo.%23ctor(System.Collections.Generic.List%7BImcFamosFile.FamosFileProperty%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L28">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFilePropertyInfo__ctor_" data-uid="ImcFamosFile.FamosFilePropertyInfo.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFilePropertyInfo__ctor_System_Collections_Generic_List_ImcFamosFile_FamosFileProperty__" data-uid="ImcFamosFile.FamosFilePropertyInfo.#ctor(System.Collections.Generic.List{ImcFamosFile.FamosFileProperty})">FamosFilePropertyInfo(List&lt;FamosFileProperty&gt;)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="ImcFamosFile.FamosFilePropertyInfo.html">FamosFilePropertyInfo</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FamosFilePropertyInfo(List&lt;FamosFileProperty&gt; properties)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileProperty.html">FamosFileProperty</a>&gt;</td>
+        <td><span class="parametername">properties</span></td>
+        <td><p>A list of properties.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
@@ -181,7 +220,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFilePropertyInfo_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFilePropertyInfo.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L37">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L56">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFilePropertyInfo_KeyType_" data-uid="ImcFamosFile.FamosFilePropertyInfo.KeyType*"></a>
   <h4 id="ImcFamosFile_FamosFilePropertyInfo_KeyType" data-uid="ImcFamosFile.FamosFilePropertyInfo.KeyType">KeyType</h4>
@@ -213,11 +252,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFilePropertyInfo_Properties.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFilePropertyInfo.Properties%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L36">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L54">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFilePropertyInfo_Properties_" data-uid="ImcFamosFile.FamosFilePropertyInfo.Properties*"></a>
   <h4 id="ImcFamosFile_FamosFilePropertyInfo_Properties" data-uid="ImcFamosFile.FamosFilePropertyInfo.Properties">Properties</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets a list of properties.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -249,7 +289,7 @@
                     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFilePropertyInfo.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFilePropertyInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFilePropertyInfo.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

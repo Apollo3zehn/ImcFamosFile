@@ -73,7 +73,8 @@
   
   <h1 id="ImcFamosFile_FamosFileZAxisScaling" data-uid="ImcFamosFile.FamosFileZAxisScaling" class="text-break">Class FamosFileZAxisScaling
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Contains information to scale the z-axis.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -97,7 +98,10 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader">FamosFileBase.Reader</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(StreamWriter, Int32, Object[], Boolean)</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate">FamosFileBase.Validate()</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey">FamosFileBase.SkipKey()</a>
@@ -124,7 +128,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64">FamosFileBase.DeserializeInt64()</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFloat64">FamosFileBase.DeserializeFloat64()</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal">FamosFileBase.DeserializeReal()</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType">FamosFileBase.DeserializeKeyType()</a>
@@ -161,35 +165,55 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling__ctor.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling__ctor_System_Decimal_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.%23ctor(System.Decimal)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L17">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L24">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileZAxisScaling__ctor_" data-uid="ImcFamosFile.FamosFileZAxisScaling.#ctor*"></a>
-  <h4 id="ImcFamosFile_FamosFileZAxisScaling__ctor" data-uid="ImcFamosFile.FamosFileZAxisScaling.#ctor">FamosFileZAxisScaling()</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ImcFamosFile_FamosFileZAxisScaling__ctor_System_Decimal_" data-uid="ImcFamosFile.FamosFileZAxisScaling.#ctor(System.Decimal)">FamosFileZAxisScaling(Decimal)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="ImcFamosFile.FamosFileZAxisScaling.html">FamosFileZAxisScaling</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileZAxisScaling()</code></pre>
+    <pre><code class="lang-csharp hljs">public FamosFileZAxisScaling(decimal deltaZ)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Decimal</span></td>
+        <td><span class="parametername">deltaZ</span></td>
+        <td><p>The distance between two segments.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_dz.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.dz%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_DeltaZ.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.DeltaZ%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L41">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L51">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileZAxisScaling_dz_" data-uid="ImcFamosFile.FamosFileZAxisScaling.dz*"></a>
-  <h4 id="ImcFamosFile_FamosFileZAxisScaling_dz" data-uid="ImcFamosFile.FamosFileZAxisScaling.dz">dz</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ImcFamosFile_FamosFileZAxisScaling_DeltaZ_" data-uid="ImcFamosFile.FamosFileZAxisScaling.DeltaZ*"></a>
+  <h4 id="ImcFamosFile_FamosFileZAxisScaling_DeltaZ" data-uid="ImcFamosFile.FamosFileZAxisScaling.DeltaZ">DeltaZ</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the distance between two segments.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double dz { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public decimal DeltaZ { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -201,25 +225,26 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">System.Decimal</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_IsDzCalibrated.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.IsDzCalibrated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_IsDeltaZCalibrated.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.IsDeltaZCalibrated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L53">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L66">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileZAxisScaling_IsDzCalibrated_" data-uid="ImcFamosFile.FamosFileZAxisScaling.IsDzCalibrated*"></a>
-  <h4 id="ImcFamosFile_FamosFileZAxisScaling_IsDzCalibrated" data-uid="ImcFamosFile.FamosFileZAxisScaling.IsDzCalibrated">IsDzCalibrated</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ImcFamosFile_FamosFileZAxisScaling_IsDeltaZCalibrated_" data-uid="ImcFamosFile.FamosFileZAxisScaling.IsDeltaZCalibrated*"></a>
+  <h4 id="ImcFamosFile_FamosFileZAxisScaling_IsDeltaZCalibrated" data-uid="ImcFamosFile.FamosFileZAxisScaling.IsDeltaZCalibrated">IsDeltaZCalibrated</h4>
+  <div class="markdown level1 summary"><p>Gets or sets a boolean which indicates if DeltaZ is calibrated.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsDzCalibrated { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool IsDeltaZCalibrated { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -241,11 +266,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_IsZ0Calibrated.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.IsZ0Calibrated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L55">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L76">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileZAxisScaling_IsZ0Calibrated_" data-uid="ImcFamosFile.FamosFileZAxisScaling.IsZ0Calibrated*"></a>
   <h4 id="ImcFamosFile_FamosFileZAxisScaling_IsZ0Calibrated" data-uid="ImcFamosFile.FamosFileZAxisScaling.IsZ0Calibrated">IsZ0Calibrated</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets a boolean which indicates if Z0 is calibrated.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -271,7 +297,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L71">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L99">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileZAxisScaling_KeyType_" data-uid="ImcFamosFile.FamosFileZAxisScaling.KeyType*"></a>
   <h4 id="ImcFamosFile_FamosFileZAxisScaling_KeyType" data-uid="ImcFamosFile.FamosFileZAxisScaling.KeyType">KeyType</h4>
@@ -303,11 +329,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_SegmentSize.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.SegmentSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L58">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L86">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileZAxisScaling_SegmentSize_" data-uid="ImcFamosFile.FamosFileZAxisScaling.SegmentSize*"></a>
   <h4 id="ImcFamosFile_FamosFileZAxisScaling_SegmentSize" data-uid="ImcFamosFile.FamosFileZAxisScaling.SegmentSize">SegmentSize</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the number of samples per segment.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -333,11 +360,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_Unit.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.Unit%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L56">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L81">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileZAxisScaling_Unit_" data-uid="ImcFamosFile.FamosFileZAxisScaling.Unit*"></a>
   <h4 id="ImcFamosFile_FamosFileZAxisScaling_Unit" data-uid="ImcFamosFile.FamosFileZAxisScaling.Unit">Unit</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets unit of this axis.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -360,18 +388,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_z0.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.z0%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling_Z0.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling.Z0%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L54">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L71">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileZAxisScaling_z0_" data-uid="ImcFamosFile.FamosFileZAxisScaling.z0*"></a>
-  <h4 id="ImcFamosFile_FamosFileZAxisScaling_z0" data-uid="ImcFamosFile.FamosFileZAxisScaling.z0">z0</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ImcFamosFile_FamosFileZAxisScaling_Z0_" data-uid="ImcFamosFile.FamosFileZAxisScaling.Z0*"></a>
+  <h4 id="ImcFamosFile_FamosFileZAxisScaling_Z0" data-uid="ImcFamosFile.FamosFileZAxisScaling.Z0">Z0</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the Z0, i.e. the z-coordinate of the first segment.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double z0 { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public decimal Z0 { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -383,7 +412,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">System.Decimal</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -399,7 +428,7 @@
                     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileZAxisScaling.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileZAxisScaling%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileZAxisScaling.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

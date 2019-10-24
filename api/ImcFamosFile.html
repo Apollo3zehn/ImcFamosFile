@@ -78,102 +78,154 @@
     <h3 id="classes">Classes
   </h3>
       <h4><a class="xref" href="ImcFamosFile.FamosFile.html">FamosFile</a></h4>
-      <section></section>
+      <section><p>Represents an imc FAMOS file in a hierachical structure containing texts, single values, channels and more. It is capable of reading file data.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a></h4>
-      <section></section>
+      <section><p>An analog component, which is a full description of a single dataset with byte-oriented data.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileBase.html">FamosFileBase</a></h4>
-      <section></section>
+      <section><p>Base type to represent all imc FAMOS file keys.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileBaseExtended.html">FamosFileBaseExtended</a></h4>
-      <section></section>
+      <section><p>Extended base for imc FAMOS file keys to additionally handle strings.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileBaseProperty.html">FamosFileBaseProperty</a></h4>
-      <section></section>
+      <section><p>A base class for (de)serializable keys that allows having additional properties assigned.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileBuffer.html">FamosFileBuffer</a></h4>
-      <section></section>
+      <section><p>A buffer describes the length and position of component data within the file.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileBufferInfo.html">FamosFileBufferInfo</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileCalibrationInfo.html">FamosFileCalibrationInfo</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileChannelInfo.html">FamosFileChannelInfo</a></h4>
-      <section></section>
+      <section><p>A list of buffers.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileCalibration.html">FamosFileCalibration</a></h4>
+      <section><p>Contains calibration data.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileChannel.html">FamosFileChannel</a></h4>
+      <section><p>Channels are used to assign names to components. A channel can be assigned to a group.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileChannelData.html">FamosFileChannelData</a></h4>
+      <section><p>Channel wraps a list of <a class="xref" href="ImcFamosFile.FamosFileChannelData.html#ImcFamosFile_FamosFileChannelData_ComponentsData">ComponentsData</a>, depending on the type of data loaded.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileComponent.html">FamosFileComponent</a></h4>
-      <section></section>
+      <section><p>A base class for a component, which is a full description of a single dataset.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileComponentData.html">FamosFileComponentData</a></h4>
+      <section><p>Base class for component data, which provides the actual data and additional information to interpret these.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileComponentData-1.html">FamosFileComponentData&lt;T&gt;</a></h4>
+      <section><p>This type provides the actual data of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> and additional information to interpret these.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileCustomKey.html">FamosFileCustomKey</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileData.html">FamosFileData</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileData-1.html">FamosFileData&lt;T&gt;</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileDataField.html">FamosFileDataField</a></h4>
-      <section></section>
+      <section><p>Custom keys can be used to add additional information to the file.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileDataOriginInfo.html">FamosFileDataOriginInfo</a></h4>
-      <section></section>
+      <section><p>Contains information about the data origin.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileDigitalComponent.html">FamosFileDigitalComponent</a></h4>
-      <section></section>
+      <section><p>A digital component, which is a full description of a single dataset with bit-oriented data.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileDisplayInfo.html">FamosFileDisplayInfo</a></h4>
-      <section></section>
+      <section><p>Contains information about how to display a component.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileEvent.html">FamosFileEvent</a></h4>
-      <section></section>
+      <section><p>Describes a single event.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileEventInfo.html">FamosFileEventInfo</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileEventLocationInfo.html">FamosFileEventLocationInfo</a></h4>
-      <section></section>
+      <section><p>Contains a list of events.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileEventReference.html">FamosFileEventReference</a></h4>
+      <section><p>Represents a description of which events belong to the component.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileField.html">FamosFileField</a></h4>
+      <section><p>A field is a collection of components, e.g. to represent X and Y data of a measurement.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileGroup.html">FamosFileGroup</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileKeyGroup.html">FamosFileKeyGroup</a></h4>
-      <section></section>
+      <section><p>A group is a collection of texts, single values and channels.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileHeader.html">FamosFileHeader</a></h4>
+      <section><p>Represents an imc FAMOS file in a hierachical structure containing texts, single values, channels and more.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileLanguageInfo.html">FamosFileLanguageInfo</a></h4>
-      <section></section>
+      <section><p>Contains information about the language and string encoding.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFilePackInfo.html">FamosFilePackInfo</a></h4>
-      <section></section>
+      <section><p>A pack info fully describes the data layout.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileProperty.html">FamosFileProperty</a></h4>
-      <section></section>
+      <section><p>A named property of certain type.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFilePropertyInfo.html">FamosFilePropertyInfo</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileRawData.html">FamosFileRawData</a></h4>
-      <section></section>
+      <section><p>Contains a list of properties.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileRawBlock.html">FamosFileRawBlock</a></h4>
+      <section><p>Contains the actual data when serialized to the file.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileSingleValue.html">FamosFileSingleValue</a></h4>
-      <section></section>
+      <section><p>The base class for a named single value of certain type.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileText.html">FamosFileText</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileTriggerTimeInfo.html">FamosFileTriggerTimeInfo</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileVariable.html">FamosFileVariable</a></h4>
-      <section></section>
+      <section><p>Contains a named text or a list of texts.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileTriggerTime.html">FamosFileTriggerTime</a></h4>
+      <section><p>Describes the start time of measurement.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileXAxisScaling.html">FamosFileXAxisScaling</a></h4>
-      <section></section>
+      <section><p>Contains information to scale the x-axis.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileZAxisScaling.html">FamosFileZAxisScaling</a></h4>
-      <section></section>
+      <section><p>Contains information to scale the z-axis.</p>
+</section>
     <h3 id="enums">Enums
   </h3>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileDataDirection.html">FamosFileDataDirection</a></h4>
-      <section><p>Data direction of an FamosFile variable.</p>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileAlignmentMode.html">FamosFileAlignmentMode</a></h4>
+      <section><p>Determines the buffer and pack info alignment mode.</p>
 </section>
-      <h4><a class="xref" href="ImcFamosFile.FamosFileDataFieldType.html">FamosFileDataFieldType</a></h4>
-      <section></section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileComponentType.html">FamosFileComponentType</a></h4>
+      <section><p>Determines the type of the component.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileCompressionType.html">FamosFileCompressionType</a></h4>
+      <section><p>Determines the type of the compression.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileDataOrigin.html">FamosFileDataOrigin</a></h4>
-      <section></section>
+      <section><p>Determines the data origin.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></h4>
-      <section><p>Data type of a FamosFile variable.</p>
+      <section><p>Data type of an imc FAMOS file component.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileFieldType.html">FamosFileFieldType</a></h4>
+      <section><p>Determines the field type.</p>
 </section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileKeyType.html">FamosFileKeyType</a></h4>
-      <section><p>Key type of an FamosFile key.</p>
+      <section><p>Type of an imc FAMOS file key.</p>
 </section>
       <h4><a class="xref" href="ImcFamosFile.FamosFilePretriggerUsage.html">FamosFilePretriggerUsage</a></h4>
-      <section></section>
+      <section><p>Determines how the pretrigger of the buffer of the x-axis scaling instance is used.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFilePropertyFlags.html">FamosFilePropertyFlags</a></h4>
-      <section></section>
+      <section><p>Flags that describes the component access in an editor.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFilePropertyType.html">FamosFilePropertyType</a></h4>
-      <section></section>
+      <section><p>The data type of a property.</p>
+</section>
+      <h4><a class="xref" href="ImcFamosFile.FamosFileReductionType.html">FamosFileReductionType</a></h4>
+      <section><p>Determines the data reduction procedure.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileTimeMode.html">FamosFileTimeMode</a></h4>
-      <section></section>
+      <section><p>Determines the time mode.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileValidCDType.html">FamosFileValidCDType</a></h4>
-      <section></section>
+      <section><p>Specifies which data to use.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileValidCR1Type.html">FamosFileValidCR1Type</a></h4>
-      <section></section>
+      <section><p>Specifies which data to use.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileValidCR2Type.html">FamosFileValidCR2Type</a></h4>
-      <section></section>
+      <section><p>Specifies which data to use.</p>
+</section>
       <h4><a class="xref" href="ImcFamosFile.FamosFileValidNTType.html">FamosFileValidNTType</a></h4>
-      <section></section>
+      <section><p>Specifies the trigger time source.</p>
+</section>
 </article>
           </div>
           

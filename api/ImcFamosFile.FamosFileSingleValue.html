@@ -73,7 +73,8 @@
   
   <h1 id="ImcFamosFile_FamosFileSingleValue" data-uid="ImcFamosFile.FamosFileSingleValue" class="text-break">Class FamosFileSingleValue
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>The base class for a named single value of certain type.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -101,7 +102,10 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader">FamosFileBase.Reader</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(StreamWriter, Int32, Object[], Boolean)</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate">FamosFileBase.Validate()</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey">FamosFileBase.SkipKey()</a>
@@ -128,7 +132,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64">FamosFileBase.DeserializeInt64()</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFloat64">FamosFileBase.DeserializeFloat64()</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal">FamosFileBase.DeserializeReal()</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType">FamosFileBase.DeserializeKeyType()</a>
@@ -161,6 +165,87 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public abstract class FamosFileSingleValue : FamosFileBaseProperty</code></pre>
   </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue__ctor_System_String_System_Byte__System_Int32_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.%23ctor(System.String%2CSystem.Byte*%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L31">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileSingleValue__ctor_" data-uid="ImcFamosFile.FamosFileSingleValue.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileSingleValue__ctor_System_String_System_Byte__System_Int32_" data-uid="ImcFamosFile.FamosFileSingleValue.#ctor(System.String,System.Byte*,System.Int32)">FamosFileSingleValue(String, Byte*, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected FamosFileSingleValue(string name, byte *rawBlock, int size)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>*</td>
+        <td><span class="parametername">rawBlock</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">size</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue__ctor_System_String_System_Byte___.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.%23ctor(System.String%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L24">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileSingleValue__ctor_" data-uid="ImcFamosFile.FamosFileSingleValue.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileSingleValue__ctor_System_String_System_Byte___" data-uid="ImcFamosFile.FamosFileSingleValue.#ctor(System.String,System.Byte[])">FamosFileSingleValue(String, Byte[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected FamosFileSingleValue(string name, byte[] rawBlock)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">rawBlock</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="fields">Fields
   </h3>
   <span class="small pull-right mobile-hide">
@@ -168,7 +253,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue__rawData.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue._rawData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L13">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L16">View Source</a>
   </span>
   <h4 id="ImcFamosFile_FamosFileSingleValue__rawData" data-uid="ImcFamosFile.FamosFileSingleValue._rawData">_rawData</h4>
   <div class="markdown level1 summary"></div>
@@ -199,11 +284,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue_Comment.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.Comment%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L44">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L70">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileSingleValue_Comment_" data-uid="ImcFamosFile.FamosFileSingleValue.Comment*"></a>
   <h4 id="ImcFamosFile_FamosFileSingleValue_Comment" data-uid="ImcFamosFile.FamosFileSingleValue.Comment">Comment</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the comment.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -229,11 +315,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue_DataType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.DataType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L40">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L50">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileSingleValue_DataType_" data-uid="ImcFamosFile.FamosFileSingleValue.DataType*"></a>
   <h4 id="ImcFamosFile_FamosFileSingleValue_DataType" data-uid="ImcFamosFile.FamosFileSingleValue.DataType">DataType</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the data type.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -259,7 +346,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L59">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L89">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileSingleValue_KeyType_" data-uid="ImcFamosFile.FamosFileSingleValue.KeyType*"></a>
   <h4 id="ImcFamosFile_FamosFileSingleValue_KeyType" data-uid="ImcFamosFile.FamosFileSingleValue.KeyType">KeyType</h4>
@@ -291,11 +378,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue_Name.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L41">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L55">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileSingleValue_Name_" data-uid="ImcFamosFile.FamosFileSingleValue.Name*"></a>
   <h4 id="ImcFamosFile_FamosFileSingleValue_Name" data-uid="ImcFamosFile.FamosFileSingleValue.Name">Name</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the name.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -321,11 +409,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue_RawData.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.RawData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L42">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L60">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileSingleValue_RawData_" data-uid="ImcFamosFile.FamosFileSingleValue.RawData*"></a>
   <h4 id="ImcFamosFile_FamosFileSingleValue_RawData" data-uid="ImcFamosFile.FamosFileSingleValue.RawData">RawData</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the raw data (bytes).</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -351,11 +440,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue_Time.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.Time%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L45">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L75">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileSingleValue_Time_" data-uid="ImcFamosFile.FamosFileSingleValue.Time*"></a>
   <h4 id="ImcFamosFile_FamosFileSingleValue_Time" data-uid="ImcFamosFile.FamosFileSingleValue.Time">Time</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the time when the value was created.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -381,11 +471,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue_Unit.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue.Unit%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L43">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L65">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileSingleValue_Unit_" data-uid="ImcFamosFile.FamosFileSingleValue.Unit*"></a>
   <h4 id="ImcFamosFile_FamosFileSingleValue_Unit" data-uid="ImcFamosFile.FamosFileSingleValue.Unit">Unit</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the unit.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -417,7 +508,7 @@
                     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileSingleValue.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileSingleValue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileSingleValue.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

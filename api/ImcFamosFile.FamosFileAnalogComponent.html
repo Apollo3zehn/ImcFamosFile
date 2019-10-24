@@ -73,7 +73,8 @@
   
   <h1 id="ImcFamosFile_FamosFileAnalogComponent" data-uid="ImcFamosFile.FamosFileAnalogComponent" class="text-break">Class FamosFileAnalogComponent
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>An analog component, which is a full description of a single dataset with byte-oriented data.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -86,7 +87,7 @@
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_Index">FamosFileComponent.Index</a>
+      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_Type">FamosFileComponent.Type</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_XAxisScaling">FamosFileComponent.XAxisScaling</a>
@@ -95,7 +96,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_ZAxisScaling">FamosFileComponent.ZAxisScaling</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_TriggerTimeInfo">FamosFileComponent.TriggerTimeInfo</a>
+      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_TriggerTime">FamosFileComponent.TriggerTime</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_PackInfo">FamosFileComponent.PackInfo</a>
@@ -107,7 +108,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_DisplayInfo">FamosFileComponent.DisplayInfo</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_EventLocationInfo">FamosFileComponent.EventLocationInfo</a>
+      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_EventReference">FamosFileComponent.EventReference</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_Channels">FamosFileComponent.Channels</a>
@@ -117,6 +118,15 @@
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_Name">FamosFileComponent.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_GetSize">FamosFileComponent.GetSize()</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_GetSize_System_Int32_">FamosFileComponent.GetSize(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_GetSize_System_Int32_System_Int32_">FamosFileComponent.GetSize(Int32, Int32)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended_CodePage">FamosFileBaseExtended.CodePage</a>
@@ -131,7 +141,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader">FamosFileBase.Reader</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(StreamWriter, Int32, Object[], Boolean)</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey">FamosFileBase.SkipKey()</a>
@@ -158,7 +168,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64">FamosFileBase.DeserializeInt64()</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFloat64">FamosFileBase.DeserializeFloat64()</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal">FamosFileBase.DeserializeReal()</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType">FamosFileBase.DeserializeKeyType()</a>
@@ -195,18 +205,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileCalibrationInfo_ImcFamosFile_FamosFilePackInfo_ImcFamosFile_FamosFileBufferInfo_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(ImcFamosFile.FamosFileCalibrationInfo%2CImcFamosFile.FamosFilePackInfo%2CImcFamosFile.FamosFileBufferInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(ImcFamosFile.FamosFileDataType%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L389">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L524">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileAnalogComponent__ctor_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor*"></a>
-  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileCalibrationInfo_ImcFamosFile_FamosFilePackInfo_ImcFamosFile_FamosFileBufferInfo_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(ImcFamosFile.FamosFileCalibrationInfo,ImcFamosFile.FamosFilePackInfo,ImcFamosFile.FamosFileBufferInfo)">FamosFileAnalogComponent(FamosFileCalibrationInfo, FamosFilePackInfo, FamosFileBufferInfo)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(ImcFamosFile.FamosFileDataType,System.Int32)">FamosFileAnalogComponent(FamosFileDataType, Int32)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instances of the <a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(FamosFileCalibrationInfo calibrationInfo, FamosFilePackInfo packInfo, FamosFileBufferInfo bufferInfo)</code></pre>
+    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(FamosFileDataType dataType, int length)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -219,36 +230,34 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="ImcFamosFile.FamosFileCalibrationInfo.html">FamosFileCalibrationInfo</a></td>
-        <td><span class="parametername">calibrationInfo</span></td>
-        <td></td>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>The data type of this component.</p>
+</td>
       </tr>
       <tr>
-        <td><a class="xref" href="ImcFamosFile.FamosFilePackInfo.html">FamosFilePackInfo</a></td>
-        <td><span class="parametername">packInfo</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="ImcFamosFile.FamosFileBufferInfo.html">FamosFileBufferInfo</a></td>
-        <td><span class="parametername">bufferInfo</span></td>
-        <td></td>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of this component.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_System_IO_BinaryReader_System_Int32_System_Nullable_ImcFamosFile_FamosFileXAxisScaling__System_Nullable_ImcFamosFile_FamosFileZAxisScaling__System_Nullable_ImcFamosFile_FamosFileTriggerTimeInfo__.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(System.IO.BinaryReader%2CSystem.Int32%2CSystem.Nullable%7BImcFamosFile.FamosFileXAxisScaling%7D%2CSystem.Nullable%7BImcFamosFile.FamosFileZAxisScaling%7D%2CSystem.Nullable%7BImcFamosFile.FamosFileTriggerTimeInfo%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileCalibration_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(ImcFamosFile.FamosFileDataType%2CSystem.Int32%2CImcFamosFile.FamosFileCalibration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L395">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L536">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileAnalogComponent__ctor_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor*"></a>
-  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_System_IO_BinaryReader_System_Int32_System_Nullable_ImcFamosFile_FamosFileXAxisScaling__System_Nullable_ImcFamosFile_FamosFileZAxisScaling__System_Nullable_ImcFamosFile_FamosFileTriggerTimeInfo__" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(System.IO.BinaryReader,System.Int32,System.Nullable{ImcFamosFile.FamosFileXAxisScaling},System.Nullable{ImcFamosFile.FamosFileZAxisScaling},System.Nullable{ImcFamosFile.FamosFileTriggerTimeInfo})">FamosFileAnalogComponent(BinaryReader, Int32, Nullable&lt;FamosFileXAxisScaling&gt;, Nullable&lt;FamosFileZAxisScaling&gt;, Nullable&lt;FamosFileTriggerTimeInfo&gt;)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileCalibration_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(ImcFamosFile.FamosFileDataType,System.Int32,ImcFamosFile.FamosFileCalibration)">FamosFileAnalogComponent(FamosFileDataType, Int32, FamosFileCalibration)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instances of the <a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(BinaryReader reader, int codePage, FamosFileXAxisScaling? currentXAxisScaling, FamosFileZAxisScaling? currentZAxisScaling, FamosFileTriggerTimeInfo? currentTriggerTimeInfo)</code></pre>
+    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(FamosFileDataType dataType, int length, FamosFileCalibration calibrationInfo)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -261,29 +270,328 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IO.BinaryReader</span></td>
-        <td><span class="parametername">reader</span></td>
-        <td></td>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>The data type of this component.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">codePage</span></td>
-        <td></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of this component.</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileXAxisScaling.html">FamosFileXAxisScaling</a>&gt;</td>
-        <td><span class="parametername">currentXAxisScaling</span></td>
-        <td></td>
+        <td><a class="xref" href="ImcFamosFile.FamosFileCalibration.html">FamosFileCalibration</a></td>
+        <td><span class="parametername">calibrationInfo</span></td>
+        <td><p>The calibration info of this component.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(ImcFamosFile.FamosFileDataType%2CSystem.Int32%2CImcFamosFile.FamosFileComponentType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L549">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileAnalogComponent__ctor_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(ImcFamosFile.FamosFileDataType,System.Int32,ImcFamosFile.FamosFileComponentType)">FamosFileAnalogComponent(FamosFileDataType, Int32, FamosFileComponentType)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instances of the <a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(FamosFileDataType dataType, int length, FamosFileComponentType componentType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>The data type of this component.</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileZAxisScaling.html">FamosFileZAxisScaling</a>&gt;</td>
-        <td><span class="parametername">currentZAxisScaling</span></td>
-        <td></td>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of this component.</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileTriggerTimeInfo.html">FamosFileTriggerTimeInfo</a>&gt;</td>
-        <td><span class="parametername">currentTriggerTimeInfo</span></td>
-        <td></td>
+        <td><a class="xref" href="ImcFamosFile.FamosFileComponentType.html">FamosFileComponentType</a></td>
+        <td><span class="parametername">componentType</span></td>
+        <td><p>The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> and between 'X of XY', 'imaginary part' and 'phase' for <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_ImcFamosFile_FamosFileCalibration_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(ImcFamosFile.FamosFileDataType%2CSystem.Int32%2CImcFamosFile.FamosFileComponentType%2CImcFamosFile.FamosFileCalibration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L563">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileAnalogComponent__ctor_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_ImcFamosFile_FamosFileCalibration_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(ImcFamosFile.FamosFileDataType,System.Int32,ImcFamosFile.FamosFileComponentType,ImcFamosFile.FamosFileCalibration)">FamosFileAnalogComponent(FamosFileDataType, Int32, FamosFileComponentType, FamosFileCalibration)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instances of the <a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(FamosFileDataType dataType, int length, FamosFileComponentType componentType, FamosFileCalibration calibrationInfo)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>The data type of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileComponentType.html">FamosFileComponentType</a></td>
+        <td><span class="parametername">componentType</span></td>
+        <td><p>The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> and between 'X of XY', 'imaginary part' and 'phase' for <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileCalibration.html">FamosFileCalibration</a></td>
+        <td><span class="parametername">calibrationInfo</span></td>
+        <td><p>The calibration info of this component.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_System_String_ImcFamosFile_FamosFileDataType_System_Int32_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(System.String%2CImcFamosFile.FamosFileDataType%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L581">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileAnalogComponent__ctor_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_System_String_ImcFamosFile_FamosFileDataType_System_Int32_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(System.String,ImcFamosFile.FamosFileDataType,System.Int32)">FamosFileAnalogComponent(String, FamosFileDataType, Int32)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instances of the <a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(string name, FamosFileDataType dataType, int length)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of this component. This automatically adds a <a class="xref" href="ImcFamosFile.FamosFileChannel.html">FamosFileChannel</a> instance to the component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>The data type of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of this component.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_System_String_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileCalibration_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(System.String%2CImcFamosFile.FamosFileDataType%2CSystem.Int32%2CImcFamosFile.FamosFileCalibration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L595">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileAnalogComponent__ctor_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_System_String_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileCalibration_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(System.String,ImcFamosFile.FamosFileDataType,System.Int32,ImcFamosFile.FamosFileCalibration)">FamosFileAnalogComponent(String, FamosFileDataType, Int32, FamosFileCalibration)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instances of the <a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(string name, FamosFileDataType dataType, int length, FamosFileCalibration calibrationInfo)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of this component. This automatically adds a <a class="xref" href="ImcFamosFile.FamosFileChannel.html">FamosFileChannel</a> instance to the component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>The data type of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileCalibration.html">FamosFileCalibration</a></td>
+        <td><span class="parametername">calibrationInfo</span></td>
+        <td><p>The calibration info of this component.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_System_String_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(System.String%2CImcFamosFile.FamosFileDataType%2CSystem.Int32%2CImcFamosFile.FamosFileComponentType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L610">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileAnalogComponent__ctor_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_System_String_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(System.String,ImcFamosFile.FamosFileDataType,System.Int32,ImcFamosFile.FamosFileComponentType)">FamosFileAnalogComponent(String, FamosFileDataType, Int32, FamosFileComponentType)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instances of the <a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(string name, FamosFileDataType dataType, int length, FamosFileComponentType componentType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of this component. This automatically adds a <a class="xref" href="ImcFamosFile.FamosFileChannel.html">FamosFileChannel</a> instance to the component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>The data type of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileComponentType.html">FamosFileComponentType</a></td>
+        <td><span class="parametername">componentType</span></td>
+        <td><p>The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> and between 'X of XY', 'imaginary part' and 'phase' for <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent__ctor_System_String_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_ImcFamosFile_FamosFileCalibration_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.%23ctor(System.String%2CImcFamosFile.FamosFileDataType%2CSystem.Int32%2CImcFamosFile.FamosFileComponentType%2CImcFamosFile.FamosFileCalibration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L626">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileAnalogComponent__ctor_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent__ctor_System_String_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_ImcFamosFile_FamosFileCalibration_" data-uid="ImcFamosFile.FamosFileAnalogComponent.#ctor(System.String,ImcFamosFile.FamosFileDataType,System.Int32,ImcFamosFile.FamosFileComponentType,ImcFamosFile.FamosFileCalibration)">FamosFileAnalogComponent(String, FamosFileDataType, Int32, FamosFileComponentType, FamosFileCalibration)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instances of the <a class="xref" href="ImcFamosFile.FamosFileAnalogComponent.html">FamosFileAnalogComponent</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FamosFileAnalogComponent(string name, FamosFileDataType dataType, int length, FamosFileComponentType componentType, FamosFileCalibration calibrationInfo)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of this component. This automatically adds a <a class="xref" href="ImcFamosFile.FamosFileChannel.html">FamosFileChannel</a> instance to the component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataType.html">FamosFileDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>The data type of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length of this component.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileComponentType.html">FamosFileComponentType</a></td>
+        <td><span class="parametername">componentType</span></td>
+        <td><p>The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> and between 'X of XY', 'imaginary part' and 'phase' for <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileCalibration.html">FamosFileCalibration</a></td>
+        <td><span class="parametername">calibrationInfo</span></td>
+        <td><p>The calibration info of this component.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -294,15 +602,16 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent_CalibrationInfo.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.CalibrationInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L410">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L652">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileAnalogComponent_CalibrationInfo_" data-uid="ImcFamosFile.FamosFileAnalogComponent.CalibrationInfo*"></a>
   <h4 id="ImcFamosFile_FamosFileAnalogComponent_CalibrationInfo" data-uid="ImcFamosFile.FamosFileAnalogComponent.CalibrationInfo">CalibrationInfo</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the calibration info of this component.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileCalibrationInfo CalibrationInfo { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public FamosFileCalibration? CalibrationInfo { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -314,7 +623,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="ImcFamosFile.FamosFileCalibrationInfo.html">FamosFileCalibrationInfo</a></td>
+        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileCalibration.html">FamosFileCalibration</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -326,7 +635,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent_DeserializeCR.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.DeserializeCR%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L455">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L692">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileAnalogComponent_DeserializeCR_" data-uid="ImcFamosFile.FamosFileAnalogComponent.DeserializeCR*"></a>
   <h4 id="ImcFamosFile_FamosFileAnalogComponent_DeserializeCR" data-uid="ImcFamosFile.FamosFileAnalogComponent.DeserializeCR">DeserializeCR()</h4>
@@ -340,18 +649,18 @@
   <div><a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_DeserializeCR">FamosFileComponent.DeserializeCR()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent_SerializeCR_System_IO_StreamWriter_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.SerializeCR(System.IO.StreamWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent_SerializeCR_System_IO_BinaryWriter_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.SerializeCR(System.IO.BinaryWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L450">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L687">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileAnalogComponent_SerializeCR_" data-uid="ImcFamosFile.FamosFileAnalogComponent.SerializeCR*"></a>
-  <h4 id="ImcFamosFile_FamosFileAnalogComponent_SerializeCR_System_IO_StreamWriter_" data-uid="ImcFamosFile.FamosFileAnalogComponent.SerializeCR(System.IO.StreamWriter)">SerializeCR(StreamWriter)</h4>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent_SerializeCR_System_IO_BinaryWriter_" data-uid="ImcFamosFile.FamosFileAnalogComponent.SerializeCR(System.IO.BinaryWriter)">SerializeCR(BinaryWriter)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override void SerializeCR(StreamWriter writer)</code></pre>
+    <pre><code class="lang-csharp hljs">protected override void SerializeCR(BinaryWriter writer)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -364,14 +673,31 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IO.StreamWriter</span></td>
+        <td><span class="xref">System.IO.BinaryWriter</span></td>
         <td><span class="parametername">writer</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_SerializeCR_System_IO_StreamWriter_">FamosFileComponent.SerializeCR(StreamWriter)</a></div>
+  <div><a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_SerializeCR_System_IO_BinaryWriter_">FamosFileComponent.SerializeCR(BinaryWriter)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent_Validate.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent.Validate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L658">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileAnalogComponent_Validate_" data-uid="ImcFamosFile.FamosFileAnalogComponent.Validate*"></a>
+  <h4 id="ImcFamosFile_FamosFileAnalogComponent_Validate" data-uid="ImcFamosFile.FamosFileAnalogComponent.Validate">Validate()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Validate()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_Validate">FamosFileComponent.Validate()</a></div>
 </article>
           </div>
           
@@ -383,7 +709,7 @@
                     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAnalogComponent.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAnalogComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L385" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileComponent.cs/#L515" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

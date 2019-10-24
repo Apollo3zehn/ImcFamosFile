@@ -9,10 +9,22 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFile.html",
-          "hash": "DYseT4dDRI1Am6oC5vgVUw=="
+          "hash": "/dIdKy+gUtbZQyIMYme/Ug=="
         }
       },
       "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileAlignmentMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileAlignmentMode.html",
+          "hash": "D7/uv77EJzi5DgVugJ0j5Q=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -21,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileAnalogComponent.html",
-          "hash": "I6gRI039IRtqU0ZH/fr/MQ=="
+          "hash": "arXTvVW5iZJjGx/9UyoFgA=="
         }
       },
       "is_incremental": false,
@@ -33,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileBase.html",
-          "hash": "SPiudTZfEt0oMOCBAz3qNA=="
+          "hash": "caaK8Lut6EC2us2osjl4vA=="
         }
       },
       "is_incremental": false,
@@ -45,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileBaseExtended.html",
-          "hash": "48papGKpJqMaVsb2+3EDZw=="
+          "hash": "gTbj3x99+LYib/9u905JTQ=="
         }
       },
       "is_incremental": false,
@@ -57,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileBaseProperty.html",
-          "hash": "SuTZ39fzEnGjr0OUi1TDFQ=="
+          "hash": "JBYVq8RngQ+lVjbOFVjrlg=="
         }
       },
       "is_incremental": false,
@@ -69,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileBuffer.html",
-          "hash": "tDcA+iak/xGGpdWWPhmenA=="
+          "hash": "/3OzzuRW1MxSVk0cZT5fjg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -81,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileBufferInfo.html",
-          "hash": "/IvEyqK0eyofhCNpSB3DkQ=="
+          "hash": "rAU4B2t9kwRA9Ww1eWA62A=="
         }
       },
       "is_incremental": false,
@@ -89,11 +101,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileCalibrationInfo.yml",
+      "source_relative_path": "api/ImcFamosFile.FamosFileCalibration.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileCalibrationInfo.html",
-          "hash": "70M76uv4hsa76GcnvdlT4Q=="
+          "relative_path": "api/ImcFamosFile.FamosFileCalibration.html",
+          "hash": "YMdA0Ku2D9fe6BpBjTWKCg=="
         }
       },
       "is_incremental": false,
@@ -101,11 +113,23 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileChannelInfo.yml",
+      "source_relative_path": "api/ImcFamosFile.FamosFileChannel.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileChannelInfo.html",
-          "hash": "iVSm6+roXQ6Jhy5apbfcMg=="
+          "relative_path": "api/ImcFamosFile.FamosFileChannel.html",
+          "hash": "gjyExQZ/+VGjJrx/OELlXQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileChannelData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileChannelData.html",
+          "hash": "aYj40qSv5qGHeKPCybM5Iw=="
         }
       },
       "is_incremental": false,
@@ -117,10 +141,58 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileComponent.html",
-          "hash": "KlwbyMtG1JEULnjViC6cig=="
+          "hash": "8KysU8hZfLKLLjrTwbZjMQ=="
         }
       },
       "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileComponentData-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileComponentData-1.html",
+          "hash": "q0pvrNRc8+4MZXpK2dg84g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileComponentData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileComponentData.html",
+          "hash": "g8STvZZOFFmGmS0lTHqYtA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileComponentType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileComponentType.html",
+          "hash": "jrxG3yzX4vC655UQCMf0ug=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileCompressionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileCompressionType.html",
+          "hash": "EYNETYby1VaFHXaIs+jnng=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -129,67 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileCustomKey.html",
-          "hash": "e6OlpvTSe0Y5B5iXfynlkg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileData-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileData-1.html",
-          "hash": "GdZ/fXf/qz6J2mu1PNVw6A=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileData.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileData.html",
-          "hash": "evfH2EbKl+HkkgNeW/jxAw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileDataDirection.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileDataDirection.html",
-          "hash": "YlF2UBV/9u4OXWET30uXhQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileDataField.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileDataField.html",
-          "hash": "XwGhVSicqxUcHgt0XNCTAQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileDataFieldType.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileDataFieldType.html",
-          "hash": "BzbwoEyB1pV1+IK952RZmw=="
+          "hash": "TL2vMcHuC/pZrzDyewHHTA=="
         }
       },
       "is_incremental": false,
@@ -201,10 +213,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileDataOrigin.html",
-          "hash": "1m56rwZD3/O0aiXCcryiLQ=="
+          "hash": "R6ALEwRzL/MlW2JOCSf0qA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -213,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileDataOriginInfo.html",
-          "hash": "dtIN+N/PADTFSPIJtcpuFQ=="
+          "hash": "fWUzi6ar/+5RKpslkWK34w=="
         }
       },
       "is_incremental": false,
@@ -225,10 +237,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileDataType.html",
-          "hash": "iTkuAFTo2zJDUo/TLgsjRQ=="
+          "hash": "JwFNz1bFJ0PvoF4Zb/HL5A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -237,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileDigitalComponent.html",
-          "hash": "NRastvVszNCgO4QhIqiFng=="
+          "hash": "FSNl/l7faTaggwLeluaifw=="
         }
       },
       "is_incremental": false,
@@ -249,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileDisplayInfo.html",
-          "hash": "ZVPMszNRW2+FXuTJBwRoaA=="
+          "hash": "gdiCX6UUBIAskBndkmHCWg=="
         }
       },
       "is_incremental": false,
@@ -261,10 +273,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileEvent.html",
-          "hash": "UgJOQKI5s7+/gKFWltTiEQ=="
+          "hash": "10p4XNE7tWPP8jRhtMblWA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -273,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileEventInfo.html",
-          "hash": "qeX7dJ9rmUnVS82zFLYvQA=="
+          "hash": "ROW8VYMFs6tQkdeg28Z6Ww=="
         }
       },
       "is_incremental": false,
@@ -281,14 +293,38 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileEventLocationInfo.yml",
+      "source_relative_path": "api/ImcFamosFile.FamosFileEventReference.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileEventLocationInfo.html",
-          "hash": "qlh595EOMi9tuAvAyXR0YA=="
+          "relative_path": "api/ImcFamosFile.FamosFileEventReference.html",
+          "hash": "yAfV/B0w4Q/GltwjmZ275g=="
         }
       },
       "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileField.html",
+          "hash": "5RAAgyRrxUsmKWOdPNw0Sg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileFieldType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileFieldType.html",
+          "hash": "zjsN9X7VCg8O5ZWoR2xgGg=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -297,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileGroup.html",
-          "hash": "CqF+gkjXyTRgTKbi9sk1zw=="
+          "hash": "r4jRskEIJJnbcehPD0O38w=="
         }
       },
       "is_incremental": false,
@@ -305,11 +341,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileKeyGroup.yml",
+      "source_relative_path": "api/ImcFamosFile.FamosFileHeader.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileKeyGroup.html",
-          "hash": "TRva+av3tUrhp/kDCeS84A=="
+          "relative_path": "api/ImcFamosFile.FamosFileHeader.html",
+          "hash": "gvbC/1jp1VO1SxbB01V1xg=="
         }
       },
       "is_incremental": false,
@@ -321,10 +357,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileKeyType.html",
-          "hash": "QFV8AAB96yFWOK/IfTjd+Q=="
+          "hash": "DBCXWxCeev1Z8sLzEzWyBQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -333,7 +369,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileLanguageInfo.html",
-          "hash": "8bXVa4IvkCr33fV6E9UbAQ=="
+          "hash": "6jUNyeSWueayR+rTZGXTqw=="
         }
       },
       "is_incremental": false,
@@ -345,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFilePackInfo.html",
-          "hash": "znvUJcKnrAlFZBQOIblngQ=="
+          "hash": "kqa0ym+xpPlp+CqHuFayUw=="
         }
       },
       "is_incremental": false,
@@ -357,10 +393,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFilePretriggerUsage.html",
-          "hash": "qu7FiS2UvI23l0cnZwoDIw=="
+          "hash": "3FN3cf8FMZge+egdHGnRMg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -369,10 +405,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileProperty.html",
-          "hash": "MiiXUjnA2QCiUJLnhX1b6w=="
+          "hash": "KLwNsrJcvJM97tXlACmVnQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -381,10 +417,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFilePropertyFlags.html",
-          "hash": "NPb88KqnmL07HeZphNZBTQ=="
+          "hash": "EW6hjP2eNa3LKhCz52eQLQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -393,7 +429,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFilePropertyInfo.html",
-          "hash": "OCGIeyz+zCtzyyS2b7pq6A=="
+          "hash": "KTZ5//j4x3nlTOp4hUbE3w=="
         }
       },
       "is_incremental": false,
@@ -405,7 +441,19 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFilePropertyType.html",
-          "hash": "ru1WoC4Lhe4VPV6Ei2boTw=="
+          "hash": "dIiFZ6QW/zGUShnyLxo0Ig=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ImcFamosFile.FamosFileRawBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ImcFamosFile.FamosFileRawBlock.html",
+          "hash": "D0hh9+5Y0ArBzEtFavQAPw=="
         }
       },
       "is_incremental": false,
@@ -413,14 +461,14 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileRawData.yml",
+      "source_relative_path": "api/ImcFamosFile.FamosFileReductionType.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileRawData.html",
-          "hash": "ihYN/jNPlpW3R4qJwTPiSA=="
+          "relative_path": "api/ImcFamosFile.FamosFileReductionType.html",
+          "hash": "yxyU+6UyHZsCgPdm25jQmw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -429,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileSingleValue.html",
-          "hash": "hxzruCp4FRyqjEhe4jo1WA=="
+          "hash": "74LFue/cXsecipLltI5esg=="
         }
       },
       "is_incremental": false,
@@ -441,7 +489,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileText.html",
-          "hash": "djl4Wk4SoHkKfLRTpzRZMQ=="
+          "hash": "fvWp2LlpvatWnWFeRVX0/Q=="
         }
       },
       "is_incremental": false,
@@ -453,19 +501,19 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileTimeMode.html",
-          "hash": "6OonWbmCmLZWO8Bqfys23g=="
+          "hash": "0s6SW269EKfgiNR9sYUZAg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileTriggerTimeInfo.yml",
+      "source_relative_path": "api/ImcFamosFile.FamosFileTriggerTime.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileTriggerTimeInfo.html",
-          "hash": "+RyF+oSM9FVq0FBf1O2dCg=="
+          "relative_path": "api/ImcFamosFile.FamosFileTriggerTime.html",
+          "hash": "lVZH8iW7qpE2378qJoApUg=="
         }
       },
       "is_incremental": false,
@@ -477,10 +525,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileValidCDType.html",
-          "hash": "hXSq8pXaiC749zL1Bhlqfg=="
+          "hash": "I5OxrsD9qCVBtpfjSfaY+w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -489,10 +537,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileValidCR1Type.html",
-          "hash": "mw4BqQ70ZDDynE00iwvW/w=="
+          "hash": "DUIFQ9xjcvRJcvndKUDwFQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -501,10 +549,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileValidCR2Type.html",
-          "hash": "66lQNsabdwrlXmRBo+N+3g=="
+          "hash": "AAhd7k+Bxl5gIu0elbkLfg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -513,22 +561,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileValidNTType.html",
-          "hash": "I6HBdyC51paHxf5io4Tbng=="
+          "hash": "spGBMrBY21NVm209IlGvtQ=="
         }
       },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ImcFamosFile.FamosFileVariable.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ImcFamosFile.FamosFileVariable.html",
-          "hash": "V1Ali8fETu17Jm9yL3uzWw=="
-        }
-      },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -537,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileXAxisScaling.html",
-          "hash": "kbkAnn80eL40z8Ax9AUzVw=="
+          "hash": "ELe++Y3tmn6c5mUyfuh5vg=="
         }
       },
       "is_incremental": false,
@@ -549,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.FamosFileZAxisScaling.html",
-          "hash": "uul6idNhWhAhrLGdh8XLYg=="
+          "hash": "YKtD4iG5jsT71K74+M9A7w=="
         }
       },
       "is_incremental": false,
@@ -561,7 +597,7 @@
       "output": {
         ".html": {
           "relative_path": "api/ImcFamosFile.html",
-          "hash": "Qapm7IRD4i+TeHOmZ/BQbw=="
+          "hash": "2LS8XIqzb+340TFY8KPKNQ=="
         }
       },
       "is_incremental": false,
@@ -576,7 +612,7 @@
           "hash": "hnvUS0l+B1i/8kpKWEmQXg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -585,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "SZ23NzpRbQwtSCI5G3v3pA=="
+          "hash": "Na4blwreTBfJI4TslbOk1Q=="
         }
       },
       "is_incremental": false,
@@ -622,7 +658,7 @@
           "hash": "aqOaxNnlHwz2mJ4oycb+TA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -634,7 +670,7 @@
           "hash": "rtWhA9n20FfHpfnS/vsVfA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -671,6 +707,13 @@
         "skipped_file_count": 0
       },
       "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
@@ -678,24 +721,17 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build",
-          "total_file_count": 47,
-          "skipped_file_count": 47
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 3,
           "skipped_file_count": 3
         },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
+          "total_file_count": 50,
+          "skipped_file_count": 47
         }
       }
     },

@@ -73,7 +73,8 @@
   
   <h1 id="ImcFamosFile_FamosFileLanguageInfo" data-uid="ImcFamosFile.FamosFileLanguageInfo" class="text-break">Class FamosFileLanguageInfo
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Contains information about the language and string encoding.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -87,7 +88,10 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader">FamosFileBase.Reader</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(StreamWriter, Int32, Object[], Boolean)</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate">FamosFileBase.Validate()</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey">FamosFileBase.SkipKey()</a>
@@ -114,7 +118,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64">FamosFileBase.DeserializeInt64()</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFloat64">FamosFileBase.DeserializeFloat64()</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal">FamosFileBase.DeserializeReal()</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType">FamosFileBase.DeserializeKeyType()</a>
@@ -154,11 +158,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileLanguageInfo__ctor.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileLanguageInfo.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L9">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L15">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileLanguageInfo__ctor_" data-uid="ImcFamosFile.FamosFileLanguageInfo.#ctor*"></a>
   <h4 id="ImcFamosFile_FamosFileLanguageInfo__ctor" data-uid="ImcFamosFile.FamosFileLanguageInfo.#ctor">FamosFileLanguageInfo()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="ImcFamosFile.FamosFileLanguageInfo.html">FamosFileLanguageInfo</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -171,11 +176,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileLanguageInfo_CodePage.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileLanguageInfo.CodePage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L27">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L36">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileLanguageInfo_CodePage_" data-uid="ImcFamosFile.FamosFileLanguageInfo.CodePage*"></a>
   <h4 id="ImcFamosFile_FamosFileLanguageInfo_CodePage" data-uid="ImcFamosFile.FamosFileLanguageInfo.CodePage">CodePage</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the code page of the data to write. Default is 0, which is 'Microsoft-1252 / Western European / ANSI'.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -201,7 +207,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileLanguageInfo_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileLanguageInfo.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L29">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L43">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileLanguageInfo_KeyType_" data-uid="ImcFamosFile.FamosFileLanguageInfo.KeyType*"></a>
   <h4 id="ImcFamosFile_FamosFileLanguageInfo_KeyType" data-uid="ImcFamosFile.FamosFileLanguageInfo.KeyType">KeyType</h4>
@@ -233,11 +239,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileLanguageInfo_Language.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileLanguageInfo.Language%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L28">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L41">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileLanguageInfo_Language_" data-uid="ImcFamosFile.FamosFileLanguageInfo.Language*"></a>
   <h4 id="ImcFamosFile_FamosFileLanguageInfo_Language" data-uid="ImcFamosFile.FamosFileLanguageInfo.Language">Language</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the language code, see &quot;MSDN Language Codes&quot;.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -269,7 +276,7 @@
                     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileLanguageInfo.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileLanguageInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L5" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileLanguageInfo.cs/#L8" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

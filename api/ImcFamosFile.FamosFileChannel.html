@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class FamosFileDataField
+    <title>Class FamosFileChannel
    | ImcFamosFile </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class FamosFileDataField
+    <meta name="title" content="Class FamosFileChannel
    | ImcFamosFile ">
     <meta name="generator" content="docfx 2.43.2.0">
     
@@ -68,22 +68,27 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ImcFamosFile.FamosFileDataField">
+            <article class="content wrap" id="_content" data-uid="ImcFamosFile.FamosFileChannel">
   
   
-  <h1 id="ImcFamosFile_FamosFileDataField" data-uid="ImcFamosFile.FamosFileDataField" class="text-break">Class FamosFileDataField
+  <h1 id="ImcFamosFile_FamosFileChannel" data-uid="ImcFamosFile.FamosFileChannel" class="text-break">Class FamosFileChannel
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Channels are used to assign names to components. A channel can be assigned to a group.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><a class="xref" href="ImcFamosFile.FamosFileBase.html">FamosFileBase</a></div>
     <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileBaseExtended.html">FamosFileBaseExtended</a></div>
-    <div class="level3"><span class="xref">FamosFileDataField</span></div>
+    <div class="level3"><a class="xref" href="ImcFamosFile.FamosFileBaseProperty.html">FamosFileBaseProperty</a></div>
+    <div class="level4"><span class="xref">FamosFileChannel</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileBaseProperty.html#ImcFamosFile_FamosFileBaseProperty_PropertyInfo">FamosFileBaseProperty.PropertyInfo</a>
+    </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended_CodePage">FamosFileBaseExtended.CodePage</a>
     </div>
@@ -97,7 +102,10 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader">FamosFileBase.Reader</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(StreamWriter, Int32, Object[], Boolean)</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate">FamosFileBase.Validate()</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey">FamosFileBase.SkipKey()</a>
@@ -124,7 +132,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64">FamosFileBase.DeserializeInt64()</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFloat64">FamosFileBase.DeserializeFloat64()</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal">FamosFileBase.DeserializeReal()</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType">FamosFileBase.DeserializeKeyType()</a>
@@ -153,41 +161,27 @@
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="ImcFamosFile.html">ImcFamosFile</a></h6>
   <h6><strong>Assembly</strong>: ImcFamosFile.dll</h6>
-  <h5 id="ImcFamosFile_FamosFileDataField_syntax">Syntax</h5>
+  <h5 id="ImcFamosFile_FamosFileChannel_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class FamosFileDataField : FamosFileBaseExtended</code></pre>
+    <pre><code class="lang-csharp hljs">public class FamosFileChannel : FamosFileBaseProperty</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataField__ctor.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataField.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileChannel__ctor_System_String_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileChannel.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataField.cs/#L12">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileChannel.cs/#L23">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileDataField__ctor_" data-uid="ImcFamosFile.FamosFileDataField.#ctor*"></a>
-  <h4 id="ImcFamosFile_FamosFileDataField__ctor" data-uid="ImcFamosFile.FamosFileDataField.#ctor">FamosFileDataField()</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ImcFamosFile_FamosFileChannel__ctor_" data-uid="ImcFamosFile.FamosFileChannel.#ctor*"></a>
+  <h4 id="ImcFamosFile_FamosFileChannel__ctor_System_String_" data-uid="ImcFamosFile.FamosFileChannel.#ctor(System.String)">FamosFileChannel(String)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="ImcFamosFile.FamosFileChannel.html">FamosFileChannel</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileDataField()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataField__ctor_System_IO_BinaryReader_System_Int32_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataField.%23ctor(System.IO.BinaryReader%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataField.cs/#L17">View Source</a>
-  </span>
-  <a id="ImcFamosFile_FamosFileDataField__ctor_" data-uid="ImcFamosFile.FamosFileDataField.#ctor*"></a>
-  <h4 id="ImcFamosFile_FamosFileDataField__ctor_System_IO_BinaryReader_System_Int32_" data-uid="ImcFamosFile.FamosFileDataField.#ctor(System.IO.BinaryReader,System.Int32)">FamosFileDataField(BinaryReader, Int32)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileDataField(BinaryReader reader, int codePage)</code></pre>
+    <pre><code class="lang-csharp hljs">public FamosFileChannel(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -200,14 +194,10 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IO.BinaryReader</span></td>
-        <td><span class="parametername">reader</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">codePage</span></td>
-        <td></td>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of this channel.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -215,48 +205,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataField_Components.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataField.Components%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileChannel_BitIndex.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileChannel.BitIndex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataField.cs/#L99">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileChannel.cs/#L47">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileDataField_Components_" data-uid="ImcFamosFile.FamosFileDataField.Components*"></a>
-  <h4 id="ImcFamosFile_FamosFileDataField_Components" data-uid="ImcFamosFile.FamosFileDataField.Components">Components</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ImcFamosFile_FamosFileChannel_BitIndex_" data-uid="ImcFamosFile.FamosFileChannel.BitIndex*"></a>
+  <h4 id="ImcFamosFile_FamosFileChannel_BitIndex" data-uid="ImcFamosFile.FamosFileChannel.BitIndex">BitIndex</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the index of the bit position. Only for digital data. Analog data = 0, LSB..MSB (digital data) = 1..16.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;FamosFileComponent&gt; Components { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileComponent.html">FamosFileComponent</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataField_Dimension.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataField.Dimension%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataField.cs/#L98">View Source</a>
-  </span>
-  <a id="ImcFamosFile_FamosFileDataField_Dimension_" data-uid="ImcFamosFile.FamosFileDataField.Dimension*"></a>
-  <h4 id="ImcFamosFile_FamosFileDataField_Dimension" data-uid="ImcFamosFile.FamosFileDataField.Dimension">Dimension</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int Dimension { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public int BitIndex { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -275,18 +236,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataField_EventInfos.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataField.EventInfos%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileChannel_Comment.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileChannel.Comment%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataField.cs/#L100">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileChannel.cs/#L57">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileDataField_EventInfos_" data-uid="ImcFamosFile.FamosFileDataField.EventInfos*"></a>
-  <h4 id="ImcFamosFile_FamosFileDataField_EventInfos" data-uid="ImcFamosFile.FamosFileDataField.EventInfos">EventInfos</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ImcFamosFile_FamosFileChannel_Comment_" data-uid="ImcFamosFile.FamosFileChannel.Comment*"></a>
+  <h4 id="ImcFamosFile_FamosFileChannel_Comment" data-uid="ImcFamosFile.FamosFileChannel.Comment">Comment</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the comment of this channel.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;FamosFileEventInfo&gt; EventInfos { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string Comment { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -298,20 +260,20 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileEventInfo.html">FamosFileEventInfo</a>&gt;</td>
+        <td><span class="xref">System.String</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataField_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataField.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileChannel_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileChannel.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataField.cs/#L101">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileChannel.cs/#L71">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileDataField_KeyType_" data-uid="ImcFamosFile.FamosFileDataField.KeyType*"></a>
-  <h4 id="ImcFamosFile_FamosFileDataField_KeyType" data-uid="ImcFamosFile.FamosFileDataField.KeyType">KeyType</h4>
+  <a id="ImcFamosFile_FamosFileChannel_KeyType_" data-uid="ImcFamosFile.FamosFileChannel.KeyType*"></a>
+  <h4 id="ImcFamosFile_FamosFileChannel_KeyType" data-uid="ImcFamosFile.FamosFileChannel.KeyType">KeyType</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -337,18 +299,19 @@
   <div><a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_KeyType">FamosFileBase.KeyType</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataField_Type.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataField.Type%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileChannel_Name.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileChannel.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataField.cs/#L97">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileChannel.cs/#L52">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileDataField_Type_" data-uid="ImcFamosFile.FamosFileDataField.Type*"></a>
-  <h4 id="ImcFamosFile_FamosFileDataField_Type" data-uid="ImcFamosFile.FamosFileDataField.Type">Type</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="ImcFamosFile_FamosFileChannel_Name_" data-uid="ImcFamosFile.FamosFileChannel.Name*"></a>
+  <h4 id="ImcFamosFile_FamosFileChannel_Name" data-uid="ImcFamosFile.FamosFileChannel.Name">Name</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the name of this channel.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileDataFieldType Type { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string Name { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -360,7 +323,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="ImcFamosFile.FamosFileDataFieldType.html">FamosFileDataFieldType</a></td>
+        <td><span class="xref">System.String</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -373,10 +336,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataField.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataField%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileChannel.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileChannel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataField.cs/#L8" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileChannel.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

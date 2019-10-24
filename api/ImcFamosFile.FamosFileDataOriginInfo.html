@@ -73,7 +73,8 @@
   
   <h1 id="ImcFamosFile_FamosFileDataOriginInfo" data-uid="ImcFamosFile.FamosFileDataOriginInfo" class="text-break">Class FamosFileDataOriginInfo
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Contains information about the data origin.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -97,7 +98,10 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader">FamosFileBase.Reader</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(StreamWriter, Int32, Object[], Boolean)</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate">FamosFileBase.Validate()</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey">FamosFileBase.SkipKey()</a>
@@ -124,7 +128,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64">FamosFileBase.DeserializeInt64()</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFloat64">FamosFileBase.DeserializeFloat64()</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal">FamosFileBase.DeserializeReal()</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType">FamosFileBase.DeserializeKeyType()</a>
@@ -161,19 +165,44 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataOriginInfo__ctor.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataOriginInfo.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataOriginInfo__ctor_System_String_ImcFamosFile_FamosFileDataOrigin_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataOriginInfo.%23ctor(System.String%2CImcFamosFile.FamosFileDataOrigin)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L9">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L17">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDataOriginInfo__ctor_" data-uid="ImcFamosFile.FamosFileDataOriginInfo.#ctor*"></a>
-  <h4 id="ImcFamosFile_FamosFileDataOriginInfo__ctor" data-uid="ImcFamosFile.FamosFileDataOriginInfo.#ctor">FamosFileDataOriginInfo()</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ImcFamosFile_FamosFileDataOriginInfo__ctor_System_String_ImcFamosFile_FamosFileDataOrigin_" data-uid="ImcFamosFile.FamosFileDataOriginInfo.#ctor(System.String,ImcFamosFile.FamosFileDataOrigin)">FamosFileDataOriginInfo(String, FamosFileDataOrigin)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="ImcFamosFile.FamosFileDataOriginInfo.html">FamosFileDataOriginInfo</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileDataOriginInfo()</code></pre>
+    <pre><code class="lang-csharp hljs">public FamosFileDataOriginInfo(string name, FamosFileDataOrigin origin)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the file producer (author or manufacturer).</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ImcFamosFile.FamosFileDataOrigin.html">FamosFileDataOrigin</a></td>
+        <td><span class="parametername">origin</span></td>
+        <td><p>The data origin.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
@@ -181,11 +210,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataOriginInfo_Comment.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataOriginInfo.Comment%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L29">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L45">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDataOriginInfo_Comment_" data-uid="ImcFamosFile.FamosFileDataOriginInfo.Comment*"></a>
   <h4 id="ImcFamosFile_FamosFileDataOriginInfo_Comment" data-uid="ImcFamosFile.FamosFileDataOriginInfo.Comment">Comment</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the file comment.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -211,11 +241,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataOriginInfo_DataOrigin.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataOriginInfo.DataOrigin%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L30">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L50">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDataOriginInfo_DataOrigin_" data-uid="ImcFamosFile.FamosFileDataOriginInfo.DataOrigin*"></a>
   <h4 id="ImcFamosFile_FamosFileDataOriginInfo_DataOrigin" data-uid="ImcFamosFile.FamosFileDataOriginInfo.DataOrigin">DataOrigin</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the data origin.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -241,7 +272,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataOriginInfo_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataOriginInfo.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L31">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L52">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDataOriginInfo_KeyType_" data-uid="ImcFamosFile.FamosFileDataOriginInfo.KeyType*"></a>
   <h4 id="ImcFamosFile_FamosFileDataOriginInfo_KeyType" data-uid="ImcFamosFile.FamosFileDataOriginInfo.KeyType">KeyType</h4>
@@ -273,11 +304,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataOriginInfo_Name.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataOriginInfo.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L28">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L40">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDataOriginInfo_Name_" data-uid="ImcFamosFile.FamosFileDataOriginInfo.Name*"></a>
   <h4 id="ImcFamosFile_FamosFileDataOriginInfo_Name" data-uid="ImcFamosFile.FamosFileDataOriginInfo.Name">Name</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the name of the file producer (author or manufacturer).</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -309,7 +341,7 @@
                     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataOriginInfo.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataOriginInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L5" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDataOriginInfo.cs/#L8" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

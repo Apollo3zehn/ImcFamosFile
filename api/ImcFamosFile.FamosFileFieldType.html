@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum FamosFileDataType
+    <title>Enum FamosFileFieldType
    | ImcFamosFile </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum FamosFileDataType
+    <meta name="title" content="Enum FamosFileFieldType
    | ImcFamosFile ">
     <meta name="generator" content="docfx 2.43.2.0">
     
@@ -68,19 +68,19 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ImcFamosFile.FamosFileDataType">
+            <article class="content wrap" id="_content" data-uid="ImcFamosFile.FamosFileFieldType">
   
   
-  <h1 id="ImcFamosFile_FamosFileDataType" data-uid="ImcFamosFile.FamosFileDataType" class="text-break">Enum FamosFileDataType
+  <h1 id="ImcFamosFile_FamosFileFieldType" data-uid="ImcFamosFile.FamosFileFieldType" class="text-break">Enum FamosFileFieldType
   </h1>
-  <div class="markdown level0 summary"><p>Data type of an imc FAMOS file component.</p>
+  <div class="markdown level0 summary"><p>Determines the field type.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="ImcFamosFile.html">ImcFamosFile</a></h6>
   <h6><strong>Assembly</strong>: ImcFamosFile.dll</h6>
-  <h5 id="ImcFamosFile_FamosFileDataType_syntax">Syntax</h5>
+  <h5 id="ImcFamosFile_FamosFileFieldType_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum FamosFileDataType</code></pre>
+    <pre><code class="lang-csharp hljs">public enum FamosFileFieldType</code></pre>
   </div>
   <h3 id="fields">Fields
   </h3>
@@ -93,63 +93,33 @@
     <thead>
     <tbody>
       <tr>
-        <td id="ImcFamosFile_FamosFileDataType_AsciiTimeStamp">AsciiTimeStamp</td>
-        <td><p>A timestamp in Ascii format.</p>
+        <td id="ImcFamosFile_FamosFileFieldType_ComplexMagnitudeDBPhase">ComplexMagnitudeDBPhase</td>
+        <td><p>The <a class="xref" href="ImcFamosFile.FamosFileField.html">FamosFileField</a> must contain a component of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> (magnitude in dB) and a component of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a> (phase).</p>
 </td>
       </tr>
       <tr>
-        <td id="ImcFamosFile_FamosFileDataType_Digital16Bit">Digital16Bit</td>
-        <td><p>A two-byte (16-bit) digital data type.</p>
+        <td id="ImcFamosFile_FamosFileFieldType_ComplexMagnitudePhase">ComplexMagnitudePhase</td>
+        <td><p>The <a class="xref" href="ImcFamosFile.FamosFileField.html">FamosFileField</a> must contain a component of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> (magnitude) and a component of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a> (phase).</p>
 </td>
       </tr>
       <tr>
-        <td id="ImcFamosFile_FamosFileDataType_Float32">Float32</td>
-        <td><p>A four-byte floating point number.</p>
+        <td id="ImcFamosFile_FamosFileFieldType_ComplexRealImaginary">ComplexRealImaginary</td>
+        <td><p>The <a class="xref" href="ImcFamosFile.FamosFileField.html">FamosFileField</a> must contain a component of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> (real part) and a component of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a> (imaginary part).</p>
 </td>
       </tr>
       <tr>
-        <td id="ImcFamosFile_FamosFileDataType_Float64">Float64</td>
-        <td><p>An eight-byte floating point number.</p>
+        <td id="ImcFamosFile_FamosFileFieldType_MultipleYToSingleEquidistantTime">MultipleYToSingleEquidistantTime</td>
+        <td><p>There are one or more Y-datasets contained in the <a class="xref" href="ImcFamosFile.FamosFileField.html">FamosFileField</a>, all sampled with equidistant time. Only components of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> are allowed.</p>
 </td>
       </tr>
       <tr>
-        <td id="ImcFamosFile_FamosFileDataType_ImcDevicesTransitionalRecording">ImcDevicesTransitionalRecording</td>
-        <td><p>Unknown.</p>
+        <td id="ImcFamosFile_FamosFileFieldType_MultipleYToSingleMonotonousTime">MultipleYToSingleMonotonousTime</td>
+        <td><p>There are one or more Y-datasets contained in the <a class="xref" href="ImcFamosFile.FamosFileField.html">FamosFileField</a>, all sampled with monotonous increasing time. One or more components of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> and a single component of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a> is allowed.</p>
 </td>
       </tr>
       <tr>
-        <td id="ImcFamosFile_FamosFileDataType_Int16">Int16</td>
-        <td><p>A two-byte signed integer.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ImcFamosFile_FamosFileDataType_Int32">Int32</td>
-        <td><p>A four-byte signed integer.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ImcFamosFile_FamosFileDataType_Int8">Int8</td>
-        <td><p>A single byte signed integer.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ImcFamosFile_FamosFileDataType_UInt16">UInt16</td>
-        <td><p>A two-byte unsigned integer.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ImcFamosFile_FamosFileDataType_UInt32">UInt32</td>
-        <td><p>A four-byte unsigned integer.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ImcFamosFile_FamosFileDataType_UInt48">UInt48</td>
-        <td><p>A six-byte unsigned integer.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ImcFamosFile_FamosFileDataType_UInt8">UInt8</td>
-        <td><p>A single byte unsigned interger.</p>
+        <td id="ImcFamosFile_FamosFileFieldType_MultipleYToSingleXOrViceVersa">MultipleYToSingleXOrViceVersa</td>
+        <td><p>This type is used to represent characteristic curves with one X component and multiple Y-components or vice versa. One or more components of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Primary">Primary</a> and a single component of type <a class="xref" href="ImcFamosFile.FamosFileComponentType.html#ImcFamosFile_FamosFileComponentType_Secondary">Secondary</a> is allowed or vice versa.</p>
 </td>
       </tr>
     </tbody>
@@ -162,10 +132,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileFieldType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileFieldType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/FamosFileDataType.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/FamosFileDataFieldType.cs/#L6" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

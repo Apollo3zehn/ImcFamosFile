@@ -73,7 +73,8 @@
   
   <h1 id="ImcFamosFile_FamosFileBase" data-uid="ImcFamosFile.FamosFileBase" class="text-break">Class FamosFileBase
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Base type to represent all imc FAMOS file keys.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -83,12 +84,11 @@
       <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileBufferInfo.html">FamosFileBufferInfo</a></div>
       <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileDisplayInfo.html">FamosFileDisplayInfo</a></div>
       <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileEventInfo.html">FamosFileEventInfo</a></div>
-      <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileEventLocationInfo.html">FamosFileEventLocationInfo</a></div>
-      <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileKeyGroup.html">FamosFileKeyGroup</a></div>
+      <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileEventReference.html">FamosFileEventReference</a></div>
       <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileLanguageInfo.html">FamosFileLanguageInfo</a></div>
       <div class="level2"><a class="xref" href="ImcFamosFile.FamosFilePackInfo.html">FamosFilePackInfo</a></div>
-      <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileRawData.html">FamosFileRawData</a></div>
-      <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileTriggerTimeInfo.html">FamosFileTriggerTimeInfo</a></div>
+      <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileRawBlock.html">FamosFileRawBlock</a></div>
+      <div class="level2"><a class="xref" href="ImcFamosFile.FamosFileTriggerTime.html">FamosFileTriggerTime</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -127,7 +127,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase__ctor.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L31">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L35">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase__ctor_" data-uid="ImcFamosFile.FamosFileBase.#ctor*"></a>
   <h4 id="ImcFamosFile_FamosFileBase__ctor" data-uid="ImcFamosFile.FamosFileBase.#ctor">FamosFileBase()</h4>
@@ -135,14 +135,14 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileBase()</code></pre>
+    <pre><code class="lang-csharp hljs">protected FamosFileBase()</code></pre>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase__ctor_System_IO_BinaryReader_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.%23ctor(System.IO.BinaryReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L26">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L30">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase__ctor_" data-uid="ImcFamosFile.FamosFileBase.#ctor*"></a>
   <h4 id="ImcFamosFile_FamosFileBase__ctor_System_IO_BinaryReader_" data-uid="ImcFamosFile.FamosFileBase.#ctor(System.IO.BinaryReader)">FamosFileBase(BinaryReader)</h4>
@@ -150,7 +150,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileBase(BinaryReader reader)</code></pre>
+    <pre><code class="lang-csharp hljs">protected FamosFileBase(BinaryReader reader)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -176,7 +176,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L52">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L56">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_KeyType_" data-uid="ImcFamosFile.FamosFileBase.KeyType*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_KeyType" data-uid="ImcFamosFile.FamosFileBase.KeyType">KeyType</h4>
@@ -206,7 +206,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_Reader.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.Reader%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L40">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L44">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_Reader_" data-uid="ImcFamosFile.FamosFileBase.Reader*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_Reader" data-uid="ImcFamosFile.FamosFileBase.Reader">Reader</h4>
@@ -235,40 +235,10 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeFloat64.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeFloat64%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L198">View Source</a>
-  </span>
-  <a id="ImcFamosFile_FamosFileBase_DeserializeFloat64_" data-uid="ImcFamosFile.FamosFileBase.DeserializeFloat64*"></a>
-  <h4 id="ImcFamosFile_FamosFileBase_DeserializeFloat64" data-uid="ImcFamosFile.FamosFileBase.DeserializeFloat64">DeserializeFloat64()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected double DeserializeFloat64()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeHex.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeHex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L180">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L237">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_DeserializeHex_" data-uid="ImcFamosFile.FamosFileBase.DeserializeHex*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_DeserializeHex" data-uid="ImcFamosFile.FamosFileBase.DeserializeHex">DeserializeHex()</h4>
@@ -298,7 +268,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeInt32.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeInt32%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L186">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L243">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_DeserializeInt32_" data-uid="ImcFamosFile.FamosFileBase.DeserializeInt32*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_DeserializeInt32" data-uid="ImcFamosFile.FamosFileBase.DeserializeInt32">DeserializeInt32()</h4>
@@ -328,7 +298,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeInt64.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeInt64%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L192">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L249">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_DeserializeInt64_" data-uid="ImcFamosFile.FamosFileBase.DeserializeInt64*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_DeserializeInt64" data-uid="ImcFamosFile.FamosFileBase.DeserializeInt64">DeserializeInt64()</h4>
@@ -358,7 +328,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeKey_ImcFamosFile_FamosFileKeyType_System_Int32_System_Action_System_Int64__.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeKey(ImcFamosFile.FamosFileKeyType%2CSystem.Int32%2CSystem.Action%7BSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L122">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L184">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_DeserializeKey_" data-uid="ImcFamosFile.FamosFileBase.DeserializeKey*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_DeserializeKey_ImcFamosFile_FamosFileKeyType_System_Int32_System_Action_System_Int64__" data-uid="ImcFamosFile.FamosFileBase.DeserializeKey(ImcFamosFile.FamosFileKeyType,System.Int32,System.Action{System.Int64})">DeserializeKey(FamosFileKeyType, Int32, Action&lt;Int64&gt;)</h4>
@@ -400,7 +370,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeKey_System_Int32_System_Action_System_Int64__.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeKey(System.Int32%2CSystem.Action%7BSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L132">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L194">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_DeserializeKey_" data-uid="ImcFamosFile.FamosFileBase.DeserializeKey*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_DeserializeKey_System_Int32_System_Action_System_Int64__" data-uid="ImcFamosFile.FamosFileBase.DeserializeKey(System.Int32,System.Action{System.Int64})">DeserializeKey(Int32, Action&lt;Int64&gt;)</h4>
@@ -437,7 +407,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeKey_System_Nullable_System_Action_System_Int64___.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeKey(System.Nullable%7BSystem.Action%7BSystem.Int64%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L143">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L205">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_DeserializeKey_" data-uid="ImcFamosFile.FamosFileBase.DeserializeKey*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_DeserializeKey_System_Nullable_System_Action_System_Int64___" data-uid="ImcFamosFile.FamosFileBase.DeserializeKey(System.Nullable{System.Action{System.Int64}})">DeserializeKey(Nullable&lt;Action&lt;Int64&gt;&gt;)</h4>
@@ -469,7 +439,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeKeyPart.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeKeyPart%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L158">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L220">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_DeserializeKeyPart_" data-uid="ImcFamosFile.FamosFileBase.DeserializeKeyPart*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_DeserializeKeyPart" data-uid="ImcFamosFile.FamosFileBase.DeserializeKeyPart">DeserializeKeyPart()</h4>
@@ -499,7 +469,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeKeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeKeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L206">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L263">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_DeserializeKeyType_" data-uid="ImcFamosFile.FamosFileBase.DeserializeKeyType*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_DeserializeKeyType" data-uid="ImcFamosFile.FamosFileBase.DeserializeKeyType">DeserializeKeyType()</h4>
@@ -526,18 +496,48 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.SerializeKey(System.IO.StreamWriter%2CSystem.Int32%2CSystem.Object%5B%5D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_DeserializeReal.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.DeserializeReal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L89">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L255">View Source</a>
   </span>
-  <a id="ImcFamosFile_FamosFileBase_SerializeKey_" data-uid="ImcFamosFile.FamosFileBase.SerializeKey*"></a>
-  <h4 id="ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_" data-uid="ImcFamosFile.FamosFileBase.SerializeKey(System.IO.StreamWriter,System.Int32,System.Object[],System.Boolean)">SerializeKey(StreamWriter, Int32, Object[], Boolean)</h4>
+  <a id="ImcFamosFile_FamosFileBase_DeserializeReal_" data-uid="ImcFamosFile.FamosFileBase.DeserializeReal*"></a>
+  <h4 id="ImcFamosFile_FamosFileBase_DeserializeReal" data-uid="ImcFamosFile.FamosFileBase.DeserializeReal">DeserializeReal()</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected void SerializeKey(StreamWriter writer, int keyVersion, object[] data, bool addLineBreak = true)</code></pre>
+    <pre><code class="lang-csharp hljs">protected decimal DeserializeReal()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Decimal</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.SerializeKey(System.IO.BinaryWriter%2CSystem.Int32%2CSystem.Object%5B%5D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L97">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileBase_SerializeKey_" data-uid="ImcFamosFile.FamosFileBase.SerializeKey*"></a>
+  <h4 id="ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_" data-uid="ImcFamosFile.FamosFileBase.SerializeKey(System.IO.BinaryWriter,System.Int32,System.Object[],System.Boolean)">SerializeKey(BinaryWriter, Int32, Object[], Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void SerializeKey(BinaryWriter writer, int keyVersion, object[] data, bool addLineBreak = true)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -550,7 +550,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IO.StreamWriter</span></td>
+        <td><span class="xref">System.IO.BinaryWriter</span></td>
         <td><span class="parametername">writer</span></td>
         <td></td>
       </tr>
@@ -576,7 +576,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_SkipKey.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.SkipKey%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L116">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L178">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileBase_SkipKey_" data-uid="ImcFamosFile.FamosFileBase.SkipKey*"></a>
   <h4 id="ImcFamosFile_FamosFileBase_SkipKey" data-uid="ImcFamosFile.FamosFileBase.SkipKey">SkipKey()</h4>
@@ -585,6 +585,22 @@
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">protected void SkipKey()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase_Validate.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase.Validate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L69">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFileBase_Validate_" data-uid="ImcFamosFile.FamosFileBase.Validate*"></a>
+  <h4 id="ImcFamosFile_FamosFileBase_Validate" data-uid="ImcFamosFile.FamosFileBase.Validate">Validate()</h4>
+  <div class="markdown level1 summary"><p>Validates the key status.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void Validate()</code></pre>
   </div>
 </article>
           </div>
@@ -597,7 +613,7 @@
                     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileBase.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileBase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileBase.cs/#L15" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

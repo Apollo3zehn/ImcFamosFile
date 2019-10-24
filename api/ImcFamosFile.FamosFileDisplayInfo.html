@@ -73,7 +73,8 @@
   
   <h1 id="ImcFamosFile_FamosFileDisplayInfo" data-uid="ImcFamosFile.FamosFileDisplayInfo" class="text-break">Class FamosFileDisplayInfo
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Contains information about how to display a component.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -87,7 +88,10 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader">FamosFileBase.Reader</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_StreamWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(StreamWriter, Int32, Object[], Boolean)</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate">FamosFileBase.Validate()</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_">FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey">FamosFileBase.SkipKey()</a>
@@ -114,7 +118,7 @@
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64">FamosFileBase.DeserializeInt64()</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFloat64">FamosFileBase.DeserializeFloat64()</a>
+      <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal">FamosFileBase.DeserializeReal()</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType">FamosFileBase.DeserializeKeyType()</a>
@@ -151,18 +155,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo__ctor_System_Double_System_Double_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo.%23ctor(System.Double%2CSystem.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo__ctor_System_Decimal_System_Decimal_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo.%23ctor(System.Decimal%2CSystem.Decimal)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L18">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L26">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDisplayInfo__ctor_" data-uid="ImcFamosFile.FamosFileDisplayInfo.#ctor*"></a>
-  <h4 id="ImcFamosFile_FamosFileDisplayInfo__ctor_System_Double_System_Double_" data-uid="ImcFamosFile.FamosFileDisplayInfo.#ctor(System.Double,System.Double)">FamosFileDisplayInfo(Double, Double)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="ImcFamosFile_FamosFileDisplayInfo__ctor_System_Decimal_System_Decimal_" data-uid="ImcFamosFile.FamosFileDisplayInfo.#ctor(System.Decimal,System.Decimal)">FamosFileDisplayInfo(Decimal, Decimal)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="ImcFamosFile.FamosFileDisplayInfo.html">FamosFileDisplayInfo</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FamosFileDisplayInfo(double ymin, double ymax)</code></pre>
+    <pre><code class="lang-csharp hljs">public FamosFileDisplayInfo(decimal ymin, decimal ymax)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -175,14 +180,16 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">System.Decimal</span></td>
         <td><span class="parametername">ymin</span></td>
-        <td></td>
+        <td><p>The lower y-axis display limit.</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">System.Decimal</span></td>
         <td><span class="parametername">ymax</span></td>
-        <td></td>
+        <td><p>The upper y-axis display limit.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -193,11 +200,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo_B.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo.B%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L70">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L87">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDisplayInfo_B_" data-uid="ImcFamosFile.FamosFileDisplayInfo.B*"></a>
   <h4 id="ImcFamosFile_FamosFileDisplayInfo_B" data-uid="ImcFamosFile.FamosFileDisplayInfo.B">B</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the blue part of the display color (0..255).</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -223,11 +231,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo_G.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo.G%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L57">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L71">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDisplayInfo_G_" data-uid="ImcFamosFile.FamosFileDisplayInfo.G*"></a>
   <h4 id="ImcFamosFile_FamosFileDisplayInfo_G" data-uid="ImcFamosFile.FamosFileDisplayInfo.G">G</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the green part of the display color (0..255).</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -253,7 +262,7 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo_KeyType.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo.KeyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L85">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L110">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDisplayInfo_KeyType_" data-uid="ImcFamosFile.FamosFileDisplayInfo.KeyType*"></a>
   <h4 id="ImcFamosFile_FamosFileDisplayInfo_KeyType" data-uid="ImcFamosFile.FamosFileDisplayInfo.KeyType">KeyType</h4>
@@ -285,11 +294,12 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo_R.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo.R%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L44">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L55">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDisplayInfo_R_" data-uid="ImcFamosFile.FamosFileDisplayInfo.R*"></a>
   <h4 id="ImcFamosFile_FamosFileDisplayInfo_R" data-uid="ImcFamosFile.FamosFileDisplayInfo.R">R</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the red part of the display color (0..255).</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -315,15 +325,16 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo_YMax.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo.YMax%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L84">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L108">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDisplayInfo_YMax_" data-uid="ImcFamosFile.FamosFileDisplayInfo.YMax*"></a>
   <h4 id="ImcFamosFile_FamosFileDisplayInfo_YMax" data-uid="ImcFamosFile.FamosFileDisplayInfo.YMax">YMax</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the upper y-axis display limit.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double YMax { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public decimal YMax { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -335,7 +346,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">System.Decimal</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -345,15 +356,16 @@
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo_YMin.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo.YMin%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L83">View Source</a>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L103">View Source</a>
   </span>
   <a id="ImcFamosFile_FamosFileDisplayInfo_YMin_" data-uid="ImcFamosFile.FamosFileDisplayInfo.YMin*"></a>
   <h4 id="ImcFamosFile_FamosFileDisplayInfo_YMin" data-uid="ImcFamosFile.FamosFileDisplayInfo.YMin">YMin</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the lower y-axis display limit.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double YMin { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public decimal YMin { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -365,7 +377,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">System.Decimal</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -381,7 +393,7 @@
                     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDisplayInfo.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDisplayInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFileDisplayInfo.cs/#L9" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
