@@ -57,7 +57,7 @@ namespace ImcFamosFile
         public List<FamosFileCustomKey> CustomKeys { get; private set; } = new List<FamosFileCustomKey>();
         public List<FamosFileGroup> Groups { get; protected set; } = new List<FamosFileGroup>();
         public List<FamosFileField> Fields { get; private set; } = new List<FamosFileField>();
-        public List<FamosFileRawData> RawData { get; protected set; } = new List<FamosFileRawData>();
+        public List<FamosFileRawBlock> RawBlocks { get; protected set; } = new List<FamosFileRawBlock>();
 
         public string Name
         {
@@ -73,17 +73,17 @@ namespace ImcFamosFile
 
         #region "Methods"
 
-        public void AlignBuffers(FamosFileRawData rawData, FamosFileAlignmentMode alignmentMode)
+        public void AlignBuffers(FamosFileRawBlock rawBlock, FamosFileAlignmentMode alignmentMode)
         {
-            this.AlignBuffers(rawData, alignmentMode, this.Fields.SelectMany(field => field.Components).ToList());
+            this.AlignBuffers(rawBlock, alignmentMode, this.Fields.SelectMany(field => field.Components).ToList());
         }
 
-        public void AlignBuffers(FamosFileRawData rawData, FamosFileAlignmentMode alignmentMode, List<FamosFileComponent> components)
+        public void AlignBuffers(FamosFileRawBlock rawBlock, FamosFileAlignmentMode alignmentMode, List<FamosFileComponent> components)
         {
             var actualComponents = this.Fields.SelectMany(field => field.Components);
 
-            if (!this.RawData.Contains(rawData))
-                throw new InvalidOperationException("The passed raw data instance is not a member of this instance.");
+            if (!this.RawBlocks.Contains(rawBlock))
+                throw new InvalidOperationException("The passed raw block instance is not a member of this instance.");
 
             if (!components.Any(component => actualComponents.Contains(component)))
                 throw new InvalidOperationException("One or more passed component instances are not a member of this instance.");
@@ -102,13 +102,13 @@ namespace ImcFamosFile
                         packInfo.GroupSize = 1;
                         packInfo.ByteGapSize = 0;
 
-                        buffer.RawData = rawData;
-                        buffer.RawDataOffset = offset;
+                        buffer.RawBlock = rawBlock;
+                        buffer.RawBlockOffset = offset;
 
                         offset += buffer.Length;
                     }
 
-                    rawData.Length = offset;
+                    rawBlock.Length = offset;
 
                     break;
 
@@ -129,7 +129,7 @@ namespace ImcFamosFile
                     var valueSizes = components.Select(component => component.PackInfo.ValueSize);
                     var totalSize = valueSizes.Sum();
                     var currentOffset = 0;
-                    var rawDataLength = 0L;
+                    var rawBlockLength = 0L;
 
                     foreach (var component in components)
                     {
@@ -140,24 +140,24 @@ namespace ImcFamosFile
                         packInfo.GroupSize = 1;
                         packInfo.ByteGapSize = totalSize - packInfo.ValueSize;
 
-                        buffer.RawData = rawData;
-                        buffer.RawDataOffset = 0;
+                        buffer.RawBlock = rawBlock;
+                        buffer.RawBlockOffset = 0;
 
                         currentOffset += packInfo.ValueSize;
-                        rawDataLength += buffer.Length;
+                        rawBlockLength += buffer.Length;
                     }
 
-                    if (rawDataLength > Math.Pow(10, 9))
+                    if (rawBlockLength > Math.Pow(10, 9))
                         throw new InvalidOperationException("In interlaced mode, all buffers are combined into a single large buffer. This buffer would exceed the maximum allowed length of '10^9' bytes.");
 
                     foreach (var component in components)
                     {
                         var buffer = component.PackInfo.Buffers.First();
-                        buffer.Length = (int)rawDataLength;
-                        buffer.ConsumedBytes = (int)rawDataLength;
+                        buffer.Length = (int)rawBlockLength;
+                        buffer.ConsumedBytes = (int)rawBlockLength;
                     }
 
-                    rawData.Length = rawDataLength;
+                    rawBlock.Length = rawBlockLength;
 
                     break;
 
@@ -213,19 +213,32 @@ namespace ImcFamosFile
                     throw new FormatException("Every buffer associated to a pack info must be also assigned to the components buffer info property.");
             }
 
-            // check if buffer's raw data is part of this instance
+            // check if buffer's raw block is part of this instance
             foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
-                if (!this.RawData.Contains(buffer.RawData))
+                if (!this.RawBlocks.Contains(buffer.RawBlock))
                 {
-                    throw new FormatException("The buffers' raw data must be part of the famos file's raw data collection.");
+                    throw new FormatException("The buffers' raw block must be part of the famos file's raw block collection.");
                 };
             }
 
+            /* check unique region */
+            if (this.Groups.Count != this.Groups.Distinct().Count())
+                throw new FormatException("A group must be added only once.");
+
+            if (this.Fields.Count != this.Fields.Distinct().Count())
+                throw new FormatException("A field must be added only once.");
+
+            if (this.CustomKeys.Count != this.CustomKeys.Distinct().Count())
+                throw new FormatException("A custom key must be added only once.");
+
+            if (this.RawBlocks.Count != this.RawBlocks.Distinct().Count())
+                throw new FormatException("A raw block must be added only once.");
+
             /* not yet supported region */
-            foreach (var rawData in this.RawData)
+            foreach (var rawBlock in this.RawBlocks)
             {
-                if (rawData.CompressionType != FamosFileCompressionType.Uncompressed)
+                if (rawBlock.CompressionType != FamosFileCompressionType.Uncompressed)
                     throw new InvalidOperationException("This implementation does not support processing compressed data yet. Please send a sample file to the package author to find a solution.");
             }
         }
@@ -264,7 +277,10 @@ namespace ImcFamosFile
 
         public void Save(string filePath, FileMode fileMode, Action<BinaryWriter> writeData, bool autoAlign = true)
         {
-            this.Save(File.Open(filePath, fileMode, FileAccess.Write), writeData, autoAlign);
+            using (var stream = File.Open(filePath, fileMode, FileAccess.Write))
+            {
+                this.Save(stream, writeData, autoAlign);
+            }
         }
 
         public void Save(Stream stream, Action<BinaryWriter> writeData, bool autoAlign = true)
@@ -274,12 +290,12 @@ namespace ImcFamosFile
 
             if (autoAlign)
             {
-                var rawData = new FamosFileRawData();
+                var rawBlock = new FamosFileRawBlock();
 
-                this.RawData.Clear();
-                this.RawData.Add(rawData);
+                this.RawBlocks.Clear();
+                this.RawBlocks.Add(rawBlock);
 
-                this.AlignBuffers(rawData, FamosFileAlignmentMode.Continuous);
+                this.AlignBuffers(rawBlock, FamosFileAlignmentMode.Continuous);
             }
 
             this.Validate();
@@ -288,7 +304,7 @@ namespace ImcFamosFile
             var codePage = this.LanguageInfo is null ? 0 : this.LanguageInfo.CodePage;
             var encoding = Encoding.GetEncoding(codePage);
 
-            using (var writer = new BinaryWriter(stream, encoding))
+            using (var writer = new BinaryWriter(stream, encoding, leaveOpen: true))
             {
                 // Serialize header and leave CK key open.
                 this.Serialize(writer);
@@ -319,24 +335,31 @@ namespace ImcFamosFile
 
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, Span<T> data) where T : unmanaged
         {
-            var bufferValueLength = component.GetSize() - start;
-            var bufferByteLength = bufferValueLength * component.PackInfo.ValueSize;
-            var dataLength = data.Length * Marshal.SizeOf<T>();
+            var dataByteLength = data.Length * Marshal.SizeOf<T>();
 
-            if (dataLength > bufferByteLength)
+            var bufferValueLength = component.GetSize(start);
+            var bufferByteLength = bufferValueLength * component.PackInfo.ValueSize;
+
+            // data:     [0000] [0000] [0000] [0000] [0000]
+            // buffer:   [0000] [0000] [0000] [0000]
+            if (dataByteLength > bufferByteLength)
                 throw new InvalidOperationException("The start offset plus the size of the provided data array exceed the size of the component's buffer.");
 
-            if (bufferValueLength % (double)data.Length != 0)
+            // data:     [0000] [0000] [000]
+            // buffer:   [0000] [0000] [0000] [0000]
+            if (dataByteLength % component.PackInfo.ValueSize != 0)
                 throw new Exception("The length of the provided data array is not aligned to the component's buffer length, i.e. an incomplete value of the component's data type would be written to file.");
 
-            this.WriteComponentData(writer, component, start, MemoryMarshal.Cast<T, byte>(data), dataLength);
+            this.WriteComponentData(writer, component, start, MemoryMarshal.Cast<T, byte>(data), dataByteLength / component.PackInfo.ValueSize);
         }
 
-        private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, int start, Span<byte> data, int dataByteLength)
+        private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, int start, Span<byte> data, int length)
         {
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
-            var fileOffset = buffer.RawData.FileWriteOffset + buffer.RawDataOffset + buffer.Offset + packInfo.Offset;
+            var fileOffset = buffer.RawBlock.FileWriteOffset + buffer.RawBlockOffset + buffer.Offset + packInfo.Offset;
+
+            var valueLength = component.GetSize(start, length);
 
             // write all data at once
             if (packInfo.IsContiguous)
@@ -350,11 +373,8 @@ namespace ImcFamosFile
             // write grouped data
             else
             {
-#warning TODO: Remove this.
                 var bufferByteLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset;
-
-                var valueLength = dataByteLength / packInfo.ValueSize;
-                var valueOffset = start * packInfo.ByteGroupSize;
+                var valueOffset = start * packInfo.ByteRowSize;
 
                 writer.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
 
@@ -402,10 +422,10 @@ namespace ImcFamosFile
                 field.BeforeSerialize();
             }
 
-            // update raw data indices
-            foreach (var rawData in this.RawData)
+            // update raw block indices
+            foreach (var rawBlock in this.RawBlocks)
             {
-                rawData.Index = this.RawData.IndexOf(rawData) + 1;
+                rawBlock.Index = this.RawBlocks.IndexOf(rawBlock) + 1;
             }
 
             // update group indices
@@ -459,11 +479,11 @@ namespace ImcFamosFile
                 }
             }
 
-            // update raw data index of buffers
+            // update raw block index of buffers
             foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
-                var rawDataIndex = this.RawData.IndexOf(buffer.RawData) + 1;
-                buffer.RawDataIndex = rawDataIndex;
+                var rawBlockIndex = this.RawBlocks.IndexOf(buffer.RawBlock) + 1;
+                buffer.RawBlockIndex = rawBlockIndex;
             }
 
             // assign monotonous increasing buffer references to pack infos.
@@ -548,9 +568,9 @@ namespace ImcFamosFile
             // Nv - do nothing
 
             // CS
-            foreach (var rawData in this.RawData)
+            foreach (var rawBlock in this.RawBlocks)
             {
-                rawData.Serialize(writer);
+                rawBlock.Serialize(writer);
                 writer.Flush();
             }
         }

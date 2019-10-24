@@ -25,6 +25,8 @@ namespace ImcFamosFile
 
         private FamosFile(Stream stream) : base(new BinaryReader(stream))
         {
+            stream.Seek(0, SeekOrigin.Begin);
+
             this.Deserialize();
             this.AfterDeserialize();
             this.Validate();
@@ -105,9 +107,16 @@ namespace ImcFamosFile
             };
 
             var componentsData = new List<FamosFileComponentData>();
+            var cache = new Dictionary<FamosFileComponent, FamosFileComponentData>();
 
             foreach (var component in components)
             {
+                if (cache.ContainsKey(component))
+                {
+                    componentsData.Add(cache[component]);
+                    continue;
+                }
+
                 T? FindFirst<T>(FamosFileField field, FamosFileComponent component, T? defaultValue, Func<FamosFileComponent, T?> getPropertyValue) where T : class
                 {
                     var selfValue = getPropertyValue(component);
@@ -152,6 +161,7 @@ namespace ImcFamosFile
                 };
 
                 componentsData.Add(componentData);
+                cache[component] = componentData;
             }
 
             return new FamosFileChannelData(foundComponent.Name, foundField.Type, componentsData);
@@ -171,26 +181,27 @@ namespace ImcFamosFile
         {
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
-            var fileOffset = buffer.RawData.FileReadOffset + buffer.RawDataOffset + buffer.Offset + packInfo.Offset;
+            var fileOffset = buffer.RawBlock.FileReadOffset + buffer.RawBlockOffset + buffer.Offset + packInfo.Offset;
+
+            var valueLength = component.GetSize(start, length);
+            var dataByteLength = valueLength * packInfo.ValueSize;
 
             // read all data at once
             if (packInfo.IsContiguous)
             {
-                var actualLength = component.GetSize(start, length);
                 var valueOffset = start * packInfo.ValueSize;
 
                 this.Reader.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
-                return this.Reader.ReadBytes(actualLength * packInfo.ValueSize);
+                return this.Reader.ReadBytes(dataByteLength);
             }
 
             // read grouped data
             else
             {
-                var valueLength = component.GetSize(start, length);
-                var valueOffset = start * packInfo.ByteGroupSize;
+                var bufferByteLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset;
+                var valueOffset = start * packInfo.ByteRowSize;
 
-                var byteLength = valueLength * packInfo.ValueSize;
-                var data = new byte[byteLength];
+                var data = new byte[dataByteLength];
 
                 this.Reader.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
 
@@ -217,7 +228,7 @@ namespace ImcFamosFile
                     }
 
                     // skip x bytes
-                    if (byteLength - bytePosition >= packInfo.ByteGapSize)
+                    if (bufferByteLength - bytePosition >= packInfo.ByteGapSize)
                     {
                         this.Reader.BaseStream.Seek(packInfo.ByteGapSize, SeekOrigin.Current);
                         bytePosition += packInfo.ByteGapSize;
@@ -333,7 +344,7 @@ namespace ImcFamosFile
 
                 // CS 
                 else if (nextKeyType == FamosFileKeyType.CS)
-                    this.RawData.Add(new FamosFileRawData(this.Reader));
+                    this.RawBlocks.Add(new FamosFileRawBlock(this.Reader));
 
                 // Nv - only for data manager
                 else if (nextKeyType == FamosFileKeyType.Nv)
@@ -391,9 +402,9 @@ namespace ImcFamosFile
             base.CheckIndexConsistency("group", this.Groups, current => current.Index);
             this.Groups = this.Groups.OrderBy(x => x.Index).ToList();
 
-            // check if raw data indices are consistent
-            base.CheckIndexConsistency("raw data", this.RawData, current => current.Index);
-            this.RawData = this.RawData.OrderBy(x => x.Index).ToList();
+            // check if raw block indices are consistent
+            base.CheckIndexConsistency("raw block", this.RawBlocks, current => current.Index);
+            this.RawBlocks = this.RawBlocks.OrderBy(x => x.Index).ToList();
 
             // assign text to group
             foreach (var text in _texts)
@@ -413,10 +424,10 @@ namespace ImcFamosFile
                 this.AssignToGroup(channel.GroupIndex, channel, group => group.Channels, () => this.Channels);
             }
 
-            // assign raw data to buffer
+            // assign raw block to buffer
             foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
-                buffer.RawData = this.RawData.First(rawData => rawData.Index == buffer.RawDataIndex);
+                buffer.RawBlock = this.RawBlocks.First(rawBlock => rawBlock.Index == buffer.RawBlockIndex);
             }
         }
 

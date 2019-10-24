@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileRawData : FamosFileBase
+    public class FamosFileRawBlock : FamosFileBase
     {
         #region Fields
 
@@ -13,12 +13,12 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        public FamosFileRawData()
+        public FamosFileRawBlock()
         {
             //
         }
 
-        internal FamosFileRawData(BinaryReader reader) : base(reader)
+        internal FamosFileRawBlock(BinaryReader reader) : base(reader)
         {
             var keyVersion = this.DeserializeInt32();
 

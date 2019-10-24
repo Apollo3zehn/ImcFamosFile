@@ -15,13 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\sample\ImcFamosFileSample\ImcFamosFileSample.csproj" />
     <ProjectReference Include="..\..\src\ImcFamosFile\ImcFamosFile.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="crafted_data1.dat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="ImcTestData\BusTrip.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -29,9 +27,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="ImcTestData\trip_Toronto.DAT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="testdata.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

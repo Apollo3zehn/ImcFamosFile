@@ -8,12 +8,12 @@ namespace ImcFamosFile
         #region Fields
 
         private int _reference;
-        private int _rawDataIndex;
+        private int _rawBlockIndex;
         private int _length;
         private int _offset;
         private int _consumedBytes;
 
-        private FamosFileRawData? _rawData;
+        private FamosFileRawBlock? _rawBlock;
 
         private byte[] _userInfo;
 
@@ -35,19 +35,19 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public FamosFileRawData RawData
+        public FamosFileRawBlock RawBlock
         {
             get
             {
-                if (_rawData is null)
-                    throw new FormatException("A raw data instance must be assigned to the buffer's raw data property.");
+                if (_rawBlock is null)
+                    throw new FormatException("A raw block instance must be assigned to the buffer's raw block property.");
 
-                return _rawData;
+                return _rawBlock;
             }
-            set { _rawData = value; }
+            set { _rawBlock = value; }
         }
 
-        public long RawDataOffset { get; set; }
+        public long RawBlockOffset { get; set; }
 
         public int Length
         {
@@ -106,15 +106,15 @@ namespace ImcFamosFile
             }
         }
 
-        internal int RawDataIndex
+        internal int RawBlockIndex
         {
-            get { return _rawDataIndex; }
+            get { return _rawBlockIndex; }
             set
             {
                 if (value <= 0)
-                    throw new FormatException($"Expected raw data index value > '0', got '{value}'.");
+                    throw new FormatException($"Expected raw block index value > '0', got '{value}'.");
 
-                _rawDataIndex = value;
+                _rawBlockIndex = value;
             }
         }
 
@@ -127,8 +127,8 @@ namespace ImcFamosFile
             return new object[]
             {
                 this.Reference,
-                this.RawDataIndex,
-                this.RawDataOffset,
+                this.RawBlockIndex,
+                this.RawBlockOffset,
                 this.Length,
                 this.Offset,
                 this.ConsumedBytes,

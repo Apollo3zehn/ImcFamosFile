@@ -184,7 +184,7 @@ namespace ImcFamosFile
 
                 case FamosFileFieldType.MultipleYToSingleXOrViceVersa:
 
-                    if (!(primaryCount == 1 && secondaryCount >= 1) || (primaryCount >= 1 && secondaryCount == 1))
+                    if (!((primaryCount == 1 && secondaryCount >= 1) || (primaryCount >= 1 && secondaryCount == 1)))
                         throw new FormatException($"A field of type '{nameof(FamosFileFieldType.MultipleYToSingleXOrViceVersa)}', must contain a single '{nameof(FamosFileComponentType.Primary)}' component and one or more '{nameof(FamosFileComponentType.Secondary)}' components or vice versa.");
 
                     break;
@@ -201,6 +201,10 @@ namespace ImcFamosFile
                 default:
                     break;
             }
+
+            /* check unique region */
+            if (this.Components.Count != this.Components.Distinct().Count())
+                throw new FormatException("A component must be added only once.");
 
             /* not yet supported region */
             if (this.EventInfos.Any())

@@ -55,8 +55,8 @@ namespace ImcFamosFile
                 if (buffer.Length > Math.Pow(10, 9))
                     throw new FormatException("A buffer must not exceed 10^9 bytes.");
 
-                if (buffer.RawDataOffset + buffer.Length > buffer.RawData.Length)
-                    throw new FormatException("The sum of the raw data offset and the buffer length must be <= raw data length.");
+                if (buffer.RawBlockOffset + buffer.Length > buffer.RawBlock.Length)
+                    throw new FormatException("The sum of the raw block offset and the buffer length must be <= raw block length.");
 
                 if (buffer.Offset >= buffer.Length)
                     throw new FormatException("The value of the buffer's offset property must be < the buffer's length property.");
@@ -96,8 +96,8 @@ namespace ImcFamosFile
         private FamosFileBuffer DeserializeBuffer()
         {
             var reference = this.DeserializeInt32();
-            var rawDataIndex = this.DeserializeInt32();
-            var rawDataOffset = this.DeserializeInt32();
+            var rawBlockIndex = this.DeserializeInt32();
+            var rawBlockOffset = this.DeserializeInt32();
             var length = this.DeserializeInt32();
             var offset = this.DeserializeInt32();
             var consumedBytes = this.DeserializeInt32();
@@ -109,8 +109,8 @@ namespace ImcFamosFile
             return new FamosFileBuffer(userInfo)
             {
                 Reference = reference,
-                RawDataIndex = rawDataIndex,
-                RawDataOffset = rawDataOffset,
+                RawBlockIndex = rawBlockIndex,
+                RawBlockOffset = rawBlockOffset,
                 Length = length,
                 Offset = offset,
                 ConsumedBytes = consumedBytes,

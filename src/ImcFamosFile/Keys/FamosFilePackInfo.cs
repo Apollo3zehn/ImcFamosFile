@@ -114,8 +114,7 @@ namespace ImcFamosFile
         }
 
         public bool IsContiguous => this.ByteGapSize == 0;
-
-        public int ByteGroupSize => this.ValueSize * this.GroupSize;
+        public int ByteRowSize => this.ValueSize * this.GroupSize + this.ByteGapSize;
 
         internal int BufferReference
         {

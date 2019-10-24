@@ -21,7 +21,6 @@ namespace ImcFamosFile
             this.BufferInfo = new FamosFileBufferInfo(new List<FamosFileBuffer>() { new FamosFileBuffer() });
             this.PackInfo = new FamosFilePackInfo(dataType, this.BufferInfo.Buffers.ToList());
 
-#warning TODO: Is this the best approach?
             var buffer = this.BufferInfo.Buffers.First();
             buffer.Length = length * this.PackInfo.ValueSize;
             buffer.ConsumedBytes = buffer.Length; // This could theoretically be set to actual value during 'famosFile.Save(...);' but how handle interlaced data?
@@ -189,6 +188,11 @@ namespace ImcFamosFile
             return this.GetSize(0, 0);
         }
 
+        public int GetSize(int start)
+        {
+            return this.GetSize(start, 0);
+        }
+
         public int GetSize(int start, int length)
         {
             var packInfo = this.PackInfo;
@@ -204,7 +208,7 @@ namespace ImcFamosFile
             }
             else
             {
-                var rowSize = packInfo.ByteGroupSize + packInfo.ByteGapSize;
+                var rowSize = packInfo.ByteRowSize;
                 maxLength = actualBufferLength / rowSize;
 
                 if (actualBufferLength % rowSize >= packInfo.ValueSize)
@@ -234,6 +238,10 @@ namespace ImcFamosFile
 
             // validate buffer info
             this.BufferInfo.Validate();
+
+            /* check unique region */
+            if (this.Channels.Count != this.Channels.Distinct().Count())
+                throw new FormatException("A channel must be added only once.");
 
             /* not yet supported region */
             foreach (var channel in this.Channels)
