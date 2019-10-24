@@ -162,32 +162,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileAnalogComponent.CalibrationInfo
   nameWithType: FamosFileAnalogComponent.CalibrationInfo
-- uid: ImcFamosFile.FamosFileAnalogComponent.DeserializeCR
-  name: DeserializeCR()
-  href: api/ImcFamosFile.FamosFileAnalogComponent.html#ImcFamosFile_FamosFileAnalogComponent_DeserializeCR
-  commentId: M:ImcFamosFile.FamosFileAnalogComponent.DeserializeCR
-  fullName: ImcFamosFile.FamosFileAnalogComponent.DeserializeCR()
-  nameWithType: FamosFileAnalogComponent.DeserializeCR()
-- uid: ImcFamosFile.FamosFileAnalogComponent.DeserializeCR*
-  name: DeserializeCR
-  href: api/ImcFamosFile.FamosFileAnalogComponent.html#ImcFamosFile_FamosFileAnalogComponent_DeserializeCR_
-  commentId: Overload:ImcFamosFile.FamosFileAnalogComponent.DeserializeCR
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileAnalogComponent.DeserializeCR
-  nameWithType: FamosFileAnalogComponent.DeserializeCR
-- uid: ImcFamosFile.FamosFileAnalogComponent.SerializeCR(System.IO.BinaryWriter)
-  name: SerializeCR(BinaryWriter)
-  href: api/ImcFamosFile.FamosFileAnalogComponent.html#ImcFamosFile_FamosFileAnalogComponent_SerializeCR_System_IO_BinaryWriter_
-  commentId: M:ImcFamosFile.FamosFileAnalogComponent.SerializeCR(System.IO.BinaryWriter)
-  fullName: ImcFamosFile.FamosFileAnalogComponent.SerializeCR(System.IO.BinaryWriter)
-  nameWithType: FamosFileAnalogComponent.SerializeCR(BinaryWriter)
-- uid: ImcFamosFile.FamosFileAnalogComponent.SerializeCR*
-  name: SerializeCR
-  href: api/ImcFamosFile.FamosFileAnalogComponent.html#ImcFamosFile_FamosFileAnalogComponent_SerializeCR_
-  commentId: Overload:ImcFamosFile.FamosFileAnalogComponent.SerializeCR
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileAnalogComponent.SerializeCR
-  nameWithType: FamosFileAnalogComponent.SerializeCR
 - uid: ImcFamosFile.FamosFileAnalogComponent.Validate
   name: Validate()
   href: api/ImcFamosFile.FamosFileAnalogComponent.html#ImcFamosFile_FamosFileAnalogComponent_Validate
@@ -207,192 +181,6 @@ references:
   commentId: T:ImcFamosFile.FamosFileBase
   fullName: ImcFamosFile.FamosFileBase
   nameWithType: FamosFileBase
-- uid: ImcFamosFile.FamosFileBase.#ctor
-  name: FamosFileBase()
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase__ctor
-  commentId: M:ImcFamosFile.FamosFileBase.#ctor
-  fullName: ImcFamosFile.FamosFileBase.FamosFileBase()
-  nameWithType: FamosFileBase.FamosFileBase()
-- uid: ImcFamosFile.FamosFileBase.#ctor(System.IO.BinaryReader)
-  name: FamosFileBase(BinaryReader)
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase__ctor_System_IO_BinaryReader_
-  commentId: M:ImcFamosFile.FamosFileBase.#ctor(System.IO.BinaryReader)
-  fullName: ImcFamosFile.FamosFileBase.FamosFileBase(System.IO.BinaryReader)
-  nameWithType: FamosFileBase.FamosFileBase(BinaryReader)
-- uid: ImcFamosFile.FamosFileBase.#ctor*
-  name: FamosFileBase
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase__ctor_
-  commentId: Overload:ImcFamosFile.FamosFileBase.#ctor
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.FamosFileBase
-  nameWithType: FamosFileBase.FamosFileBase
-- uid: ImcFamosFile.FamosFileBase.DeserializeHex
-  name: DeserializeHex()
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeHex
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeHex
-  fullName: ImcFamosFile.FamosFileBase.DeserializeHex()
-  nameWithType: FamosFileBase.DeserializeHex()
-- uid: ImcFamosFile.FamosFileBase.DeserializeHex*
-  name: DeserializeHex
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeHex_
-  commentId: Overload:ImcFamosFile.FamosFileBase.DeserializeHex
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.DeserializeHex
-  nameWithType: FamosFileBase.DeserializeHex
-- uid: ImcFamosFile.FamosFileBase.DeserializeInt32
-  name: DeserializeInt32()
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt32
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeInt32
-  fullName: ImcFamosFile.FamosFileBase.DeserializeInt32()
-  nameWithType: FamosFileBase.DeserializeInt32()
-- uid: ImcFamosFile.FamosFileBase.DeserializeInt32*
-  name: DeserializeInt32
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt32_
-  commentId: Overload:ImcFamosFile.FamosFileBase.DeserializeInt32
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.DeserializeInt32
-  nameWithType: FamosFileBase.DeserializeInt32
-- uid: ImcFamosFile.FamosFileBase.DeserializeInt64
-  name: DeserializeInt64()
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeInt64
-  fullName: ImcFamosFile.FamosFileBase.DeserializeInt64()
-  nameWithType: FamosFileBase.DeserializeInt64()
-- uid: ImcFamosFile.FamosFileBase.DeserializeInt64*
-  name: DeserializeInt64
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeInt64_
-  commentId: Overload:ImcFamosFile.FamosFileBase.DeserializeInt64
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.DeserializeInt64
-  nameWithType: FamosFileBase.DeserializeInt64
-- uid: ImcFamosFile.FamosFileBase.DeserializeKey(ImcFamosFile.FamosFileKeyType,System.Int32,System.Action{System.Int64})
-  name: DeserializeKey(FamosFileKeyType, Int32, Action<Int64>)
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKey_ImcFamosFile_FamosFileKeyType_System_Int32_System_Action_System_Int64__
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeKey(ImcFamosFile.FamosFileKeyType,System.Int32,System.Action{System.Int64})
-  name.vb: DeserializeKey(FamosFileKeyType, Int32, Action(Of Int64))
-  fullName: ImcFamosFile.FamosFileBase.DeserializeKey(ImcFamosFile.FamosFileKeyType, System.Int32, System.Action<System.Int64>)
-  fullName.vb: ImcFamosFile.FamosFileBase.DeserializeKey(ImcFamosFile.FamosFileKeyType, System.Int32, System.Action(Of System.Int64))
-  nameWithType: FamosFileBase.DeserializeKey(FamosFileKeyType, Int32, Action<Int64>)
-  nameWithType.vb: FamosFileBase.DeserializeKey(FamosFileKeyType, Int32, Action(Of Int64))
-- uid: ImcFamosFile.FamosFileBase.DeserializeKey(System.Int32,System.Action{System.Int64})
-  name: DeserializeKey(Int32, Action<Int64>)
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKey_System_Int32_System_Action_System_Int64__
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeKey(System.Int32,System.Action{System.Int64})
-  name.vb: DeserializeKey(Int32, Action(Of Int64))
-  fullName: ImcFamosFile.FamosFileBase.DeserializeKey(System.Int32, System.Action<System.Int64>)
-  fullName.vb: ImcFamosFile.FamosFileBase.DeserializeKey(System.Int32, System.Action(Of System.Int64))
-  nameWithType: FamosFileBase.DeserializeKey(Int32, Action<Int64>)
-  nameWithType.vb: FamosFileBase.DeserializeKey(Int32, Action(Of Int64))
-- uid: ImcFamosFile.FamosFileBase.DeserializeKey(System.Nullable{System.Action{System.Int64}})
-  name: DeserializeKey(Nullable<Action<Int64>>)
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKey_System_Nullable_System_Action_System_Int64___
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeKey(System.Nullable{System.Action{System.Int64}})
-  name.vb: DeserializeKey(Nullable(Of Action(Of Int64)))
-  fullName: ImcFamosFile.FamosFileBase.DeserializeKey(System.Nullable<System.Action<System.Int64>>)
-  fullName.vb: ImcFamosFile.FamosFileBase.DeserializeKey(System.Nullable(Of System.Action(Of System.Int64)))
-  nameWithType: FamosFileBase.DeserializeKey(Nullable<Action<Int64>>)
-  nameWithType.vb: FamosFileBase.DeserializeKey(Nullable(Of Action(Of Int64)))
-- uid: ImcFamosFile.FamosFileBase.DeserializeKey*
-  name: DeserializeKey
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKey_
-  commentId: Overload:ImcFamosFile.FamosFileBase.DeserializeKey
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.DeserializeKey
-  nameWithType: FamosFileBase.DeserializeKey
-- uid: ImcFamosFile.FamosFileBase.DeserializeKeyPart
-  name: DeserializeKeyPart()
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyPart
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeKeyPart
-  fullName: ImcFamosFile.FamosFileBase.DeserializeKeyPart()
-  nameWithType: FamosFileBase.DeserializeKeyPart()
-- uid: ImcFamosFile.FamosFileBase.DeserializeKeyPart*
-  name: DeserializeKeyPart
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyPart_
-  commentId: Overload:ImcFamosFile.FamosFileBase.DeserializeKeyPart
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.DeserializeKeyPart
-  nameWithType: FamosFileBase.DeserializeKeyPart
-- uid: ImcFamosFile.FamosFileBase.DeserializeKeyType
-  name: DeserializeKeyType()
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeKeyType
-  fullName: ImcFamosFile.FamosFileBase.DeserializeKeyType()
-  nameWithType: FamosFileBase.DeserializeKeyType()
-- uid: ImcFamosFile.FamosFileBase.DeserializeKeyType*
-  name: DeserializeKeyType
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeKeyType_
-  commentId: Overload:ImcFamosFile.FamosFileBase.DeserializeKeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.DeserializeKeyType
-  nameWithType: FamosFileBase.DeserializeKeyType
-- uid: ImcFamosFile.FamosFileBase.DeserializeReal
-  name: DeserializeReal()
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal
-  commentId: M:ImcFamosFile.FamosFileBase.DeserializeReal
-  fullName: ImcFamosFile.FamosFileBase.DeserializeReal()
-  nameWithType: FamosFileBase.DeserializeReal()
-- uid: ImcFamosFile.FamosFileBase.DeserializeReal*
-  name: DeserializeReal
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeReal_
-  commentId: Overload:ImcFamosFile.FamosFileBase.DeserializeReal
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.DeserializeReal
-  nameWithType: FamosFileBase.DeserializeReal
-- uid: ImcFamosFile.FamosFileBase.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_KeyType
-  commentId: P:ImcFamosFile.FamosFileBase.KeyType
-  fullName: ImcFamosFile.FamosFileBase.KeyType
-  nameWithType: FamosFileBase.KeyType
-- uid: ImcFamosFile.FamosFileBase.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileBase.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.KeyType
-  nameWithType: FamosFileBase.KeyType
-- uid: ImcFamosFile.FamosFileBase.Reader
-  name: Reader
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader
-  commentId: P:ImcFamosFile.FamosFileBase.Reader
-  fullName: ImcFamosFile.FamosFileBase.Reader
-  nameWithType: FamosFileBase.Reader
-- uid: ImcFamosFile.FamosFileBase.Reader*
-  name: Reader
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Reader_
-  commentId: Overload:ImcFamosFile.FamosFileBase.Reader
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.Reader
-  nameWithType: FamosFileBase.Reader
-- uid: ImcFamosFile.FamosFileBase.SerializeKey(System.IO.BinaryWriter,System.Int32,System.Object[],System.Boolean)
-  name: SerializeKey(BinaryWriter, Int32, Object[], Boolean)
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_System_IO_BinaryWriter_System_Int32_System_Object___System_Boolean_
-  commentId: M:ImcFamosFile.FamosFileBase.SerializeKey(System.IO.BinaryWriter,System.Int32,System.Object[],System.Boolean)
-  name.vb: SerializeKey(BinaryWriter, Int32, Object(), Boolean)
-  fullName: ImcFamosFile.FamosFileBase.SerializeKey(System.IO.BinaryWriter, System.Int32, System.Object[], System.Boolean)
-  fullName.vb: ImcFamosFile.FamosFileBase.SerializeKey(System.IO.BinaryWriter, System.Int32, System.Object(), System.Boolean)
-  nameWithType: FamosFileBase.SerializeKey(BinaryWriter, Int32, Object[], Boolean)
-  nameWithType.vb: FamosFileBase.SerializeKey(BinaryWriter, Int32, Object(), Boolean)
-- uid: ImcFamosFile.FamosFileBase.SerializeKey*
-  name: SerializeKey
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SerializeKey_
-  commentId: Overload:ImcFamosFile.FamosFileBase.SerializeKey
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.SerializeKey
-  nameWithType: FamosFileBase.SerializeKey
-- uid: ImcFamosFile.FamosFileBase.SkipKey
-  name: SkipKey()
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey
-  commentId: M:ImcFamosFile.FamosFileBase.SkipKey
-  fullName: ImcFamosFile.FamosFileBase.SkipKey()
-  nameWithType: FamosFileBase.SkipKey()
-- uid: ImcFamosFile.FamosFileBase.SkipKey*
-  name: SkipKey
-  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_SkipKey_
-  commentId: Overload:ImcFamosFile.FamosFileBase.SkipKey
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBase.SkipKey
-  nameWithType: FamosFileBase.SkipKey
 - uid: ImcFamosFile.FamosFileBase.Validate
   name: Validate()
   href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate
@@ -412,89 +200,12 @@ references:
   commentId: T:ImcFamosFile.FamosFileBaseExtended
   fullName: ImcFamosFile.FamosFileBaseExtended
   nameWithType: FamosFileBaseExtended
-- uid: ImcFamosFile.FamosFileBaseExtended.#ctor
-  name: FamosFileBaseExtended()
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended__ctor
-  commentId: M:ImcFamosFile.FamosFileBaseExtended.#ctor
-  fullName: ImcFamosFile.FamosFileBaseExtended.FamosFileBaseExtended()
-  nameWithType: FamosFileBaseExtended.FamosFileBaseExtended()
-- uid: ImcFamosFile.FamosFileBaseExtended.#ctor(System.IO.BinaryReader,System.Int32)
-  name: FamosFileBaseExtended(BinaryReader, Int32)
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended__ctor_System_IO_BinaryReader_System_Int32_
-  commentId: M:ImcFamosFile.FamosFileBaseExtended.#ctor(System.IO.BinaryReader,System.Int32)
-  fullName: ImcFamosFile.FamosFileBaseExtended.FamosFileBaseExtended(System.IO.BinaryReader, System.Int32)
-  nameWithType: FamosFileBaseExtended.FamosFileBaseExtended(BinaryReader, Int32)
-- uid: ImcFamosFile.FamosFileBaseExtended.#ctor*
-  name: FamosFileBaseExtended
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended__ctor_
-  commentId: Overload:ImcFamosFile.FamosFileBaseExtended.#ctor
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBaseExtended.FamosFileBaseExtended
-  nameWithType: FamosFileBaseExtended.FamosFileBaseExtended
-- uid: ImcFamosFile.FamosFileBaseExtended.CodePage
-  name: CodePage
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended_CodePage
-  commentId: P:ImcFamosFile.FamosFileBaseExtended.CodePage
-  fullName: ImcFamosFile.FamosFileBaseExtended.CodePage
-  nameWithType: FamosFileBaseExtended.CodePage
-- uid: ImcFamosFile.FamosFileBaseExtended.CodePage*
-  name: CodePage
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended_CodePage_
-  commentId: Overload:ImcFamosFile.FamosFileBaseExtended.CodePage
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBaseExtended.CodePage
-  nameWithType: FamosFileBaseExtended.CodePage
-- uid: ImcFamosFile.FamosFileBaseExtended.DeserializeString
-  name: DeserializeString()
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended_DeserializeString
-  commentId: M:ImcFamosFile.FamosFileBaseExtended.DeserializeString
-  fullName: ImcFamosFile.FamosFileBaseExtended.DeserializeString()
-  nameWithType: FamosFileBaseExtended.DeserializeString()
-- uid: ImcFamosFile.FamosFileBaseExtended.DeserializeString*
-  name: DeserializeString
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended_DeserializeString_
-  commentId: Overload:ImcFamosFile.FamosFileBaseExtended.DeserializeString
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBaseExtended.DeserializeString
-  nameWithType: FamosFileBaseExtended.DeserializeString
-- uid: ImcFamosFile.FamosFileBaseExtended.DeserializeStringArray
-  name: DeserializeStringArray()
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended_DeserializeStringArray
-  commentId: M:ImcFamosFile.FamosFileBaseExtended.DeserializeStringArray
-  fullName: ImcFamosFile.FamosFileBaseExtended.DeserializeStringArray()
-  nameWithType: FamosFileBaseExtended.DeserializeStringArray()
-- uid: ImcFamosFile.FamosFileBaseExtended.DeserializeStringArray*
-  name: DeserializeStringArray
-  href: api/ImcFamosFile.FamosFileBaseExtended.html#ImcFamosFile_FamosFileBaseExtended_DeserializeStringArray_
-  commentId: Overload:ImcFamosFile.FamosFileBaseExtended.DeserializeStringArray
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBaseExtended.DeserializeStringArray
-  nameWithType: FamosFileBaseExtended.DeserializeStringArray
 - uid: ImcFamosFile.FamosFileBaseProperty
   name: FamosFileBaseProperty
   href: api/ImcFamosFile.FamosFileBaseProperty.html
   commentId: T:ImcFamosFile.FamosFileBaseProperty
   fullName: ImcFamosFile.FamosFileBaseProperty
   nameWithType: FamosFileBaseProperty
-- uid: ImcFamosFile.FamosFileBaseProperty.#ctor
-  name: FamosFileBaseProperty()
-  href: api/ImcFamosFile.FamosFileBaseProperty.html#ImcFamosFile_FamosFileBaseProperty__ctor
-  commentId: M:ImcFamosFile.FamosFileBaseProperty.#ctor
-  fullName: ImcFamosFile.FamosFileBaseProperty.FamosFileBaseProperty()
-  nameWithType: FamosFileBaseProperty.FamosFileBaseProperty()
-- uid: ImcFamosFile.FamosFileBaseProperty.#ctor(System.IO.BinaryReader,System.Int32)
-  name: FamosFileBaseProperty(BinaryReader, Int32)
-  href: api/ImcFamosFile.FamosFileBaseProperty.html#ImcFamosFile_FamosFileBaseProperty__ctor_System_IO_BinaryReader_System_Int32_
-  commentId: M:ImcFamosFile.FamosFileBaseProperty.#ctor(System.IO.BinaryReader,System.Int32)
-  fullName: ImcFamosFile.FamosFileBaseProperty.FamosFileBaseProperty(System.IO.BinaryReader, System.Int32)
-  nameWithType: FamosFileBaseProperty.FamosFileBaseProperty(BinaryReader, Int32)
-- uid: ImcFamosFile.FamosFileBaseProperty.#ctor*
-  name: FamosFileBaseProperty
-  href: api/ImcFamosFile.FamosFileBaseProperty.html#ImcFamosFile_FamosFileBaseProperty__ctor_
-  commentId: Overload:ImcFamosFile.FamosFileBaseProperty.#ctor
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBaseProperty.FamosFileBaseProperty
-  nameWithType: FamosFileBaseProperty.FamosFileBaseProperty
 - uid: ImcFamosFile.FamosFileBaseProperty.PropertyInfo
   name: PropertyInfo
   href: api/ImcFamosFile.FamosFileBaseProperty.html#ImcFamosFile_FamosFileBaseProperty_PropertyInfo
@@ -707,19 +418,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileBufferInfo.Buffers
   nameWithType: FamosFileBufferInfo.Buffers
-- uid: ImcFamosFile.FamosFileBufferInfo.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileBufferInfo.html#ImcFamosFile_FamosFileBufferInfo_KeyType
-  commentId: P:ImcFamosFile.FamosFileBufferInfo.KeyType
-  fullName: ImcFamosFile.FamosFileBufferInfo.KeyType
-  nameWithType: FamosFileBufferInfo.KeyType
-- uid: ImcFamosFile.FamosFileBufferInfo.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileBufferInfo.html#ImcFamosFile_FamosFileBufferInfo_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileBufferInfo.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileBufferInfo.KeyType
-  nameWithType: FamosFileBufferInfo.KeyType
 - uid: ImcFamosFile.FamosFileBufferInfo.Validate
   name: Validate()
   href: api/ImcFamosFile.FamosFileBufferInfo.html#ImcFamosFile_FamosFileBufferInfo_Validate
@@ -797,19 +495,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileCalibration.IsCalibrated
   nameWithType: FamosFileCalibration.IsCalibrated
-- uid: ImcFamosFile.FamosFileCalibration.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileCalibration.html#ImcFamosFile_FamosFileCalibration_KeyType
-  commentId: P:ImcFamosFile.FamosFileCalibration.KeyType
-  fullName: ImcFamosFile.FamosFileCalibration.KeyType
-  nameWithType: FamosFileCalibration.KeyType
-- uid: ImcFamosFile.FamosFileCalibration.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileCalibration.html#ImcFamosFile_FamosFileCalibration_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileCalibration.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileCalibration.KeyType
-  nameWithType: FamosFileCalibration.KeyType
 - uid: ImcFamosFile.FamosFileCalibration.Offset
   name: Offset
   href: api/ImcFamosFile.FamosFileCalibration.html#ImcFamosFile_FamosFileCalibration_Offset
@@ -881,19 +566,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileChannel.Comment
   nameWithType: FamosFileChannel.Comment
-- uid: ImcFamosFile.FamosFileChannel.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileChannel.html#ImcFamosFile_FamosFileChannel_KeyType
-  commentId: P:ImcFamosFile.FamosFileChannel.KeyType
-  fullName: ImcFamosFile.FamosFileChannel.KeyType
-  nameWithType: FamosFileChannel.KeyType
-- uid: ImcFamosFile.FamosFileChannel.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileChannel.html#ImcFamosFile_FamosFileChannel_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileChannel.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileChannel.KeyType
-  nameWithType: FamosFileChannel.KeyType
 - uid: ImcFamosFile.FamosFileChannel.Name
   name: Name
   href: api/ImcFamosFile.FamosFileChannel.html#ImcFamosFile_FamosFileChannel_Name
@@ -958,25 +630,6 @@ references:
   commentId: T:ImcFamosFile.FamosFileComponent
   fullName: ImcFamosFile.FamosFileComponent
   nameWithType: FamosFileComponent
-- uid: ImcFamosFile.FamosFileComponent.#ctor(ImcFamosFile.FamosFileDataType,System.Int32,ImcFamosFile.FamosFileComponentType)
-  name: FamosFileComponent(FamosFileDataType, Int32, FamosFileComponentType)
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent__ctor_ImcFamosFile_FamosFileDataType_System_Int32_ImcFamosFile_FamosFileComponentType_
-  commentId: M:ImcFamosFile.FamosFileComponent.#ctor(ImcFamosFile.FamosFileDataType,System.Int32,ImcFamosFile.FamosFileComponentType)
-  fullName: ImcFamosFile.FamosFileComponent.FamosFileComponent(ImcFamosFile.FamosFileDataType, System.Int32, ImcFamosFile.FamosFileComponentType)
-  nameWithType: FamosFileComponent.FamosFileComponent(FamosFileDataType, Int32, FamosFileComponentType)
-- uid: ImcFamosFile.FamosFileComponent.#ctor(System.IO.BinaryReader,System.Int32)
-  name: FamosFileComponent(BinaryReader, Int32)
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent__ctor_System_IO_BinaryReader_System_Int32_
-  commentId: M:ImcFamosFile.FamosFileComponent.#ctor(System.IO.BinaryReader,System.Int32)
-  fullName: ImcFamosFile.FamosFileComponent.FamosFileComponent(System.IO.BinaryReader, System.Int32)
-  nameWithType: FamosFileComponent.FamosFileComponent(BinaryReader, Int32)
-- uid: ImcFamosFile.FamosFileComponent.#ctor*
-  name: FamosFileComponent
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent__ctor_
-  commentId: Overload:ImcFamosFile.FamosFileComponent.#ctor
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileComponent.FamosFileComponent
-  nameWithType: FamosFileComponent.FamosFileComponent
 - uid: ImcFamosFile.FamosFileComponent.BufferInfo
   name: BufferInfo
   href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_BufferInfo
@@ -1003,19 +656,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileComponent.Channels
   nameWithType: FamosFileComponent.Channels
-- uid: ImcFamosFile.FamosFileComponent.DeserializeCR
-  name: DeserializeCR()
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_DeserializeCR
-  commentId: M:ImcFamosFile.FamosFileComponent.DeserializeCR
-  fullName: ImcFamosFile.FamosFileComponent.DeserializeCR()
-  nameWithType: FamosFileComponent.DeserializeCR()
-- uid: ImcFamosFile.FamosFileComponent.DeserializeCR*
-  name: DeserializeCR
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_DeserializeCR_
-  commentId: Overload:ImcFamosFile.FamosFileComponent.DeserializeCR
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileComponent.DeserializeCR
-  nameWithType: FamosFileComponent.DeserializeCR
 - uid: ImcFamosFile.FamosFileComponent.DisplayInfo
   name: DisplayInfo
   href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_DisplayInfo
@@ -1067,19 +707,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileComponent.GetSize
   nameWithType: FamosFileComponent.GetSize
-- uid: ImcFamosFile.FamosFileComponent.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_KeyType
-  commentId: P:ImcFamosFile.FamosFileComponent.KeyType
-  fullName: ImcFamosFile.FamosFileComponent.KeyType
-  nameWithType: FamosFileComponent.KeyType
-- uid: ImcFamosFile.FamosFileComponent.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileComponent.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileComponent.KeyType
-  nameWithType: FamosFileComponent.KeyType
 - uid: ImcFamosFile.FamosFileComponent.Name
   name: Name
   href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_Name
@@ -1106,19 +733,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileComponent.PackInfo
   nameWithType: FamosFileComponent.PackInfo
-- uid: ImcFamosFile.FamosFileComponent.SerializeCR(System.IO.BinaryWriter)
-  name: SerializeCR(BinaryWriter)
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_SerializeCR_System_IO_BinaryWriter_
-  commentId: M:ImcFamosFile.FamosFileComponent.SerializeCR(System.IO.BinaryWriter)
-  fullName: ImcFamosFile.FamosFileComponent.SerializeCR(System.IO.BinaryWriter)
-  nameWithType: FamosFileComponent.SerializeCR(BinaryWriter)
-- uid: ImcFamosFile.FamosFileComponent.SerializeCR*
-  name: SerializeCR
-  href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_SerializeCR_
-  commentId: Overload:ImcFamosFile.FamosFileComponent.SerializeCR
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileComponent.SerializeCR
-  nameWithType: FamosFileComponent.SerializeCR
 - uid: ImcFamosFile.FamosFileComponent.TriggerTime
   name: TriggerTime
   href: api/ImcFamosFile.FamosFileComponent.html#ImcFamosFile_FamosFileComponent_TriggerTime
@@ -1190,22 +804,6 @@ references:
   commentId: T:ImcFamosFile.FamosFileComponentData
   fullName: ImcFamosFile.FamosFileComponentData
   nameWithType: FamosFileComponentData
-- uid: ImcFamosFile.FamosFileComponentData.#ctor(ImcFamosFile.FamosFileComponent,System.Nullable{ImcFamosFile.FamosFileXAxisScaling},System.Nullable{ImcFamosFile.FamosFileZAxisScaling},System.Nullable{ImcFamosFile.FamosFileTriggerTime},System.Byte[])
-  name: FamosFileComponentData(FamosFileComponent, Nullable<FamosFileXAxisScaling>, Nullable<FamosFileZAxisScaling>, Nullable<FamosFileTriggerTime>, Byte[])
-  href: api/ImcFamosFile.FamosFileComponentData.html#ImcFamosFile_FamosFileComponentData__ctor_ImcFamosFile_FamosFileComponent_System_Nullable_ImcFamosFile_FamosFileXAxisScaling__System_Nullable_ImcFamosFile_FamosFileZAxisScaling__System_Nullable_ImcFamosFile_FamosFileTriggerTime__System_Byte___
-  commentId: M:ImcFamosFile.FamosFileComponentData.#ctor(ImcFamosFile.FamosFileComponent,System.Nullable{ImcFamosFile.FamosFileXAxisScaling},System.Nullable{ImcFamosFile.FamosFileZAxisScaling},System.Nullable{ImcFamosFile.FamosFileTriggerTime},System.Byte[])
-  name.vb: FamosFileComponentData(FamosFileComponent, Nullable(Of FamosFileXAxisScaling), Nullable(Of FamosFileZAxisScaling), Nullable(Of FamosFileTriggerTime), Byte())
-  fullName: ImcFamosFile.FamosFileComponentData.FamosFileComponentData(ImcFamosFile.FamosFileComponent, System.Nullable<ImcFamosFile.FamosFileXAxisScaling>, System.Nullable<ImcFamosFile.FamosFileZAxisScaling>, System.Nullable<ImcFamosFile.FamosFileTriggerTime>, System.Byte[])
-  fullName.vb: ImcFamosFile.FamosFileComponentData.FamosFileComponentData(ImcFamosFile.FamosFileComponent, System.Nullable(Of ImcFamosFile.FamosFileXAxisScaling), System.Nullable(Of ImcFamosFile.FamosFileZAxisScaling), System.Nullable(Of ImcFamosFile.FamosFileTriggerTime), System.Byte())
-  nameWithType: FamosFileComponentData.FamosFileComponentData(FamosFileComponent, Nullable<FamosFileXAxisScaling>, Nullable<FamosFileZAxisScaling>, Nullable<FamosFileTriggerTime>, Byte[])
-  nameWithType.vb: FamosFileComponentData.FamosFileComponentData(FamosFileComponent, Nullable(Of FamosFileXAxisScaling), Nullable(Of FamosFileZAxisScaling), Nullable(Of FamosFileTriggerTime), Byte())
-- uid: ImcFamosFile.FamosFileComponentData.#ctor*
-  name: FamosFileComponentData
-  href: api/ImcFamosFile.FamosFileComponentData.html#ImcFamosFile_FamosFileComponentData__ctor_
-  commentId: Overload:ImcFamosFile.FamosFileComponentData.#ctor
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileComponentData.FamosFileComponentData
-  nameWithType: FamosFileComponentData.FamosFileComponentData
 - uid: ImcFamosFile.FamosFileComponentData.DisplayInfo
   name: DisplayInfo
   href: api/ImcFamosFile.FamosFileComponentData.html#ImcFamosFile_FamosFileComponentData_DisplayInfo
@@ -1407,19 +1005,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileCustomKey.Key
   nameWithType: FamosFileCustomKey.Key
-- uid: ImcFamosFile.FamosFileCustomKey.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileCustomKey.html#ImcFamosFile_FamosFileCustomKey_KeyType
-  commentId: P:ImcFamosFile.FamosFileCustomKey.KeyType
-  fullName: ImcFamosFile.FamosFileCustomKey.KeyType
-  nameWithType: FamosFileCustomKey.KeyType
-- uid: ImcFamosFile.FamosFileCustomKey.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileCustomKey.html#ImcFamosFile_FamosFileCustomKey_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileCustomKey.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileCustomKey.KeyType
-  nameWithType: FamosFileCustomKey.KeyType
 - uid: ImcFamosFile.FamosFileCustomKey.Value
   name: Value
   href: api/ImcFamosFile.FamosFileCustomKey.html#ImcFamosFile_FamosFileCustomKey_Value
@@ -1496,19 +1081,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileDataOriginInfo.DataOrigin
   nameWithType: FamosFileDataOriginInfo.DataOrigin
-- uid: ImcFamosFile.FamosFileDataOriginInfo.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_KeyType
-  commentId: P:ImcFamosFile.FamosFileDataOriginInfo.KeyType
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.KeyType
-  nameWithType: FamosFileDataOriginInfo.KeyType
-- uid: ImcFamosFile.FamosFileDataOriginInfo.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileDataOriginInfo.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.KeyType
-  nameWithType: FamosFileDataOriginInfo.KeyType
 - uid: ImcFamosFile.FamosFileDataOriginInfo.Name
   name: Name
   href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_Name
@@ -1619,32 +1191,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileDigitalComponent.FamosFileDigitalComponent
   nameWithType: FamosFileDigitalComponent.FamosFileDigitalComponent
-- uid: ImcFamosFile.FamosFileDigitalComponent.DeserializeCR
-  name: DeserializeCR()
-  href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent_DeserializeCR
-  commentId: M:ImcFamosFile.FamosFileDigitalComponent.DeserializeCR
-  fullName: ImcFamosFile.FamosFileDigitalComponent.DeserializeCR()
-  nameWithType: FamosFileDigitalComponent.DeserializeCR()
-- uid: ImcFamosFile.FamosFileDigitalComponent.DeserializeCR*
-  name: DeserializeCR
-  href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent_DeserializeCR_
-  commentId: Overload:ImcFamosFile.FamosFileDigitalComponent.DeserializeCR
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileDigitalComponent.DeserializeCR
-  nameWithType: FamosFileDigitalComponent.DeserializeCR
-- uid: ImcFamosFile.FamosFileDigitalComponent.SerializeCR(System.IO.BinaryWriter)
-  name: SerializeCR(BinaryWriter)
-  href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent_SerializeCR_System_IO_BinaryWriter_
-  commentId: M:ImcFamosFile.FamosFileDigitalComponent.SerializeCR(System.IO.BinaryWriter)
-  fullName: ImcFamosFile.FamosFileDigitalComponent.SerializeCR(System.IO.BinaryWriter)
-  nameWithType: FamosFileDigitalComponent.SerializeCR(BinaryWriter)
-- uid: ImcFamosFile.FamosFileDigitalComponent.SerializeCR*
-  name: SerializeCR
-  href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent_SerializeCR_
-  commentId: Overload:ImcFamosFile.FamosFileDigitalComponent.SerializeCR
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileDigitalComponent.SerializeCR
-  nameWithType: FamosFileDigitalComponent.SerializeCR
 - uid: ImcFamosFile.FamosFileDigitalComponent.Validate
   name: Validate()
   href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent_Validate
@@ -1703,19 +1249,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileDisplayInfo.G
   nameWithType: FamosFileDisplayInfo.G
-- uid: ImcFamosFile.FamosFileDisplayInfo.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileDisplayInfo.html#ImcFamosFile_FamosFileDisplayInfo_KeyType
-  commentId: P:ImcFamosFile.FamosFileDisplayInfo.KeyType
-  fullName: ImcFamosFile.FamosFileDisplayInfo.KeyType
-  nameWithType: FamosFileDisplayInfo.KeyType
-- uid: ImcFamosFile.FamosFileDisplayInfo.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileDisplayInfo.html#ImcFamosFile_FamosFileDisplayInfo_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileDisplayInfo.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileDisplayInfo.KeyType
-  nameWithType: FamosFileDisplayInfo.KeyType
 - uid: ImcFamosFile.FamosFileDisplayInfo.R
   name: R
   href: api/ImcFamosFile.FamosFileDisplayInfo.html#ImcFamosFile_FamosFileDisplayInfo_R
@@ -1932,19 +1465,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileEventInfo.Events
   nameWithType: FamosFileEventInfo.Events
-- uid: ImcFamosFile.FamosFileEventInfo.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileEventInfo.html#ImcFamosFile_FamosFileEventInfo_KeyType
-  commentId: P:ImcFamosFile.FamosFileEventInfo.KeyType
-  fullName: ImcFamosFile.FamosFileEventInfo.KeyType
-  nameWithType: FamosFileEventInfo.KeyType
-- uid: ImcFamosFile.FamosFileEventInfo.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileEventInfo.html#ImcFamosFile_FamosFileEventInfo_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileEventInfo.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileEventInfo.KeyType
-  nameWithType: FamosFileEventInfo.KeyType
 - uid: ImcFamosFile.FamosFileEventReference
   name: FamosFileEventReference
   href: api/ImcFamosFile.FamosFileEventReference.html
@@ -2016,19 +1536,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileEventReference.GroupSize
   nameWithType: FamosFileEventReference.GroupSize
-- uid: ImcFamosFile.FamosFileEventReference.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileEventReference.html#ImcFamosFile_FamosFileEventReference_KeyType
-  commentId: P:ImcFamosFile.FamosFileEventReference.KeyType
-  fullName: ImcFamosFile.FamosFileEventReference.KeyType
-  nameWithType: FamosFileEventReference.KeyType
-- uid: ImcFamosFile.FamosFileEventReference.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileEventReference.html#ImcFamosFile_FamosFileEventReference_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileEventReference.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileEventReference.KeyType
-  nameWithType: FamosFileEventReference.KeyType
 - uid: ImcFamosFile.FamosFileEventReference.Offset
   name: Offset
   href: api/ImcFamosFile.FamosFileEventReference.html#ImcFamosFile_FamosFileEventReference_Offset
@@ -2180,19 +1687,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileField.GetChannels
   nameWithType: FamosFileField.GetChannels
-- uid: ImcFamosFile.FamosFileField.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileField.html#ImcFamosFile_FamosFileField_KeyType
-  commentId: P:ImcFamosFile.FamosFileField.KeyType
-  fullName: ImcFamosFile.FamosFileField.KeyType
-  nameWithType: FamosFileField.KeyType
-- uid: ImcFamosFile.FamosFileField.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileField.html#ImcFamosFile_FamosFileField_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileField.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileField.KeyType
-  nameWithType: FamosFileField.KeyType
 - uid: ImcFamosFile.FamosFileField.TriggerTime
   name: TriggerTime
   href: api/ImcFamosFile.FamosFileField.html#ImcFamosFile_FamosFileField_TriggerTime
@@ -2345,19 +1839,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileGroup.Comment
   nameWithType: FamosFileGroup.Comment
-- uid: ImcFamosFile.FamosFileGroup.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileGroup.html#ImcFamosFile_FamosFileGroup_KeyType
-  commentId: P:ImcFamosFile.FamosFileGroup.KeyType
-  fullName: ImcFamosFile.FamosFileGroup.KeyType
-  nameWithType: FamosFileGroup.KeyType
-- uid: ImcFamosFile.FamosFileGroup.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileGroup.html#ImcFamosFile_FamosFileGroup_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileGroup.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileGroup.KeyType
-  nameWithType: FamosFileGroup.KeyType
 - uid: ImcFamosFile.FamosFileGroup.Name
   name: Name
   href: api/ImcFamosFile.FamosFileGroup.html#ImcFamosFile_FamosFileGroup_Name
@@ -2409,12 +1890,6 @@ references:
   commentId: M:ImcFamosFile.FamosFileHeader.#ctor
   fullName: ImcFamosFile.FamosFileHeader.FamosFileHeader()
   nameWithType: FamosFileHeader.FamosFileHeader()
-- uid: ImcFamosFile.FamosFileHeader.#ctor(System.IO.BinaryReader)
-  name: FamosFileHeader(BinaryReader)
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader__ctor_System_IO_BinaryReader_
-  commentId: M:ImcFamosFile.FamosFileHeader.#ctor(System.IO.BinaryReader)
-  fullName: ImcFamosFile.FamosFileHeader.FamosFileHeader(System.IO.BinaryReader)
-  nameWithType: FamosFileHeader.FamosFileHeader(BinaryReader)
 - uid: ImcFamosFile.FamosFileHeader.#ctor*
   name: FamosFileHeader
   href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader__ctor_
@@ -2509,47 +1984,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileHeader.FormatVersion
   nameWithType: FamosFileHeader.FormatVersion
-- uid: ImcFamosFile.FamosFileHeader.GetItemsByComponents*
-  name: GetItemsByComponents
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_GetItemsByComponents_
-  commentId: Overload:ImcFamosFile.FamosFileHeader.GetItemsByComponents
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileHeader.GetItemsByComponents
-  nameWithType: FamosFileHeader.GetItemsByComponents
-- uid: ImcFamosFile.FamosFileHeader.GetItemsByComponents``1(System.Func{ImcFamosFile.FamosFileComponent,``0})
-  name: GetItemsByComponents<T>(Func<FamosFileComponent, T>)
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_GetItemsByComponents__1_System_Func_ImcFamosFile_FamosFileComponent___0__
-  commentId: M:ImcFamosFile.FamosFileHeader.GetItemsByComponents``1(System.Func{ImcFamosFile.FamosFileComponent,``0})
-  name.vb: GetItemsByComponents(Of T)(Func(Of FamosFileComponent, T))
-  fullName: ImcFamosFile.FamosFileHeader.GetItemsByComponents<T>(System.Func<ImcFamosFile.FamosFileComponent, T>)
-  fullName.vb: ImcFamosFile.FamosFileHeader.GetItemsByComponents(Of T)(System.Func(Of ImcFamosFile.FamosFileComponent, T))
-  nameWithType: FamosFileHeader.GetItemsByComponents<T>(Func<FamosFileComponent, T>)
-  nameWithType.vb: FamosFileHeader.GetItemsByComponents(Of T)(Func(Of FamosFileComponent, T))
-- uid: ImcFamosFile.FamosFileHeader.GetItemsByComponents``1(System.Func{ImcFamosFile.FamosFileComponent,System.Collections.Generic.List{``0}})
-  name: GetItemsByComponents<T>(Func<FamosFileComponent, List<T>>)
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_GetItemsByComponents__1_System_Func_ImcFamosFile_FamosFileComponent_System_Collections_Generic_List___0___
-  commentId: M:ImcFamosFile.FamosFileHeader.GetItemsByComponents``1(System.Func{ImcFamosFile.FamosFileComponent,System.Collections.Generic.List{``0}})
-  name.vb: GetItemsByComponents(Of T)(Func(Of FamosFileComponent, List(Of T)))
-  fullName: ImcFamosFile.FamosFileHeader.GetItemsByComponents<T>(System.Func<ImcFamosFile.FamosFileComponent, System.Collections.Generic.List<T>>)
-  fullName.vb: ImcFamosFile.FamosFileHeader.GetItemsByComponents(Of T)(System.Func(Of ImcFamosFile.FamosFileComponent, System.Collections.Generic.List(Of T)))
-  nameWithType: FamosFileHeader.GetItemsByComponents<T>(Func<FamosFileComponent, List<T>>)
-  nameWithType.vb: FamosFileHeader.GetItemsByComponents(Of T)(Func(Of FamosFileComponent, List(Of T)))
-- uid: ImcFamosFile.FamosFileHeader.GetItemsByGroups*
-  name: GetItemsByGroups
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_GetItemsByGroups_
-  commentId: Overload:ImcFamosFile.FamosFileHeader.GetItemsByGroups
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileHeader.GetItemsByGroups
-  nameWithType: FamosFileHeader.GetItemsByGroups
-- uid: ImcFamosFile.FamosFileHeader.GetItemsByGroups``1(System.Func{ImcFamosFile.FamosFileGroup,System.Collections.Generic.List{``0}},System.Func{System.Collections.Generic.List{``0}})
-  name: GetItemsByGroups<T>(Func<FamosFileGroup, List<T>>, Func<List<T>>)
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_GetItemsByGroups__1_System_Func_ImcFamosFile_FamosFileGroup_System_Collections_Generic_List___0___System_Func_System_Collections_Generic_List___0___
-  commentId: M:ImcFamosFile.FamosFileHeader.GetItemsByGroups``1(System.Func{ImcFamosFile.FamosFileGroup,System.Collections.Generic.List{``0}},System.Func{System.Collections.Generic.List{``0}})
-  name.vb: GetItemsByGroups(Of T)(Func(Of FamosFileGroup, List(Of T)), Func(Of List(Of T)))
-  fullName: ImcFamosFile.FamosFileHeader.GetItemsByGroups<T>(System.Func<ImcFamosFile.FamosFileGroup, System.Collections.Generic.List<T>>, System.Func<System.Collections.Generic.List<T>>)
-  fullName.vb: ImcFamosFile.FamosFileHeader.GetItemsByGroups(Of T)(System.Func(Of ImcFamosFile.FamosFileGroup, System.Collections.Generic.List(Of T)), System.Func(Of System.Collections.Generic.List(Of T)))
-  nameWithType: FamosFileHeader.GetItemsByGroups<T>(Func<FamosFileGroup, List<T>>, Func<List<T>>)
-  nameWithType.vb: FamosFileHeader.GetItemsByGroups(Of T)(Func(Of FamosFileGroup, List(Of T)), Func(Of List(Of T)))
 - uid: ImcFamosFile.FamosFileHeader.Groups
   name: Groups
   href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Groups
@@ -2563,19 +1997,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileHeader.Groups
   nameWithType: FamosFileHeader.Groups
-- uid: ImcFamosFile.FamosFileHeader.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_KeyType
-  commentId: P:ImcFamosFile.FamosFileHeader.KeyType
-  fullName: ImcFamosFile.FamosFileHeader.KeyType
-  nameWithType: FamosFileHeader.KeyType
-- uid: ImcFamosFile.FamosFileHeader.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileHeader.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileHeader.KeyType
-  nameWithType: FamosFileHeader.KeyType
 - uid: ImcFamosFile.FamosFileHeader.LanguageInfo
   name: LanguageInfo
   href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_LanguageInfo
@@ -2675,12 +2096,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileHeader.SingleValues
   nameWithType: FamosFileHeader.SingleValues
-- uid: ImcFamosFile.FamosFileHeader.SUPPORTED_VERSION
-  name: SUPPORTED_VERSION
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_SUPPORTED_VERSION
-  commentId: F:ImcFamosFile.FamosFileHeader.SUPPORTED_VERSION
-  fullName: ImcFamosFile.FamosFileHeader.SUPPORTED_VERSION
-  nameWithType: FamosFileHeader.SUPPORTED_VERSION
 - uid: ImcFamosFile.FamosFileHeader.Texts
   name: Texts
   href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Texts
@@ -2944,19 +2359,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileLanguageInfo.CodePage
   nameWithType: FamosFileLanguageInfo.CodePage
-- uid: ImcFamosFile.FamosFileLanguageInfo.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileLanguageInfo.html#ImcFamosFile_FamosFileLanguageInfo_KeyType
-  commentId: P:ImcFamosFile.FamosFileLanguageInfo.KeyType
-  fullName: ImcFamosFile.FamosFileLanguageInfo.KeyType
-  nameWithType: FamosFileLanguageInfo.KeyType
-- uid: ImcFamosFile.FamosFileLanguageInfo.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileLanguageInfo.html#ImcFamosFile_FamosFileLanguageInfo_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileLanguageInfo.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileLanguageInfo.KeyType
-  nameWithType: FamosFileLanguageInfo.KeyType
 - uid: ImcFamosFile.FamosFileLanguageInfo.Language
   name: Language
   href: api/ImcFamosFile.FamosFileLanguageInfo.html#ImcFamosFile_FamosFileLanguageInfo_Language
@@ -3268,19 +2670,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFilePropertyInfo.FamosFilePropertyInfo
   nameWithType: FamosFilePropertyInfo.FamosFilePropertyInfo
-- uid: ImcFamosFile.FamosFilePropertyInfo.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFilePropertyInfo.html#ImcFamosFile_FamosFilePropertyInfo_KeyType
-  commentId: P:ImcFamosFile.FamosFilePropertyInfo.KeyType
-  fullName: ImcFamosFile.FamosFilePropertyInfo.KeyType
-  nameWithType: FamosFilePropertyInfo.KeyType
-- uid: ImcFamosFile.FamosFilePropertyInfo.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFilePropertyInfo.html#ImcFamosFile_FamosFilePropertyInfo_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFilePropertyInfo.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFilePropertyInfo.KeyType
-  nameWithType: FamosFilePropertyInfo.KeyType
 - uid: ImcFamosFile.FamosFilePropertyInfo.Properties
   name: Properties
   href: api/ImcFamosFile.FamosFilePropertyInfo.html#ImcFamosFile_FamosFilePropertyInfo_Properties
@@ -3368,19 +2757,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileRawBlock.CompressionType
   nameWithType: FamosFileRawBlock.CompressionType
-- uid: ImcFamosFile.FamosFileRawBlock.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileRawBlock.html#ImcFamosFile_FamosFileRawBlock_KeyType
-  commentId: P:ImcFamosFile.FamosFileRawBlock.KeyType
-  fullName: ImcFamosFile.FamosFileRawBlock.KeyType
-  nameWithType: FamosFileRawBlock.KeyType
-- uid: ImcFamosFile.FamosFileRawBlock.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileRawBlock.html#ImcFamosFile_FamosFileRawBlock_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileRawBlock.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileRawBlock.KeyType
-  nameWithType: FamosFileRawBlock.KeyType
 - uid: ImcFamosFile.FamosFileRawBlock.Length
   name: Length
   href: api/ImcFamosFile.FamosFileRawBlock.html#ImcFamosFile_FamosFileRawBlock_Length
@@ -3430,34 +2806,6 @@ references:
   commentId: T:ImcFamosFile.FamosFileSingleValue
   fullName: ImcFamosFile.FamosFileSingleValue
   nameWithType: FamosFileSingleValue
-- uid: ImcFamosFile.FamosFileSingleValue.#ctor(System.String,System.Byte*,System.Int32)
-  name: FamosFileSingleValue(String, Byte*, Int32)
-  href: api/ImcFamosFile.FamosFileSingleValue.html#ImcFamosFile_FamosFileSingleValue__ctor_System_String_System_Byte__System_Int32_
-  commentId: M:ImcFamosFile.FamosFileSingleValue.#ctor(System.String,System.Byte*,System.Int32)
-  fullName: ImcFamosFile.FamosFileSingleValue.FamosFileSingleValue(System.String, System.Byte*, System.Int32)
-  nameWithType: FamosFileSingleValue.FamosFileSingleValue(String, Byte*, Int32)
-- uid: ImcFamosFile.FamosFileSingleValue.#ctor(System.String,System.Byte[])
-  name: FamosFileSingleValue(String, Byte[])
-  href: api/ImcFamosFile.FamosFileSingleValue.html#ImcFamosFile_FamosFileSingleValue__ctor_System_String_System_Byte___
-  commentId: M:ImcFamosFile.FamosFileSingleValue.#ctor(System.String,System.Byte[])
-  name.vb: FamosFileSingleValue(String, Byte())
-  fullName: ImcFamosFile.FamosFileSingleValue.FamosFileSingleValue(System.String, System.Byte[])
-  fullName.vb: ImcFamosFile.FamosFileSingleValue.FamosFileSingleValue(System.String, System.Byte())
-  nameWithType: FamosFileSingleValue.FamosFileSingleValue(String, Byte[])
-  nameWithType.vb: FamosFileSingleValue.FamosFileSingleValue(String, Byte())
-- uid: ImcFamosFile.FamosFileSingleValue.#ctor*
-  name: FamosFileSingleValue
-  href: api/ImcFamosFile.FamosFileSingleValue.html#ImcFamosFile_FamosFileSingleValue__ctor_
-  commentId: Overload:ImcFamosFile.FamosFileSingleValue.#ctor
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileSingleValue.FamosFileSingleValue
-  nameWithType: FamosFileSingleValue.FamosFileSingleValue
-- uid: ImcFamosFile.FamosFileSingleValue._rawData
-  name: _rawData
-  href: api/ImcFamosFile.FamosFileSingleValue.html#ImcFamosFile_FamosFileSingleValue__rawData
-  commentId: F:ImcFamosFile.FamosFileSingleValue._rawData
-  fullName: ImcFamosFile.FamosFileSingleValue._rawData
-  nameWithType: FamosFileSingleValue._rawData
 - uid: ImcFamosFile.FamosFileSingleValue.Comment
   name: Comment
   href: api/ImcFamosFile.FamosFileSingleValue.html#ImcFamosFile_FamosFileSingleValue_Comment
@@ -3484,19 +2832,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileSingleValue.DataType
   nameWithType: FamosFileSingleValue.DataType
-- uid: ImcFamosFile.FamosFileSingleValue.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileSingleValue.html#ImcFamosFile_FamosFileSingleValue_KeyType
-  commentId: P:ImcFamosFile.FamosFileSingleValue.KeyType
-  fullName: ImcFamosFile.FamosFileSingleValue.KeyType
-  nameWithType: FamosFileSingleValue.KeyType
-- uid: ImcFamosFile.FamosFileSingleValue.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileSingleValue.html#ImcFamosFile_FamosFileSingleValue_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileSingleValue.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileSingleValue.KeyType
-  nameWithType: FamosFileSingleValue.KeyType
 - uid: ImcFamosFile.FamosFileSingleValue.Name
   name: Name
   href: api/ImcFamosFile.FamosFileSingleValue.html#ImcFamosFile_FamosFileSingleValue_Name
@@ -3590,19 +2925,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileText.Comment
   nameWithType: FamosFileText.Comment
-- uid: ImcFamosFile.FamosFileText.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileText.html#ImcFamosFile_FamosFileText_KeyType
-  commentId: P:ImcFamosFile.FamosFileText.KeyType
-  fullName: ImcFamosFile.FamosFileText.KeyType
-  nameWithType: FamosFileText.KeyType
-- uid: ImcFamosFile.FamosFileText.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileText.html#ImcFamosFile_FamosFileText_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileText.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileText.KeyType
-  nameWithType: FamosFileText.KeyType
 - uid: ImcFamosFile.FamosFileText.Name
   name: Name
   href: api/ImcFamosFile.FamosFileText.html#ImcFamosFile_FamosFileText_Name
@@ -3642,19 +2964,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileText.Texts
   nameWithType: FamosFileText.Texts
-- uid: ImcFamosFile.FamosFileText.Version
-  name: Version
-  href: api/ImcFamosFile.FamosFileText.html#ImcFamosFile_FamosFileText_Version
-  commentId: P:ImcFamosFile.FamosFileText.Version
-  fullName: ImcFamosFile.FamosFileText.Version
-  nameWithType: FamosFileText.Version
-- uid: ImcFamosFile.FamosFileText.Version*
-  name: Version
-  href: api/ImcFamosFile.FamosFileText.html#ImcFamosFile_FamosFileText_Version_
-  commentId: Overload:ImcFamosFile.FamosFileText.Version
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileText.Version
-  nameWithType: FamosFileText.Version
 - uid: ImcFamosFile.FamosFileTimeMode
   name: FamosFileTimeMode
   href: api/ImcFamosFile.FamosFileTimeMode.html
@@ -3717,19 +3026,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileTriggerTime.DateTime
   nameWithType: FamosFileTriggerTime.DateTime
-- uid: ImcFamosFile.FamosFileTriggerTime.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileTriggerTime.html#ImcFamosFile_FamosFileTriggerTime_KeyType
-  commentId: P:ImcFamosFile.FamosFileTriggerTime.KeyType
-  fullName: ImcFamosFile.FamosFileTriggerTime.KeyType
-  nameWithType: FamosFileTriggerTime.KeyType
-- uid: ImcFamosFile.FamosFileTriggerTime.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileTriggerTime.html#ImcFamosFile_FamosFileTriggerTime_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileTriggerTime.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileTriggerTime.KeyType
-  nameWithType: FamosFileTriggerTime.KeyType
 - uid: ImcFamosFile.FamosFileTriggerTime.TimeMode
   name: TimeMode
   href: api/ImcFamosFile.FamosFileTriggerTime.html#ImcFamosFile_FamosFileTriggerTime_TimeMode
@@ -3879,19 +3175,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileXAxisScaling.IsMultiEvents
   nameWithType: FamosFileXAxisScaling.IsMultiEvents
-- uid: ImcFamosFile.FamosFileXAxisScaling.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileXAxisScaling.html#ImcFamosFile_FamosFileXAxisScaling_KeyType
-  commentId: P:ImcFamosFile.FamosFileXAxisScaling.KeyType
-  fullName: ImcFamosFile.FamosFileXAxisScaling.KeyType
-  nameWithType: FamosFileXAxisScaling.KeyType
-- uid: ImcFamosFile.FamosFileXAxisScaling.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileXAxisScaling.html#ImcFamosFile_FamosFileXAxisScaling_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileXAxisScaling.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileXAxisScaling.KeyType
-  nameWithType: FamosFileXAxisScaling.KeyType
 - uid: ImcFamosFile.FamosFileXAxisScaling.PretriggerUsage
   name: PretriggerUsage
   href: api/ImcFamosFile.FamosFileXAxisScaling.html#ImcFamosFile_FamosFileXAxisScaling_PretriggerUsage
@@ -4015,19 +3298,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileZAxisScaling.IsZ0Calibrated
   nameWithType: FamosFileZAxisScaling.IsZ0Calibrated
-- uid: ImcFamosFile.FamosFileZAxisScaling.KeyType
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileZAxisScaling.html#ImcFamosFile_FamosFileZAxisScaling_KeyType
-  commentId: P:ImcFamosFile.FamosFileZAxisScaling.KeyType
-  fullName: ImcFamosFile.FamosFileZAxisScaling.KeyType
-  nameWithType: FamosFileZAxisScaling.KeyType
-- uid: ImcFamosFile.FamosFileZAxisScaling.KeyType*
-  name: KeyType
-  href: api/ImcFamosFile.FamosFileZAxisScaling.html#ImcFamosFile_FamosFileZAxisScaling_KeyType_
-  commentId: Overload:ImcFamosFile.FamosFileZAxisScaling.KeyType
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileZAxisScaling.KeyType
-  nameWithType: FamosFileZAxisScaling.KeyType
 - uid: ImcFamosFile.FamosFileZAxisScaling.SegmentSize
   name: SegmentSize
   href: api/ImcFamosFile.FamosFileZAxisScaling.html#ImcFamosFile_FamosFileZAxisScaling_SegmentSize
