@@ -3,13 +3,16 @@ using System.IO;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Represents a description of which events belong to the component.
+    /// </summary>
     public class FamosFileEventReference : FamosFileBase
     {
         #region Fields
 
         private int _eventInfoIndex;
         private int _offset;
-        private int _groupSize;
+        private int _groupSize = 1;
         private int _gapSize;
         private int _eventCount;
 
@@ -19,6 +22,9 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileEventReference"/> class.
+        /// </summary>
         public FamosFileEventReference()
         {
             //
@@ -45,6 +51,9 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the associated event info containing the actual events.
+        /// </summary>
         public FamosFileEventInfo EventInfo
         {
             get
@@ -57,6 +66,9 @@ namespace ImcFamosFile
             set { _eventInfo = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the offset of the first event in the event info.
+        /// </summary>
         public int Offset
         {
             get { return _offset; }
@@ -69,18 +81,24 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of subsequent events in the event info.
+        /// </summary>
         public int GroupSize
         {
             get { return _groupSize; }
             set
             {
-                if (value <= 0)
-                    throw new FormatException($"Expected group size >= '1', got '{value}'.");
+                if (value != 1)
+                    throw new FormatException($"Expected group size = '1', got '{value}'.");
 
                 _groupSize = value;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of events to skip.
+        /// </summary>
         public int GapSize
         {
             get { return _gapSize; }
@@ -93,6 +111,9 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the total number of events.
+        /// </summary>
         public int EventCount
         {
             get { return _eventCount; }
@@ -105,9 +126,24 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating where the trigger time is taken from.
+        /// </summary>
         public FamosFileValidNTType ValidNT { get; set; }
+
+        /// <summary>
+        /// Gets or sets a flag indicating which data from the event list are used (DeltaX, X0, Z0).
+        /// </summary>
         public FamosFileValidCDType ValidCD { get; set; }
+
+        /// <summary>
+        /// Gets or sets a flag indicating which data from event list are used (DeltaY, Y0). For primary component.
+        /// </summary>
         public FamosFileValidCR1Type ValidCR1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets a flag indicating which data from event list are used (DeltaX, X0). For secondary component; is '0' for 1-component data.
+        /// </summary>
         public FamosFileValidCR2Type ValidCR2 { get; set; }
 
         internal int EventInfoIndex

@@ -9,6 +9,9 @@ using System.Text.RegularExpressions;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Base type to represent all imc FAMOS file keys.
+    /// </summary>
     public abstract class FamosFileBase
     {
         #region Fields
@@ -60,6 +63,9 @@ namespace ImcFamosFile
 
         #region Methods
 
+        /// <summary>
+        /// Validates the key status.
+        /// </summary>
         public virtual void Validate()
         {
             //

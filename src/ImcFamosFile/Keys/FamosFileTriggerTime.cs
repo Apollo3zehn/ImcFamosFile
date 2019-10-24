@@ -3,15 +3,26 @@ using System.IO;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Describes the start time of measurement.
+    /// </summary>
     public class FamosFileTriggerTime : FamosFileBase
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileTriggerTime"/> class.
+        /// </summary>
         public FamosFileTriggerTime()
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileTriggerTime"/> class.
+        /// </summary>
+        /// <param name="dateTime">The trigger time.</param>
+        /// <param name="timeMode">The time mode.</param>
         public FamosFileTriggerTime(DateTime dateTime, FamosFileTimeMode timeMode)
         {
             this.DateTime = dateTime;
@@ -93,15 +104,23 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the trigger time.
+        /// </summary>
         public DateTime DateTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time mode.
+        /// </summary>
         public FamosFileTimeMode TimeMode { get; set; }
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.NT;
 
         #endregion
 
         #region Methods
 
-        public FamosFileTriggerTime Clone()
+        internal FamosFileTriggerTime Clone()
         {
             return (FamosFileTriggerTime)this.MemberwiseClone();
         }

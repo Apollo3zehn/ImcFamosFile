@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// A base class for a component, which is a full description of a single dataset.
+    /// </summary>
     public abstract class FamosFileComponent : FamosFileBaseExtended
     {
         #region Fields
@@ -130,6 +133,9 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets the type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <see cref="FamosFileComponentType.Primary"/> and between 'X of XY', 'imaginary part' and 'phase' for <see cref="FamosFileComponentType.Secondary"/>.
+        /// </summary>
         public FamosFileComponentType Type
         {
             get { return _type; }
@@ -142,16 +148,44 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the x-axis scaling of this component. If set, it will be applied to all subsequent components in the higher-level <see cref="FamosFileField"/>.
+        /// </summary>
         public FamosFileXAxisScaling? XAxisScaling { get; set; }
+
+        /// <summary>
+        /// Gets or sets the z-axis scaling of this component. If set, it will be applied to all subsequent components in the higher-level <see cref="FamosFileField"/>.
+        /// </summary>
         public FamosFileZAxisScaling? ZAxisScaling { get; set; }
+
+        /// <summary>
+        /// Gets or sets the trigger time of this component. If set, it will be applied to all subsequent components in the higher-level <see cref="FamosFileField"/>.
+        /// </summary>
         public FamosFileTriggerTime? TriggerTime { get; set; }
 
+        /// <summary>
+        /// Gets or sets the pack info containing a description of this components data layout.
+        /// </summary>
         public FamosFilePackInfo PackInfo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the buffer info containing a list of <see cref="FamosFileBuffer"/>.
+        /// </summary>
         public FamosFileBufferInfo BufferInfo { get; set; }
 
+        /// <summary>
+        /// Gets or sets the display info to describe how to display the data.
+        /// </summary>
         public FamosFileDisplayInfo? DisplayInfo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event reference container a description of related events.
+        /// </summary>
         public FamosFileEventReference? EventReference { get; set; }
 
+        /// <summary>
+        /// Gets a list of <see cref="FamosFileChannel"/>. In FAMOS, each channel is displayed individually and can be assigned to a group. For digital components, there should be one channel per bit.
+        /// </summary>
         public List<FamosFileChannel> Channels { get; } = new List<FamosFileChannel>();
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CC;
@@ -160,6 +194,9 @@ namespace ImcFamosFile
 
         #region Relay Properties
 
+        /// <summary>
+        /// Gets the name of the first channel found in the channel list.
+        /// </summary>
         public string Name
         {
             get
@@ -183,16 +220,31 @@ namespace ImcFamosFile
 
         #region Methods
 
+        /// <summary>
+        /// Calulates the size of this component depending on the values of <see cref="BufferInfo"/> and <see cref="PackInfo"/>.
+        /// </summary>
+        /// <returns>Returns the size of the component.</returns>
         public int GetSize()
         {
             return this.GetSize(0, 0);
         }
 
+        /// <summary>
+        /// Calulates the size of this component depending on the values of <see cref="BufferInfo"/> and <see cref="PackInfo"/>.
+        /// </summary>
+        /// <param name="start">The number of values to skip.</param>
+        /// <returns>Returns the size of the component.</returns>
         public int GetSize(int start)
         {
             return this.GetSize(start, 0);
         }
 
+        /// <summary>
+        /// Calulates the size of this component depending on the values of <see cref="BufferInfo"/> and <see cref="PackInfo"/>.
+        /// </summary>
+        /// <param name="start">The number of values to skip.</param>
+        /// <param name="length">The number of values to take.</param>
+        /// <returns>Returns the size of the component.</returns>
         public int GetSize(int start, int length)
         {
             var packInfo = this.PackInfo;
@@ -390,10 +442,18 @@ namespace ImcFamosFile
         }
     }
 
+    /// <summary>
+    /// A digital component, which is a full description of a single dataset with bit-oriented data.
+    /// </summary>
     public class FamosFileDigitalComponent : FamosFileComponent
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileDigitalComponent"/> class.
+        /// </summary>
+        /// <param name="componentType">The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <see cref="FamosFileComponentType.Primary"/> and between 'X of XY', 'imaginary part' and 'phase' for <see cref="FamosFileComponentType.Secondary"/>.</param>
+        /// <param name="length">The length of this component.</param>
         public FamosFileDigitalComponent(FamosFileComponentType componentType,
                                          int length) : base(FamosFileDataType.Digital16Bit, length, componentType)
         {
@@ -449,34 +509,61 @@ namespace ImcFamosFile
         #endregion
     }
 
+    /// <summary>
+    /// An analog component, which is a full description of a single dataset with byte-oriented data.
+    /// </summary>
     public class FamosFileAnalogComponent : FamosFileComponent
     {
         #region Unnamed Constructors
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileAnalogComponent"/> class.
+        /// </summary>
+        /// <param name="dataType">The data type of this component.</param>
+        /// <param name="length">The length of this component.</param>
         public FamosFileAnalogComponent(FamosFileDataType dataType,
-                                        int length) : this(dataType, length, FamosFileComponentType.Primary, new FamosFileCalibrationInfo())
+                                        int length) : this(dataType, length, FamosFileComponentType.Primary, new FamosFileCalibration())
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileAnalogComponent"/> class.
+        /// </summary>
+        /// <param name="dataType">The data type of this component.</param>
+        /// <param name="length">The length of this component.</param>
+        /// <param name="calibrationInfo">The calibration info of this component.</param>
         public FamosFileAnalogComponent(FamosFileDataType dataType,
                                         int length,
-                                        FamosFileCalibrationInfo calibrationInfo) : this(dataType, length, FamosFileComponentType.Primary, calibrationInfo)
+                                        FamosFileCalibration calibrationInfo) : this(dataType, length, FamosFileComponentType.Primary, calibrationInfo)
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileAnalogComponent"/> class.
+        /// </summary>
+        /// <param name="dataType">The data type of this component.</param>
+        /// <param name="length">The length of this component.</param>
+        /// <param name="componentType">The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <see cref="FamosFileComponentType.Primary"/> and between 'X of XY', 'imaginary part' and 'phase' for <see cref="FamosFileComponentType.Secondary"/>.</param>
         public FamosFileAnalogComponent(FamosFileDataType dataType,
                                         int length,
-                                        FamosFileComponentType componentType) : this(dataType, length, componentType, new FamosFileCalibrationInfo())
+                                        FamosFileComponentType componentType) : this(dataType, length, componentType, new FamosFileCalibration())
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileAnalogComponent"/> class.
+        /// </summary>
+        /// <param name="dataType">The data type of this component.</param>
+        /// <param name="length">The length of this component.</param>
+        /// <param name="componentType">The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <see cref="FamosFileComponentType.Primary"/> and between 'X of XY', 'imaginary part' and 'phase' for <see cref="FamosFileComponentType.Secondary"/>.</param>
+        /// <param name="calibrationInfo">The calibration info of this component.</param>
         public FamosFileAnalogComponent(FamosFileDataType dataType,
                                         int length,
                                         FamosFileComponentType componentType,
-                                        FamosFileCalibrationInfo calibrationInfo) : base(dataType, length, componentType)
+                                        FamosFileCalibration calibrationInfo) : base(dataType, length, componentType)
         {
             this.CalibrationInfo = calibrationInfo;
         }
@@ -485,34 +572,62 @@ namespace ImcFamosFile
 
         #region Named Constructors
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileAnalogComponent"/> class.
+        /// </summary>
+        /// <param name="name">The name of this component. This automatically adds a <see cref="FamosFileChannel"/> instance to the component.</param>
+        /// <param name="dataType">The data type of this component.</param>
+        /// <param name="length">The length of this component.</param>
         public FamosFileAnalogComponent(string name,
                                         FamosFileDataType dataType,
-                                        int length) : this(name, dataType, length, FamosFileComponentType.Primary, new FamosFileCalibrationInfo())
+                                        int length) : this(name, dataType, length, FamosFileComponentType.Primary, new FamosFileCalibration())
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileAnalogComponent"/> class.
+        /// </summary>
+        /// <param name="name">The name of this component. This automatically adds a <see cref="FamosFileChannel"/> instance to the component.</param>
+        /// <param name="dataType">The data type of this component.</param>
+        /// <param name="length">The length of this component.</param>
+        /// <param name="calibrationInfo">The calibration info of this component.</param>
         public FamosFileAnalogComponent(string name,
                                         FamosFileDataType dataType,
                                         int length,
-                                        FamosFileCalibrationInfo calibrationInfo) : this(name, dataType, length, FamosFileComponentType.Primary, calibrationInfo)
+                                        FamosFileCalibration calibrationInfo) : this(name, dataType, length, FamosFileComponentType.Primary, calibrationInfo)
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileAnalogComponent"/> class.
+        /// </summary>
+        /// <param name="name">The name of this component. This automatically adds a <see cref="FamosFileChannel"/> instance to the component.</param>
+        /// <param name="dataType">The data type of this component.</param>
+        /// <param name="length">The length of this component.</param>
+        /// <param name="componentType">The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <see cref="FamosFileComponentType.Primary"/> and between 'X of XY', 'imaginary part' and 'phase' for <see cref="FamosFileComponentType.Secondary"/>.</param>
         public FamosFileAnalogComponent(string name,
                                         FamosFileDataType dataType,
                                         int length,
-                                        FamosFileComponentType componentType) : this(name, dataType, length, componentType, new FamosFileCalibrationInfo())
+                                        FamosFileComponentType componentType) : this(name, dataType, length, componentType, new FamosFileCalibration())
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileAnalogComponent"/> class.
+        /// </summary>
+        /// <param name="name">The name of this component. This automatically adds a <see cref="FamosFileChannel"/> instance to the component.</param>
+        /// <param name="dataType">The data type of this component.</param>
+        /// <param name="length">The length of this component.</param>
+        /// <param name="componentType">The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <see cref="FamosFileComponentType.Primary"/> and between 'X of XY', 'imaginary part' and 'phase' for <see cref="FamosFileComponentType.Secondary"/>.</param>
+        /// <param name="calibrationInfo">The calibration info of this component.</param>
         public FamosFileAnalogComponent(string name,
                                         FamosFileDataType dataType,
                                         int length,
                                         FamosFileComponentType componentType,
-                                        FamosFileCalibrationInfo calibrationInfo) : base(dataType, length, componentType)
+                                        FamosFileCalibration calibrationInfo) : base(dataType, length, componentType)
         {
             this.Channels.Add(new FamosFileChannel(name));
             this.CalibrationInfo = calibrationInfo;
@@ -531,7 +646,10 @@ namespace ImcFamosFile
 
         #region Properties
 
-        public FamosFileCalibrationInfo? CalibrationInfo { get; set; }
+        /// <summary>
+        /// Gets or sets the calibration info of this component.
+        /// </summary>
+        public FamosFileCalibration? CalibrationInfo { get; set; }
 
         #endregion
 
@@ -573,7 +691,7 @@ namespace ImcFamosFile
 
         protected override void DeserializeCR()
         {
-            this.CalibrationInfo = new FamosFileCalibrationInfo(this.Reader, this.CodePage);
+            this.CalibrationInfo = new FamosFileCalibration(this.Reader, this.CodePage);
         }
 
         #endregion

@@ -3,10 +3,20 @@ using System.Globalization;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// A named property of certain type.
+    /// </summary>
     public class FamosFileProperty
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileProperty"/>.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="value">The value as string.</param>
+        /// <param name="type">The value's data type.</param>
+        /// <param name="flags">Flags.</param>
         public FamosFileProperty(string name, string value, FamosFilePropertyType type, FamosFilePropertyFlags flags = 0)
         {
             this.Name = name;
@@ -21,9 +31,24 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
         public string Name { get; private set; } = string.Empty;
+
+        /// <summary>
+        /// Gets the value as string.
+        /// </summary>
         public string Value { get; private set; } = string.Empty;
+
+        /// <summary>
+        /// Gets the value's data type.
+        /// </summary>
         public FamosFilePropertyType Type { get; private set; }
+
+        /// <summary>
+        /// Gets the value's flags.
+        /// </summary>
         public FamosFilePropertyFlags Flags { get; private set; }
 
         #endregion

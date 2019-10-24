@@ -4,6 +4,9 @@ using System.IO;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Contains a named text or a list of texts.
+    /// </summary>
     public class FamosFileText : FamosFileBaseProperty
     {
         #region Fields
@@ -14,6 +17,11 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileText"/> class.
+        /// </summary>
+        /// <param name="name">The name of the text.</param>
+        /// <param name="text">A single text.</param>
         public FamosFileText(string name, string text)
         {
             this.Name = name;
@@ -21,6 +29,11 @@ namespace ImcFamosFile
             this.Version = 1;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileText"/> class.
+        /// </summary>
+        /// <param name="name">The name of the text.</param>
+        /// <param name="texts">A list of texts.</param>
         public FamosFileText(string name, List<string> texts)
         {
             this.Name = name;
@@ -71,9 +84,24 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
         public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets the text.
+        /// </summary>
         public string Text { get; private set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the comment.
+        /// </summary>
         public string Comment { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets the list of texts.
+        /// </summary>
         public List<string> Texts { get; } = new List<string>();
 
         internal int GroupIndex

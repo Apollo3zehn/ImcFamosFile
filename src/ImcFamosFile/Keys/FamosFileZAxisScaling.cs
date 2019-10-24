@@ -3,6 +3,9 @@ using System.IO;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Contains information to scale the z-axis.
+    /// </summary>
     public class FamosFileZAxisScaling : FamosFileBaseExtended
     {
         #region Fields
@@ -14,6 +17,10 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileZAxisScaling"/> class.
+        /// </summary>
+        /// <param name="deltaZ">The distance between two segments.</param>
         public FamosFileZAxisScaling(decimal deltaZ)
         {
             this.DeltaZ = deltaZ;
@@ -24,7 +31,7 @@ namespace ImcFamosFile
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
                 this.DeltaZ = this.DeserializeReal();
-                this.IsDzCalibrated = this.DeserializeInt32() == 1;
+                this.IsDeltaZCalibrated = this.DeserializeInt32() == 1;
 
                 this.Z0 = this.DeserializeReal();
                 this.IsZ0Calibrated = this.DeserializeInt32() == 1;
@@ -38,6 +45,9 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the distance between two segments.
+        /// </summary>
         public decimal DeltaZ
         {
             get { return _deltaZ; }
@@ -50,11 +60,29 @@ namespace ImcFamosFile
             }
         }
 
-        public bool IsDzCalibrated { get; set; }
+        /// <summary>
+        /// Gets or sets a boolean which indicates if DeltaZ is calibrated.
+        /// </summary>
+        public bool IsDeltaZCalibrated { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Z0, i.e. the z-coordinate of the first segment.
+        /// </summary>
         public decimal Z0 { get; set; }
+
+        /// <summary>
+        /// Gets or sets a boolean which indicates if Z0 is calibrated.
+        /// </summary>
         public bool IsZ0Calibrated { get; set; }
+
+        /// <summary>
+        /// Gets or sets unit of this axis.
+        /// </summary>
         public string Unit { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the number of samples per segment.
+        /// </summary>
         public int SegmentSize
         {
             get { return _segmentSize; }
@@ -74,7 +102,7 @@ namespace ImcFamosFile
 
         #region Methods
 
-        public FamosFileZAxisScaling Clone()
+        internal FamosFileZAxisScaling Clone()
         {
             return (FamosFileZAxisScaling)this.MemberwiseClone();
         }
@@ -88,7 +116,7 @@ namespace ImcFamosFile
             var data = new object[]
             {
                 this.DeltaZ,
-                this.IsDzCalibrated ? 1 : 0,
+                this.IsDeltaZCalibrated ? 1 : 0,
                 this.Z0,
                 this.IsZ0Calibrated ? 1 : 0,
                 this.Unit.Length, this.Unit,

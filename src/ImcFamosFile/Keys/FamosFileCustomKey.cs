@@ -2,10 +2,18 @@
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Custom keys can be used to add additional information to the file.
+    /// </summary>
     public class FamosFileCustomKey : FamosFileBaseExtended
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileCustomKey"/> class.
+        /// </summary>
+        /// <param name="key">The key of the custom key. Must be unique.</param>
+        /// <param name="value">The binary data of the custom key.</param>
         public FamosFileCustomKey(string key, byte[] value)
         {
             this.Key = key;
@@ -25,8 +33,16 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the unique key.
+        /// </summary>
         public string Key { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the binary data.
+        /// </summary>
         public byte[] Value { get; set; } = new byte[0];
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.NU;
 
         #endregion

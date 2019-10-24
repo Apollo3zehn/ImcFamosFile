@@ -4,6 +4,9 @@ using System.IO;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// A group is a collection of texts, single values and channels.
+    /// </summary>
     public class FamosFileGroup : FamosFileBaseProperty
     {
         #region Fields
@@ -14,6 +17,10 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileGroup"/> class.
+        /// </summary>
+        /// <param name="name">The name of this group.</param>
         public FamosFileGroup(string name)
         {
             this.Name = name;
@@ -33,10 +40,29 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the name of this group.
+        /// </summary>
         public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the comment of this group.
+        /// </summary>
         public string Comment { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets a list of texts.
+        /// </summary>
         public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
+
+        /// <summary>
+        /// Gets a list of single values.
+        /// </summary>
         public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
+
+        /// <summary>
+        /// Gets a list of channels.
+        /// </summary>
         public List<FamosFileChannel> Channels { get; private set; } = new List<FamosFileChannel>();
 
         internal int Index

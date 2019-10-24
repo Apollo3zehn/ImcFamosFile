@@ -1,5 +1,8 @@
 ﻿namespace ImcFamosFile
 {
+    /// <summary>
+    /// Determines the type of the component.
+    /// </summary>
     public enum FamosFileComponentType
     {
         /// <summary>

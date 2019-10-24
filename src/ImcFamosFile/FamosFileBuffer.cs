@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// A buffer describes the length and position of component data within the file. 
+    /// </summary>
     public class FamosFileBuffer
     {
         #region Fields
@@ -15,17 +18,24 @@ namespace ImcFamosFile
 
         private FamosFileRawBlock? _rawBlock;
 
-        private byte[] _userInfo;
+        private readonly byte[] _userInfo;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="FamosFileBuffer"/> class.
+        /// </summary>
         public FamosFileBuffer()
         {
             _userInfo = new byte[0];
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="FamosFileBuffer"/> class.
+        /// </summary>
+        /// <param name="userInfo">The binary user info.</param>
         public FamosFileBuffer(byte[] userInfo)
         {
             _userInfo = userInfo;
@@ -35,6 +45,9 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the associated raw block.
+        /// </summary>
         public FamosFileRawBlock RawBlock
         {
             get
@@ -47,8 +60,14 @@ namespace ImcFamosFile
             set { _rawBlock = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the offset of the buffer in the raw block in bytes.
+        /// </summary>
         public long RawBlockOffset { get; set; }
 
+        /// <summary>
+        /// Gets or sets the length of the buffer in bytes.
+        /// </summary>
         public int Length
         {
             get { return _length; }
@@ -62,6 +81,10 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the offset of the first sample in the buffer.
+        /// </summary>
+        /// <remarks>If > '0', the buffer is a ring buffer.</remarks>
         public int Offset
         {
             get { return _offset; }
@@ -75,6 +98,9 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of valid bytes in the buffer.
+        /// </summary>
         public int ConsumedBytes
         {
             get { return _consumedBytes; }
@@ -88,10 +114,29 @@ namespace ImcFamosFile
             }
         }
 
-        public int x0 { get; set; }
-        public int TriggerAddTime { get; set; }
+        /// <summary>
+        /// Gets or sets the X0 of the first sample in the buffer.
+        /// </summary>
+        public int X0 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the add time, which is used with multiple trigger events to determine the absolute trigger time. 
+        /// </summary>
+        public decimal AddTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets a boolean which indicates a new event of measurement data.
+        /// </summary>
         public bool IsNewEvent { get; set; }
+
+        /// <summary>
+        /// Gets or sets binary user info for the creator of the file.
+        /// </summary>
         public ReadOnlyCollection<byte> UserInfo => Array.AsReadOnly(_userInfo);
+
+        /// <summary>
+        /// Gets a boolean indicating if this buffer is a ring buffer.
+        /// </summary>
         public bool IsRingBuffer => this.Offset > 0;
 
         internal int Reference
@@ -133,8 +178,8 @@ namespace ImcFamosFile
                 this.Offset,
                 this.ConsumedBytes,
                 this.IsNewEvent ? 1 : 0,
-                this.x0,
-                this.TriggerAddTime,
+                this.X0,
+                this.AddTime,
                 _userInfo
             };
         }

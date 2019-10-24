@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Represents an imc FAMOS file in a hierachical structure containing texts, single values, channels and more. It is capable of reading file data.
+    /// </summary>
     public class FamosFile : FamosFileHeader, IDisposable
     {
         #region Fields
@@ -45,21 +48,54 @@ namespace ImcFamosFile
 
         #region Deserialization
 
+        /// <summary>
+        /// Opens the file at the location specified by the parameter <paramref name="filePath"/>.
+        /// </summary>
+        /// <param name="filePath">The path to the file to be opened.</param>
+        /// <returns>Returns a new <see cref="FamosFile"/> instance.</returns>
         public static FamosFile Open(string filePath)
         {
             return new FamosFile(filePath);
         }
 
+        /// <summary>
+        /// Opens and reads the provided <paramref name="stream"/>.
+        /// </summary>
+        /// <param name="stream">The stream containing the serialized FAMOS data.</param>
+        /// <returns>Returns a new <see cref="FamosFile"/> instance.</returns>
         public static FamosFile Open(Stream stream)
         {
             return new FamosFile(stream);
         }
 
+        /// <summary>
+        /// Reads the full dataset associated to the provided <paramref name="channel"/>.
+        /// </summary>
+        /// <param name="channel">The channel that describes the data to read.</param>
+        /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
         public FamosFileChannelData ReadSingle(FamosFileChannel channel)
         {
             return this.ReadSingle(channel, 0, 0);
         }
 
+        /// <summary>
+        /// Reads a partial dataset associated to the provided <paramref name="channel"/>.
+        /// </summary>
+        /// <param name="channel">The channel that describes the data to read.</param>
+        /// <param name="start">The reading start offset.</param>
+        /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
+        public FamosFileChannelData ReadSingle(FamosFileChannel channel, int start)
+        {
+            return this.ReadSingle(channel, start, 0);
+        }
+
+        /// <summary>
+        /// Reads a partial dataset associated to the provided <paramref name="channel"/>.
+        /// </summary>
+        /// <param name="channel">The channel that describes the data to read.</param>
+        /// <param name="start">The reading start offset.</param>
+        /// <param name="length">The number of the values to read.</param>
+        /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
         public FamosFileChannelData ReadSingle(FamosFileChannel channel, int start, int length)
         {
             FamosFileField? foundField = null;
@@ -167,11 +203,20 @@ namespace ImcFamosFile
             return new FamosFileChannelData(foundComponent.Name, foundField.Type, componentsData);
         }
 
+        /// <summary>
+        /// Reads the full datasets of all provided channels.
+        /// </summary>
+        /// <param name="channels">The list of channels that the descibe the data to read</param>
+        /// <returns>Returns a <see cref="FamosFileChannelData"/> for each channel.</returns>
         public List<FamosFileChannelData> ReadGroup(List<FamosFileChannel> channels)
         {
             return channels.Select(channel => this.ReadSingle(channel)).ToList();
         }
 
+        /// <summary>
+        /// Reads the full datasets of all channels in the file.
+        /// </summary>
+        /// <returns>Returns a <see cref="FamosFileChannelData"/> for each channel.</returns>
         public List<FamosFileChannelData> ReadAll()
         {
             return this.GetItemsByComponents(component => component.Channels).Select(channel => this.ReadSingle(channel)).ToList();

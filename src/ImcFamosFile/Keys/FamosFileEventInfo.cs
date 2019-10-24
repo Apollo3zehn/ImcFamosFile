@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Contains a list of events.
+    /// </summary>
     public class FamosFileEventInfo : FamosFileBase
     {
         #region Fields
@@ -15,11 +18,18 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileEventInfo"/> class.
+        /// </summary>
         public FamosFileEventInfo()
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileEventInfo"/> class.
+        /// </summary>
+        /// <param name="events">A list of events.</param>
         public FamosFileEventInfo(List<FamosFileEvent> events)
         {
             this.Events.AddRange(events);
@@ -44,7 +54,11 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets a list of events.
+        /// </summary>
         public List<FamosFileEvent> Events { get; private set; } = new List<FamosFileEvent>();
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CV;
 
         internal int Index

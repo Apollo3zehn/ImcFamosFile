@@ -7,6 +7,9 @@ using System.Text;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Represents an imc FAMOS file in a hierachical structure containing texts, single values, channels and more.
+    /// </summary>
     public class FamosFileHeader : FamosFileBaseExtended
     {
         #region Fields
@@ -19,6 +22,9 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileHeader"/> class.
+        /// </summary>
         public FamosFileHeader()
         {
             this.Initialize();
@@ -33,8 +39,14 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets the format version.
+        /// </summary>
         public int FormatVersion { get; } = 2;
 
+        /// <summary>
+        /// Gets or sets the processor.
+        /// </summary>
         public int Processor
         {
             get { return _processor; }
@@ -47,18 +59,54 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the language info containing data about the code page and language.
+        /// </summary>
         public FamosFileLanguageInfo? LanguageInfo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data origin info.
+        /// </summary>
         public FamosFileDataOriginInfo? DataOriginInfo { get; set; }
 
+        /// <summary>
+        /// Gets a list of texts.
+        /// </summary>
         public List<FamosFileText> Texts { get; private set; } = new List<FamosFileText>();
+
+        /// <summary>
+        /// Gets a list of single values.
+        /// </summary>
         public List<FamosFileSingleValue> SingleValues { get; private set; } = new List<FamosFileSingleValue>();
+
+        /// <summary>
+        /// Gets a list of channels.
+        /// </summary>
         public List<FamosFileChannel> Channels { get; private set; } = new List<FamosFileChannel>();
 
+        /// <summary>
+        /// Gets a list of custom keys which must be unique globally.
+        /// </summary>
         public List<FamosFileCustomKey> CustomKeys { get; private set; } = new List<FamosFileCustomKey>();
+
+        /// <summary>
+        /// Gets a list of groups.
+        /// </summary>
         public List<FamosFileGroup> Groups { get; protected set; } = new List<FamosFileGroup>();
+
+        /// <summary>
+        /// Gets a list of fields.
+        /// </summary>
         public List<FamosFileField> Fields { get; private set; } = new List<FamosFileField>();
+
+        /// <summary>
+        /// Gets a list of raw data blocks.
+        /// </summary>
         public List<FamosFileRawBlock> RawBlocks { get; protected set; } = new List<FamosFileRawBlock>();
 
+        /// <summary>
+        /// Get the name of the author found in the data origin info.
+        /// </summary>
         public string Name
         {
             get
@@ -73,11 +121,22 @@ namespace ImcFamosFile
 
         #region "Methods"
 
+        /// <summary>
+        /// Aligns the buffers of all components of this instance to the provided <paramref name="rawBlock"/> instance. This is done automatically, if the funcionality is not being disabled during the call to 'famosFile.Save(...)'.
+        /// </summary>
+        /// <param name="rawBlock">The raw block instance, where the actual data is stored.</param>
+        /// <param name="alignmentMode">The buffer alignment mode.</param>
         public void AlignBuffers(FamosFileRawBlock rawBlock, FamosFileAlignmentMode alignmentMode)
         {
             this.AlignBuffers(rawBlock, alignmentMode, this.Fields.SelectMany(field => field.Components).ToList());
         }
 
+        /// <summary>
+        /// Aligns the buffers of all <paramref name="components"/> to the provided <paramref name="rawBlock"/> instance. This is done automatically, if the funcionality is not being disabled during the call to 'famosFile.Save(...)'.
+        /// </summary>
+        /// <param name="rawBlock">The raw block instance, where the actual data is stored.</param>
+        /// <param name="alignmentMode">The buffer alignment mode.</param>
+        /// <param name="components">The list of components to align.</param>
         public void AlignBuffers(FamosFileRawBlock rawBlock, FamosFileAlignmentMode alignmentMode, List<FamosFileComponent> components)
         {
             var actualComponents = this.Fields.SelectMany(field => field.Components);
@@ -270,11 +329,24 @@ namespace ImcFamosFile
 
         #region Serialization
 
+        /// <summary>
+        /// Serializes the current instance to disk.
+        /// </summary>
+        /// <param name="filePath">The path of the file on disk.</param>
+        /// <param name="writeData">The action that is being called (when the file header has been written) to now write the actual data.</param>
+        /// <param name="autoAlign">A boolean indicating if all component buffers and pack infos should be aligned automatically.</param>
         public void Save(string filePath, Action<BinaryWriter> writeData, bool autoAlign = true)
         {
             this.Save(filePath, FileMode.CreateNew, writeData, autoAlign);
         }
 
+        /// <summary>
+        /// Serializes the current instance to disk.
+        /// </summary>
+        /// <param name="filePath">The path of the file on disk.</param>
+        /// <param name="fileMode">Specified the mode with which the file should be opened.</param>
+        /// <param name="writeData">The action that is being called (when the file header has been written) to now write the actual data.</param>
+        /// <param name="autoAlign">A boolean indicating if all component buffers and pack infos should be aligned automatically.</param>
         public void Save(string filePath, FileMode fileMode, Action<BinaryWriter> writeData, bool autoAlign = true)
         {
             using (var stream = File.Open(filePath, fileMode, FileAccess.Write))
@@ -283,6 +355,12 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Serializes the current instance to the passed <paramref name="stream"/>.
+        /// </summary>
+        /// <param name="stream">The stream where the data will be written to.</param>
+        /// <param name="writeData">The action that is being called (when the file header has been written) to now write the actual data.</param>
+        /// <param name="autoAlign">A boolean indicating if all component buffers and pack infos should be aligned automatically.</param>
         public void Save(Stream stream, Action<BinaryWriter> writeData, bool autoAlign = true)
         {
             if (!stream.CanWrite || !stream.CanSeek)
@@ -318,21 +396,51 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' method to write the actual data of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The data type parameter.</typeparam>
+        /// <param name="writer">The binary writer that has been provided in the action block.</param>
+        /// <param name="component">The component that describes the data to write.</param>
+        /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, T[] data) where T : unmanaged
         {
             this.WriteSingle(writer, component, 0, data.AsSpan());
         }
 
+        /// <summary>
+        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' method to write the actual data of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The data type parameter.</typeparam>
+        /// <param name="writer">The binary writer that has been provided in the action block.</param>
+        /// <param name="component">The component that describes the data to write.</param>
+        /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, Span<T> data) where T : unmanaged
         {
             this.WriteSingle(writer, component, 0, data);
         }
 
+        /// <summary>
+        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' method to write the actual data of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The data type parameter.</typeparam>
+        /// <param name="writer">The binary writer that has been provided in the action block.</param>
+        /// <param name="component">The component that describes the data to write.</param>
+        /// <param name="start">The number of values to skip.</param>
+        /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, T[] data) where T : unmanaged
         {
             this.WriteSingle(writer, component, start, data.AsSpan());
         }
 
+        /// <summary>
+        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' method to write the actual data of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The data type parameter.</typeparam>
+        /// <param name="writer">The binary writer that has been provided in the action block.</param>
+        /// <param name="component">The component that describes the data to write.</param>
+        /// <param name="start">The number of values to skip.</param>
+        /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, Span<T> data) where T : unmanaged
         {
             var dataByteLength = data.Length * Marshal.SizeOf<T>();

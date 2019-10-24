@@ -5,15 +5,25 @@ using System.Linq;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// A list of buffers.
+    /// </summary>
     public class FamosFileBufferInfo : FamosFileBase
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileBufferInfo"/> class.
+        /// </summary>
         public FamosFileBufferInfo()
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileBufferInfo"/> class with the provided <paramref name="buffers"/>.
+        /// </summary>
+        /// <param name="buffers">A list of <see cref="FamosFileBuffer"/>.</param>
         public FamosFileBufferInfo(List<FamosFileBuffer> buffers)
         {
             this.Buffers.AddRange(buffers);
@@ -39,6 +49,9 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets the list of <see cref="FamosFileBuffer"./>
+        /// </summary>
         public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
 
         #endregion
@@ -103,7 +116,7 @@ namespace ImcFamosFile
             var consumedBytes = this.DeserializeInt32();
             var isNewEvent = this.DeserializeInt32() == 1;
             var x0 = this.DeserializeInt32();
-            var triggerAddTime = this.DeserializeInt32();
+            var addTime = this.DeserializeReal();
             var userInfo = this.DeserializeKeyPart();
 
             return new FamosFileBuffer(userInfo)
@@ -115,8 +128,8 @@ namespace ImcFamosFile
                 Offset = offset,
                 ConsumedBytes = consumedBytes,
                 IsNewEvent = isNewEvent,
-                x0 = x0,
-                TriggerAddTime = triggerAddTime
+                X0 = x0,
+                AddTime = addTime
             };
         }
 

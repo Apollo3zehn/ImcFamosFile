@@ -6,12 +6,15 @@ using System.Runtime.InteropServices;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// The base class for a named single value of certain type.
+    /// </summary>
     public abstract class FamosFileSingleValue : FamosFileBaseProperty
     {
         #region Fields
 
-        protected byte[] _rawBlock;
-        private static DateTime _referenceTime = new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        protected byte[] _rawData;
+        private static readonly DateTime _referenceTime = new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private int _groupIndex;
 
         #endregion
@@ -22,18 +25,18 @@ namespace ImcFamosFile
         {
             this.Name = name;
 
-            _rawBlock = rawBlock;
+            _rawData = rawBlock;
         }
 
         protected unsafe FamosFileSingleValue(string name, byte* rawBlock, int size)
         {
             this.Name = name;
 
-            _rawBlock = new byte[size];
+            _rawData = new byte[size];
 
             for (int i = 0; i < size; i++)
             {
-                _rawBlock[i] = rawBlock[i];
+                _rawData[i] = rawBlock[i];
             }
         }
 
@@ -41,11 +44,34 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets the data type.
+        /// </summary>
         public FamosFileDataType DataType { get; protected set; }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
         public string Name { get; set; } = string.Empty;
-        public ReadOnlyCollection<byte> RawBlock => Array.AsReadOnly(_rawBlock);
+
+        /// <summary>
+        /// Gets the raw data (bytes).
+        /// </summary>
+        public ReadOnlyCollection<byte> RawData => Array.AsReadOnly(_rawData);
+
+        /// <summary>
+        /// Gets or sets the unit.
+        /// </summary>
         public string Unit { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the comment.
+        /// </summary>
         public string Comment { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the time when the value was created.
+        /// </summary>
         public DateTime Time { get; set; }
 
         internal int GroupIndex
@@ -73,7 +99,7 @@ namespace ImcFamosFile
                 this.GroupIndex,
                 (int)this.DataType,
                 this.Name.Length, this.Name,
-                _rawBlock,
+                _rawData,
                 this.Unit.Length, this.Unit,
                 this.Comment.Length, this.Comment,
                 BitConverter.GetBytes((this.Time - _referenceTime).TotalSeconds)
@@ -170,40 +196,60 @@ namespace ImcFamosFile
         }
     }
 
+    /// <summary>
+    /// A named single value of type <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The data type parameter.</typeparam>
     public class FamosFileSingleValue<T> : FamosFileSingleValue where T : unmanaged
     {
-        internal unsafe FamosFileSingleValue(string name, byte[] rawBlock) : base(name, rawBlock)
-        {
-            this.DataType = default(T) switch
-            {
-                SByte  _ => FamosFileDataType.UInt8,
-                Byte   _ => FamosFileDataType.Int8,
-                UInt16 _ => FamosFileDataType.UInt16,
-                Int16  _ => FamosFileDataType.Int16,
-                UInt32 _ => FamosFileDataType.UInt32,
-                Int32  _ => FamosFileDataType.Int32,
-                Single _ => FamosFileDataType.Float32,
-                Double _ => FamosFileDataType.Float64,
-                _ => throw new FormatException("The data type is invalid.")
-            };
-        }
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileSingleValue{T}" class./>
+        /// </summary>
+        /// <param name="name">The name of the single value.</param>
+        /// <param name="value">The value of the single value.</param>
         public unsafe FamosFileSingleValue(string name, T value) : base(name, (byte*)(&value), Marshal.SizeOf<T>())
         {
             this.DataType = value switch
             {
-                SByte  _ => FamosFileDataType.UInt8,
-                Byte   _ => FamosFileDataType.Int8,
+                SByte _ => FamosFileDataType.UInt8,
+                Byte _ => FamosFileDataType.Int8,
                 UInt16 _ => FamosFileDataType.UInt16,
-                Int16  _ => FamosFileDataType.Int16,
+                Int16 _ => FamosFileDataType.Int16,
                 UInt32 _ => FamosFileDataType.UInt32,
-                Int32  _ => FamosFileDataType.Int32,
+                Int32 _ => FamosFileDataType.Int32,
                 Single _ => FamosFileDataType.Float32,
                 Double _ => FamosFileDataType.Float64,
                 _ => throw new FormatException("The data type is invalid.")
             };
         }
 
-        public T Value => MemoryMarshal.Cast<byte, T>(_rawBlock)[0];
+        internal unsafe FamosFileSingleValue(string name, byte[] rawBlock) : base(name, rawBlock)
+        {
+            this.DataType = default(T) switch
+            {
+                SByte _ => FamosFileDataType.UInt8,
+                Byte _ => FamosFileDataType.Int8,
+                UInt16 _ => FamosFileDataType.UInt16,
+                Int16 _ => FamosFileDataType.Int16,
+                UInt32 _ => FamosFileDataType.UInt32,
+                Int32 _ => FamosFileDataType.Int32,
+                Single _ => FamosFileDataType.Float32,
+                Double _ => FamosFileDataType.Float64,
+                _ => throw new FormatException("The data type is invalid.")
+            };
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the value of type <typeparamref name="T"/>.
+        /// </summary>
+        public T Value => MemoryMarshal.Cast<byte, T>(_rawData)[0];
+
+        #endregion
     }
 }

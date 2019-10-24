@@ -4,6 +4,9 @@ using System.IO;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// A pack info fully describes the data layout.
+    /// </summary>
     public class FamosFilePackInfo : FamosFileBase
     {
         #region Fields
@@ -19,6 +22,21 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFilePackInfo"/> class.
+        /// </summary>
+        /// <param name="dataType">The data type.</param>
+        public FamosFilePackInfo(FamosFileDataType dataType)
+        {
+            this.DataType = dataType;
+            this.SignificantBits = this.ValueSize * 8;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFilePackInfo"/> class.
+        /// </summary>
+        /// <param name="dataType">The data type.</param>
+        /// <param name="buffers">A list of buffers.</param>
         public FamosFilePackInfo(FamosFileDataType dataType, List<FamosFileBuffer> buffers)
         {
             this.DataType = dataType;
@@ -46,10 +64,19 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets a list of associated buffers.
+        /// </summary>
         public List<FamosFileBuffer> Buffers { get; } = new List<FamosFileBuffer>();
 
+        /// <summary>
+        /// Gets or sets the data type.
+        /// </summary>
         public FamosFileDataType DataType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the number of significant bits.
+        /// </summary>
         public int SignificantBits
         {
             get { return _significantBits; }
@@ -62,6 +89,11 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the bit mask. For digital (binary 0 or 1) data = 0.
+        /// </summary>
+        /// <remarks>For digital (binary 0 or 1) data = 0. Otherwise, for analog data, a mask with all invalid bits, which should be ignored.</remarks>
+        /// <example>For example 3, where the two lowest bits should be ignored. Mask is defined with a decimal without a sign(0.. 65534). At least 1 bit must be valid.</example>
         public int Mask
         {
             get { return _mask; }
@@ -74,6 +106,10 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or set the offset of the first sample in the binary data block.
+        /// </summary>
+        /// <remarks>The offset is counted from the first valid measurement value in the buffer. The offset is a logical offset, thus is always >= 0 in ring buffer with data overflowing forward.</remarks>
         public int Offset
         {
             get { return _offset; }
@@ -87,6 +123,10 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of subsequent values in the raw data block.
+        /// </summary>
+        /// <remarks>Equal to '1', if the data are not interlaced.</remarks>
         public int GroupSize
         {
             get { return _groupSize; }
@@ -100,6 +140,10 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of bytes between two groups of values of this component.
+        /// </summary>
+        /// <remarks>Equal to '0', if the data are not interlaced.</remarks>
         public int ByteGapSize
         {
             get { return _gapSize; }
@@ -113,7 +157,14 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets a bool indicating if the component is contiguous (= not interlaced).
+        /// </summary>
         public bool IsContiguous => this.ByteGapSize == 0;
+
+        /// <summary>
+        /// Gets the number of bytes per row (if the data are interlaced).
+        /// </summary>
         public int ByteRowSize => this.ValueSize * this.GroupSize + this.ByteGapSize;
 
         internal int BufferReference

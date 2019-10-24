@@ -2,6 +2,9 @@
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// A base class for (de)serializable keys that allows having additional properties assigned.
+    /// </summary>
     public abstract class FamosFileBaseProperty : FamosFileBaseExtended
     {
         #region Constructors
@@ -20,6 +23,9 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the <see cref="FamosFilePropertyInfo", which contains a list of custom properties./>
+        /// </summary>
         public FamosFilePropertyInfo? PropertyInfo { get; set; }
 
         #endregion

@@ -3,6 +3,9 @@ using System.IO;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Contains information about how to display a component.
+    /// </summary>
     public class FamosFileDisplayInfo : FamosFileBase
     {
         #region Fields
@@ -15,6 +18,11 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileDisplayInfo"/> class.
+        /// </summary>
+        /// <param name="ymin">The lower y-axis display limit.</param>
+        /// <param name="ymax">The upper y-axis display limit.</param>
         public FamosFileDisplayInfo(decimal ymin, decimal ymax)
         {
             this.YMin = ymin;
@@ -41,6 +49,9 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the red part of the display color (0..255).
+        /// </summary>
         public int R
         {
             get { return _r; }
@@ -54,6 +65,9 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the green part of the display color (0..255).
+        /// </summary>
         public int G
         {
             get { return _g; }
@@ -67,6 +81,9 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets or sets the blue part of the display color (0..255).
+        /// </summary>
         public int B
         {
             get { return _b; }
@@ -80,8 +97,16 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Gets the lower y-axis display limit.
+        /// </summary>
         public decimal YMin { get; private set; }
+
+        /// <summary>
+        /// Gets the upper y-axis display limit.
+        /// </summary>
         public decimal YMax { get; private set; }
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.ND;
 
         #endregion

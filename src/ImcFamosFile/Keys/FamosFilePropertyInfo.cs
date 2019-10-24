@@ -6,15 +6,25 @@ using System.Text.RegularExpressions;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Contains a list of properties.
+    /// </summary>
     public class FamosFilePropertyInfo : FamosFileBaseExtended
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFilePropertyInfo"/> class.
+        /// </summary>
         public FamosFilePropertyInfo()
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFilePropertyInfo"/> class.
+        /// </summary>
+        /// <param name="properties">A list of properties.</param>
         public FamosFilePropertyInfo(List<FamosFileProperty> properties)
         {
             this.Properties.AddRange(properties);
@@ -38,7 +48,11 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets a list of properties.
+        /// </summary>
         public List<FamosFileProperty> Properties { get; } = new List<FamosFileProperty>();
+
         protected override FamosFileKeyType KeyType => FamosFileKeyType.Np;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

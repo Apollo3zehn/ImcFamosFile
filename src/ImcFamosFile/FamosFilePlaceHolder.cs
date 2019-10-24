@@ -1,6 +1,6 @@
 ﻿namespace ImcFamosFile
 {
-    public struct FamosFilePlaceHolder
+    internal struct FamosFilePlaceHolder
     {
         public long Length { get; set; }
     }

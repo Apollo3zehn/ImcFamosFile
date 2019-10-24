@@ -3,11 +3,11 @@ using System.IO;
 
 namespace ImcFamosFile
 {
-    public class FamosFileKeyGroup : FamosFileBase
+    internal class FamosFileKeyGroup : FamosFileBase
     {
         #region Constructors
 
-        public FamosFileKeyGroup()
+        internal FamosFileKeyGroup()
         {
             //
         }

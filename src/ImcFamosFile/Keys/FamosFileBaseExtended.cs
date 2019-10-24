@@ -7,6 +7,9 @@ using System.Text;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Extended base for imc FAMOS file keys to additionally handle strings.
+    /// </summary>
     public abstract class FamosFileBaseExtended : FamosFileBase
     {
         #region Constructors

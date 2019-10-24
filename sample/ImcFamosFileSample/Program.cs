@@ -56,7 +56,7 @@ namespace ImcFamosFileSample
             var length = 25; /* number of samples per channel or component, respectively. */
 
             /* data field with equidistant time */
-            var calibrationInfo1 = new FamosFileCalibrationInfo()
+            var calibrationInfo1 = new FamosFileCalibration()
             {
                 ApplyTransformation = true,
                 Factor = 10,
@@ -105,9 +105,9 @@ namespace ImcFamosFileSample
             });
 
             /* data field for characteristic curves */
-            var calibrationInfo2 = new FamosFileCalibrationInfo() { Unit = "kW" };
-            var calibrationInfo3 = new FamosFileCalibrationInfo() { Unit = "-" };
-            var calibrationInfo4 = new FamosFileCalibrationInfo() { Unit = "m/s" };
+            var calibrationInfo2 = new FamosFileCalibration() { Unit = "kW" };
+            var calibrationInfo3 = new FamosFileCalibration() { Unit = "-" };
+            var calibrationInfo4 = new FamosFileCalibration() { Unit = "m/s" };
 
             famosFile.Fields.Add(new FamosFileField(FamosFileFieldType.MultipleYToSingleXOrViceVersa, new List<FamosFileComponent>()
             {
@@ -122,7 +122,7 @@ namespace ImcFamosFileSample
             }));
 
             /* data field with complex values */
-            var calibrationInfo5 = new FamosFileCalibrationInfo() { Unit = "A" };
+            var calibrationInfo5 = new FamosFileCalibration() { Unit = "A" };
 
             famosFile.Fields.Add(new FamosFileField(FamosFileFieldType.ComplexRealImaginary, new List<FamosFileComponent>()
             {

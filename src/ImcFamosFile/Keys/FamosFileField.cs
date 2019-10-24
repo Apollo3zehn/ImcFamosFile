@@ -5,15 +5,35 @@ using System.Linq;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// A field is a collection of components, e.g. to represent X and Y data of a measurement.
+    /// </summary>
     public class FamosFileField : FamosFileBaseExtended
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileField"/> class.
+        /// </summary>
         public FamosFileField()
         {
             //
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileField"/> class.
+        /// </summary>
+        /// <param name="type">The type of the field.</param>
+        public FamosFileField(FamosFileFieldType type)
+        {
+            this.Type = type;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileField"/> class.
+        /// </summary>
+        /// <param name="type">The type of the field.</param>
+        /// <param name="components">A list of components belonging to the field.</param>
         public FamosFileField(FamosFileFieldType type, List<FamosFileComponent> components)
         {
             this.Type = type;
@@ -96,13 +116,39 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the type of the field. Default is <see cref="FamosFileFieldType.MultipleYToSingleEquidistantTime"/>.
+        /// </summary>
         public FamosFileFieldType Type { get; set; } = FamosFileFieldType.MultipleYToSingleEquidistantTime;
+
+        /// <summary>
+        /// Gets number of dimensions.
+        /// </summary>
         public int Dimension => this.Type == FamosFileFieldType.MultipleYToSingleEquidistantTime ? 1 : 2;
+
+        /// <summary>
+        /// Gets a list of components.
+        /// </summary>
         public List<FamosFileComponent> Components { get; } = new List<FamosFileComponent>();
+
+        /// <summary>
+        /// Gets a list of event infos.
+        /// </summary>
         public List<FamosFileEventInfo> EventInfos { get; private set; } = new List<FamosFileEventInfo>();
 
+        /// <summary>
+        /// Gets or sets the x-axis scaling. If set, it will be applied to all components unless redefined by a component.
+        /// </summary>
         public FamosFileXAxisScaling? XAxisScaling { get; set; }
+
+        /// <summary>
+        /// Gets or sets the z-axis scaling. If set, it will be applied to all components unless redefined by a component.
+        /// </summary>
         public FamosFileZAxisScaling? ZAxisScaling { get; set; }
+
+        /// <summary>
+        /// Gets or sets the trigger time. If set, it will be applied to all components unless redefined by a component.
+        /// </summary>
         public FamosFileTriggerTime? TriggerTime { get; set; }
 
         protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
@@ -111,6 +157,10 @@ namespace ImcFamosFile
 
         #region Methods
 
+        /// <summary>
+        /// Gets all channels that are part of the components belonging to this instance. 
+        /// </summary>
+        /// <returns>Returns a list of <see cref="FamosFileChannel"/>.</returns>
         public List<FamosFileChannel> GetChannels()
         {
             return this.Components.SelectMany(component => component.Channels).ToList();

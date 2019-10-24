@@ -3,6 +3,9 @@ using System.IO;
 
 namespace ImcFamosFile
 {
+    /// <summary>
+    /// Contains the actual data when serialized to the file.
+    /// </summary>
     public class FamosFileRawBlock : FamosFileBase
     {
         #region Fields
@@ -13,6 +16,9 @@ namespace ImcFamosFile
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileRawBlock"/> instance.
+        /// </summary>
         public FamosFileRawBlock()
         {
             //
@@ -59,7 +65,14 @@ namespace ImcFamosFile
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the length of the raw data block in bytes.
+        /// </summary>
         public long Length { get; set; }
+
+        /// <summary>
+        /// Gets or sets the compression type of the data.
+        /// </summary>
         public FamosFileCompressionType CompressionType { get; set; }
 
         internal int Index
