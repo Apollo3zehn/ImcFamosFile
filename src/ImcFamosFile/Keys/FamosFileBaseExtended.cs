@@ -14,12 +14,14 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        protected FamosFileBaseExtended()
+        [HideFromApi]
+        internal protected FamosFileBaseExtended()
         {
             //
         }
 
-        protected FamosFileBaseExtended(BinaryReader reader, int codePage) : base(reader)
+        [HideFromApi]
+        internal protected FamosFileBaseExtended(BinaryReader reader, int codePage) : base(reader)
         {
             this.CodePage = codePage;
         }
@@ -28,14 +30,16 @@ namespace ImcFamosFile
 
         #region Properties
 
+        [HideFromApi]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        protected int CodePage { get; set; }
+        internal protected int CodePage { get; set; }
 
         #endregion
 
         #region Deserialization
 
-        protected string DeserializeString()
+        [HideFromApi]
+        internal protected string DeserializeString()
         {
             var length = this.DeserializeInt32();
             var value = Encoding.GetEncoding(this.CodePage).GetString(this.Reader.ReadBytes(length));
@@ -45,7 +49,8 @@ namespace ImcFamosFile
             return value;
         }
 
-        protected List<string> DeserializeStringArray()
+        [HideFromApi]
+        internal protected List<string> DeserializeStringArray()
         {
             var elementCount = this.DeserializeInt32();
 

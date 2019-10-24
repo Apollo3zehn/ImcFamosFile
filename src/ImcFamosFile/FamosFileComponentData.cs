@@ -10,11 +10,12 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        protected FamosFileComponentData(FamosFileComponent component,
-                                         FamosFileXAxisScaling? xAxisScaling,
-                                         FamosFileZAxisScaling? zAxisScaling,
-                                         FamosFileTriggerTime? triggerTime,
-                                         byte[] data)
+        [HideFromApi]
+        internal protected FamosFileComponentData(FamosFileComponent component,
+                                                  FamosFileXAxisScaling? xAxisScaling,
+                                                  FamosFileZAxisScaling? zAxisScaling,
+                                                  FamosFileTriggerTime? triggerTime,
+                                                  byte[] data)
         {
             this.Type = component.Type;
 
@@ -65,7 +66,7 @@ namespace ImcFamosFile
         public FamosFileDisplayInfo? DisplayInfo { get; }
 
         /// <summary>
-        /// Gets the event reference container a description of related events.
+        /// Gets the event reference containing a description of related events.
         /// </summary>
         public FamosFileEventReference? EventReference { get; }
 

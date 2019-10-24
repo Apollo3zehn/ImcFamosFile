@@ -40,7 +40,8 @@ namespace ImcFamosFile
         /// </summary>
         public int Language { get; set; }
 
-        protected override FamosFileKeyType KeyType => FamosFileKeyType.NL;
+        [HideFromApi]
+        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.NL;
 
         #endregion
 

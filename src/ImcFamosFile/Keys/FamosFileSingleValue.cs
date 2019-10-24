@@ -13,7 +13,9 @@ namespace ImcFamosFile
     {
         #region Fields
 
-        protected byte[] _rawData;
+        [HideFromApi]
+        internal protected byte[] _rawData;
+
         private static readonly DateTime _referenceTime = new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private int _groupIndex;
 
@@ -21,14 +23,16 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        protected FamosFileSingleValue(string name, byte[] rawBlock)
+        [HideFromApi]
+        internal protected FamosFileSingleValue(string name, byte[] rawBlock)
         {
             this.Name = name;
 
             _rawData = rawBlock;
         }
 
-        protected unsafe FamosFileSingleValue(string name, byte* rawBlock, int size)
+        [HideFromApi]
+        internal protected unsafe FamosFileSingleValue(string name, byte* rawBlock, int size)
         {
             this.Name = name;
 
@@ -47,7 +51,7 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets the data type.
         /// </summary>
-        public FamosFileDataType DataType { get; protected set; }
+        public FamosFileDataType DataType { get; internal set; }
 
         /// <summary>
         /// Gets the name.
@@ -86,7 +90,8 @@ namespace ImcFamosFile
             }
         }
 
-        protected override FamosFileKeyType KeyType => FamosFileKeyType.CI;
+        [HideFromApi]
+        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CI;
 
         #endregion
 
@@ -124,7 +129,8 @@ namespace ImcFamosFile
 
             #region Properties
 
-            protected override FamosFileKeyType KeyType => throw new NotImplementedException();
+            [HideFromApi]
+            internal protected override FamosFileKeyType KeyType => throw new NotImplementedException();
 
             #endregion
 

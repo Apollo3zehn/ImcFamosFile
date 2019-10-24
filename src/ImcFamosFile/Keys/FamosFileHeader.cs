@@ -14,7 +14,8 @@ namespace ImcFamosFile
     {
         #region Fields
 
-        protected const int SUPPORTED_VERSION = 2;
+        [HideFromApi]
+        internal protected const int SUPPORTED_VERSION = 2;
 
         private int _processor = 1;
 
@@ -30,7 +31,8 @@ namespace ImcFamosFile
             this.Initialize();
         }
 
-        protected FamosFileHeader(BinaryReader reader) : base(reader, 0)
+        [HideFromApi]
+        internal protected FamosFileHeader(BinaryReader reader) : base(reader, 0)
         {
             this.Initialize();
         }
@@ -92,7 +94,7 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets a list of groups.
         /// </summary>
-        public List<FamosFileGroup> Groups { get; protected set; } = new List<FamosFileGroup>();
+        public List<FamosFileGroup> Groups { get; internal set; } = new List<FamosFileGroup>();
 
         /// <summary>
         /// Gets a list of fields.
@@ -102,7 +104,7 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets a list of raw data blocks.
         /// </summary>
-        public List<FamosFileRawBlock> RawBlocks { get; protected set; } = new List<FamosFileRawBlock>();
+        public List<FamosFileRawBlock> RawBlocks { get; internal set; } = new List<FamosFileRawBlock>();
 
         /// <summary>
         /// Get the name of the author found in the data origin info.
@@ -115,7 +117,8 @@ namespace ImcFamosFile
             }
         }
 
-        protected override FamosFileKeyType KeyType => FamosFileKeyType.CF;
+        [HideFromApi]
+        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CF;
 
         #endregion
 
@@ -225,6 +228,7 @@ namespace ImcFamosFile
             }
         }
 
+        /// <inheritdoc />
         public override void Validate()
         {
             // validate data fields
@@ -302,17 +306,20 @@ namespace ImcFamosFile
             }
         }
 
-        protected List<T> GetItemsByGroups<T>(Func<FamosFileGroup, List<T>> getGroupCollection, Func<List<T>> getDefaultCollection)
+        [HideFromApi]
+        internal protected List<T> GetItemsByGroups<T>(Func<FamosFileGroup, List<T>> getGroupCollection, Func<List<T>> getDefaultCollection)
         {
             return getDefaultCollection().Concat(this.Groups.SelectMany(group => getGroupCollection(group))).ToList();
         }
 
-        protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, List<T>> getComponentCollection)
+        [HideFromApi]
+        internal protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, List<T>> getComponentCollection)
         {
             return this.Fields.SelectMany(field => field.Components.SelectMany(component => getComponentCollection(component))).ToList();
         }
 
-        protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
+        [HideFromApi]
+        internal protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
         {
             return this.Fields.SelectMany(field => field.Components.Select(component => getComponentValue(component))).ToList();
         }

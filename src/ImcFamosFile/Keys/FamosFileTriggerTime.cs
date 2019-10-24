@@ -114,7 +114,8 @@ namespace ImcFamosFile
         /// </summary>
         public FamosFileTimeMode TimeMode { get; set; }
 
-        protected override FamosFileKeyType KeyType => FamosFileKeyType.NT;
+        [HideFromApi]
+        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.NT;
 
         #endregion
 

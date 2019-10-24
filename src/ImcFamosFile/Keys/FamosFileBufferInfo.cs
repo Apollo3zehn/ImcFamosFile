@@ -58,6 +58,7 @@ namespace ImcFamosFile
 
         #region Methods
 
+        /// <inheritdoc />
         public override void Validate()
         {
             if (this.Buffers.Count > 1)
@@ -79,7 +80,8 @@ namespace ImcFamosFile
             }
         }
 
-        protected override FamosFileKeyType KeyType => FamosFileKeyType.Cb;
+        [HideFromApi]
+        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.Cb;
 
         #endregion
 

@@ -200,12 +200,14 @@ namespace ImcFamosFile
             }
         }
 
-        protected override FamosFileKeyType KeyType => FamosFileKeyType.CP;
+        [HideFromApi]
+        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CP;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc />
         public override void Validate()
         {
             var sizeIsInvalid = false;

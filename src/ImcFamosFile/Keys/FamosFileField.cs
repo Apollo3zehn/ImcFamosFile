@@ -151,7 +151,8 @@ namespace ImcFamosFile
         /// </summary>
         public FamosFileTriggerTime? TriggerTime { get; set; }
 
-        protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
+        [HideFromApi]
+        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
 
         #endregion
 
@@ -166,6 +167,7 @@ namespace ImcFamosFile
             return this.Components.SelectMany(component => component.Channels).ToList();
         }
 
+        /// <inheritdoc />
         public override void Validate()
         {
             // validate components
