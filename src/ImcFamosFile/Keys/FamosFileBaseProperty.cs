@@ -24,7 +24,7 @@ namespace ImcFamosFile
         #region Properties
 
         /// <summary>
-        /// Gets or sets the <see cref="FamosFilePropertyInfo", which contains a list of custom properties./>
+        /// Gets or sets the <see cref="FamosFilePropertyInfo"/>, which contains a list of custom properties.
         /// </summary>
         public FamosFilePropertyInfo? PropertyInfo { get; set; }
 

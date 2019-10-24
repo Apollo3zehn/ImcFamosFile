@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace ImcFamosFile
 {
     /// <summary>
-    /// Channel wraps a list of <see cref="ComponentsData", depending on the type of data loaded. />
+    /// Channel wraps a list of <see cref="ComponentsData"/>, depending on the type of data loaded.
     /// </summary>
     [DebuggerDisplay("Name = {Name}")]
     public class FamosFileChannelData

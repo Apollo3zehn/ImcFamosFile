@@ -50,7 +50,7 @@ namespace ImcFamosFile
         #region Properties
 
         /// <summary>
-        /// Gets the list of <see cref="FamosFileBuffer"./>
+        /// Gets the list of <see cref="FamosFileBuffer"/>.
         /// </summary>
         public List<FamosFileBuffer> Buffers { get; private set; } = new List<FamosFileBuffer>();
 
