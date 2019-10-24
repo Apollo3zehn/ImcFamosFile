@@ -24,6 +24,7 @@ before_build:
 - ps: "Get-ChildItem Env:"
 
 build_script:
+- ps: dotnet build ./sample/ImcFamosFileSample/ImcFamosFileSample.csproj -c $Env:CONFIGURATION
 - ps: dotnet build ./src/ImcFamosFile/ImcFamosFile.csproj -c $Env:CONFIGURATION /p:Build=$Env:APPVEYOR_BUILD_NUMBER /p:IsFinalBuild=$Env:APPVEYOR_REPO_TAG
 
 test_script:
