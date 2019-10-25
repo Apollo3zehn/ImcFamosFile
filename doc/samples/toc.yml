@@ -1,2 +1,17 @@
 - name: Introduction
-  href: intro.md
+  href: introduction.md
+
+- name: First steps
+  href: first_steps.md
+
+- name: Fields
+  href: fields.md
+
+- name: Components
+  href: components.md
+
+- name: Data layout
+  href: data_layout.md
+
+- name: Other types
+  href: other_types.md

@@ -295,6 +295,13 @@ namespace ImcFamosFile
             // validate buffer info
             this.BufferInfo.Validate();
 
+            // validate channels
+            foreach (var channel in this.Channels)
+            {
+                if (channel.Component != this)
+                    throw new FormatException($"The channel '{channel.Name}' is associated to this component instance, but channel's {nameof(channel.Component)} property points to a different instance.");
+            }
+
             /* check unique region */
             if (this.Channels.Count != this.Channels.Distinct().Count())
                 throw new FormatException("A channel must be added only once.");
@@ -378,6 +385,12 @@ namespace ImcFamosFile
 
         internal override void AfterDeserialize()
         {
+            // update channel component references
+            foreach (var channel in this.Channels)
+            {
+                channel.Component = this;
+            }
+
             // prepare buffer info
             this.BufferInfo.AfterDeserialize();
 
@@ -460,10 +473,19 @@ namespace ImcFamosFile
         /// <summary>
         /// Initializes a new instances of the <see cref="FamosFileDigitalComponent"/> class.
         /// </summary>
-        /// <param name="componentType">The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <see cref="FamosFileComponentType.Primary"/> and between 'X of XY', 'imaginary part' and 'phase' for <see cref="FamosFileComponentType.Secondary"/>.</param>
         /// <param name="length">The length of this component.</param>
-        public FamosFileDigitalComponent(FamosFileComponentType componentType,
-                                         int length) : base(FamosFileDataType.Digital16Bit, length, componentType)
+        public FamosFileDigitalComponent(int length) : base(FamosFileDataType.Digital16Bit, length, FamosFileComponentType.Primary)
+        {
+            //
+        }
+
+        /// <summary>
+        /// Initializes a new instances of the <see cref="FamosFileDigitalComponent"/> class.
+        /// </summary>
+        /// <param name="length">The length of this component.</param>
+        /// <param name="componentType">The type of this component. Depending on the higher-level field type, the meaning varies between 'Y', 'Y of XY', 'real part', 'magnitude', 'magnitude in dB' and 'timestamp ASCII' for <see cref="FamosFileComponentType.Primary"/> and between 'X of XY', 'imaginary part' and 'phase' for <see cref="FamosFileComponentType.Secondary"/>.</param>
+        public FamosFileDigitalComponent(int length,
+                                         FamosFileComponentType componentType) : base(FamosFileDataType.Digital16Bit, length, componentType)
         {
             //
         }
@@ -640,7 +662,7 @@ namespace ImcFamosFile
                                         FamosFileComponentType componentType,
                                         FamosFileCalibration calibrationInfo) : base(dataType, length, componentType)
         {
-            this.Channels.Add(new FamosFileChannel(name));
+            this.Channels.Add(new FamosFileChannel(name, this));
             this.CalibrationInfo = calibrationInfo;
         }
 

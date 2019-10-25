@@ -42,26 +42,6 @@ namespace ImcFamosFile
         #region Properties
 
         /// <summary>
-        /// Gets the format version.
-        /// </summary>
-        public int FormatVersion { get; } = 2;
-
-        /// <summary>
-        /// Gets or sets the processor.
-        /// </summary>
-        public int Processor
-        {
-            get { return _processor; }
-            set
-            {
-                if (value != 1)
-                    throw new FormatException($"Expected processor value '1', got '{value}'.");
-
-                _processor = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the language info containing data about the code page and language.
         /// </summary>
         public FamosFileLanguageInfo? LanguageInfo { get; set; }
@@ -69,7 +49,7 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets or sets the data origin info.
         /// </summary>
-        public FamosFileDataOriginInfo? DataOriginInfo { get; set; }
+        public FamosFileOriginInfo? OriginInfo { get; set; }
 
         /// <summary>
         /// Gets a list of texts.
@@ -106,19 +86,20 @@ namespace ImcFamosFile
         /// </summary>
         public List<FamosFileRawBlock> RawBlocks { get; internal set; } = new List<FamosFileRawBlock>();
 
-        /// <summary>
-        /// Get the name of the author found in the data origin info.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.DataOriginInfo != null ? this.DataOriginInfo.Name : string.Empty;
-            }
-        }
-
         [HideFromApi]
         internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CF;
+
+        private int Processor
+        {
+            get { return _processor; }
+            set
+            {
+                if (value != 1)
+                    throw new FormatException($"Expected processor value '1', got '{value}'.");
+
+                _processor = value;
+            }
+        }
 
         #endregion
 
@@ -322,6 +303,17 @@ namespace ImcFamosFile
         internal protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
         {
             return this.Fields.SelectMany(field => field.Components.Select(component => getComponentValue(component))).ToList();
+        }
+
+        [HideFromApi]
+        internal protected FamosFileField GetField(FamosFileComponent component)
+        {
+            var foundField = this.Fields.FirstOrDefault(field => field.Components.Contains(component));
+
+            if (foundField is null)
+                throw new FormatException($"The provided component is not part of any {nameof(FamosFileField)} instance.");
+
+            return foundField;
         }
 
         private void Initialize()
@@ -631,7 +623,7 @@ namespace ImcFamosFile
             new FamosFileKeyGroup().Serialize(writer);
 
             // NO
-            this.DataOriginInfo?.Serialize(writer);
+            this.OriginInfo?.Serialize(writer);
 
             // NL
             this.LanguageInfo?.Serialize(writer);

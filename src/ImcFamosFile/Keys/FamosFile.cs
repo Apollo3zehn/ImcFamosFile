@@ -98,58 +98,39 @@ namespace ImcFamosFile
         /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
         public FamosFileChannelData ReadSingle(FamosFileChannel channel, int start, int length)
         {
-            FamosFileField? foundField = null;
-            FamosFileComponent? foundComponent = null;
-
-            foreach (var field in this.Fields)
-            {
-                foreach (var component in field.Components)
-                {
-                    if (component.Channels.Contains(channel))
-                    {
-                        foundField = field;
-                        foundComponent = component;
-                        break;
-                    }
-                }
-
-                if (foundComponent != null)
-                    break;
-            }
-
-            if (foundField is null || foundComponent is null)
-                throw new FormatException($"The provided channel is not part of any {nameof(FamosFileField)} instance.");
+            var component = channel.Component;
+            var foundField = this.GetField(component);
 
             List<FamosFileComponent> GetAlternatingComponents()
             {
                 FamosFileComponentType filter;
 
-                if (foundComponent.Type == FamosFileComponentType.Primary)
+                if (component.Type == FamosFileComponentType.Primary)
                     filter = FamosFileComponentType.Secondary;
-                else if (foundComponent.Type == FamosFileComponentType.Secondary)
+                else if (component.Type == FamosFileComponentType.Secondary)
                     filter = FamosFileComponentType.Primary;
                 else
-                    throw new InvalidOperationException($"The component type '{foundComponent.Type}' is unknown.");
+                    throw new InvalidOperationException($"The component type '{component.Type}' is unknown.");
 
-                return new List<FamosFileComponent> { foundComponent, foundField.Components.First(component => component.Type == filter) };
+                return new List<FamosFileComponent> { component, foundField.Components.First(component => component.Type == filter) };
             }
 
             var components = foundField.Type switch
             {
-                FamosFileFieldType.MultipleYToSingleEquidistantTime => new List<FamosFileComponent>() { foundComponent },
-                FamosFileFieldType.MultipleYToSingleMonotonousTime  => GetAlternatingComponents().OrderBy(component => component.Type).ToList(),
-                FamosFileFieldType.MultipleYToSingleXOrViceVersa    => GetAlternatingComponents().OrderBy(component => component.Type).ToList(),
-                _                                                   => foundField.Components.OrderBy(component => component.Type).ToList()
+                FamosFileFieldType.MultipleYToSingleEquidistantTime => new List<FamosFileComponent>() { component },
+                FamosFileFieldType.MultipleYToSingleMonotonousTime  => GetAlternatingComponents().OrderBy(current => current.Type).ToList(),
+                FamosFileFieldType.MultipleYToSingleXOrViceVersa    => GetAlternatingComponents().OrderBy(current => current.Type).ToList(),
+                _                                                   => foundField.Components.OrderBy(current => current.Type).ToList()
             };
 
             var componentsData = new List<FamosFileComponentData>();
             var cache = new Dictionary<FamosFileComponent, FamosFileComponentData>();
 
-            foreach (var component in components)
+            foreach (var currentComponent in components)
             {
-                if (cache.ContainsKey(component))
+                if (cache.ContainsKey(currentComponent))
                 {
-                    componentsData.Add(cache[component]);
+                    componentsData.Add(cache[currentComponent]);
                     continue;
                 }
 
@@ -170,37 +151,37 @@ namespace ImcFamosFile
                 }
 
                 // find shared instances
-                var xAxisScaling = FindFirst(foundField, component, foundField.XAxisScaling, component => component.XAxisScaling);
-                var zAxisScaling = FindFirst(foundField, component, foundField.ZAxisScaling, component => component.ZAxisScaling);
-                var triggerTime = FindFirst(foundField, component, foundField.TriggerTime, component => component.TriggerTime);
+                var xAxisScaling = FindFirst(foundField, currentComponent, foundField.XAxisScaling, current => current.XAxisScaling);
+                var zAxisScaling = FindFirst(foundField, currentComponent, foundField.ZAxisScaling, current => current.ZAxisScaling);
+                var triggerTime = FindFirst(foundField, currentComponent, foundField.TriggerTime, current => current.TriggerTime);
 
                 //
                 FamosFileComponentData componentData;
 
-                var data = this.ReadComponentData(component, start, length);
+                var data = this.ReadComponentData(currentComponent, start, length);
 
-                componentData = component.PackInfo.DataType switch
+                componentData = currentComponent.PackInfo.DataType switch
                 {
-                    FamosFileDataType.UInt8             => new FamosFileComponentData<Byte>(component, xAxisScaling, zAxisScaling, triggerTime, data),
-                    FamosFileDataType.Int8              => new FamosFileComponentData<SByte>(component, xAxisScaling, zAxisScaling, triggerTime, data),
-                    FamosFileDataType.UInt16            => new FamosFileComponentData<UInt16>(component, xAxisScaling, zAxisScaling, triggerTime, data),
-                    FamosFileDataType.Int16             => new FamosFileComponentData<Int16>(component, xAxisScaling, zAxisScaling, triggerTime, data),
-                    FamosFileDataType.UInt32            => new FamosFileComponentData<UInt32>(component, xAxisScaling, zAxisScaling, triggerTime, data),
-                    FamosFileDataType.Int32             => new FamosFileComponentData<Int32>(component, xAxisScaling, zAxisScaling, triggerTime, data),
-                    FamosFileDataType.Float32           => new FamosFileComponentData<Single>(component, xAxisScaling, zAxisScaling, triggerTime, data),
-                    FamosFileDataType.Float64           => new FamosFileComponentData<Double>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.UInt8             => new FamosFileComponentData<Byte>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Int8              => new FamosFileComponentData<SByte>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.UInt16            => new FamosFileComponentData<UInt16>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Int16             => new FamosFileComponentData<Int16>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.UInt32            => new FamosFileComponentData<UInt32>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Int32             => new FamosFileComponentData<Int32>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Float32           => new FamosFileComponentData<Single>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Float64           => new FamosFileComponentData<Double>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
                     FamosFileDataType.ImcDevicesTransitionalRecording => throw new NotSupportedException($"Reading data of type '{FamosFileDataType.ImcDevicesTransitionalRecording}' is not supported."),
                     FamosFileDataType.AsciiTimeStamp    => throw new NotSupportedException($"Reading data of type '{FamosFileDataType.AsciiTimeStamp}' is not supported."),
-                    FamosFileDataType.Digital16Bit      => new FamosFileComponentData<UInt16>(component, xAxisScaling, zAxisScaling, triggerTime, data),
+                    FamosFileDataType.Digital16Bit      => new FamosFileComponentData<UInt16>(currentComponent, xAxisScaling, zAxisScaling, triggerTime, data),
                     FamosFileDataType.UInt48            => throw new NotSupportedException($"Reading data of type '{FamosFileDataType.UInt48}' is not supported."),
-                                                        _ => throw new NotSupportedException($"The specified data type '{component.PackInfo.DataType}' is not supported.")
+                                                        _ => throw new NotSupportedException($"The specified data type '{currentComponent.PackInfo.DataType}' is not supported.")
                 };
 
                 componentsData.Add(componentData);
-                cache[component] = componentData;
+                cache[currentComponent] = componentData;
             }
 
-            return new FamosFileChannelData(foundComponent.Name, foundField.Type, componentsData);
+            return new FamosFileChannelData(component.Name, foundField.Type, componentsData);
         }
 
         /// <summary>
@@ -307,7 +288,6 @@ namespace ImcFamosFile
                 this.DeserializeKey(keySize =>
                 {
                     var processor = this.DeserializeInt32();
-                    this.Processor = processor;
                 });
             }
             else
@@ -341,7 +321,7 @@ namespace ImcFamosFile
 
                 // NO
                 else if (nextKeyType == FamosFileKeyType.NO)
-                    this.DataOriginInfo = new FamosFileDataOriginInfo(this.Reader, this.CodePage);
+                    this.OriginInfo = new FamosFileOriginInfo(this.Reader, this.CodePage);
 
                 // NL
                 else if (nextKeyType == FamosFileKeyType.NL)

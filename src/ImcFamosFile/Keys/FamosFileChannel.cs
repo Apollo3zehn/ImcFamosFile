@@ -11,6 +11,7 @@ namespace ImcFamosFile
         #region Fields
 
         private int _groupIndex;
+        private FamosFileComponent? _component;
 
         #endregion
 
@@ -20,9 +21,11 @@ namespace ImcFamosFile
         /// Initializes a new instance of the <see cref="FamosFileChannel"/> class.
         /// </summary>
         /// <param name="name">The name of this channel.</param>
-        public FamosFileChannel(string name)
+        /// <param name="component">The component where this channel is associated to.</param>
+        public FamosFileChannel(string name, FamosFileComponent component)
         {
             this.Name = name;
+            this.Component = component;
         }
 
         internal FamosFileChannel(BinaryReader reader, int codePage) : base(reader, codePage)
@@ -40,6 +43,21 @@ namespace ImcFamosFile
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the associated component.
+        /// </summary>
+        public FamosFileComponent Component
+        {
+            get
+            {
+                if (_component is null)
+                    throw new FormatException("A component instance must be assigned to the channels's component property.");
+
+                return _component;
+            }
+            set { _component = value; }
+        }
 
         /// <summary>
         /// Gets or sets the index of the bit position. Only for digital data. Analog data = 0, LSB..MSB (digital data) = 1..16.

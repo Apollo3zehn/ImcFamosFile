@@ -47,10 +47,11 @@ namespace ImcFamosFileSample
             famosFile.LanguageInfo = new FamosFileLanguageInfo() { CodePage = encoding.CodePage };
 
             // add data origin info
-            famosFile.DataOriginInfo = new FamosFileDataOriginInfo("ImcFamosFile", FamosFileDataOrigin.Calculated);
+            famosFile.OriginInfo = new FamosFileOriginInfo("ImcFamosFile", FamosFileOrigin.Calculated);
 
             // add custom key
-            famosFile.CustomKeys.Add(new FamosFileCustomKey("FileID", encoding.GetBytes(Guid.NewGuid().ToString())));
+            var customKey = new FamosFileCustomKey("FileID", encoding.GetBytes(Guid.NewGuid().ToString()));
+            famosFile.CustomKeys.Add(customKey);
 
             // data fields
             var length = 25; /* number of samples per channel or component, respectively. */
@@ -78,7 +79,7 @@ namespace ImcFamosFileSample
             })
             {
                 TriggerTime = new FamosFileTriggerTime(DateTime.Now, FamosFileTimeMode.Normal),
-                XAxisScaling = new FamosFileXAxisScaling(deltaX: 985.0M) { DeltaX = 0.01M, Unit = "Seconds" }
+                XAxisScaling = new FamosFileXAxisScaling(deltaX: 0.01M) { X0 = 985.0M, Unit = "Seconds" }
             });
 
             famosFile.Fields[0].Components[0].Channels[0].PropertyInfo = new FamosFilePropertyInfo(new List<FamosFileProperty>()

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace ImcFamosFile.Tests
 {
-    public class GenericTests
+    public class FamosFileTests
     {
         [Theory]
         [InlineData("BusTrip.dat")]
@@ -174,7 +174,7 @@ namespace ImcFamosFile.Tests
             // Arrange
             var famosFile = new FamosFileHeader();
             var group = new FamosFileGroup("Group 1");
-            var channel = new FamosFileChannel("Channel 1");
+            var channel = new FamosFileChannel("Channel 1", new FamosFileDigitalComponent(10));
 
             group.Channels.Add(channel);
             famosFile.Channels.Add(channel);

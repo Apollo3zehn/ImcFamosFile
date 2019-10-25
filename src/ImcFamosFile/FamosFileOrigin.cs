@@ -3,7 +3,7 @@
     /// <summary>
     /// Determines the data origin.
     /// </summary>
-    public enum FamosFileDataOrigin
+    public enum FamosFileOrigin
     {
         /// <summary>
         /// The data are measured and unmodified.

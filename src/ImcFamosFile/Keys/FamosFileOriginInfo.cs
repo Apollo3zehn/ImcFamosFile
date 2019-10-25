@@ -5,26 +5,26 @@ namespace ImcFamosFile
     /// <summary>
     /// Contains information about the data origin.
     /// </summary>
-    public class FamosFileDataOriginInfo : FamosFileBaseExtended
+    public class FamosFileOriginInfo : FamosFileBaseExtended
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FamosFileDataOriginInfo"/> class.
+        /// Initializes a new instance of the <see cref="FamosFileOriginInfo"/> class.
         /// </summary>
         /// <param name="name">The name of the file producer (author or manufacturer).</param>
         /// <param name="origin">The data origin.</param>
-        public FamosFileDataOriginInfo(string name, FamosFileDataOrigin origin)
+        public FamosFileOriginInfo(string name, FamosFileOrigin origin)
         {
             this.Name = name;
-            this.DataOrigin = origin;
+            this.Origin = origin;
         }
 
-        internal FamosFileDataOriginInfo(BinaryReader reader, int codePage) : base(reader, codePage)
+        internal FamosFileOriginInfo(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.DataOrigin = (FamosFileDataOrigin)this.DeserializeInt32();
+                this.Origin = (FamosFileOrigin)this.DeserializeInt32();
                 this.Name = this.DeserializeString();
                 this.Comment = this.DeserializeString();
             });
@@ -47,7 +47,7 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets or sets the data origin.
         /// </summary>
-        public FamosFileDataOrigin DataOrigin { get; set; } = FamosFileDataOrigin.Original;
+        public FamosFileOrigin Origin { get; set; } = FamosFileOrigin.Original;
 
         [HideFromApi]
         internal protected override FamosFileKeyType KeyType => FamosFileKeyType.NO;
@@ -60,7 +60,7 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                (int)this.DataOrigin,
+                (int)this.Origin,
                 this.Name.Length, this.Name,
                 this.Comment.Length, this.Comment
             };
