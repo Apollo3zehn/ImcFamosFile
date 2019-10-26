@@ -4,7 +4,7 @@ This package allows to read and write imc FAMOS files of version 2. Simply start
 
 ```powershell
 PS> dotnet new console
-PS> dotnet add package ImcFamosFile -v 1.0.0-preview.1.final
+PS> dotnet add package ImcFamosFile
 ```
 
 Then, open the file:
