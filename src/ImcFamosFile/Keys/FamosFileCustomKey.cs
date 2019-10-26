@@ -24,8 +24,11 @@ namespace ImcFamosFile
         {
             this.DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
+                var position = this.Reader.BaseStream.Position;
                 this.Key = this.DeserializeString();
-                this.Value = this.DeserializeKeyPart();
+
+                var keyLength = this.Reader.BaseStream.Position - position;
+                this.Value = this.DeserializeFixedLength((int)(keySize - keyLength));
             });
         }
 

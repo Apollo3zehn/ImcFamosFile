@@ -161,7 +161,7 @@ namespace ImcFamosFile
                         _ => throw new FormatException("The data type is invalid.")
                     };
 
-                    // read left over comma
+                    // read comma
                     this.Reader.ReadByte();
 
                     // create single value
@@ -184,7 +184,7 @@ namespace ImcFamosFile
                     singleValue.DataType = dataType;
                     singleValue.Unit = this.DeserializeString();
                     singleValue.Comment = this.DeserializeString();
-                    singleValue.Time = _referenceTime.AddSeconds(BitConverter.ToDouble(this.DeserializeKeyPart()));
+                    singleValue.Time = _referenceTime.AddSeconds(BitConverter.ToDouble(this.DeserializeFixedLength(8)));
                 });
 
                 if (singleValue is null)

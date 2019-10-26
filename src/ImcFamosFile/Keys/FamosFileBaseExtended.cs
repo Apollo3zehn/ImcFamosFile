@@ -44,6 +44,7 @@ namespace ImcFamosFile
             var length = this.DeserializeInt32();
             var value = Encoding.GetEncoding(this.CodePage).GetString(this.Reader.ReadBytes(length));
 
+            // read comma or semicolon
             this.Reader.ReadByte();
 
             return value;

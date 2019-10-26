@@ -119,6 +119,8 @@ namespace ImcFamosFile
             var isNewEvent = this.DeserializeInt32() == 1;
             var x0 = this.DeserializeInt32();
             var addTime = this.DeserializeReal();
+
+#warning This may fail when user info byte array contains semicolon.
             var userInfo = this.DeserializeKeyPart();
 
             return new FamosFileBuffer(userInfo)

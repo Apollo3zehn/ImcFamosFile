@@ -218,7 +218,7 @@ namespace ImcFamosFile
 
             // data
             if (deserializeKeyAction is null)
-                this.Reader.ReadBytes(unchecked((int)(keyLength + 1))); // should not fail as this is intended only for short keys
+                this.DeserializeFixedLength(unchecked((int)keyLength));// should not fail as this is intended only for short keys
             else
                 deserializeKeyAction?.Invoke(keyLength);
 
@@ -286,6 +286,16 @@ namespace ImcFamosFile
                 return result;
             else
                 return FamosFileKeyType.Unknown;
+        }
+
+        internal protected byte[] DeserializeFixedLength(int length)
+        {
+            var data = this.Reader.ReadBytes(length);
+
+            // read comma or semicolon
+            this.Reader.ReadByte();
+
+            return data;
         }
 
         private void ConsumeSpaces()
