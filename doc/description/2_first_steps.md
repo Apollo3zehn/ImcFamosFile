@@ -1,3 +1,5 @@
+# Reading a FAMOS file
+
 As shown on the previous page, you can open a file like this:
 
 ```cs
@@ -7,16 +9,42 @@ var famosFile = FamosFile.Open("<path to file>");
 The content can then be read by one of the following methods:
 
 ```cs
+// read all channels from file
 var allData = famosFile.ReadAll();
 
+// read only a subset of the available channels
 var group = famosFile.Groups.First();
-var groupData = famosFile.Read(group.Channels);
+var groupData = famosFile.ReadGroup(group.Channels);
 
+// read a single channel only
 var channel = famosFile.Channels.First();
 var singleData = famosFile.ReadSingle(channel);
 ```
 
-When you do not want to _read_ files but to _write_ them instead, you need to maked use of the [FamosFileHeader](../../ImcFamosFile.FamosFileHeader.html) class:
+In case of `famosFile.ReadAll()` or `famosFile.ReadGroup(...)`, you get a list of [FamosFileChannelData](../api/ImcFamosFile.FamosFileChannelData.html) which contains data for each channel or component, respectively. These data are wrapped in an instance of type [FamosFileComponentData](../api/ImcFamosFile.FamosFileComponentData.html) which lets you access the data as byte array:
+
+```cs
+var allData = famosFile.ReadAll();
+
+var componentData = allData[0].ComponentsData[0];
+var byteData = componentData.RawData;
+```
+
+If you like to work with the actual compoent's data type (e.g. `float32`), you can simply cast it to the correct type via:
+
+```cs
+var floatData = (FamosFileComponentData<float>)componentData.Data;
+```
+
+If the data type is unknown, you can quickly check it using the pack info:
+
+```cs
+var dataType = componentData.PackInfo.DataType;
+```
+
+# Writing a FAMOS file
+
+When you do not want to _read_ files but to _write_ them instead, you need to maked use of the [FamosFileHeader](../api/ImcFamosFile.FamosFileHeader.html) class:
 
 ```cs
 var famosFile = new FamosFileHeader();

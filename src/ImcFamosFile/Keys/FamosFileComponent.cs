@@ -295,13 +295,6 @@ namespace ImcFamosFile
             // validate buffer info
             this.BufferInfo.Validate();
 
-            // validate channels
-            foreach (var channel in this.Channels)
-            {
-                if (channel.Component != this)
-                    throw new FormatException($"The channel '{channel.Name}' is associated to this component instance, but channel's {nameof(channel.Component)} property points to a different instance.");
-            }
-
             /* check unique region */
             if (this.Channels.Count != this.Channels.Distinct().Count())
                 throw new FormatException("A channel must be added only once.");
@@ -385,12 +378,6 @@ namespace ImcFamosFile
 
         internal override void AfterDeserialize()
         {
-            // update channel component references
-            foreach (var channel in this.Channels)
-            {
-                channel.Component = this;
-            }
-
             // prepare buffer info
             this.BufferInfo.AfterDeserialize();
 
@@ -662,7 +649,7 @@ namespace ImcFamosFile
                                         FamosFileComponentType componentType,
                                         FamosFileCalibration calibrationInfo) : base(dataType, length, componentType)
         {
-            this.Channels.Add(new FamosFileChannel(name, this));
+            this.Channels.Add(new FamosFileChannel(name));
             this.CalibrationInfo = calibrationInfo;
         }
 

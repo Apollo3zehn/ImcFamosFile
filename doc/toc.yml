@@ -1,5 +1,6 @@
+- name: Description
+  href: description/
+
 - name: Api Documentation
   href: api/
   homepage: api/index.md
-- name: Samples
-  href: samples/

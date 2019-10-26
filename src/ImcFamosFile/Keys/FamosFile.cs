@@ -69,7 +69,7 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Reads the full dataset associated to the provided <paramref name="channel"/>.
+        /// Reads the full length dataset associated to the provided <paramref name="channel"/>.
         /// </summary>
         /// <param name="channel">The channel that describes the data to read.</param>
         /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
@@ -98,26 +98,25 @@ namespace ImcFamosFile
         /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
         public FamosFileChannelData ReadSingle(FamosFileChannel channel, int start, int length)
         {
-            var component = channel.Component;
-            var foundField = this.GetField(component);
+            (var foundField, var foundComponent) = this.FindFieldAndComponent(channel);
 
             List<FamosFileComponent> GetAlternatingComponents()
             {
                 FamosFileComponentType filter;
 
-                if (component.Type == FamosFileComponentType.Primary)
+                if (foundComponent.Type == FamosFileComponentType.Primary)
                     filter = FamosFileComponentType.Secondary;
-                else if (component.Type == FamosFileComponentType.Secondary)
+                else if (foundComponent.Type == FamosFileComponentType.Secondary)
                     filter = FamosFileComponentType.Primary;
                 else
-                    throw new InvalidOperationException($"The component type '{component.Type}' is unknown.");
+                    throw new InvalidOperationException($"The component type '{foundComponent.Type}' is unknown.");
 
-                return new List<FamosFileComponent> { component, foundField.Components.First(component => component.Type == filter) };
+                return new List<FamosFileComponent> { foundComponent, foundField.Components.First(component => component.Type == filter) };
             }
 
             var components = foundField.Type switch
             {
-                FamosFileFieldType.MultipleYToSingleEquidistantTime => new List<FamosFileComponent>() { component },
+                FamosFileFieldType.MultipleYToSingleEquidistantTime => new List<FamosFileComponent>() { foundComponent },
                 FamosFileFieldType.MultipleYToSingleMonotonousTime  => GetAlternatingComponents().OrderBy(current => current.Type).ToList(),
                 FamosFileFieldType.MultipleYToSingleXOrViceVersa    => GetAlternatingComponents().OrderBy(current => current.Type).ToList(),
                 _                                                   => foundField.Components.OrderBy(current => current.Type).ToList()
@@ -181,11 +180,11 @@ namespace ImcFamosFile
                 cache[currentComponent] = componentData;
             }
 
-            return new FamosFileChannelData(component.Name, foundField.Type, componentsData);
+            return new FamosFileChannelData(foundComponent.Name, foundField.Type, componentsData);
         }
 
         /// <summary>
-        /// Reads the full datasets of all provided channels.
+        /// Reads the full length datasets of all provided channels.
         /// </summary>
         /// <param name="channels">The list of channels that the descibe the data to read</param>
         /// <returns>Returns a <see cref="FamosFileChannelData"/> for each channel.</returns>
@@ -195,7 +194,7 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Reads the full datasets of all channels in the file.
+        /// Reads the full length datasets of all channels in the file.
         /// </summary>
         /// <returns>Returns a <see cref="FamosFileChannelData"/> for each channel.</returns>
         public List<FamosFileChannelData> ReadAll()

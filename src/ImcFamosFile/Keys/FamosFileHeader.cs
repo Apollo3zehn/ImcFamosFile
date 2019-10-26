@@ -209,6 +209,58 @@ namespace ImcFamosFile
             }
         }
 
+        /// <summary>
+        /// Finds the parent field and component of the provided channel.
+        /// </summary>
+        /// <param name="channel">The channel that belongs to the component and field to be searched for.</param>
+        /// <returns>Returns the found <see cref="FamosFileField"/> and <see cref="FamosFileComponent"/>.</returns>
+        public (FamosFileField Field, FamosFileComponent Component) FindFieldAndComponent(FamosFileChannel channel)
+        {
+            FamosFileField? foundField = null;
+            FamosFileComponent? foundComponent = null;
+
+            foreach (var field in this.Fields)
+            {
+                foreach (var component in field.Components)
+                {
+                    if (component.Channels.Contains(channel))
+                    {
+                        foundField = field;
+                        foundComponent = component;
+                        break;
+                    }
+                }
+
+                if (foundComponent != null)
+                    break;
+            }
+
+            if (foundField is null || foundComponent is null)
+                throw new FormatException($"The provided channel is not part of any {nameof(FamosFileField)} instance.");
+
+            return (foundField, foundComponent);
+        }
+
+        /// <summary>
+        /// Finds the parent field of the provided channel.
+        /// </summary>
+        /// <param name="channel">The channel that belongs to the component to be searched for.</param>
+        /// <returns>Returns the found <see cref="FamosFileField"/>.</returns>
+        public FamosFileField FindField(FamosFileChannel channel)
+        {
+            return this.FindFieldAndComponent(channel).Field;
+        }
+
+        /// <summary>
+        /// Finds the parent component of the provided channel.
+        /// </summary>
+        /// <param name="channel">The channel that belongs to the component to be searched for.</param>
+        /// <returns>Returns the found <see cref="FamosFileComponent"/>.</returns>
+        public FamosFileComponent FindComponent(FamosFileChannel channel)
+        {
+            return this.FindFieldAndComponent(channel).Component;
+        }
+
         /// <inheritdoc />
         public override void Validate()
         {
@@ -303,17 +355,6 @@ namespace ImcFamosFile
         internal protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
         {
             return this.Fields.SelectMany(field => field.Components.Select(component => getComponentValue(component))).ToList();
-        }
-
-        [HideFromApi]
-        internal protected FamosFileField GetField(FamosFileComponent component)
-        {
-            var foundField = this.Fields.FirstOrDefault(field => field.Components.Contains(component));
-
-            if (foundField is null)
-                throw new FormatException($"The provided component is not part of any {nameof(FamosFileField)} instance.");
-
-            return foundField;
         }
 
         private void Initialize()
