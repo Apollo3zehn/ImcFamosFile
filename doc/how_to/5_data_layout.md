@@ -1,4 +1,4 @@
-The buffers in the `BufferInfo` and the `PackInfo` properties of a component define how the data is written to and read from a file. You can modify these values by yourself, but this implementation supports two default alignment modes out of the box as described [here](../api/ImcFamosFile.FamosFileAlignmentMode.html).
+The buffers in the `BufferInfo` and the `PackInfo` properties of a component define how the data is written to and read from a file. You can modify these values by yourself, but this implementation supports two default alignment modes out of the box as described [here](xref:ImcFamosFile.FamosFileAlignmentMode).
 
 When you read a file using `FamosFile.Open(...)` it contains definitions for the buffers, pack infos and raw blocks so that everything is aligned properly.
 
@@ -6,7 +6,7 @@ When you instead create a file by yourself via `var famosFile = new FamosFileHea
 
 But the default values of the buffers and pack infos are not correct as they all point to the same region in the file. Thus, when you call `famosFile.Save(...)`, a data alignment is performed.
 
-This ensures that all buffers point to unique regions in the file and - most importantly - it ensures that there is a [raw block](../api/ImcFamosFile.FamosFileRawBlock.html) instance available to hold the actual data.
+This ensures that all buffers point to unique regions in the file and - most importantly - it ensures that there is a [raw block](xref:ImcFamosFile.FamosFileRawBlock) instance available to hold the actual data.
 
 To disable this default mode, you need to call the save method likes this: `famosFile.Save(..., autoAlign: false)`.
 

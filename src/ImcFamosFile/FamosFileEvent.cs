@@ -15,15 +15,13 @@ namespace ImcFamosFile
         public int Index { get; set; }
 
         /// <summary>
-        /// Gets or sets the event offset.
+        /// Gets or sets the event offset. REMARKS: Expressed as relative number of samples. E.g., expressed as Tuple-count.
         /// </summary>
-        /// <remarks>Expressed as relative number of samples. E.g., expressed as Tuple-count.</remarks>
         public ulong Offset { get; set; }
 
         /// <summary>
-        /// Gets or sets the length of the event.
+        /// Gets or sets the length of the event. REMARKS: Expressed as relative number of samples.
         /// </summary>
-        /// <remarks>Expressed as relative number of samples</remarks>
         public ulong Length { get; set; }
 
         /// <summary>

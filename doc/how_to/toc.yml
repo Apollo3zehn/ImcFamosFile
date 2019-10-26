@@ -1,20 +1,20 @@
-- name: Introduction
+- name: 1. Introduction
   href: 1_introduction.md
 
-- name: First steps
+- name: 2. First steps
   href: 2_first_steps.md
 
-- name: Fields
+- name: 3. Fields
   href: 3_fields.md
 
-- name: Components
+- name: 4. Components
   href: 4_components.md
 
-- name: Data layout
+- name: 5. Data layout
   href: 5_data_layout.md
 
-- name: Other types
+- name: 6. Other types
   href: 6_other_types.md
 
-- name: Other types
+- name: 7. Sample
   href: 7_sample.md

@@ -21,7 +21,7 @@ var channel = famosFile.Channels.First();
 var singleData = famosFile.ReadSingle(channel);
 ```
 
-In case of `famosFile.ReadAll()` or `famosFile.ReadGroup(...)`, you get a list of [FamosFileChannelData](../api/ImcFamosFile.FamosFileChannelData.html) which contains data for each channel or component, respectively. These data are wrapped in an instance of type [FamosFileComponentData](../api/ImcFamosFile.FamosFileComponentData.html) which lets you access the data as byte array:
+In case of `famosFile.ReadAll()` or `famosFile.ReadGroup(...)`, you get a list of [FamosFileChannelData](xref:ImcFamosFile.FamosFileChannelData) which contains data for each channel or component, respectively. These data are wrapped in an instance of type [FamosFileComponentData](xref:ImcFamosFile.FamosFileComponentData) which lets you access the data as byte array:
 
 ```cs
 var allData = famosFile.ReadAll();
@@ -44,7 +44,7 @@ var dataType = componentData.PackInfo.DataType;
 
 # Writing a FAMOS file
 
-When you do not want to _read_ files but to _write_ them instead, you need to maked use of the [FamosFileHeader](../api/ImcFamosFile.FamosFileHeader.html) class:
+When you do not want to _read_ files but to _write_ them instead, you need to maked use of the [FamosFileHeader](xref:ImcFamosFile.FamosFileHeader) class:
 
 ```cs
 var famosFile = new FamosFileHeader();

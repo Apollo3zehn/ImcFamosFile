@@ -90,10 +90,8 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Gets or sets the bit mask. For digital (binary 0 or 1) data = 0.
+        /// Gets or sets the bit mask. For digital (binary 0 or 1) data = 0. REMARKS: For digital (binary 0 or 1) data = 0. Otherwise, for analog data, a mask with all invalid bits, which should be ignored. EXAMPLE: For example 3, where the two lowest bits should be ignored. Mask is defined with a decimal without a sign(0.. 65534). At least 1 bit must be valid.
         /// </summary>
-        /// <remarks>For digital (binary 0 or 1) data = 0. Otherwise, for analog data, a mask with all invalid bits, which should be ignored.</remarks>
-        /// <example>For example 3, where the two lowest bits should be ignored. Mask is defined with a decimal without a sign(0.. 65534). At least 1 bit must be valid.</example>
         public int Mask
         {
             get { return _mask; }
@@ -107,9 +105,8 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Gets or set the offset of the first sample in the binary data block.
+        /// Gets or set the offset of the first sample in the binary data block. REMARKS: The offset is counted from the first valid measurement value in the buffer. The offset is a logical offset, thus is always >= 0 in ring buffer with data overflowing forward.
         /// </summary>
-        /// <remarks>The offset is counted from the first valid measurement value in the buffer. The offset is a logical offset, thus is always >= 0 in ring buffer with data overflowing forward.</remarks>
         public int Offset
         {
             get { return _offset; }
@@ -124,9 +121,8 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Gets or sets the number of subsequent values in the raw data block.
+        /// Gets or sets the number of subsequent values in the raw data block. REMARKS: Equal to '1', if the data are not interlaced.
         /// </summary>
-        /// <remarks>Equal to '1', if the data are not interlaced.</remarks>
         public int GroupSize
         {
             get { return _groupSize; }
@@ -141,9 +137,8 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Gets or sets the number of bytes between two groups of values of this component.
+        /// Gets or sets the number of bytes between two groups of values of this component. REMARKS: Equal to '0', if the data are not interlaced.
         /// </summary>
-        /// <remarks>Equal to '0', if the data are not interlaced.</remarks>
         public int ByteGapSize
         {
             get { return _gapSize; }

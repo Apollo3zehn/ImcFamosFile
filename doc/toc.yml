@@ -1,5 +1,5 @@
-- name: Description
-  href: description/
+- name: How To
+  href: how_to/
 
 - name: Api Documentation
   href: api/

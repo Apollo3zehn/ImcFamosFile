@@ -69,7 +69,7 @@ namespace ImcFamosFile
         #region Properties
 
         /// <summary>
-        /// Gets or sets the distance between to samples or the paramerter.
+        /// Gets or sets the distance between two samples or the parameter.
         /// </summary>
         public decimal DeltaX
         {
@@ -109,9 +109,8 @@ namespace ImcFamosFile
         public bool SortBuffers { get; set; }
 
         /// <summary>
-        /// Gets or sets the X0, i.e. the x-coordinate of the first value for equistant data (pre-trigger time) or the starting frequency, respectively.
+        /// Gets or sets the X0, i.e. the x-coordinate of the first value for equistant data (pre-trigger time) or the starting frequency, respectively. REMARKS: Meaning depends on value of <see cref="PretriggerUsage"/> property.
         /// </summary>
-        /// <remarks>Meaning depends on value of <see cref="PretriggerUsage"/> property.</remarks>
         public decimal X0 { get; set; }
 
         /// <summary>

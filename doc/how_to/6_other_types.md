@@ -1,6 +1,6 @@
 ## Texts
 
-There are more types to fully describe a dataset. First, there is a [named text](../api/ImcFamosFile.FamosFileText.html):
+There are more types to fully describe a dataset. First, there is a [named text](xref:ImcFamosFile.FamosFileText):
 
 ```cs
 var group = new FamosFileGroup("Generator");
@@ -17,7 +17,7 @@ group.Texts.Add(text);
 
 ## Single Values
 
-Another type is the [single value](../api/ImcFamosFile.FamosFileSingleValue.html):
+Another type is the [single value](xref:ImcFamosFile.FamosFileSingleValue):
 
 ```cs
 group.SingleValues.Add(new FamosFileSingleValue<double>("GEN_TEMP_1_AVG", 40.25)
@@ -44,7 +44,7 @@ As you can see, a single values takes a `Unit`, a `Comment` and a `Time`. You ca
 
 ## Properties
 
-Like comments, [properties](../api/ImcFamosFile.FamosFileProperty.html) can be added to several types (`single values`, `groups`, `texts` and `channels`):
+Like comments, [properties](xref:ImcFamosFile.FamosFileProperty) can be added to several types (`single values`, `groups`, `texts` and `channels`):
 
 ```cs
 channel.PropertyInfo = new FamosFilePropertyInfo(new List<FamosFileProperty>()
@@ -58,7 +58,7 @@ Although you can specify the property type, it is stored as string within the fi
 
 ## Custom keys
 
-[Custom keys](../api/ImcFamosFile.FamosFileCustomKey.html) are a way to add additional binary information to the file:
+[Custom keys](xref:ImcFamosFile.FamosFileCustomKey) are a way to add additional binary information to the file:
 
 ```cs
 var customKey = new FamosFileCustomKey("FileID", encoding.GetBytes(Guid.NewGuid().ToString()));

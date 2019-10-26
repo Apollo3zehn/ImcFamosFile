@@ -211,7 +211,7 @@ namespace ImcFamosFile
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FamosFileSingleValue{T}" class./>
+        /// Initializes a new instance of the <see cref="FamosFileSingleValue{T}"/> class.
         /// </summary>
         /// <param name="name">The name of the single value.</param>
         /// <param name="value">The value of the single value.</param>

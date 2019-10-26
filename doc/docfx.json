@@ -29,8 +29,8 @@
       },
       {
         "files": [
-          "description/**.md",
-          "description/**/toc.yml"
+          "how_to/**.md",
+          "how_to/**/toc.yml"
         ]
       }
     ],

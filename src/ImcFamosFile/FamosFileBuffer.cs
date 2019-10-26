@@ -82,9 +82,8 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Gets or sets the offset of the first sample in the buffer.
+        /// Gets or sets the offset of the first sample in the buffer. REMARKS: If > '0', the buffer is a ring buffer.
         /// </summary>
-        /// <remarks>If > '0', the buffer is a ring buffer.</remarks>
         public int Offset
         {
             get { return _offset; }
