@@ -4,7 +4,7 @@ ImcFamosFile is a .NET Standard 2.1 library to read and write imc FAMOS files (.
 
 This library can create groups containing texts, single values and channels of different types (e.g.: data with `equidistant time`, with `monotonous increasing time` or `characteristic curves` (XY data)).
 
-Below is a screenshot of FAMOS after opening the [sample](sample/ImcFamosFileSample/Program.cs) file and plotting the power curve of a wind turbine:
+Below is a screenshot of FAMOS after opening the [sample](https://github.com/Apollo3zehn/ImcFamosFile/blob/master/sample/ImcFamosFileSample/Program.cs) file and plotting the power curve of a wind turbine:
 
 ![Sample preview.](images/sample_preview.png)
 
