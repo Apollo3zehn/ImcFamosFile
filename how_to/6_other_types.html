@@ -69,7 +69,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h2 id="texts">Texts</h2>
 
-<p>There are more types to fully describe a dataset. First, there is a <a href="../api/ImcFamosFile.FamosFileText.html">named text</a>:</p>
+<p>There are more types to fully describe a dataset. First, there is a <a class="xref" href="../api/ImcFamosFile.FamosFileText.html">named text</a>:</p>
 <pre><code class="lang-cs">var group = new FamosFileGroup(&quot;Generator&quot;);
 group.Texts.Add(new FamosFileText(&quot;Type&quot;, &quot;E-126&quot;));
 </code></pre>
@@ -79,7 +79,7 @@ group.Texts.Add(new FamosFileText(&quot;Type&quot;, &quot;E-126&quot;));
 group.Texts.Add(text);
 </code></pre>
 <h2 id="single-values">Single Values</h2>
-<p>Another type is the <a href="../api/ImcFamosFile.FamosFileSingleValue.html">single value</a>:</p>
+<p>Another type is the <a class="xref" href="../api/ImcFamosFile.FamosFileSingleValue.html">single value</a>:</p>
 <pre><code class="lang-cs">group.SingleValues.Add(new FamosFileSingleValue&lt;double&gt;(&quot;GEN_TEMP_1_AVG&quot;, 40.25)
 {
     Comment = &quot;Generator temperature 1.&quot;,
@@ -97,7 +97,7 @@ var floatData = typedSingleValue.Data; // now we get data with correct type
 <h2 id="comments">Comments</h2>
 <p>As you can see, a single values takes a <code>Unit</code>, a <code>Comment</code> and a <code>Time</code>. You can add comments to many types like <code>groups</code>, <code>texts</code> and <code>channels</code>.</p>
 <h2 id="properties">Properties</h2>
-<p>Like comments, <a href="../api/ImcFamosFile.FamosFileProperty.html">properties</a> can be added to several types (<code>single values</code>, <code>groups</code>, <code>texts</code> and <code>channels</code>):</p>
+<p>Like comments, <a class="xref" href="../api/ImcFamosFile.FamosFileProperty.html">properties</a> can be added to several types (<code>single values</code>, <code>groups</code>, <code>texts</code> and <code>channels</code>):</p>
 <pre><code class="lang-cs">channel.PropertyInfo = new FamosFilePropertyInfo(new List&lt;FamosFileProperty&gt;()
 {
     new FamosFileProperty(&quot;Sensor Location&quot;, &quot;Below generator.&quot;, FamosFilePropertyType.String),
@@ -106,7 +106,7 @@ var floatData = typedSingleValue.Data; // now we get data with correct type
 </code></pre>
 <p>Although you can specify the property type, it is stored as string within the file. However, you cannot store a string like &quot;abc&quot; as <code>FamosFilePropertyType.Integer</code>, so the data type still has a meaning.</p>
 <h2 id="custom-keys">Custom keys</h2>
-<p><a href="../api/ImcFamosFile.FamosFileCustomKey.html">Custom keys</a> are a way to add additional binary information to the file:</p>
+<p><a class="xref" href="../api/ImcFamosFile.FamosFileCustomKey.html">Custom keys</a> are a way to add additional binary information to the file:</p>
 <pre><code class="lang-cs">var customKey = new FamosFileCustomKey(&quot;FileID&quot;, encoding.GetBytes(Guid.NewGuid().ToString()));
 
 famosFile.CustomKeys.Add(customKey);
@@ -119,7 +119,7 @@ famosFile.CustomKeys.Add(customKey);
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/description/6_other_types.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/how_to/6_other_types.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

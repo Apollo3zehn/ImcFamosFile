@@ -68,11 +68,11 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
 
-<p>The buffers in the <code>BufferInfo</code> and the <code>PackInfo</code> properties of a component define how the data is written to and read from a file. You can modify these values by yourself, but this implementation supports two default alignment modes out of the box as described <a href="../api/ImcFamosFile.FamosFileAlignmentMode.html">here</a>.</p>
+<p>The buffers in the <code>BufferInfo</code> and the <code>PackInfo</code> properties of a component define how the data is written to and read from a file. You can modify these values by yourself, but this implementation supports two default alignment modes out of the box as described <a class="xref" href="../api/ImcFamosFile.FamosFileAlignmentMode.html">here</a>.</p>
 <p>When you read a file using <code>FamosFile.Open(...)</code> it contains definitions for the buffers, pack infos and raw blocks so that everything is aligned properly.</p>
 <p>When you instead create a file by yourself via <code>var famosFile = new FamosFileHeader();</code>, the instance is empty. To reduce complexity, whenever you create a component, a default buffer and pack info, and - depending on the constructor - a default channel instance is created.</p>
 <p>But the default values of the buffers and pack infos are not correct as they all point to the same region in the file. Thus, when you call <code>famosFile.Save(...)</code>, a data alignment is performed.</p>
-<p>This ensures that all buffers point to unique regions in the file and - most importantly - it ensures that there is a <a href="../api/ImcFamosFile.FamosFileRawBlock.html">raw block</a> instance available to hold the actual data.</p>
+<p>This ensures that all buffers point to unique regions in the file and - most importantly - it ensures that there is a <a class="xref" href="../api/ImcFamosFile.FamosFileRawBlock.html">raw block</a> instance available to hold the actual data.</p>
 <p>To disable this default mode, you need to call the save method likes this: <code>famosFile.Save(..., autoAlign: false)</code>.</p>
 <p>In that case you are responsible to create and align the buffers correctly. The same is required when you want you data aligned in interlaced mode. In this mode, the data are written in a row-wise manner to a single large buffer which degrades performance when you want to read the data channel-wise but improves performance when you need to read the data of all channels at a specific time.</p>
 <p>The storage procedure for interlaced data is shown here:</p>
@@ -93,7 +93,7 @@ famosFile.Save(&quot;interlaced.dat&quot;, writer =&gt; Program.WriteFileContent
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/description/5_data_layout.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/how_to/5_data_layout.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

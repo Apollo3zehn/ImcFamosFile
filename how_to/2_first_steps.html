@@ -84,7 +84,7 @@ var groupData = famosFile.ReadGroup(group.Channels);
 var channel = famosFile.Channels.First();
 var singleData = famosFile.ReadSingle(channel);
 </code></pre>
-<p>In case of <code>famosFile.ReadAll()</code> or <code>famosFile.ReadGroup(...)</code>, you get a list of <a href="../api/ImcFamosFile.FamosFileChannelData.html">FamosFileChannelData</a> which contains data for each channel or component, respectively. These data are wrapped in an instance of type <a href="../api/ImcFamosFile.FamosFileComponentData.html">FamosFileComponentData</a> which lets you access the data as byte array:</p>
+<p>In case of <code>famosFile.ReadAll()</code> or <code>famosFile.ReadGroup(...)</code>, you get a list of <a class="xref" href="../api/ImcFamosFile.FamosFileChannelData.html">FamosFileChannelData</a> which contains data for each channel or component, respectively. These data are wrapped in an instance of type <a class="xref" href="../api/ImcFamosFile.FamosFileComponentData.html">FamosFileComponentData</a> which lets you access the data as byte array:</p>
 <pre><code class="lang-cs">var allData = famosFile.ReadAll();
 
 var componentData = allData[0].ComponentsData[0];
@@ -97,7 +97,7 @@ var byteData = componentData.RawData;
 <pre><code class="lang-cs">var dataType = componentData.PackInfo.DataType;
 </code></pre>
 <h1 id="writing-a-famos-file">Writing a FAMOS file</h1>
-<p>When you do not want to <em>read</em> files but to <em>write</em> them instead, you need to maked use of the <a href="../api/ImcFamosFile.FamosFileHeader.html">FamosFileHeader</a> class:</p>
+<p>When you do not want to <em>read</em> files but to <em>write</em> them instead, you need to maked use of the <a class="xref" href="../api/ImcFamosFile.FamosFileHeader.html">FamosFileHeader</a> class:</p>
 <pre><code class="lang-cs">var famosFile = new FamosFileHeader();
 </code></pre>
 <p>There is another difference between reading and writing:</p>
@@ -135,7 +135,7 @@ famosFile.Save(&lt;path to file&gt;, writer =&gt;
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/description/2_first_steps.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/how_to/2_first_steps.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

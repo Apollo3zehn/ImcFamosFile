@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="29.658079mm"
-   height="12.510975mm"
-   viewBox="0 0 29.65808 12.510975"
+   width="30.793976mm"
+   height="13.327375mm"
+   viewBox="0 0 30.793978 13.327375"
    version="1.1"
    id="svg3842"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
@@ -49,8 +49,8 @@
      inkscape:pageopacity="0.61568627"
      inkscape:pageshadow="2"
      inkscape:zoom="7.9195959"
-     inkscape:cx="39.62224"
-     inkscape:cy="42.019407"
+     inkscape:cx="41.642545"
+     inkscape:cy="13.310898"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -60,7 +60,7 @@
      fit-margin-bottom="0"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
-     inkscape:window-x="1912"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:pagecheckerboard="true"
@@ -82,20 +82,20 @@
      id="layer2"
      inkscape:label="Ebene 2"
      style="display:inline"
-     transform="translate(0.43430844,0.52592397)">
+     transform="translate(0.96884751,0.92003161)">
     <rect
        id="rect3894"
-       width="29.658079"
-       height="12.510975"
-       x="-0.43430844"
-       y="-0.52592397"
-       style="display:inline;fill:#ffffff;fill-opacity:1;stroke-width:0.3740294" />
+       width="30.793976"
+       height="13.327375"
+       x="-0.96884751"
+       y="-0.92003161"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke-width:0.3933633" />
   </g>
   <g
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-128.44756,-127.02773)"
+     transform="translate(-127.91301,-126.63361)"
      style="display:inline">
     <g
        transform="matrix(0.23624518,0,0,0.23624518,120.40727,108.09833)"

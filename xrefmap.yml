@@ -210,6 +210,19 @@ references:
   commentId: T:ImcFamosFile.FamosFileBase
   fullName: ImcFamosFile.FamosFileBase
   nameWithType: FamosFileBase
+- uid: ImcFamosFile.FamosFileBase.DeserializeFixedLength(System.Int32)
+  name: DeserializeFixedLength(Int32)
+  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFixedLength_System_Int32_
+  commentId: M:ImcFamosFile.FamosFileBase.DeserializeFixedLength(System.Int32)
+  fullName: ImcFamosFile.FamosFileBase.DeserializeFixedLength(System.Int32)
+  nameWithType: FamosFileBase.DeserializeFixedLength(Int32)
+- uid: ImcFamosFile.FamosFileBase.DeserializeFixedLength*
+  name: DeserializeFixedLength
+  href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_DeserializeFixedLength_
+  commentId: Overload:ImcFamosFile.FamosFileBase.DeserializeFixedLength
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileBase.DeserializeFixedLength
+  nameWithType: FamosFileBase.DeserializeFixedLength
 - uid: ImcFamosFile.FamosFileBase.Validate
   name: Validate()
   href: api/ImcFamosFile.FamosFileBase.html#ImcFamosFile_FamosFileBase_Validate
