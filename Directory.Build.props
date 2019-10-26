@@ -4,8 +4,7 @@
 
   <PropertyGroup>
     <PackageLicenseExpression Condition="$(PackageLicenseExpression) == ''">LGPL-3.0-only</PackageLicenseExpression>
-    <PackageProjectUrl Condition="$(PackageProjectUrl) == ''">https://apollo3zehn.github.io/ImcFamosFile/</PackageProjectUrl>
-    <RepositoryUrl Condition="$(RepositoryUrl) == ''">https://github.com/Apollo3zehn/ImcFamosFile/</RepositoryUrl>
+    <PackageProjectUrl Condition="$(PackageProjectUrl) == ''">https://github.com/Apollo3zehn/ImcFamosFile</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
