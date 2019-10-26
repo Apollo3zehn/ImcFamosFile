@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class FamosFile
    | ImcFamosFile ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -91,16 +91,10 @@
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FormatVersion">FamosFileHeader.FormatVersion</a>
-    </div>
-    <div>
-      <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Processor">FamosFileHeader.Processor</a>
-    </div>
-    <div>
       <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_LanguageInfo">FamosFileHeader.LanguageInfo</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_DataOriginInfo">FamosFileHeader.DataOriginInfo</a>
+      <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_OriginInfo">FamosFileHeader.OriginInfo</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Texts">FamosFileHeader.Texts</a>
@@ -124,13 +118,19 @@
       <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_RawBlocks">FamosFileHeader.RawBlocks</a>
     </div>
     <div>
-      <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Name">FamosFileHeader.Name</a>
-    </div>
-    <div>
       <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_AlignBuffers_ImcFamosFile_FamosFileRawBlock_ImcFamosFile_FamosFileAlignmentMode_">FamosFileHeader.AlignBuffers(FamosFileRawBlock, FamosFileAlignmentMode)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_AlignBuffers_ImcFamosFile_FamosFileRawBlock_ImcFamosFile_FamosFileAlignmentMode_System_Collections_Generic_List_ImcFamosFile_FamosFileComponent__">FamosFileHeader.AlignBuffers(FamosFileRawBlock, FamosFileAlignmentMode, List&lt;FamosFileComponent&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindFieldAndComponent_ImcFamosFile_FamosFileChannel_">FamosFileHeader.FindFieldAndComponent(FamosFileChannel)</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindField_ImcFamosFile_FamosFileChannel_">FamosFileHeader.FindField(FamosFileChannel)</a>
+    </div>
+    <div>
+      <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindComponent_ImcFamosFile_FamosFileChannel_">FamosFileHeader.FindComponent(FamosFileChannel)</a>
     </div>
     <div>
       <a class="xref" href="ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Validate">FamosFileHeader.Validate()</a>
@@ -282,6 +282,88 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFile_ReadAll.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFile.ReadAll%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFile.cs/#L200">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFile_ReadAll_" data-uid="ImcFamosFile.FamosFile.ReadAll*"></a>
+  <h4 id="ImcFamosFile_FamosFile_ReadAll" data-uid="ImcFamosFile.FamosFile.ReadAll">ReadAll()</h4>
+  <div class="markdown level1 summary"><p>Reads the full length datasets of all channels in the file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;FamosFileChannelData&gt; ReadAll()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileChannelData.html">FamosFileChannelData</a>&gt;</td>
+        <td><p>Returns a <a class="xref" href="ImcFamosFile.FamosFileChannelData.html">FamosFileChannelData</a> for each channel.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFile_ReadGroup_System_Collections_Generic_List_ImcFamosFile_FamosFileChannel__.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List%7BImcFamosFile.FamosFileChannel%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/Keys/FamosFile.cs/#L191">View Source</a>
+  </span>
+  <a id="ImcFamosFile_FamosFile_ReadGroup_" data-uid="ImcFamosFile.FamosFile.ReadGroup*"></a>
+  <h4 id="ImcFamosFile_FamosFile_ReadGroup_System_Collections_Generic_List_ImcFamosFile_FamosFileChannel__" data-uid="ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List{ImcFamosFile.FamosFileChannel})">ReadGroup(List&lt;FamosFileChannel&gt;)</h4>
+  <div class="markdown level1 summary"><p>Reads the full length datasets of all provided channels.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;FamosFileChannelData&gt; ReadGroup(List&lt;FamosFileChannel&gt; channels)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileChannel.html">FamosFileChannel</a>&gt;</td>
+        <td><span class="parametername">channels</span></td>
+        <td><p>The list of channels that the descibe the data to read</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="ImcFamosFile.FamosFileChannelData.html">FamosFileChannelData</a>&gt;</td>
+        <td><p>Returns a <a class="xref" href="ImcFamosFile.FamosFileChannelData.html">FamosFileChannelData</a> for each channel.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFile_ReadSingle_ImcFamosFile_FamosFileChannel_.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFile.ReadSingle(ImcFamosFile.FamosFileChannel)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -289,7 +371,7 @@
   </span>
   <a id="ImcFamosFile_FamosFile_ReadSingle_" data-uid="ImcFamosFile.FamosFile.ReadSingle*"></a>
   <h4 id="ImcFamosFile_FamosFile_ReadSingle_ImcFamosFile_FamosFileChannel_" data-uid="ImcFamosFile.FamosFile.ReadSingle(ImcFamosFile.FamosFileChannel)">ReadSingle(FamosFileChannel)</h4>
-  <div class="markdown level1 summary"><p>Reads the full dataset associated to the provided <code data-dev-comment-type="paramref" class="paramref">channel</code>.</p>
+  <div class="markdown level1 summary"><p>Reads the full length dataset associated to the provided <code data-dev-comment-type="paramref" class="paramref">channel</code>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>

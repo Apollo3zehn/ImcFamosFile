@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title> | ImcFamosFile </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content=" | ImcFamosFile ">
+    <meta name="generator" content="docfx 2.46.0.0">
+    
+    <link rel="shortcut icon" href="../images/icon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+
+<p>As described previously, a field is a collection of one or more components:</p>
+<pre><code class="lang-cs">famosFile.Fields.Add(new FamosFileField(FamosFileFieldType.MultipleYToSingleEquidistantTime, new List&lt;FamosFileComponent&gt;()
+{
+    /* generator data */
+    new FamosFileAnalogComponent(&quot;GEN_TEMP_1&quot;, FamosFileDataType.Float32, length),
+    new FamosFileAnalogComponent(&quot;GEN_TEMP_2&quot;, FamosFileDataType.Float32, length),
+    new FamosFileAnalogComponent(&quot;GEN_TEMP_3&quot;, FamosFileDataType.Int32, length),
+    new FamosFileAnalogComponent(&quot;GEN_TEMP_4&quot;, FamosFileDataType.Float32, length),
+
+    /* environmental data */
+    new FamosFileAnalogComponent(&quot;ENV_TEMP_1&quot;, FamosFileDataType.Int16, length)
+})
+{
+    TriggerTime = new FamosFileTriggerTime(DateTime.Now, FamosFileTimeMode.Normal),
+    XAxisScaling = new FamosFileXAxisScaling(deltaX: 0.01M) { X0 = 985.0M, Unit = &quot;Seconds&quot; }
+});
+</code></pre>
+<p>This code creates a field with five <code>y-axis</code> components with equidistant time. When you pass a name to a component, a channel is automatically created for you. You are free to drop the name and create a channel manually, assign it to the component and to a group (e.g. <code>famosFile.Groups[0].Channels</code>) or directly to the <code>famosFile.Channels</code> property.</p>
+<p>The <code>XAxisScaling</code> property specifies a sample rate of <code>100 Hz</code> because <code>deltaX</code> is set to <code>0.01</code> seconds. The <code>M</code> literal after a number is required because this library works with the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.decimal?view=netframework-4.8">decimal</a> type instead of <a href="https://docs.microsoft.com/en-us/dotnet/api/system.double?view=netframework-4.8">double</a> for parameters to meet the precision requirements.</p>
+<p>Additionally, the code assigns a <code>TriggerTime</code> to the field. This is helpful to set the global time, when the data of that field were recorded or created, respectively.</p>
+<p>Both, the <code>XAxisScaling</code> and the <code>TriggerTime</code> (and the <code>ZAxisScaling</code> which is not shown here), apply to all components that belong to this field. Only when a component redefines one of these properties, the subsequent components will inherit the redefined properties.</p>
+<p>Up to now, only the <code>x-axis</code> is scaled with a unit. However, it is also possible to create an analog component with calibration data:</p>
+<pre><code class="lang-cs">var calibrationInfo = new FamosFileCalibration()
+{
+    ApplyTransformation = true,
+    Factor = 10,
+    Offset = 7,
+    Unit = &quot;°C&quot;
+};
+
+var component = new FamosFileAnalogComponent(..., calibrationInfo),
+</code></pre>
+<p>When <code>ApplyTransformation</code> is set to <code>true</code>, the specified calibration factor and offset and applied in FAMOS. But this is only allowed for integer data!</p>
+<p>Besides this, you can always specify the <code>Unit</code> which is display in FAMOS when plotting the data and in the channel's properties.</p>
+<p>In general, it is important to understand that the imc FAMOS file format specification allows the storage of very simple datasets without any additional data, i.e. many properties are optional. You can easily find out which one are optional by looking at the type. This implementation uses the new <code>C# 8.0</code> feature <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-8.0/nullable-reference-types-specification">Nullable Reference Types</a>, which prohibits to assign <code>null</code> values to normal reference types. So, by default, every field and property must be assigned. Only when you encounter a field like</p>
+<pre><code class="lang-cs">FamosFileOriginInfo? FamosFileHeader.OriginInfo { get; set;}
+</code></pre>
+<p>you are free to not assign any value to it.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/description/3_fields.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 2019 Vincent Wilms
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

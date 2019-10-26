@@ -45,6 +45,35 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFile.Open
   nameWithType: FamosFile.Open
+- uid: ImcFamosFile.FamosFile.ReadAll
+  name: ReadAll()
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadAll
+  commentId: M:ImcFamosFile.FamosFile.ReadAll
+  fullName: ImcFamosFile.FamosFile.ReadAll()
+  nameWithType: FamosFile.ReadAll()
+- uid: ImcFamosFile.FamosFile.ReadAll*
+  name: ReadAll
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadAll_
+  commentId: Overload:ImcFamosFile.FamosFile.ReadAll
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFile.ReadAll
+  nameWithType: FamosFile.ReadAll
+- uid: ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List{ImcFamosFile.FamosFileChannel})
+  name: ReadGroup(List<FamosFileChannel>)
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadGroup_System_Collections_Generic_List_ImcFamosFile_FamosFileChannel__
+  commentId: M:ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List{ImcFamosFile.FamosFileChannel})
+  name.vb: ReadGroup(List(Of FamosFileChannel))
+  fullName: ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List<ImcFamosFile.FamosFileChannel>)
+  fullName.vb: ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List(Of ImcFamosFile.FamosFileChannel))
+  nameWithType: FamosFile.ReadGroup(List<FamosFileChannel>)
+  nameWithType.vb: FamosFile.ReadGroup(List(Of FamosFileChannel))
+- uid: ImcFamosFile.FamosFile.ReadGroup*
+  name: ReadGroup
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadGroup_
+  commentId: Overload:ImcFamosFile.FamosFile.ReadGroup
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFile.ReadGroup
+  nameWithType: FamosFile.ReadGroup
 - uid: ImcFamosFile.FamosFile.ReadSingle(ImcFamosFile.FamosFileChannel)
   name: ReadSingle(FamosFileChannel)
   href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadSingle_ImcFamosFile_FamosFileChannel_
@@ -1018,82 +1047,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileCustomKey.Value
   nameWithType: FamosFileCustomKey.Value
-- uid: ImcFamosFile.FamosFileDataOrigin
-  name: FamosFileDataOrigin
-  href: api/ImcFamosFile.FamosFileDataOrigin.html
-  commentId: T:ImcFamosFile.FamosFileDataOrigin
-  fullName: ImcFamosFile.FamosFileDataOrigin
-  nameWithType: FamosFileDataOrigin
-- uid: ImcFamosFile.FamosFileDataOrigin.Calculated
-  name: Calculated
-  href: api/ImcFamosFile.FamosFileDataOrigin.html#ImcFamosFile_FamosFileDataOrigin_Calculated
-  commentId: F:ImcFamosFile.FamosFileDataOrigin.Calculated
-  fullName: ImcFamosFile.FamosFileDataOrigin.Calculated
-  nameWithType: FamosFileDataOrigin.Calculated
-- uid: ImcFamosFile.FamosFileDataOrigin.Original
-  name: Original
-  href: api/ImcFamosFile.FamosFileDataOrigin.html#ImcFamosFile_FamosFileDataOrigin_Original
-  commentId: F:ImcFamosFile.FamosFileDataOrigin.Original
-  fullName: ImcFamosFile.FamosFileDataOrigin.Original
-  nameWithType: FamosFileDataOrigin.Original
-- uid: ImcFamosFile.FamosFileDataOriginInfo
-  name: FamosFileDataOriginInfo
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html
-  commentId: T:ImcFamosFile.FamosFileDataOriginInfo
-  fullName: ImcFamosFile.FamosFileDataOriginInfo
-  nameWithType: FamosFileDataOriginInfo
-- uid: ImcFamosFile.FamosFileDataOriginInfo.#ctor(System.String,ImcFamosFile.FamosFileDataOrigin)
-  name: FamosFileDataOriginInfo(String, FamosFileDataOrigin)
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo__ctor_System_String_ImcFamosFile_FamosFileDataOrigin_
-  commentId: M:ImcFamosFile.FamosFileDataOriginInfo.#ctor(System.String,ImcFamosFile.FamosFileDataOrigin)
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.FamosFileDataOriginInfo(System.String, ImcFamosFile.FamosFileDataOrigin)
-  nameWithType: FamosFileDataOriginInfo.FamosFileDataOriginInfo(String, FamosFileDataOrigin)
-- uid: ImcFamosFile.FamosFileDataOriginInfo.#ctor*
-  name: FamosFileDataOriginInfo
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo__ctor_
-  commentId: Overload:ImcFamosFile.FamosFileDataOriginInfo.#ctor
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.FamosFileDataOriginInfo
-  nameWithType: FamosFileDataOriginInfo.FamosFileDataOriginInfo
-- uid: ImcFamosFile.FamosFileDataOriginInfo.Comment
-  name: Comment
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_Comment
-  commentId: P:ImcFamosFile.FamosFileDataOriginInfo.Comment
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.Comment
-  nameWithType: FamosFileDataOriginInfo.Comment
-- uid: ImcFamosFile.FamosFileDataOriginInfo.Comment*
-  name: Comment
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_Comment_
-  commentId: Overload:ImcFamosFile.FamosFileDataOriginInfo.Comment
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.Comment
-  nameWithType: FamosFileDataOriginInfo.Comment
-- uid: ImcFamosFile.FamosFileDataOriginInfo.DataOrigin
-  name: DataOrigin
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_DataOrigin
-  commentId: P:ImcFamosFile.FamosFileDataOriginInfo.DataOrigin
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.DataOrigin
-  nameWithType: FamosFileDataOriginInfo.DataOrigin
-- uid: ImcFamosFile.FamosFileDataOriginInfo.DataOrigin*
-  name: DataOrigin
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_DataOrigin_
-  commentId: Overload:ImcFamosFile.FamosFileDataOriginInfo.DataOrigin
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.DataOrigin
-  nameWithType: FamosFileDataOriginInfo.DataOrigin
-- uid: ImcFamosFile.FamosFileDataOriginInfo.Name
-  name: Name
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_Name
-  commentId: P:ImcFamosFile.FamosFileDataOriginInfo.Name
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.Name
-  nameWithType: FamosFileDataOriginInfo.Name
-- uid: ImcFamosFile.FamosFileDataOriginInfo.Name*
-  name: Name
-  href: api/ImcFamosFile.FamosFileDataOriginInfo.html#ImcFamosFile_FamosFileDataOriginInfo_Name_
-  commentId: Overload:ImcFamosFile.FamosFileDataOriginInfo.Name
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileDataOriginInfo.Name
-  nameWithType: FamosFileDataOriginInfo.Name
 - uid: ImcFamosFile.FamosFileDataType
   name: FamosFileDataType
   href: api/ImcFamosFile.FamosFileDataType.html
@@ -1178,12 +1131,18 @@ references:
   commentId: T:ImcFamosFile.FamosFileDigitalComponent
   fullName: ImcFamosFile.FamosFileDigitalComponent
   nameWithType: FamosFileDigitalComponent
-- uid: ImcFamosFile.FamosFileDigitalComponent.#ctor(ImcFamosFile.FamosFileComponentType,System.Int32)
-  name: FamosFileDigitalComponent(FamosFileComponentType, Int32)
-  href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent__ctor_ImcFamosFile_FamosFileComponentType_System_Int32_
-  commentId: M:ImcFamosFile.FamosFileDigitalComponent.#ctor(ImcFamosFile.FamosFileComponentType,System.Int32)
-  fullName: ImcFamosFile.FamosFileDigitalComponent.FamosFileDigitalComponent(ImcFamosFile.FamosFileComponentType, System.Int32)
-  nameWithType: FamosFileDigitalComponent.FamosFileDigitalComponent(FamosFileComponentType, Int32)
+- uid: ImcFamosFile.FamosFileDigitalComponent.#ctor(System.Int32)
+  name: FamosFileDigitalComponent(Int32)
+  href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent__ctor_System_Int32_
+  commentId: M:ImcFamosFile.FamosFileDigitalComponent.#ctor(System.Int32)
+  fullName: ImcFamosFile.FamosFileDigitalComponent.FamosFileDigitalComponent(System.Int32)
+  nameWithType: FamosFileDigitalComponent.FamosFileDigitalComponent(Int32)
+- uid: ImcFamosFile.FamosFileDigitalComponent.#ctor(System.Int32,ImcFamosFile.FamosFileComponentType)
+  name: FamosFileDigitalComponent(Int32, FamosFileComponentType)
+  href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent__ctor_System_Int32_ImcFamosFile_FamosFileComponentType_
+  commentId: M:ImcFamosFile.FamosFileDigitalComponent.#ctor(System.Int32,ImcFamosFile.FamosFileComponentType)
+  fullName: ImcFamosFile.FamosFileDigitalComponent.FamosFileDigitalComponent(System.Int32, ImcFamosFile.FamosFileComponentType)
+  nameWithType: FamosFileDigitalComponent.FamosFileDigitalComponent(Int32, FamosFileComponentType)
 - uid: ImcFamosFile.FamosFileDigitalComponent.#ctor*
   name: FamosFileDigitalComponent
   href: api/ImcFamosFile.FamosFileDigitalComponent.html#ImcFamosFile_FamosFileDigitalComponent__ctor_
@@ -1945,19 +1904,6 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileHeader.CustomKeys
   nameWithType: FamosFileHeader.CustomKeys
-- uid: ImcFamosFile.FamosFileHeader.DataOriginInfo
-  name: DataOriginInfo
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_DataOriginInfo
-  commentId: P:ImcFamosFile.FamosFileHeader.DataOriginInfo
-  fullName: ImcFamosFile.FamosFileHeader.DataOriginInfo
-  nameWithType: FamosFileHeader.DataOriginInfo
-- uid: ImcFamosFile.FamosFileHeader.DataOriginInfo*
-  name: DataOriginInfo
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_DataOriginInfo_
-  commentId: Overload:ImcFamosFile.FamosFileHeader.DataOriginInfo
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileHeader.DataOriginInfo
-  nameWithType: FamosFileHeader.DataOriginInfo
 - uid: ImcFamosFile.FamosFileHeader.Fields
   name: Fields
   href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Fields
@@ -1971,19 +1917,45 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileHeader.Fields
   nameWithType: FamosFileHeader.Fields
-- uid: ImcFamosFile.FamosFileHeader.FormatVersion
-  name: FormatVersion
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FormatVersion
-  commentId: P:ImcFamosFile.FamosFileHeader.FormatVersion
-  fullName: ImcFamosFile.FamosFileHeader.FormatVersion
-  nameWithType: FamosFileHeader.FormatVersion
-- uid: ImcFamosFile.FamosFileHeader.FormatVersion*
-  name: FormatVersion
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FormatVersion_
-  commentId: Overload:ImcFamosFile.FamosFileHeader.FormatVersion
+- uid: ImcFamosFile.FamosFileHeader.FindComponent(ImcFamosFile.FamosFileChannel)
+  name: FindComponent(FamosFileChannel)
+  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindComponent_ImcFamosFile_FamosFileChannel_
+  commentId: M:ImcFamosFile.FamosFileHeader.FindComponent(ImcFamosFile.FamosFileChannel)
+  fullName: ImcFamosFile.FamosFileHeader.FindComponent(ImcFamosFile.FamosFileChannel)
+  nameWithType: FamosFileHeader.FindComponent(FamosFileChannel)
+- uid: ImcFamosFile.FamosFileHeader.FindComponent*
+  name: FindComponent
+  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindComponent_
+  commentId: Overload:ImcFamosFile.FamosFileHeader.FindComponent
   isSpec: "True"
-  fullName: ImcFamosFile.FamosFileHeader.FormatVersion
-  nameWithType: FamosFileHeader.FormatVersion
+  fullName: ImcFamosFile.FamosFileHeader.FindComponent
+  nameWithType: FamosFileHeader.FindComponent
+- uid: ImcFamosFile.FamosFileHeader.FindField(ImcFamosFile.FamosFileChannel)
+  name: FindField(FamosFileChannel)
+  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindField_ImcFamosFile_FamosFileChannel_
+  commentId: M:ImcFamosFile.FamosFileHeader.FindField(ImcFamosFile.FamosFileChannel)
+  fullName: ImcFamosFile.FamosFileHeader.FindField(ImcFamosFile.FamosFileChannel)
+  nameWithType: FamosFileHeader.FindField(FamosFileChannel)
+- uid: ImcFamosFile.FamosFileHeader.FindField*
+  name: FindField
+  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindField_
+  commentId: Overload:ImcFamosFile.FamosFileHeader.FindField
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileHeader.FindField
+  nameWithType: FamosFileHeader.FindField
+- uid: ImcFamosFile.FamosFileHeader.FindFieldAndComponent(ImcFamosFile.FamosFileChannel)
+  name: FindFieldAndComponent(FamosFileChannel)
+  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindFieldAndComponent_ImcFamosFile_FamosFileChannel_
+  commentId: M:ImcFamosFile.FamosFileHeader.FindFieldAndComponent(ImcFamosFile.FamosFileChannel)
+  fullName: ImcFamosFile.FamosFileHeader.FindFieldAndComponent(ImcFamosFile.FamosFileChannel)
+  nameWithType: FamosFileHeader.FindFieldAndComponent(FamosFileChannel)
+- uid: ImcFamosFile.FamosFileHeader.FindFieldAndComponent*
+  name: FindFieldAndComponent
+  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_FindFieldAndComponent_
+  commentId: Overload:ImcFamosFile.FamosFileHeader.FindFieldAndComponent
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileHeader.FindFieldAndComponent
+  nameWithType: FamosFileHeader.FindFieldAndComponent
 - uid: ImcFamosFile.FamosFileHeader.Groups
   name: Groups
   href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Groups
@@ -2010,32 +1982,19 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileHeader.LanguageInfo
   nameWithType: FamosFileHeader.LanguageInfo
-- uid: ImcFamosFile.FamosFileHeader.Name
-  name: Name
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Name
-  commentId: P:ImcFamosFile.FamosFileHeader.Name
-  fullName: ImcFamosFile.FamosFileHeader.Name
-  nameWithType: FamosFileHeader.Name
-- uid: ImcFamosFile.FamosFileHeader.Name*
-  name: Name
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Name_
-  commentId: Overload:ImcFamosFile.FamosFileHeader.Name
+- uid: ImcFamosFile.FamosFileHeader.OriginInfo
+  name: OriginInfo
+  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_OriginInfo
+  commentId: P:ImcFamosFile.FamosFileHeader.OriginInfo
+  fullName: ImcFamosFile.FamosFileHeader.OriginInfo
+  nameWithType: FamosFileHeader.OriginInfo
+- uid: ImcFamosFile.FamosFileHeader.OriginInfo*
+  name: OriginInfo
+  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_OriginInfo_
+  commentId: Overload:ImcFamosFile.FamosFileHeader.OriginInfo
   isSpec: "True"
-  fullName: ImcFamosFile.FamosFileHeader.Name
-  nameWithType: FamosFileHeader.Name
-- uid: ImcFamosFile.FamosFileHeader.Processor
-  name: Processor
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Processor
-  commentId: P:ImcFamosFile.FamosFileHeader.Processor
-  fullName: ImcFamosFile.FamosFileHeader.Processor
-  nameWithType: FamosFileHeader.Processor
-- uid: ImcFamosFile.FamosFileHeader.Processor*
-  name: Processor
-  href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_Processor_
-  commentId: Overload:ImcFamosFile.FamosFileHeader.Processor
-  isSpec: "True"
-  fullName: ImcFamosFile.FamosFileHeader.Processor
-  nameWithType: FamosFileHeader.Processor
+  fullName: ImcFamosFile.FamosFileHeader.OriginInfo
+  nameWithType: FamosFileHeader.OriginInfo
 - uid: ImcFamosFile.FamosFileHeader.RawBlocks
   name: RawBlocks
   href: api/ImcFamosFile.FamosFileHeader.html#ImcFamosFile_FamosFileHeader_RawBlocks
@@ -2372,6 +2331,82 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileLanguageInfo.Language
   nameWithType: FamosFileLanguageInfo.Language
+- uid: ImcFamosFile.FamosFileOrigin
+  name: FamosFileOrigin
+  href: api/ImcFamosFile.FamosFileOrigin.html
+  commentId: T:ImcFamosFile.FamosFileOrigin
+  fullName: ImcFamosFile.FamosFileOrigin
+  nameWithType: FamosFileOrigin
+- uid: ImcFamosFile.FamosFileOrigin.Calculated
+  name: Calculated
+  href: api/ImcFamosFile.FamosFileOrigin.html#ImcFamosFile_FamosFileOrigin_Calculated
+  commentId: F:ImcFamosFile.FamosFileOrigin.Calculated
+  fullName: ImcFamosFile.FamosFileOrigin.Calculated
+  nameWithType: FamosFileOrigin.Calculated
+- uid: ImcFamosFile.FamosFileOrigin.Original
+  name: Original
+  href: api/ImcFamosFile.FamosFileOrigin.html#ImcFamosFile_FamosFileOrigin_Original
+  commentId: F:ImcFamosFile.FamosFileOrigin.Original
+  fullName: ImcFamosFile.FamosFileOrigin.Original
+  nameWithType: FamosFileOrigin.Original
+- uid: ImcFamosFile.FamosFileOriginInfo
+  name: FamosFileOriginInfo
+  href: api/ImcFamosFile.FamosFileOriginInfo.html
+  commentId: T:ImcFamosFile.FamosFileOriginInfo
+  fullName: ImcFamosFile.FamosFileOriginInfo
+  nameWithType: FamosFileOriginInfo
+- uid: ImcFamosFile.FamosFileOriginInfo.#ctor(System.String,ImcFamosFile.FamosFileOrigin)
+  name: FamosFileOriginInfo(String, FamosFileOrigin)
+  href: api/ImcFamosFile.FamosFileOriginInfo.html#ImcFamosFile_FamosFileOriginInfo__ctor_System_String_ImcFamosFile_FamosFileOrigin_
+  commentId: M:ImcFamosFile.FamosFileOriginInfo.#ctor(System.String,ImcFamosFile.FamosFileOrigin)
+  fullName: ImcFamosFile.FamosFileOriginInfo.FamosFileOriginInfo(System.String, ImcFamosFile.FamosFileOrigin)
+  nameWithType: FamosFileOriginInfo.FamosFileOriginInfo(String, FamosFileOrigin)
+- uid: ImcFamosFile.FamosFileOriginInfo.#ctor*
+  name: FamosFileOriginInfo
+  href: api/ImcFamosFile.FamosFileOriginInfo.html#ImcFamosFile_FamosFileOriginInfo__ctor_
+  commentId: Overload:ImcFamosFile.FamosFileOriginInfo.#ctor
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileOriginInfo.FamosFileOriginInfo
+  nameWithType: FamosFileOriginInfo.FamosFileOriginInfo
+- uid: ImcFamosFile.FamosFileOriginInfo.Comment
+  name: Comment
+  href: api/ImcFamosFile.FamosFileOriginInfo.html#ImcFamosFile_FamosFileOriginInfo_Comment
+  commentId: P:ImcFamosFile.FamosFileOriginInfo.Comment
+  fullName: ImcFamosFile.FamosFileOriginInfo.Comment
+  nameWithType: FamosFileOriginInfo.Comment
+- uid: ImcFamosFile.FamosFileOriginInfo.Comment*
+  name: Comment
+  href: api/ImcFamosFile.FamosFileOriginInfo.html#ImcFamosFile_FamosFileOriginInfo_Comment_
+  commentId: Overload:ImcFamosFile.FamosFileOriginInfo.Comment
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileOriginInfo.Comment
+  nameWithType: FamosFileOriginInfo.Comment
+- uid: ImcFamosFile.FamosFileOriginInfo.Name
+  name: Name
+  href: api/ImcFamosFile.FamosFileOriginInfo.html#ImcFamosFile_FamosFileOriginInfo_Name
+  commentId: P:ImcFamosFile.FamosFileOriginInfo.Name
+  fullName: ImcFamosFile.FamosFileOriginInfo.Name
+  nameWithType: FamosFileOriginInfo.Name
+- uid: ImcFamosFile.FamosFileOriginInfo.Name*
+  name: Name
+  href: api/ImcFamosFile.FamosFileOriginInfo.html#ImcFamosFile_FamosFileOriginInfo_Name_
+  commentId: Overload:ImcFamosFile.FamosFileOriginInfo.Name
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileOriginInfo.Name
+  nameWithType: FamosFileOriginInfo.Name
+- uid: ImcFamosFile.FamosFileOriginInfo.Origin
+  name: Origin
+  href: api/ImcFamosFile.FamosFileOriginInfo.html#ImcFamosFile_FamosFileOriginInfo_Origin
+  commentId: P:ImcFamosFile.FamosFileOriginInfo.Origin
+  fullName: ImcFamosFile.FamosFileOriginInfo.Origin
+  nameWithType: FamosFileOriginInfo.Origin
+- uid: ImcFamosFile.FamosFileOriginInfo.Origin*
+  name: Origin
+  href: api/ImcFamosFile.FamosFileOriginInfo.html#ImcFamosFile_FamosFileOriginInfo_Origin_
+  commentId: Overload:ImcFamosFile.FamosFileOriginInfo.Origin
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileOriginInfo.Origin
+  nameWithType: FamosFileOriginInfo.Origin
 - uid: ImcFamosFile.FamosFilePackInfo
   name: FamosFilePackInfo
   href: api/ImcFamosFile.FamosFilePackInfo.html
@@ -2517,6 +2552,19 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFilePackInfo.SignificantBits
   nameWithType: FamosFilePackInfo.SignificantBits
+- uid: ImcFamosFile.FamosFilePackInfo.Validate
+  name: Validate()
+  href: api/ImcFamosFile.FamosFilePackInfo.html#ImcFamosFile_FamosFilePackInfo_Validate
+  commentId: M:ImcFamosFile.FamosFilePackInfo.Validate
+  fullName: ImcFamosFile.FamosFilePackInfo.Validate()
+  nameWithType: FamosFilePackInfo.Validate()
+- uid: ImcFamosFile.FamosFilePackInfo.Validate*
+  name: Validate
+  href: api/ImcFamosFile.FamosFilePackInfo.html#ImcFamosFile_FamosFilePackInfo_Validate_
+  commentId: Overload:ImcFamosFile.FamosFilePackInfo.Validate
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFilePackInfo.Validate
+  nameWithType: FamosFilePackInfo.Validate
 - uid: ImcFamosFile.FamosFilePretriggerUsage
   name: FamosFilePretriggerUsage
   href: api/ImcFamosFile.FamosFilePretriggerUsage.html
@@ -2884,6 +2932,49 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileSingleValue.Unit
   nameWithType: FamosFileSingleValue.Unit
+- uid: ImcFamosFile.FamosFileSingleValue`1
+  name: FamosFileSingleValue<T>
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html
+  commentId: T:ImcFamosFile.FamosFileSingleValue`1
+  name.vb: FamosFileSingleValue(Of T)
+  fullName: ImcFamosFile.FamosFileSingleValue<T>
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T)
+  nameWithType: FamosFileSingleValue<T>
+  nameWithType.vb: FamosFileSingleValue(Of T)
+- uid: ImcFamosFile.FamosFileSingleValue`1.#ctor(System.String,`0)
+  name: FamosFileSingleValue(String, T)
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html#ImcFamosFile_FamosFileSingleValue_1__ctor_System_String__0_
+  commentId: M:ImcFamosFile.FamosFileSingleValue`1.#ctor(System.String,`0)
+  fullName: ImcFamosFile.FamosFileSingleValue<T>.FamosFileSingleValue(System.String, T)
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T).FamosFileSingleValue(System.String, T)
+  nameWithType: FamosFileSingleValue<T>.FamosFileSingleValue(String, T)
+  nameWithType.vb: FamosFileSingleValue(Of T).FamosFileSingleValue(String, T)
+- uid: ImcFamosFile.FamosFileSingleValue`1.#ctor*
+  name: FamosFileSingleValue
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html#ImcFamosFile_FamosFileSingleValue_1__ctor_
+  commentId: Overload:ImcFamosFile.FamosFileSingleValue`1.#ctor
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileSingleValue<T>.FamosFileSingleValue
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T).FamosFileSingleValue
+  nameWithType: FamosFileSingleValue<T>.FamosFileSingleValue
+  nameWithType.vb: FamosFileSingleValue(Of T).FamosFileSingleValue
+- uid: ImcFamosFile.FamosFileSingleValue`1.Value
+  name: Value
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html#ImcFamosFile_FamosFileSingleValue_1_Value
+  commentId: P:ImcFamosFile.FamosFileSingleValue`1.Value
+  fullName: ImcFamosFile.FamosFileSingleValue<T>.Value
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T).Value
+  nameWithType: FamosFileSingleValue<T>.Value
+  nameWithType.vb: FamosFileSingleValue(Of T).Value
+- uid: ImcFamosFile.FamosFileSingleValue`1.Value*
+  name: Value
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html#ImcFamosFile_FamosFileSingleValue_1_Value_
+  commentId: Overload:ImcFamosFile.FamosFileSingleValue`1.Value
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileSingleValue<T>.Value
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T).Value
+  nameWithType: FamosFileSingleValue<T>.Value
+  nameWithType.vb: FamosFileSingleValue(Of T).Value
 - uid: ImcFamosFile.FamosFileText
   name: FamosFileText
   href: api/ImcFamosFile.FamosFileText.html

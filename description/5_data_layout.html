@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum FamosFileAlignmentMode
-   | ImcFamosFile </title>
+    <title> | ImcFamosFile </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum FamosFileAlignmentMode
-   | ImcFamosFile ">
+    <meta name="title" content=" | ImcFamosFile ">
     <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
@@ -68,42 +66,25 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ImcFamosFile.FamosFileAlignmentMode">
-  
-  
-  <h1 id="ImcFamosFile_FamosFileAlignmentMode" data-uid="ImcFamosFile.FamosFileAlignmentMode" class="text-break">Enum FamosFileAlignmentMode
-  </h1>
-  <div class="markdown level0 summary"><p>Determines the buffer and pack info alignment mode.</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ImcFamosFile.html">ImcFamosFile</a></h6>
-  <h6><strong>Assembly</strong>: ImcFamosFile.dll</h6>
-  <h5 id="ImcFamosFile_FamosFileAlignmentMode_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum FamosFileAlignmentMode</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    <thead>
-    <tbody>
-      <tr>
-        <td id="ImcFamosFile_FamosFileAlignmentMode_Continuous">Continuous</td>
-        <td><p>Assigns each buffer to a continuous region in the raw data block. This is the default.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ImcFamosFile_FamosFileAlignmentMode_Interlaced">Interlaced</td>
-        <td><p>Sorts the data like in an Excel sheet, i.e. row-wise and creates a single big buffer and raw data block for all data.</p>
-</td>
-      </tr>
-    </tbody>
-  </thead></thead></table>
+            <article class="content wrap" id="_content" data-uid="">
+
+<p>The buffers in the <code>BufferInfo</code> and the <code>PackInfo</code> properties of a component define how the data is written to and read from a file. You can modify these values by yourself, but this implementation supports two default alignment modes out of the box as described <a href="../api/ImcFamosFile.FamosFileAlignmentMode.html">here</a>.</p>
+<p>When you read a file using <code>FamosFile.Open(...)</code> it contains definitions for the buffers, pack infos and raw blocks so that everything is aligned properly.</p>
+<p>When you instead create a file by yourself via <code>var famosFile = new FamosFileHeader();</code>, the instance is empty. To reduce complexity, whenever you create a component, a default buffer and pack info, and - depending on the constructor - a default channel instance is created.</p>
+<p>But the default values of the buffers and pack infos are not correct as they all point to the same region in the file. Thus, when you call <code>famosFile.Save(...)</code>, a data alignment is performed.</p>
+<p>This ensures that all buffers point to unique regions in the file and - most importantly - it ensures that there is a <a href="../api/ImcFamosFile.FamosFileRawBlock.html">raw block</a> instance available to hold the actual data.</p>
+<p>To disable this default mode, you need to call the save method likes this: <code>famosFile.Save(..., autoAlign: false)</code>.</p>
+<p>In that case you are responsible to create and align the buffers correctly. The same is required when you want you data aligned in interlaced mode. In this mode, the data are written in a row-wise manner to a single large buffer which degrades performance when you want to read the data channel-wise but improves performance when you need to read the data of all channels at a specific time.</p>
+<p>The storage procedure for interlaced data is shown here:</p>
+<pre><code class="lang-cs">/* A raw block must be added manually when option 'autoAlign: false'. is set. */
+famosFile.RawBlocks.Add(new FamosFileRawBlock());
+
+/* Align buffers (lengths and offsets) to get an interlaced layout.*/
+famosFile.AlignBuffers(famosFile.RawBlocks.First(), FamosFileAlignmentMode.Interlaced);
+
+/* Save file with option 'autoAlign: false'. */
+famosFile.Save(&quot;interlaced.dat&quot;, writer =&gt; Program.WriteFileContent(famosFile, writer), autoAlign: false);
+</code></pre>
 </article>
           </div>
           
@@ -112,10 +93,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileAlignmentMode.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileAlignmentMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/FamosFileAlignmentMode.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/description/5_data_layout.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

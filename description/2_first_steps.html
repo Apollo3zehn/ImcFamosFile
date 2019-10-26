@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Reading a FAMOS file | ImcFamosFile </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Reading a FAMOS file | ImcFamosFile ">
+    <meta name="generator" content="docfx 2.46.0.0">
+    
+    <link rel="shortcut icon" href="../images/icon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="reading-a-famos-file">Reading a FAMOS file</h1>
+
+<p>As shown on the previous page, you can open a file like this:</p>
+<pre><code class="lang-cs">var famosFile = FamosFile.Open(&quot;&lt;path to file&gt;&quot;);
+</code></pre>
+<p>The content can then be read by one of the following methods:</p>
+<pre><code class="lang-cs">// read all channels from file
+var allData = famosFile.ReadAll();
+
+// read only a subset of the available channels
+var group = famosFile.Groups.First();
+var groupData = famosFile.ReadGroup(group.Channels);
+
+// read a single channel only
+var channel = famosFile.Channels.First();
+var singleData = famosFile.ReadSingle(channel);
+</code></pre>
+<p>In case of <code>famosFile.ReadAll()</code> or <code>famosFile.ReadGroup(...)</code>, you get a list of <a href="../api/ImcFamosFile.FamosFileChannelData.html">FamosFileChannelData</a> which contains data for each channel or component, respectively. These data are wrapped in an instance of type <a href="../api/ImcFamosFile.FamosFileComponentData.html">FamosFileComponentData</a> which lets you access the data as byte array:</p>
+<pre><code class="lang-cs">var allData = famosFile.ReadAll();
+
+var componentData = allData[0].ComponentsData[0];
+var byteData = componentData.RawData;
+</code></pre>
+<p>If you like to work with the actual compoent's data type (e.g. <code>float32</code>), you can simply cast it to the correct type via:</p>
+<pre><code class="lang-cs">var floatData = (FamosFileComponentData&lt;float&gt;)componentData.Data;
+</code></pre>
+<p>If the data type is unknown, you can quickly check it using the pack info:</p>
+<pre><code class="lang-cs">var dataType = componentData.PackInfo.DataType;
+</code></pre>
+<h1 id="writing-a-famos-file">Writing a FAMOS file</h1>
+<p>When you do not want to <em>read</em> files but to <em>write</em> them instead, you need to maked use of the <a href="../api/ImcFamosFile.FamosFileHeader.html">FamosFileHeader</a> class:</p>
+<pre><code class="lang-cs">var famosFile = new FamosFileHeader();
+</code></pre>
+<p>There is another difference between reading and writing:</p>
+<p>When <em>reading</em> data, you pass one or more <code>channels</code> to the <code>read</code> methods. The returned data structure not only contains the channel's component data (<code>y-axis</code>) but also the related <code>x-axis</code> data, which is another component <em>without</em> a channel, as described on the previous page. So the related components are determined <em>automagically</em>.</p>
+<p>When <em>writing</em> data, you now pass a <code>component</code> to the <code>write</code> method. This is required because not every component has a channel assigned and thus all the component' datasets can be written individually. If the API were designed to accept <code>channels</code> instead, the user would be required to provide data for both axes, <code>x-axis</code> and <code>y-axis</code>, which would be fine. But what if you have no <code>x-axis</code>? And what if you have more than on <code>y-axis</code>? In that case, the <code>x-axis</code> data would be written multiple times, which is not desirable.</p>
+<p>In conclusion, to write data, you need to pass the components and their related data individually, which is shown in the example below.</p>
+<p>With the freshly created <code>famosFile</code>, it is time to add your fields and components and group your channels, single values and texts and store everything to disk.</p>
+<pre><code class="lang-cs">/* data field with monotonous increasing time */
+famosFile.Fields.Add(new FamosFileField(FamosFileFieldType.MultipleYToSingleMonotonousTime, new List&lt;FamosFileComponent&gt;()
+{
+    /* hydraulic data */
+    new FamosFileAnalogComponent(&quot;HYD_TEMP_1&quot;, FamosFileDataType.Float32, length: 10),
+    new FamosFileAnalogComponent(&quot;HYD_TEMP_2&quot;, FamosFileDataType.Float32, length: 10),
+
+    /* time-axis */
+    new FamosFileAnalogComponent(FamosFileDataType.UInt32, length, FamosFileComponentType.Secondary),
+});
+
+famosFile.Save(&lt;path to file&gt;, writer =&gt;
+{
+    var field = famosFile.Fields[0];
+
+    famosFile.WriteSingle(writer, field.Component[0], &lt;your y-axis 1 data&gt;);
+    famosFile.WriteSingle(writer, field.Component[1], &lt;your y-axis 2 data&gt;);
+    famosFile.WriteSingle(writer, field.Component[2], &lt;your x-axis data&gt;);
+});
+</code></pre>
+<p>The <code>save</code> method accepts an anonymous lambda method because it first writes the header data and when this is done is requests the user to provide the actual data which must match the length you specified during the component defition (<code>length: 10</code>).</p>
+<p>See the following pages on how to create a more complex file.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/description/2_first_steps.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 2019 Vincent Wilms
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

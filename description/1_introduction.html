@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Introduction | ImcFamosFile </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Introduction | ImcFamosFile ">
+    <meta name="generator" content="docfx 2.46.0.0">
+    
+    <link rel="shortcut icon" href="../images/icon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="introduction">Introduction</h1>
+
+<p>This package allows to read and write imc FAMOS files of version 2. Simply start a new .NET Core project with the <code>ImcFamosFile</code> package installed:</p>
+<pre><code class="lang-powershell">PS&gt; dotnet new console
+PS&gt; dotnet add package ImcFamosFile -v 1.0.0-preview.1.final
+</code></pre>
+<p>Then, open the file:</p>
+<pre><code class="lang-cs">var famosFile = FamosFile.Open(&quot;&lt;path to file&gt;&quot;);
+</code></pre>
+<p>The returning type exposes the following <a href="../api/ImcFamosFile.FamosFileHeader.html#properties">properties</a>:</p>
+<ul>
+<li><p><code>Channels[]</code> - A <a href="../api/ImcFamosFile.FamosFileChannel.html">channel</a> is a named <a href="../api/ImcFamosFile.FamosFileComponent.html">component</a>. A component can be associated to more than one channel, i.e. there may be one channel per bit in a two byte (16-bit) component. Or you can use two channels for a single component but assign them to different groups.</p>
+</li>
+<li><p><code>CustomKeys[]</code> - Can be used to store additional <a href="../api/ImcFamosFile.FamosFileCustomKey.html">custom data</a> in the file.</p>
+</li>
+<li><p><code>OriginInfo</code> - Contains information about the data <a href="../api/ImcFamosFile.FamosFileDataOriginInfo.html">origin</a>.</p>
+</li>
+<li><p><code>Fields[]</code> - A <a href="../api/ImcFamosFile.FamosFileField.html">field</a> is a collection of components, i.e. one component represents the <code>y-axis</code> data and a second component contains the associated <code>x-axis</code> (e.g. time data). The exact field layout depends on the <a href="../api/ImcFamosFile.FamosFileFieldType.html">field type</a>.</p>
+</li>
+<li><p><code>Groups[]</code> - <a href="../api/api/ImcFamosFile.FamosFileGroup.html">Groups</a> are used to combine related channels, single values and texts.</p>
+</li>
+<li><p><code>LanguageInfo</code> - The language info is important to correctly interpret special characters like <code>°C</code>. The FAMOS file format v2 does not support UTF-8 coding but instead requires you to specifiy a code page. The default code page is the commonly used <a href="https://en.wikipedia.org/wiki/Windows-1252">Windows-1252</a>.</p>
+</li>
+<li><p><code>RawBlocks</code> - A <a href="../api/ImcFamosFile.FamosFileRawBlock.html">raw block</a> contains the raw data. A file can contain more than on raw block, but typically a single one is sufficient.</p>
+</li>
+<li><p><code>SingleValues</code> - A <a href="../api/ImcFamosFile.FamosFileSingleValue.html">single value</a> is - as the name suggests - a named single value like the standard deviation of a channel.</p>
+</li>
+<li><p><code>Texts</code> - A <a href="../api/ImcFamosFile.FamosFileText.html">text</a> can contain a single named text or a list of multiple texts</p>
+</li>
+</ul>
+<p>There are many more types and properties (most of them belong to the components), which are set to meaningful default values. You can manually edit all properties when creating FAMOS files but their meaning should be understood first. A format description is provided by imc itself in their document <a href="https://www.imc-tm.com/download-center/product-downloads/imc-shared-components/">Manual for imc Shared Components</a>. Unfortunately, the format description is incomplete.</p>
+<p>In general, a FAMOS file contains a list of fields, which combines one or more components. When the <a href="../api/ImcFamosFile.FamosFileFieldType.html">field type</a> is <code>FamosFileFieldType.MultipleYToSingleEquidistantTime</code>, a field may consist of multiple <code>y-axis</code> datasets without any specific <code>x-axis</code> data. This is the standard for equidistant time data, where it is sufficient to document the start time and sample rate. In this case, the field contains multiple components of type <code>FamosFileComponentType.Primary</code>.</p>
+<p>When the time data are not equidistant (i.e. <code>FamosFileFieldType.MultipleYToSingleMonotonousTime</code>), the field contains multiple <code>y-axis</code> datasets (<code>FamosFileComponentType.Primary</code>) and a single <code>x-axis</code> dataset (<code>FamosFileComponentType.Secondary</code>).</p>
+<p>There are more field types to represent other types of data like characteristic curves and complex data as described <a href="../api/ImcFamosFile.FamosFileFieldType.html">here</a>.</p>
+<p>So, on top level, there are field which contains components. These components in turn may be associated to one or more channels. Only channels are display in FAMOS.</p>
+<p>When you have a field to represent two <code>y-axis</code> datasets and a single time axis <code>x-axis</code>, the field consists of three components. Typically you would like to display the two <code>y-axis</code> components in FAMOS. In that case, create two channels and assign them to the <code>y-axis</code> components. Famos will automatically detect that the <code>x-axis</code> belongs to the channels.</p>
+<p>You can use <a href="../api/api/ImcFamosFile.FamosFileGroup.html">groups</a> to group related channels together. When a channel is not part to any group, it is display on the top level within FAMOS.</p>
+<p>If you assign two channels to a single component, it will be displayed twice in FAMOS, which makes no sense in the first place. But if you assign both channels to different groups, you are able to link the data more than once to structure your data.</p>
+<p>There are many more types to describe the components in detail and type to describe the whole dataset.</p>
+<p>Two of them are <a href="../api/ImcFamosFile.FamosFileText.html">texts</a> and <a href="../api/ImcFamosFile.FamosFileSingleValue.html">single values</a>. Texts are helpful to add a short description to a group or on top level. Single values typically contain statistical data like mean and standard deviation but may also contain simple parameters.</p>
+<p>The following pages describe how to interact with ImcFamosFile.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/description/1_introduction.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 2019 Vincent Wilms
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

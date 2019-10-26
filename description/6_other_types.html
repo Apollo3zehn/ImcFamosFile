@@ -5,12 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum FamosFileDataOrigin
-   | ImcFamosFile </title>
+    <title>Texts | ImcFamosFile </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum FamosFileDataOrigin
-   | ImcFamosFile ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="title" content="Texts | ImcFamosFile ">
+    <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -68,42 +66,51 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ImcFamosFile.FamosFileDataOrigin">
-  
-  
-  <h1 id="ImcFamosFile_FamosFileDataOrigin" data-uid="ImcFamosFile.FamosFileDataOrigin" class="text-break">Enum FamosFileDataOrigin
-  </h1>
-  <div class="markdown level0 summary"><p>Determines the data origin.</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="ImcFamosFile.html">ImcFamosFile</a></h6>
-  <h6><strong>Assembly</strong>: ImcFamosFile.dll</h6>
-  <h5 id="ImcFamosFile_FamosFileDataOrigin_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum FamosFileDataOrigin</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    <thead>
-    <tbody>
-      <tr>
-        <td id="ImcFamosFile_FamosFileDataOrigin_Calculated">Calculated</td>
-        <td><p>The data are calculated.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="ImcFamosFile_FamosFileDataOrigin_Original">Original</td>
-        <td><p>The data are measured and unmodified.</p>
-</td>
-      </tr>
-    </tbody>
-  </thead></thead></table>
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="texts">Texts</h2>
+
+<p>There are more types to fully describe a dataset. First, there is a <a href="../api/ImcFamosFile.FamosFileText.html">named text</a>:</p>
+<pre><code class="lang-cs">var group = new FamosFileGroup(&quot;Generator&quot;);
+group.Texts.Add(new FamosFileText(&quot;Type&quot;, &quot;E-126&quot;));
+</code></pre>
+<p>A named text can also contain more than one message:</p>
+<pre><code class="lang-cs">var text = new FamosFileText(&quot;Random list of texts.&quot;, new List&lt;string&gt;() { &quot;Text 1.&quot;, &quot;Text 2?&quot;, &quot;Text 3!&quot; });
+
+group.Texts.Add(text);
+</code></pre>
+<h2 id="single-values">Single Values</h2>
+<p>Another type is the <a href="../api/ImcFamosFile.FamosFileSingleValue.html">single value</a>:</p>
+<pre><code class="lang-cs">group.SingleValues.Add(new FamosFileSingleValue&lt;double&gt;(&quot;GEN_TEMP_1_AVG&quot;, 40.25)
+{
+    Comment = &quot;Generator temperature 1.&quot;,
+    Unit = &quot;°C&quot;,
+    Time = DateTime.Now,
+});
+</code></pre>
+<p>You can access the data of a single value by casting it to the correct type:</p>
+<pre><code class="lang-cs">var singleValue = famosFile.SingleValues.First();
+var bytes = singleValue.RawData // only bytes available
+
+var typedSingleValue = (FamosFileSingleValue&lt;float&gt;)singleValue;
+var floatData = typedSingleValue.Data; // now we get data with correct type
+</code></pre>
+<h2 id="comments">Comments</h2>
+<p>As you can see, a single values takes a <code>Unit</code>, a <code>Comment</code> and a <code>Time</code>. You can add comments to many types like <code>groups</code>, <code>texts</code> and <code>channels</code>.</p>
+<h2 id="properties">Properties</h2>
+<p>Like comments, <a href="../api/ImcFamosFile.FamosFileProperty.html">properties</a> can be added to several types (<code>single values</code>, <code>groups</code>, <code>texts</code> and <code>channels</code>):</p>
+<pre><code class="lang-cs">channel.PropertyInfo = new FamosFilePropertyInfo(new List&lt;FamosFileProperty&gt;()
+{
+    new FamosFileProperty(&quot;Sensor Location&quot;, &quot;Below generator.&quot;, FamosFilePropertyType.String),
+    new FamosFileProperty(&quot;Sensor Creation Date&quot;, &quot;07/15&quot;, FamosFilePropertyType.String)
+});
+</code></pre>
+<p>Although you can specify the property type, it is stored as string within the file. However, you cannot store a string like &quot;abc&quot; as <code>FamosFilePropertyType.Integer</code>, so the data type still has a meaning.</p>
+<h2 id="custom-keys">Custom keys</h2>
+<p><a href="../api/ImcFamosFile.FamosFileCustomKey.html">Custom keys</a> are a way to add additional binary information to the file:</p>
+<pre><code class="lang-cs">var customKey = new FamosFileCustomKey(&quot;FileID&quot;, encoding.GetBytes(Guid.NewGuid().ToString()));
+
+famosFile.CustomKeys.Add(customKey);
+</code></pre>
 </article>
           </div>
           
@@ -112,10 +119,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/new/master/apiSpec/new?filename=ImcFamosFile_FamosFileDataOrigin.md&amp;value=---%0Auid%3A%20ImcFamosFile.FamosFileDataOrigin%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/src/ImcFamosFile/FamosFileDataOrigin.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/description/6_other_types.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
