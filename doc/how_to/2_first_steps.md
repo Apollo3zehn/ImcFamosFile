@@ -30,7 +30,7 @@ var componentData = allData[0].ComponentsData[0];
 var byteData = componentData.RawData;
 ```
 
-If you like to work with the actual compoent's data type (e.g. `float32`), you can simply cast it to the correct type via:
+If you like to work with the actual component's data type (e.g. `float32`), you can simply cast it to the correct type via:
 
 ```cs
 var floatData = (FamosFileComponentData<float>)componentData.Data;
@@ -53,7 +53,7 @@ There is another difference between reading and writing:
 
 When _reading_ data, you pass one or more `channels` to the `read` methods. The returned data structure not only contains the channel's component data (`y-axis`) but also the related `x-axis` data, which is another component _without_ a channel, as described on the previous page. So the related components are determined _automagically_.
 
-When _writing_ data, you now pass a `component` to the `write` method. This is required because not every component has a channel assigned and thus all the component' datasets can be written individually. If the API were designed to accept `channels` instead, the user would be required to provide data for both axes, `x-axis` and `y-axis`, which would be fine. But what if you have no `x-axis`? And what if you have more than on `y-axis`? In that case, the `x-axis` data would be written multiple times, which is not desirable.
+When _writing_ data, you now pass a `component` to the `write` method. This is required because not every component has a channel assigned and thus all the component' datasets can be written individually. If the API were designed to accept `channels` instead, the user would be required to provide data for both axes, `x-axis` and `y-axis`, which would be fine. But what if you have no `x-axis`? And what if you have more than one `y-axis`? In that case, the `x-axis` data would be written multiple times, which is not desirable.
 
 In conclusion, to write data, you need to pass the components and their related data individually, which is shown in the example below.
 
@@ -81,6 +81,6 @@ famosFile.Save(<path to file>, writer =>
 });
 ```
 
-The `save` method accepts an anonymous lambda method because it first writes the header data and when this is done is requests the user to provide the actual data which must match the length you specified during the component defition (`length: 10`).
+The `save` method accepts an anonymous lambda method because it first writes the header data and when this is done is requests the user to provide the actual data which must match the length you specified during the component definition (`length: 10`).
 
 See the following pages on how to create a more complex file.

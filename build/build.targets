@@ -22,7 +22,6 @@
       <AssemblyVersion>$(Major).0.0.0</AssemblyVersion>
       <FileVersion>$(Major).$(Minor).$(Revision).0</FileVersion>
       <Product>ImcFamosFile</Product>
-      <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
       <Version>$(Major).$(Minor).$(Revision)</Version>
 
     </PropertyGroup>

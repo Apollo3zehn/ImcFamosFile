@@ -10,7 +10,7 @@ Below is a screenshot of FAMOS after opening the [sample](https://github.com/Apo
 
 ImcFamosFile is capable of reading single channels or all data at once and provide it as byte array or optionally casted to the actual data type using the new .NET Core [Span<T>](https://docs.microsoft.com/de-de/dotnet/api/system.span-1?view=netcore-3.0) feature (which allows efficient C-like casting of pointers to different data types without any copy operations).
 
-Please see the [introduction](how_to/1_introduction.html) to get a more detailed description on how to use this library!
+Please see the [introduction](how_to/1_introduction.md) to get a more detailed description on how to use this library!
 
 ## See also
 
