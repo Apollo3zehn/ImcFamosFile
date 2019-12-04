@@ -90,7 +90,7 @@ var singleData = famosFile.ReadSingle(channel);
 var componentData = allData[0].ComponentsData[0];
 var byteData = componentData.RawData;
 </code></pre>
-<p>If you like to work with the actual compoent's data type (e.g. <code>float32</code>), you can simply cast it to the correct type via:</p>
+<p>If you like to work with the actual component's data type (e.g. <code>float32</code>), you can simply cast it to the correct type via:</p>
 <pre><code class="lang-cs">var floatData = (FamosFileComponentData&lt;float&gt;)componentData.Data;
 </code></pre>
 <p>If the data type is unknown, you can quickly check it using the pack info:</p>
@@ -102,7 +102,7 @@ var byteData = componentData.RawData;
 </code></pre>
 <p>There is another difference between reading and writing:</p>
 <p>When <em>reading</em> data, you pass one or more <code>channels</code> to the <code>read</code> methods. The returned data structure not only contains the channel's component data (<code>y-axis</code>) but also the related <code>x-axis</code> data, which is another component <em>without</em> a channel, as described on the previous page. So the related components are determined <em>automagically</em>.</p>
-<p>When <em>writing</em> data, you now pass a <code>component</code> to the <code>write</code> method. This is required because not every component has a channel assigned and thus all the component' datasets can be written individually. If the API were designed to accept <code>channels</code> instead, the user would be required to provide data for both axes, <code>x-axis</code> and <code>y-axis</code>, which would be fine. But what if you have no <code>x-axis</code>? And what if you have more than on <code>y-axis</code>? In that case, the <code>x-axis</code> data would be written multiple times, which is not desirable.</p>
+<p>When <em>writing</em> data, you now pass a <code>component</code> to the <code>write</code> method. This is required because not every component has a channel assigned and thus all the component' datasets can be written individually. If the API were designed to accept <code>channels</code> instead, the user would be required to provide data for both axes, <code>x-axis</code> and <code>y-axis</code>, which would be fine. But what if you have no <code>x-axis</code>? And what if you have more than one <code>y-axis</code>? In that case, the <code>x-axis</code> data would be written multiple times, which is not desirable.</p>
 <p>In conclusion, to write data, you need to pass the components and their related data individually, which is shown in the example below.</p>
 <p>With the freshly created <code>famosFile</code>, it is time to add your fields and components and group your channels, single values and texts and store everything to disk.</p>
 <pre><code class="lang-cs">/* data field with monotonous increasing time */
@@ -125,7 +125,7 @@ famosFile.Save(&lt;path to file&gt;, writer =&gt;
     famosFile.WriteSingle(writer, field.Component[2], &lt;your x-axis data&gt;);
 });
 </code></pre>
-<p>The <code>save</code> method accepts an anonymous lambda method because it first writes the header data and when this is done is requests the user to provide the actual data which must match the length you specified during the component defition (<code>length: 10</code>).</p>
+<p>The <code>save</code> method accepts an anonymous lambda method because it first writes the header data and when this is done is requests the user to provide the actual data which must match the length you specified during the component definition (<code>length: 10</code>).</p>
 <p>See the following pages on how to create a more complex file.</p>
 </article>
           </div>

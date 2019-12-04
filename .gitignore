@@ -5,7 +5,6 @@ doc/_site
 /**/obj
 
 doc/api/*
-!doc/api/index.md
 
 *.suo
 *.user
