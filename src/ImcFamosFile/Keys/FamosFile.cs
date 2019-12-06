@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace ImcFamosFile
 {
@@ -20,6 +21,13 @@ namespace ImcFamosFile
         #region Constructors
 
         private FamosFile(string filePath) : base(new BinaryReader(File.OpenRead(filePath)))
+        {
+            this.Deserialize();
+            this.AfterDeserialize();
+            this.Validate();
+        }
+
+        private FamosFile(string filePath, FileMode fileMode, FileAccess fileAccess) : base(new BinaryReader(File.Open(filePath, fileMode, fileAccess)))
         {
             this.Deserialize();
             this.AfterDeserialize();
@@ -52,13 +60,23 @@ namespace ImcFamosFile
         #region Deserialization
 
         /// <summary>
-        /// Opens the file at the location specified by the parameter <paramref name="filePath"/>.
+        /// Opens the file at the location specified by the parameter <paramref name="filePath"/> in read-only mode.
         /// </summary>
         /// <param name="filePath">The path to the file to be opened.</param>
         /// <returns>Returns a new <see cref="FamosFile"/> instance.</returns>
         public static FamosFile Open(string filePath)
         {
             return new FamosFile(filePath);
+        }
+
+        /// <summary>
+        /// Opens the file at the location specified by the parameter <paramref name="filePath"/>. Use this method in conjunction with <see cref="FamosFile.Edit(Action{BinaryWriter})"/> to edit the file's raw data without touching the header itself.
+        /// </summary>
+        /// <param name="filePath">The path to the file to be opened.</param>
+        /// <returns>Returns a new <see cref="FamosFile"/> instance.</returns>
+        public static FamosFile OpenEditable(string filePath)
+        {
+            return new FamosFile(filePath, FileMode.Open, FileAccess.ReadWrite);
         }
 
         /// <summary>
@@ -69,6 +87,26 @@ namespace ImcFamosFile
         public static FamosFile Open(Stream stream)
         {
             return new FamosFile(stream);
+        }
+
+        /// <summary>
+        /// Writes the provided data to the currently opened file. Use this only in conjunction with <see cref="FamosFile.OpenEditable(string)"/> and without modification of the returned <see cref="FamosFile"/> instance to ensure proper buffer alignment.
+        /// </summary>
+        /// <param name="writeData"></param>
+        public void Edit(Action<BinaryWriter> writeData)
+        {
+            var stream = this.Reader.BaseStream;
+
+            if (!stream.CanWrite || !stream.CanSeek)
+                throw new InvalidOperationException("The stream must be writeable and seekable.");
+
+            var codePage = this.LanguageInfo is null ? 0 : this.LanguageInfo.CodePage;
+            var encoding = Encoding.GetEncoding(codePage);
+
+            using (var writer = new BinaryWriter(stream, encoding, leaveOpen: true))
+            {
+                writeData.Invoke(writer);
+            }
         }
 
         /// <summary>

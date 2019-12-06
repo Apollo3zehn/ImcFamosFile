@@ -84,3 +84,25 @@ famosFile.Save(<path to file>, writer =>
 The `save` method accepts an anonymous lambda method because it first writes the header data and when this is done is requests the user to provide the actual data which must match the length you specified during the component definition (`length: 10`).
 
 See the following pages on how to create a more complex file.
+
+# Editing a FAMOS file
+
+It is possible to edit the file's data without modifying the header as shown here:
+
+```cs
+var famosFile = FamosFile.OpenEditable("<path to file>");
+
+famosFile.Edit(writer =>
+{
+    var field = famosFile.Fields[0];
+
+    famosFile.WriteSingle(writer, field.Component[0], <your y-axis 1 data>);
+    famosFile.WriteSingle(writer, field.Component[1], <your y-axis 2 data>);
+    famosFile.WriteSingle(writer, field.Component[2], <your x-axis data>);
+});
+```
+> [!NOTE]
+> This feature is useful when you want to write your data in chunk-wise, i.e. you create the file with empty buffers once and append data successively.
+
+> [!WARNING]
+> Do not edit the header before the ```famosFile.Edit(writer => ...)``` method has finished. Otherwise it can't be ensured that the in-memory buffer layout matches that of the on-disk buffer.
