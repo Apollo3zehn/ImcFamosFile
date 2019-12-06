@@ -39,6 +39,9 @@ namespace ImcFamosFile
 
         #region "Methods"
 
+        /// <summary>
+        /// Closes the underlying binary reader.
+        /// </summary>
         public void Dispose()
         {
             this.Reader.Dispose();

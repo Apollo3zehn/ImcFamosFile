@@ -10,8 +10,7 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        [HideFromApi]
-        internal protected FamosFileComponentData(FamosFileComponent component,
+        private protected FamosFileComponentData(FamosFileComponent component,
                                                   FamosFileXAxisScaling? xAxisScaling,
                                                   FamosFileZAxisScaling? zAxisScaling,
                                                   FamosFileTriggerTime? triggerTime,

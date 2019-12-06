@@ -9,14 +9,12 @@ namespace ImcFamosFile
     {
         #region Constructors
 
-        [HideFromApi]
-        internal protected FamosFileBaseProperty()
+        private protected FamosFileBaseProperty()
         {
             //
         }
 
-        [HideFromApi]
-        internal protected FamosFileBaseProperty(BinaryReader reader, int codePage) : base(reader, codePage)
+        private protected FamosFileBaseProperty(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             //
         }

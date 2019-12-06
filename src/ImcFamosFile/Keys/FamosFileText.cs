@@ -116,11 +116,9 @@ namespace ImcFamosFile
             }
         }
 
-        [HideFromApi]
-        internal protected int Version { get; }
+        private protected int Version { get; }
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CT;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CT;
 
         #endregion
 

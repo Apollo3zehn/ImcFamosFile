@@ -14,8 +14,7 @@ namespace ImcFamosFile
     {
         #region Fields
 
-        [HideFromApi]
-        internal protected const int SUPPORTED_VERSION = 2;
+        private protected const int SUPPORTED_VERSION = 2;
 
         private int _processor = 1;
 
@@ -31,8 +30,7 @@ namespace ImcFamosFile
             this.Initialize();
         }
 
-        [HideFromApi]
-        internal protected FamosFileHeader(BinaryReader reader) : base(reader, 0)
+        private protected FamosFileHeader(BinaryReader reader) : base(reader, 0)
         {
             this.Initialize();
         }
@@ -86,8 +84,7 @@ namespace ImcFamosFile
         /// </summary>
         public List<FamosFileRawBlock> RawBlocks { get; internal set; } = new List<FamosFileRawBlock>();
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CF;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CF;
 
         private int Processor
         {
@@ -339,20 +336,17 @@ namespace ImcFamosFile
             }
         }
 
-        [HideFromApi]
-        internal protected List<T> GetItemsByGroups<T>(Func<FamosFileGroup, List<T>> getGroupCollection, Func<List<T>> getDefaultCollection)
+        private protected List<T> GetItemsByGroups<T>(Func<FamosFileGroup, List<T>> getGroupCollection, Func<List<T>> getDefaultCollection)
         {
             return getDefaultCollection().Concat(this.Groups.SelectMany(group => getGroupCollection(group))).ToList();
         }
 
-        [HideFromApi]
-        internal protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, List<T>> getComponentCollection)
+        private protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, List<T>> getComponentCollection)
         {
             return this.Fields.SelectMany(field => field.Components.SelectMany(component => getComponentCollection(component))).ToList();
         }
 
-        [HideFromApi]
-        internal protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
+        private protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
         {
             return this.Fields.SelectMany(field => field.Components.Select(component => getComponentValue(component))).ToList();
         }

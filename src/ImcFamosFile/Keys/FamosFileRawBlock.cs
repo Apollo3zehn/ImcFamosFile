@@ -91,8 +91,7 @@ namespace ImcFamosFile
 
         internal long FileWriteOffset { get; private set; }
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CS;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CS;
 
         #endregion
 

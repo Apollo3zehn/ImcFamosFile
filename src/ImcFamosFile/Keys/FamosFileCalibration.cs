@@ -75,8 +75,7 @@ namespace ImcFamosFile
         /// </summary>
         public string Unit { get; set; } = string.Empty;
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CR;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CR;
 
         #endregion
 

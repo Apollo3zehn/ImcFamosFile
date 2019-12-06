@@ -59,8 +59,7 @@ namespace ImcFamosFile
         /// </summary>
         public List<FamosFileEvent> Events { get; private set; } = new List<FamosFileEvent>();
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CV;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CV;
 
         internal int Index
         {

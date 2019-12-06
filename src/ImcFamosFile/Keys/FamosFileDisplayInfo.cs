@@ -107,8 +107,7 @@ namespace ImcFamosFile
         /// </summary>
         public decimal YMax { get; private set; }
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.ND;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.ND;
 
         #endregion
 

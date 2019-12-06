@@ -53,8 +53,7 @@ namespace ImcFamosFile
         /// </summary>
         public List<FamosFileProperty> Properties { get; } = new List<FamosFileProperty>();
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.Np;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.Np;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Regex MatchProperty { get; } = new Regex("\"(.*?)\"\\s\"(.*?)\"\\s([0-9])\\s([0-9])");

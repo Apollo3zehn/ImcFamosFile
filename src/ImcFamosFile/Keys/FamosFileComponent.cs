@@ -18,8 +18,7 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        [HideFromApi]
-        internal protected FamosFileComponent(FamosFileDataType dataType, int length, FamosFileComponentType componentType)
+        private protected FamosFileComponent(FamosFileDataType dataType, int length, FamosFileComponentType componentType)
         {
             this.Type = componentType;
             this.BufferInfo = new FamosFileBufferInfo(new List<FamosFileBuffer>() { new FamosFileBuffer() });
@@ -30,8 +29,7 @@ namespace ImcFamosFile
             buffer.ConsumedBytes = buffer.Length; // This could theoretically be set to actual value during 'famosFile.Save(...);' but how handle interlaced data?
         }
 
-        [HideFromApi]
-        internal protected FamosFileComponent(BinaryReader reader, int codePage) : base(reader, codePage)
+        private protected FamosFileComponent(BinaryReader reader, int codePage) : base(reader, codePage)
         {
             FamosFilePackInfo? packInfo = null;
             FamosFileBufferInfo? bufferInfo = null;
@@ -190,8 +188,7 @@ namespace ImcFamosFile
         /// </summary>
         public List<FamosFileChannel> Channels { get; } = new List<FamosFileChannel>();
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CC;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CC;
 
         #endregion
 
@@ -319,11 +316,9 @@ namespace ImcFamosFile
                 throw new InvalidOperationException("This implementation does not yet support processing ring buffers. Please send a sample file to the package author to find a solution.");
         }
 
-        [HideFromApi]
-        internal protected abstract void SerializeCR(BinaryWriter writer);
+        private protected abstract void SerializeCR(BinaryWriter writer);
 
-        [HideFromApi]
-        internal protected abstract void DeserializeCR();
+        private protected abstract void DeserializeCR();
 
         #endregion
 
@@ -400,8 +395,7 @@ namespace ImcFamosFile
 
             #region Properties
 
-            [HideFromApi]
-            internal protected override FamosFileKeyType KeyType => throw new NotImplementedException();
+                private protected override FamosFileKeyType KeyType => throw new NotImplementedException();
 
             #endregion
 
@@ -514,14 +508,12 @@ namespace ImcFamosFile
 
         #region Serialization
 
-        [HideFromApi]
-        internal protected override void SerializeCR(BinaryWriter writer)
+        private protected override void SerializeCR(BinaryWriter writer)
         {
             //
         }
 
-        [HideFromApi]
-        internal protected override void DeserializeCR()
+        private protected override void DeserializeCR()
         {
             throw new FormatException($"The digital component '{this.Name}' defines analog calibration information.");
         }
@@ -705,14 +697,12 @@ namespace ImcFamosFile
             }
         }
 
-        [HideFromApi]
-        internal protected override void SerializeCR(BinaryWriter writer)
+        private protected override void SerializeCR(BinaryWriter writer)
         {
             this.CalibrationInfo?.Serialize(writer);
         }
 
-        [HideFromApi]
-        internal protected override void DeserializeCR()
+        private protected override void DeserializeCR()
         {
             this.CalibrationInfo = new FamosFileCalibration(this.Reader, this.CodePage);
         }

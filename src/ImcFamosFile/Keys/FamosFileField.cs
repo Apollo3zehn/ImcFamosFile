@@ -151,8 +151,7 @@ namespace ImcFamosFile
         /// </summary>
         public FamosFileTriggerTime? TriggerTime { get; set; }
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CG;
 
         #endregion
 

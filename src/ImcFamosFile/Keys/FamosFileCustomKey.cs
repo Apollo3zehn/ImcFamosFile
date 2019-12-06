@@ -46,8 +46,7 @@ namespace ImcFamosFile
         /// </summary>
         public byte[] Value { get; set; } = new byte[0];
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.NU;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.NU;
 
         #endregion
 

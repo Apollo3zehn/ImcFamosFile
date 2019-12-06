@@ -1,9 +1,5 @@
 apiRules:
 
 - exclude:
-    hasAttribute:
-      uid: ImcFamosFile.HideFromApiAttribute
-
-- exclude:
       uidRegex: ^System\.Object
       type: Type

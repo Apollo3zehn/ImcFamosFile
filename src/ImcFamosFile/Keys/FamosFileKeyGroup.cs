@@ -28,8 +28,7 @@ namespace ImcFamosFile
 
         #region Properties
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CK;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CK;
 
         #endregion
 

@@ -118,8 +118,7 @@ namespace ImcFamosFile
         /// </summary>
         public FamosFilePretriggerUsage PretriggerUsage { get; set; }
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.CD;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.CD;
 
         #endregion
 

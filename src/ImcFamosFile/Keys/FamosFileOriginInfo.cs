@@ -49,8 +49,7 @@ namespace ImcFamosFile
         /// </summary>
         public FamosFileOrigin Origin { get; set; } = FamosFileOrigin.Original;
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.NO;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.NO;
 
         #endregion
 

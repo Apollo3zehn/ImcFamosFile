@@ -80,8 +80,7 @@ namespace ImcFamosFile
             }
         }
 
-        [HideFromApi]
-        internal protected override FamosFileKeyType KeyType => FamosFileKeyType.Cb;
+        private protected override FamosFileKeyType KeyType => FamosFileKeyType.Cb;
 
         #endregion
 

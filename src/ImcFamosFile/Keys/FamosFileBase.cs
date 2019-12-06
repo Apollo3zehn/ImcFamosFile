@@ -27,14 +27,12 @@ namespace ImcFamosFile
 
         }
 
-        [HideFromApi]
-        internal protected FamosFileBase(BinaryReader reader)
+        private protected FamosFileBase(BinaryReader reader)
         {
             _reader = reader;
         }
 
-        [HideFromApi]
-        internal protected FamosFileBase()
+        private protected FamosFileBase()
         {
             //
         }
@@ -43,9 +41,8 @@ namespace ImcFamosFile
 
         #region Properties
 
-        [HideFromApi]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        internal protected BinaryReader Reader
+        private protected BinaryReader Reader
         { 
             get
             {
@@ -56,9 +53,8 @@ namespace ImcFamosFile
             }
         }
 
-        [HideFromApi]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        internal protected abstract FamosFileKeyType KeyType { get; }
+        private protected abstract FamosFileKeyType KeyType { get; }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Regex MatchKey { get; } = new Regex("[|][a-zA-Z]{2},");
@@ -98,8 +94,7 @@ namespace ImcFamosFile
 
         internal abstract void Serialize(BinaryWriter writer);
 
-        [HideFromApi]
-        internal protected void SerializeKey(BinaryWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
+        private protected void SerializeKey(BinaryWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
         {
             // convert data
             long length = 0;
@@ -180,15 +175,13 @@ namespace ImcFamosFile
             //
         }
 
-        [HideFromApi]
-        internal protected void SkipKey()
+        private protected void SkipKey()
         {
             this.DeserializeInt32();
             this.DeserializeKey(deserializeKeyAction: null);
         }
 
-        [HideFromApi]
-        internal protected void DeserializeKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> deserializeKeyAction)
+        private protected void DeserializeKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> deserializeKeyAction)
         {
             var keyType = this.DeserializeKeyType();
 
@@ -198,8 +191,7 @@ namespace ImcFamosFile
             this.DeserializeKey(expectedKeyVersion, deserializeKeyAction);
         }
 
-        [HideFromApi]
-        internal protected void DeserializeKey(int expectedKeyVersion, Action<long> deserializeKeyAction)
+        private protected void DeserializeKey(int expectedKeyVersion, Action<long> deserializeKeyAction)
         {
             // key version
             var keyVersion = this.DeserializeInt32();
@@ -210,8 +202,7 @@ namespace ImcFamosFile
             this.DeserializeKey(deserializeKeyAction);
         }
 
-        [HideFromApi]
-        internal protected void DeserializeKey(Action<long>? deserializeKeyAction)
+        private protected void DeserializeKey(Action<long>? deserializeKeyAction)
         {
             // key length
             var keyLength = this.DeserializeInt64();
@@ -226,8 +217,7 @@ namespace ImcFamosFile
             this.ConsumeSpaces();
         }
 
-        [HideFromApi]
-        internal protected byte[] DeserializeKeyPart()
+        private protected byte[] DeserializeKeyPart()
         {
             var bytes = new List<byte>();
 
@@ -244,29 +234,25 @@ namespace ImcFamosFile
             return bytes.ToArray();
         }
 
-        [HideFromApi]
-        internal protected int DeserializeHex()
+        private protected int DeserializeHex()
         {
             var bytes = this.DeserializeKeyPart();
             return Convert.ToInt32(Encoding.ASCII.GetString(bytes), 16);
         }
 
-        [HideFromApi]
-        internal protected int DeserializeInt32()
+        private protected int DeserializeInt32()
         {
             var bytes = this.DeserializeKeyPart();
             return int.Parse(Encoding.ASCII.GetString(bytes));
         }
 
-        [HideFromApi]
-        internal protected long DeserializeInt64()
+        private protected long DeserializeInt64()
         {
             var bytes = this.DeserializeKeyPart();
             return long.Parse(Encoding.ASCII.GetString(bytes));
         }
 
-        [HideFromApi]
-        internal protected decimal DeserializeReal()
+        private protected decimal DeserializeReal()
         {
             var bytes = this.DeserializeKeyPart();
             var numberStyle = NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent;
@@ -274,8 +260,7 @@ namespace ImcFamosFile
             return decimal.Parse(Encoding.ASCII.GetString(bytes), numberStyle, CultureInfo.InvariantCulture);
         }
 
-        [HideFromApi]
-        internal protected FamosFileKeyType DeserializeKeyType()
+        private protected FamosFileKeyType DeserializeKeyType()
         {
             var keyName = Encoding.ASCII.GetString(this.Reader.ReadBytes(4));
 
@@ -288,7 +273,7 @@ namespace ImcFamosFile
                 return FamosFileKeyType.Unknown;
         }
 
-        internal protected byte[] DeserializeFixedLength(int length)
+        private protected byte[] DeserializeFixedLength(int length)
         {
             var data = this.Reader.ReadBytes(length);
 
