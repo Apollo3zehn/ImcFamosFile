@@ -14,6 +14,72 @@ namespace ImcFamosFile
         /// Initializes a new instance of the <see cref="FamosFileProperty"/>.
         /// </summary>
         /// <param name="name">The name of the property.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="flags">Flags.</param>
+        public FamosFileProperty(string name, int value, FamosFilePropertyFlags flags = 0) 
+            : this(name, value.ToString(CultureInfo.InvariantCulture), FamosFilePropertyType.Integer, flags)
+        {
+            //
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileProperty"/>.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="flags">Flags.</param>
+        public FamosFileProperty(string name, double value, FamosFilePropertyFlags flags = 0)
+            : this(name, value.ToString(CultureInfo.InvariantCulture), FamosFilePropertyType.Real, flags)
+        {
+            //
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileProperty"/>.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="flags">Flags.</param>
+        public FamosFileProperty(string name, bool value, FamosFilePropertyFlags flags = 0)
+            : this(name, value ? "1" : "0", FamosFilePropertyType.Boolean, flags)
+        {
+            //
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileProperty"/>.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="flags">Flags.</param>
+        public FamosFileProperty(string name, string value, FamosFilePropertyFlags flags = 0)
+            : this(name, value, FamosFilePropertyType.String, flags)
+        {
+            //
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileProperty"/>.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="flags">Flags.</param>
+        public FamosFileProperty(string name, DateTime value, FamosFilePropertyFlags flags = 0)
+        {
+            var epoch = new DateTime(1980, 01, 01);
+
+            this.Name = name;
+            this.Value = (value - epoch).TotalSeconds.ToString(CultureInfo.InvariantCulture);
+            this.Type = FamosFilePropertyType.TimeStampInDMFormat;
+            this.Flags = flags;
+
+            this.Validate();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FamosFileProperty"/>.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
         /// <param name="value">The value as string.</param>
         /// <param name="type">The value's data type.</param>
         /// <param name="flags">Flags.</param>
@@ -83,11 +149,14 @@ namespace ImcFamosFile
 
                 case FamosFilePropertyType.Real:
                     if (!double.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out double _))
-                        throw new FormatException($"The property value '{this.Value}' is not a real numnber.");
+                        throw new FormatException($"The property value '{this.Value}' is not a real number.");
 
                     break;
 
                 case FamosFilePropertyType.TimeStampInDMFormat:
+                    if (!double.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out double _))
+                        throw new FormatException($"The property value '{this.Value}' is not a time stamp in correct format (seconds since 01.01.1980).");
+
                     break;
 
                 case FamosFilePropertyType.Enumeration:

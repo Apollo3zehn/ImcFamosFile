@@ -84,7 +84,7 @@ namespace ImcFamosFileSample
 
             famosFile.Fields[0].Components[0].Channels[0].PropertyInfo = new FamosFilePropertyInfo(new List<FamosFileProperty>()
             {
-                new FamosFileProperty("Sensor Location", "Below generator.", FamosFilePropertyType.String)
+                new FamosFileProperty("Sensor Location", "Below generator.")
             });
 
             /* data field with monotonous increasing time */
@@ -178,7 +178,8 @@ namespace ImcFamosFileSample
             // property info (for hydraulic group)
             var propertyInfo2 = new FamosFilePropertyInfo(new List<FamosFileProperty>()
             {
-                new FamosFileProperty("Weight", "3752.23", FamosFilePropertyType.Real)
+                new FamosFileProperty("Weight", 3752.23),
+                new FamosFileProperty("Start-up date", new DateTime(2019, 12, 06, 11, 41, 30, 210))
             });
 
             // define groups
@@ -220,7 +221,7 @@ namespace ImcFamosFileSample
                 Comment = "Maybe its useful.",
                 PropertyInfo = new FamosFilePropertyInfo(new List<FamosFileProperty>()
                 {
-                    new FamosFileProperty("Length", "318", FamosFilePropertyType.Integer)
+                    new FamosFileProperty("Length", 318)
                 })
             });
 
