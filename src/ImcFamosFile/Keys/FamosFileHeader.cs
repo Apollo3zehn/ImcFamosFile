@@ -187,8 +187,8 @@ namespace ImcFamosFile
                         rawBlockLength += buffer.Length;
                     }
 
-                    if (rawBlockLength > Math.Pow(10, 9))
-                        throw new InvalidOperationException("In interlaced mode, all buffers are combined into a single large buffer. This buffer would exceed the maximum allowed length of '10^9' bytes.");
+                    if (rawBlockLength > 2 * Math.Pow(10, 9))
+                        throw new InvalidOperationException("In interlaced mode, all buffers are combined into a single large buffer. This buffer would exceed the maximum allowed length of '2 * 10^9' bytes.");
 
                     foreach (var component in components)
                     {

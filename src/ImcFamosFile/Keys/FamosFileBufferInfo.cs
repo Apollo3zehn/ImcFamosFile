@@ -66,8 +66,8 @@ namespace ImcFamosFile
 
             foreach (var buffer in this.Buffers)
             {
-                if (buffer.Length > Math.Pow(10, 9))
-                    throw new FormatException("A buffer must not exceed 10^9 bytes.");
+                if (buffer.Length > 2 * Math.Pow(10, 9))
+                    throw new FormatException("A buffer must not exceed 2 * 10^9 bytes.");
 
                 if (buffer.RawBlockOffset + buffer.Length > buffer.RawBlock.Length)
                     throw new FormatException("The sum of the raw block offset and the buffer length must be <= raw block length.");
