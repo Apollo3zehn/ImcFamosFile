@@ -26,6 +26,22 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFile.Dispose
   nameWithType: FamosFile.Dispose
+- uid: ImcFamosFile.FamosFile.Edit(System.Action{System.IO.BinaryWriter})
+  name: Edit(Action<BinaryWriter>)
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_Edit_System_Action_System_IO_BinaryWriter__
+  commentId: M:ImcFamosFile.FamosFile.Edit(System.Action{System.IO.BinaryWriter})
+  name.vb: Edit(Action(Of BinaryWriter))
+  fullName: ImcFamosFile.FamosFile.Edit(System.Action<System.IO.BinaryWriter>)
+  fullName.vb: ImcFamosFile.FamosFile.Edit(System.Action(Of System.IO.BinaryWriter))
+  nameWithType: FamosFile.Edit(Action<BinaryWriter>)
+  nameWithType.vb: FamosFile.Edit(Action(Of BinaryWriter))
+- uid: ImcFamosFile.FamosFile.Edit*
+  name: Edit
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_Edit_
+  commentId: Overload:ImcFamosFile.FamosFile.Edit
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFile.Edit
+  nameWithType: FamosFile.Edit
 - uid: ImcFamosFile.FamosFile.Open(System.IO.Stream)
   name: Open(Stream)
   href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_Open_System_IO_Stream_
@@ -45,6 +61,19 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFile.Open
   nameWithType: FamosFile.Open
+- uid: ImcFamosFile.FamosFile.OpenEditable(System.String)
+  name: OpenEditable(String)
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_OpenEditable_System_String_
+  commentId: M:ImcFamosFile.FamosFile.OpenEditable(System.String)
+  fullName: ImcFamosFile.FamosFile.OpenEditable(System.String)
+  nameWithType: FamosFile.OpenEditable(String)
+- uid: ImcFamosFile.FamosFile.OpenEditable*
+  name: OpenEditable
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_OpenEditable_
+  commentId: Overload:ImcFamosFile.FamosFile.OpenEditable
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFile.OpenEditable
+  nameWithType: FamosFile.OpenEditable
 - uid: ImcFamosFile.FamosFile.ReadSingle(ImcFamosFile.FamosFileChannel)
   name: ReadSingle(FamosFileChannel)
   href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadSingle_ImcFamosFile_FamosFileChannel_
