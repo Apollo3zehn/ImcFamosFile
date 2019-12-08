@@ -96,7 +96,6 @@ namespace ImcFamosFile.Tests
             famosFileHeader.Save(filePath, writer => famosFileHeader.WriteSingle(writer, components.First(), new double[] { 0, 0, 0, 0, 0 }));
 
             // Act
-
             /* write data */
             var expected = new double[] { 1, 2, 3, 4, 5 };
 
