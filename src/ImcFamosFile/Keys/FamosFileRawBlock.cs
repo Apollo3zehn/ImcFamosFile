@@ -30,7 +30,7 @@ namespace ImcFamosFile
 
             if (keyVersion == 1)
             {
-                this.DeserializeKey(keySize =>
+                this.DeserializeKey((Action<long>)(keySize =>
                 {
                     var startPosition = this.Reader.BaseStream.Position;
                     this.Index = this.DeserializeInt32();
@@ -38,22 +38,22 @@ namespace ImcFamosFile
 
                     this.CompressionType = FamosFileCompressionType.Uncompressed;
                     this.Length = keySize - (endPosition - startPosition);
-                    this.FileReadOffset = endPosition;
+                    this.FileOffset = endPosition;
 
                     this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
-                });
+                }));
             }
             else if (keyVersion == 2)
             {
-                this.DeserializeKey(keySize =>
+                this.DeserializeKey((Action<long>)(keySize =>
                 {
                     this.Index = this.DeserializeInt32();
                     this.CompressionType = (FamosFileCompressionType)this.DeserializeInt32();
                     this.Length = this.DeserializeInt64();
-                    this.FileReadOffset = this.Reader.BaseStream.Position;
+                    this.FileOffset = this.Reader.BaseStream.Position;
 
                     this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
-                });
+                }));
             }
             else
             {
@@ -87,9 +87,7 @@ namespace ImcFamosFile
             }
         }
 
-        internal long FileReadOffset { get; private set; }
-
-        internal long FileWriteOffset { get; private set; }
+        internal long FileOffset { get; private set; }
 
         private protected override FamosFileKeyType KeyType => FamosFileKeyType.CS;
 
@@ -108,7 +106,7 @@ namespace ImcFamosFile
             };
 
             this.SerializeKey(writer, 2, data, addLineBreak: true); // --> -2 characters
-            this.FileWriteOffset = writer.BaseStream.Position - this.Length - 1 - 2;
+            this.FileOffset = writer.BaseStream.Position - this.Length - 1 - 2;
         }
 
         #endregion

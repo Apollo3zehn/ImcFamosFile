@@ -247,7 +247,7 @@ namespace ImcFamosFile
         {
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
-            var fileOffset = buffer.RawBlock.FileReadOffset + buffer.RawBlockOffset + buffer.Offset + packInfo.Offset;
+            var fileOffset = buffer.RawBlock.FileOffset + buffer.RawBlockOffset + buffer.Offset + packInfo.Offset;
 
             var valueLength = component.GetSize(start, length);
             var dataByteLength = valueLength * packInfo.ValueSize;

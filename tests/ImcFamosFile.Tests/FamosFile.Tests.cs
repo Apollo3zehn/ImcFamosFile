@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Xunit;
 
 namespace ImcFamosFile.Tests
@@ -50,6 +52,7 @@ namespace ImcFamosFile.Tests
 
             // Act
             using var famosFileRead = FamosFile.Open(stream);
+
             var allData = famosFileRead.ReadAll();
             var singleData = famosFileRead.ReadSingle(famosFileRead.Fields[2].Components[0].Channels.First());
             var singleDataPartial = famosFileRead.ReadSingle(famosFileRead.Fields[2].Components[0].Channels.First(), 10, 8);
@@ -81,6 +84,39 @@ namespace ImcFamosFile.Tests
         }
 
         [Fact]
+        public void CanEditAlreadyExistingFile()
+        {
+            // Arrange
+            var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            var famosFileHeader = new FamosFileHeader();
+            var components = new List<FamosFileComponent>() { new FamosFileAnalogComponent("C1", FamosFileDataType.Float64, 5) };
+
+            famosFileHeader.Fields.Add(new FamosFileField(FamosFileFieldType.MultipleYToSingleEquidistantTime, components));
+            famosFileHeader.Channels.Add(components.First().Channels.First());
+            famosFileHeader.Save(filePath, writer => famosFileHeader.WriteSingle(writer, components.First(), new double[] { 0, 0, 0, 0, 0 }));
+
+            // Act
+
+            /* write data */
+            var expected = new double[] { 1, 2, 3, 4, 5 };
+
+            using (var famosFile = FamosFile.OpenEditable(filePath))
+            {
+                var component = famosFile.Fields.First().Components.First();
+                famosFile.Edit(writer => famosFile.WriteSingle(writer, component, expected));
+            }
+
+            /* read data */
+            using var famosFile2 = FamosFile.Open(filePath);
+
+            var channelData = famosFile2.ReadSingle(famosFile2.Channels.First());
+            var actual = ((FamosFileComponentData<double>)channelData.ComponentsData.First()).Data.ToArray();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public void ThrowsWhenGroupIsAddedTwice()
         {
             // Arrange
@@ -91,7 +127,10 @@ namespace ImcFamosFile.Tests
             famosFile.Groups.Add(group);
 
             // Act
-            Assert.Throws<FormatException>(() => famosFile.Validate());
+            Action action = () => famosFile.Validate();
+
+            // Assert
+            Assert.Throws<FormatException>(action);
         }
 
         [Fact]
@@ -105,7 +144,10 @@ namespace ImcFamosFile.Tests
             famosFile.CustomKeys.Add(customKey);
 
             // Act
-            Assert.Throws<FormatException>(() => famosFile.Validate());
+            Action action = () => famosFile.Validate();
+
+            // Assert
+            Assert.Throws<FormatException>(action);
         }
 
         [Fact]
@@ -119,7 +161,10 @@ namespace ImcFamosFile.Tests
             famosFile.Fields.Add(field);
 
             // Act
-            Assert.Throws<FormatException>(() => famosFile.Validate());
+            Action action = () => famosFile.Validate();
+
+            // Assert
+            Assert.Throws<FormatException>(action);
         }
 
         [Fact]
@@ -133,7 +178,10 @@ namespace ImcFamosFile.Tests
             famosFile.RawBlocks.Add(rawBlock);
 
             // Act
-            Assert.Throws<FormatException>(() => famosFile.Validate());
+            Action action = () => famosFile.Validate();
+
+            // Assert
+            Assert.Throws<FormatException>(action);
         }
 
         [Fact]
@@ -149,7 +197,10 @@ namespace ImcFamosFile.Tests
             famosFile.Groups.Add(group);
 
             // Act
-            Assert.Throws<FormatException>(() => famosFile.Validate());
+            Action action = () => famosFile.Validate();
+
+            // Assert
+            Assert.Throws<FormatException>(action);
         }
 
         [Fact]
@@ -165,7 +216,10 @@ namespace ImcFamosFile.Tests
             famosFile.Groups.Add(group);
 
             // Act
-            Assert.Throws<FormatException>(() => famosFile.Validate());
+            Action action = () => famosFile.Validate();
+
+            // Assert
+            Assert.Throws<FormatException>(action);
         }
 
         [Fact]
@@ -181,7 +235,10 @@ namespace ImcFamosFile.Tests
             famosFile.Groups.Add(group);
 
             // Act
-            Assert.Throws<FormatException>(() => famosFile.Validate());
+            Action action = () => famosFile.Validate();
+
+            // Assert
+            Assert.Throws<FormatException>(action);
         }
     }
 }

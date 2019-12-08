@@ -477,6 +477,9 @@ namespace ImcFamosFile
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, Span<T> data) where T : unmanaged
         {
+            if (!this.Fields.Any(field => field.Components.Contains(component)))
+                throw new FormatException($"The provided component is not part of any {nameof(FamosFileField)} instance.");
+
             var dataByteLength = data.Length * Marshal.SizeOf<T>();
 
             var bufferValueLength = component.GetSize(start);
@@ -499,7 +502,7 @@ namespace ImcFamosFile
         {
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
-            var fileOffset = buffer.RawBlock.FileWriteOffset + buffer.RawBlockOffset + buffer.Offset + packInfo.Offset;
+            var fileOffset = buffer.RawBlock.FileOffset + buffer.RawBlockOffset + buffer.Offset + packInfo.Offset;
 
             var valueLength = component.GetSize(start, length);
 
