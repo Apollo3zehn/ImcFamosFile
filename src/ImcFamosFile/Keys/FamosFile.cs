@@ -48,7 +48,15 @@ namespace ImcFamosFile
         #region "Methods"
 
         /// <summary>
-        /// Closes the underlying binary reader.
+        /// Closes the file stream. Has the same effect as <see cref="FamosFile.Dispose"/>.
+        /// </summary>
+        public void Close()
+        {
+            this.Dispose();
+        }
+
+        /// <summary>
+        /// Releases the resources used by <see cref="FamosFile"/>. Has the same effect as <see cref="FamosFile.Close"/>.
         /// </summary>
         public void Dispose()
         {
@@ -247,7 +255,7 @@ namespace ImcFamosFile
         {
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
-            var fileOffset = buffer.RawBlock.FileReadOffset + buffer.RawBlockOffset + buffer.Offset + packInfo.Offset;
+            var fileOffset = buffer.RawBlock.FileOffset + buffer.RawBlockOffset + buffer.Offset + packInfo.Offset;
 
             var valueLength = component.GetSize(start, length);
             var dataByteLength = valueLength * packInfo.ValueSize;

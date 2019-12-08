@@ -42,6 +42,9 @@ If the data type is unknown, you can quickly check it using the pack info:
 var dataType = componentData.PackInfo.DataType;
 ```
 
+> [!NOTE]
+> When you are done reading the file contents, don't forget to close or dispose the [FamosFile](xref:ImcFamosFile.FamosFile) instance.
+
 # Writing a FAMOS file
 
 When you do not want to _read_ files but to _write_ them instead, you need to maked use of the [FamosFileHeader](xref:ImcFamosFile.FamosFileHeader) class:
@@ -87,10 +90,11 @@ See the following pages on how to create a more complex file.
 
 # Editing a FAMOS file
 
-It is possible to edit the file's data without modifying the header as shown here:
+It is possible to edit the file's data without modifying the header:
 
 ```cs
-var famosFile = FamosFile.OpenEditable("<path to file>");
+// `using var famosFile = ...` ensures automatic disposal of the FamosFile instance after usage
+using var famosFile = FamosFile.OpenEditable("<path to file>");
 
 famosFile.Edit(writer =>
 {
@@ -102,7 +106,7 @@ famosFile.Edit(writer =>
 });
 ```
 > [!NOTE]
-> This feature is useful when you want to write your data in chunk-wise, i.e. you create the file with empty buffers once and append data successively.
+> This feature is useful when you want to write your data chunk-wise, i.e. you create the file with empty buffers once and append data successively.
 
 > [!WARNING]
-> Do not edit the header before the ```famosFile.Edit(writer => ...)``` method has finished. Otherwise it can't be ensured that the in-memory buffer layout matches that of the on-disk buffer.
+> Do not make any edits to the header before the ```famosFile.Edit(writer => ...)``` method has finished. Otherwise it can't be ensured that the in-memory buffer layouts match that of the on-disk buffers.
