@@ -103,7 +103,7 @@ namespace ImcFamosFile
         #region "Methods"
 
         /// <summary>
-        /// Aligns the buffers of all components of this instance to the provided <paramref name="rawBlock"/> instance. This is done automatically, if the functionality is not being disabled during the call to 'famosFile.Save(...)'.
+        /// Aligns the buffers of all components of this instance to the provided <paramref name="rawBlock"/> instance. This is done automatically, if the functionality is not being disabled in the call to 'famosFile.Save(...)'.
         /// </summary>
         /// <param name="rawBlock">The raw block instance, where the actual data is stored.</param>
         /// <param name="alignmentMode">The buffer alignment mode.</param>
@@ -113,7 +113,7 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Aligns the buffers of all <paramref name="components"/> to the provided <paramref name="rawBlock"/> instance. This is done automatically, if the functionality is not being disabled during the call to 'famosFile.Save(...)'.
+        /// Aligns the buffers of all <paramref name="components"/> to the provided <paramref name="rawBlock"/> instance. This is done automatically, if the functionality is not being disabled in the call to 'famosFile.Save(...)'.
         /// </summary>
         /// <param name="rawBlock">The raw block instance, where the actual data is stored.</param>
         /// <param name="alignmentMode">The buffer alignment mode.</param>
@@ -431,7 +431,7 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' method to write the actual data of type <typeparamref name="T"/>.
+        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' or <see cref="FamosFile.Edit(Action{BinaryWriter})"/> method to write the actual data of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The data type parameter.</typeparam>
         /// <param name="writer">The binary writer that has been provided in the action block.</param>
@@ -443,7 +443,7 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' method to write the actual data of type <typeparamref name="T"/>.
+        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' or <see cref="FamosFile.Edit(Action{BinaryWriter})"/> method to write the actual data of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The data type parameter.</typeparam>
         /// <param name="writer">The binary writer that has been provided in the action block.</param>
@@ -455,7 +455,7 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' method to write the actual data of type <typeparamref name="T"/>.
+        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' or <see cref="FamosFile.Edit(Action{BinaryWriter})"/> method to write the actual data of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The data type parameter.</typeparam>
         /// <param name="writer">The binary writer that has been provided in the action block.</param>
@@ -468,7 +468,7 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' method to write the actual data of type <typeparamref name="T"/>.
+        /// This method should be called in the action block that has been passed to the 'famosFile.Save(...)' or <see cref="FamosFile.Edit(Action{BinaryWriter})"/> method to write the actual data of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">The data type parameter.</typeparam>
         /// <param name="writer">The binary writer that has been provided in the action block.</param>
