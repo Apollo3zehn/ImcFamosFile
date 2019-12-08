@@ -13,6 +13,19 @@ references:
   commentId: T:ImcFamosFile.FamosFile
   fullName: ImcFamosFile.FamosFile
   nameWithType: FamosFile
+- uid: ImcFamosFile.FamosFile.Close
+  name: Close()
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_Close
+  commentId: M:ImcFamosFile.FamosFile.Close
+  fullName: ImcFamosFile.FamosFile.Close()
+  nameWithType: FamosFile.Close()
+- uid: ImcFamosFile.FamosFile.Close*
+  name: Close
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_Close_
+  commentId: Overload:ImcFamosFile.FamosFile.Close
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFile.Close
+  nameWithType: FamosFile.Close
 - uid: ImcFamosFile.FamosFile.Dispose
   name: Dispose()
   href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_Dispose
@@ -74,6 +87,35 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFile.OpenEditable
   nameWithType: FamosFile.OpenEditable
+- uid: ImcFamosFile.FamosFile.ReadAll
+  name: ReadAll()
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadAll
+  commentId: M:ImcFamosFile.FamosFile.ReadAll
+  fullName: ImcFamosFile.FamosFile.ReadAll()
+  nameWithType: FamosFile.ReadAll()
+- uid: ImcFamosFile.FamosFile.ReadAll*
+  name: ReadAll
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadAll_
+  commentId: Overload:ImcFamosFile.FamosFile.ReadAll
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFile.ReadAll
+  nameWithType: FamosFile.ReadAll
+- uid: ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List{ImcFamosFile.FamosFileChannel})
+  name: ReadGroup(List<FamosFileChannel>)
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadGroup_System_Collections_Generic_List_ImcFamosFile_FamosFileChannel__
+  commentId: M:ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List{ImcFamosFile.FamosFileChannel})
+  name.vb: ReadGroup(List(Of FamosFileChannel))
+  fullName: ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List<ImcFamosFile.FamosFileChannel>)
+  fullName.vb: ImcFamosFile.FamosFile.ReadGroup(System.Collections.Generic.List(Of ImcFamosFile.FamosFileChannel))
+  nameWithType: FamosFile.ReadGroup(List<FamosFileChannel>)
+  nameWithType.vb: FamosFile.ReadGroup(List(Of FamosFileChannel))
+- uid: ImcFamosFile.FamosFile.ReadGroup*
+  name: ReadGroup
+  href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadGroup_
+  commentId: Overload:ImcFamosFile.FamosFile.ReadGroup
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFile.ReadGroup
+  nameWithType: FamosFile.ReadGroup
 - uid: ImcFamosFile.FamosFile.ReadSingle(ImcFamosFile.FamosFileChannel)
   name: ReadSingle(FamosFileChannel)
   href: api/ImcFamosFile.FamosFile.html#ImcFamosFile_FamosFile_ReadSingle_ImcFamosFile_FamosFileChannel_
@@ -2552,6 +2594,19 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFilePackInfo.SignificantBits
   nameWithType: FamosFilePackInfo.SignificantBits
+- uid: ImcFamosFile.FamosFilePackInfo.Validate
+  name: Validate()
+  href: api/ImcFamosFile.FamosFilePackInfo.html#ImcFamosFile_FamosFilePackInfo_Validate
+  commentId: M:ImcFamosFile.FamosFilePackInfo.Validate
+  fullName: ImcFamosFile.FamosFilePackInfo.Validate()
+  nameWithType: FamosFilePackInfo.Validate()
+- uid: ImcFamosFile.FamosFilePackInfo.Validate*
+  name: Validate
+  href: api/ImcFamosFile.FamosFilePackInfo.html#ImcFamosFile_FamosFilePackInfo_Validate_
+  commentId: Overload:ImcFamosFile.FamosFilePackInfo.Validate
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFilePackInfo.Validate
+  nameWithType: FamosFilePackInfo.Validate
 - uid: ImcFamosFile.FamosFilePretriggerUsage
   name: FamosFilePretriggerUsage
   href: api/ImcFamosFile.FamosFilePretriggerUsage.html
@@ -2949,6 +3004,49 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileSingleValue.Unit
   nameWithType: FamosFileSingleValue.Unit
+- uid: ImcFamosFile.FamosFileSingleValue`1
+  name: FamosFileSingleValue<T>
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html
+  commentId: T:ImcFamosFile.FamosFileSingleValue`1
+  name.vb: FamosFileSingleValue(Of T)
+  fullName: ImcFamosFile.FamosFileSingleValue<T>
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T)
+  nameWithType: FamosFileSingleValue<T>
+  nameWithType.vb: FamosFileSingleValue(Of T)
+- uid: ImcFamosFile.FamosFileSingleValue`1.#ctor(System.String,`0)
+  name: FamosFileSingleValue(String, T)
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html#ImcFamosFile_FamosFileSingleValue_1__ctor_System_String__0_
+  commentId: M:ImcFamosFile.FamosFileSingleValue`1.#ctor(System.String,`0)
+  fullName: ImcFamosFile.FamosFileSingleValue<T>.FamosFileSingleValue(System.String, T)
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T).FamosFileSingleValue(System.String, T)
+  nameWithType: FamosFileSingleValue<T>.FamosFileSingleValue(String, T)
+  nameWithType.vb: FamosFileSingleValue(Of T).FamosFileSingleValue(String, T)
+- uid: ImcFamosFile.FamosFileSingleValue`1.#ctor*
+  name: FamosFileSingleValue
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html#ImcFamosFile_FamosFileSingleValue_1__ctor_
+  commentId: Overload:ImcFamosFile.FamosFileSingleValue`1.#ctor
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileSingleValue<T>.FamosFileSingleValue
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T).FamosFileSingleValue
+  nameWithType: FamosFileSingleValue<T>.FamosFileSingleValue
+  nameWithType.vb: FamosFileSingleValue(Of T).FamosFileSingleValue
+- uid: ImcFamosFile.FamosFileSingleValue`1.Value
+  name: Value
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html#ImcFamosFile_FamosFileSingleValue_1_Value
+  commentId: P:ImcFamosFile.FamosFileSingleValue`1.Value
+  fullName: ImcFamosFile.FamosFileSingleValue<T>.Value
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T).Value
+  nameWithType: FamosFileSingleValue<T>.Value
+  nameWithType.vb: FamosFileSingleValue(Of T).Value
+- uid: ImcFamosFile.FamosFileSingleValue`1.Value*
+  name: Value
+  href: api/ImcFamosFile.FamosFileSingleValue-1.html#ImcFamosFile_FamosFileSingleValue_1_Value_
+  commentId: Overload:ImcFamosFile.FamosFileSingleValue`1.Value
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileSingleValue<T>.Value
+  fullName.vb: ImcFamosFile.FamosFileSingleValue(Of T).Value
+  nameWithType: FamosFileSingleValue<T>.Value
+  nameWithType.vb: FamosFileSingleValue(Of T).Value
 - uid: ImcFamosFile.FamosFileText
   name: FamosFileText
   href: api/ImcFamosFile.FamosFileText.html

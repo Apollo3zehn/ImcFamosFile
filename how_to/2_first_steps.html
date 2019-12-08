@@ -8,7 +8,7 @@
     <title>Reading a FAMOS file | ImcFamosFile </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Reading a FAMOS file | ImcFamosFile ">
-    <meta name="generator" content="docfx 2.43.2.0">
+    <meta name="generator" content="docfx 2.46.0.0">
     
     <link rel="shortcut icon" href="../images/icon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -96,6 +96,10 @@ var byteData = componentData.RawData;
 <p>If the data type is unknown, you can quickly check it using the pack info:</p>
 <pre><code class="lang-cs">var dataType = componentData.PackInfo.DataType;
 </code></pre>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When you are done reading the file contents, don't forget to close or dispose the <a class="xref" href="../api/ImcFamosFile.FamosFile.html">FamosFile</a> instance.</p>
+</div>
 <h1 id="writing-a-famos-file">Writing a FAMOS file</h1>
 <p>When you do not want to <em>read</em> files but to <em>write</em> them instead, you need to maked use of the <a class="xref" href="../api/ImcFamosFile.FamosFileHeader.html">FamosFileHeader</a> class:</p>
 <pre><code class="lang-cs">var famosFile = new FamosFileHeader();
@@ -128,8 +132,9 @@ famosFile.Save(&lt;path to file&gt;, writer =&gt;
 <p>The <code>save</code> method accepts an anonymous lambda method because it first writes the header data and when this is done is requests the user to provide the actual data which must match the length you specified during the component definition (<code>length: 10</code>).</p>
 <p>See the following pages on how to create a more complex file.</p>
 <h1 id="editing-a-famos-file">Editing a FAMOS file</h1>
-<p>It is possible to edit the file's data without modifying the header as shown here:</p>
-<pre><code class="lang-cs">var famosFile = FamosFile.OpenEditable(&quot;&lt;path to file&gt;&quot;);
+<p>It is possible to edit the file's data without modifying the header:</p>
+<pre><code class="lang-cs">// `using var famosFile = ...` ensures automatic disposal of the FamosFile instance after usage
+using var famosFile = FamosFile.OpenEditable(&quot;&lt;path to file&gt;&quot;);
 
 famosFile.Edit(writer =&gt;
 {
@@ -146,7 +151,7 @@ famosFile.Edit(writer =&gt;
 </div>
 <div class="WARNING">
 <h5>Warning</h5>
-<p>Do not edit the header before the <code>famosFile.Edit(writer =&gt; ...)</code> method has finished. Otherwise it can't be ensured that the in-memory buffer layout matches that of the on-disk buffer.</p>
+<p>Do not make any edits to the header before the <code>famosFile.Edit(writer =&gt; ...)</code> method has finished. Otherwise it can't be ensured that the in-memory buffer layouts match that of the on-disk buffers.</p>
 </div>
 </article>
           </div>
@@ -156,7 +161,7 @@ famosFile.Edit(writer =&gt;
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/master/doc/how_to/2_first_steps.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Apollo3zehn/ImcFamosFile/blob/dev/doc/how_to/2_first_steps.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
