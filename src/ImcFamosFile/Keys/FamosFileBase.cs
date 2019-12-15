@@ -22,11 +22,6 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        static FamosFileBase()
-        {
-
-        }
-
         private protected FamosFileBase(BinaryReader reader)
         {
             _reader = reader;

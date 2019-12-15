@@ -20,21 +20,24 @@ namespace ImcFamosFile
 
         #region Constructors
 
-        private FamosFile(string filePath) : base(new BinaryReader(File.OpenRead(filePath)))
+        private FamosFile(string filePath) 
+            : base(new BinaryReader(File.OpenRead(filePath)))
         {
             this.Deserialize();
             this.AfterDeserialize();
             this.Validate();
         }
 
-        private FamosFile(string filePath, FileMode fileMode, FileAccess fileAccess) : base(new BinaryReader(File.Open(filePath, fileMode, fileAccess)))
+        private FamosFile(string filePath, FileMode fileMode, FileAccess fileAccess) 
+            : base(new BinaryReader(File.Open(filePath, fileMode, fileAccess)))
         {
             this.Deserialize();
             this.AfterDeserialize();
             this.Validate();
         }
 
-        private FamosFile(Stream stream) : base(new BinaryReader(stream))
+        private FamosFile(Stream stream) 
+            : base(new BinaryReader(stream))
         {
             stream.Seek(0, SeekOrigin.Begin);
 
