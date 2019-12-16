@@ -1,6 +1,6 @@
 # ImcFamosFile
 
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/imcfamosfile?svg=true)](https://ci.appveyor.com/project/Apollo3zehn/imcfamosfile) [![NuGet](https://img.shields.io/nuget/vpre/ImcFamosFile.svg?label=Nuget)](https://www.nuget.org/packages/ImcFamosFile)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/apollo3zehn/imcfamosfile?svg=true&branch=master)](https://ci.appveyor.com/project/Apollo3zehn/imcfamosfile) [![NuGet](https://img.shields.io/nuget/v/ImcFamosFile.svg?label=Nuget)](https://www.nuget.org/packages/ImcFamosFile)
 
 ImcFamosFile is a .NET Standard 2.1 library to read and write imc FAMOS files (.dat, .raw) of version 2.
 
