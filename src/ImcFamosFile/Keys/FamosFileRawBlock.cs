@@ -40,7 +40,7 @@ namespace ImcFamosFile
                     this.Length = keySize - (endPosition - startPosition);
                     this.FileOffset = endPosition;
 
-                    this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
+                    this.Reader.BaseStream.TrySeek(this.Length + 1, SeekOrigin.Current);
                 }));
             }
             else if (keyVersion == 2)
@@ -52,7 +52,7 @@ namespace ImcFamosFile
                     this.Length = this.DeserializeInt64();
                     this.FileOffset = this.Reader.BaseStream.Position;
 
-                    this.Reader.BaseStream.Seek(this.Length + 1, SeekOrigin.Current);
+                    this.Reader.BaseStream.TrySeek(this.Length + 1, SeekOrigin.Current);
                 }));
             }
             else

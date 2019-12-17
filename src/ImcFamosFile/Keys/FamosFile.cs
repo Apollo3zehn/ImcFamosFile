@@ -268,19 +268,19 @@ namespace ImcFamosFile
             {
                 var valueOffset = start * packInfo.ValueSize;
 
-                this.Reader.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
+                this.Reader.BaseStream.TrySeek(fileOffset + valueOffset, SeekOrigin.Begin);
                 return this.Reader.ReadBytes(dataByteLength);
             }
 
             // read grouped data
             else
             {
-                var bufferByteLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset;
                 var valueOffset = start * packInfo.ByteRowSize;
+                var bufferByteLength = buffer.ConsumedBytes - buffer.Offset - packInfo.Offset - valueOffset;
 
                 var data = new byte[dataByteLength];
 
-                this.Reader.BaseStream.Seek(fileOffset + valueOffset, SeekOrigin.Begin);
+                this.Reader.BaseStream.TrySeek(fileOffset + valueOffset, SeekOrigin.Begin);
 
                 var bytePosition = 0;
                 var valuePosition = 0;
@@ -307,7 +307,7 @@ namespace ImcFamosFile
                     // skip x bytes
                     if (bufferByteLength - bytePosition >= packInfo.ByteGapSize)
                     {
-                        this.Reader.BaseStream.Seek(packInfo.ByteGapSize, SeekOrigin.Current);
+                        this.Reader.BaseStream.TrySeek(packInfo.ByteGapSize, SeekOrigin.Current);
                         bytePosition += packInfo.ByteGapSize;
                     }
                     else
