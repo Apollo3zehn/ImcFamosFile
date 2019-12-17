@@ -116,6 +116,19 @@ namespace ImcFamosFile.Tests
         }
 
         [Fact]
+        public void ThrowsWhenReadingCorruptFile()
+        {
+            // Arrange
+            var filePath = $"./ImcTestData/BusTrip_corrupt.dat";
+
+            // Act
+            Action action = () => FamosFile.Open(filePath);
+
+            // Assert
+            Assert.Throws<FormatException>(action);
+        }
+
+        [Fact]
         public void ThrowsWhenGroupIsAddedTwice()
         {
             // Arrange
