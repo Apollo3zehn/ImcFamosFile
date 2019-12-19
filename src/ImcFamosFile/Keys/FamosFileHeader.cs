@@ -428,6 +428,8 @@ namespace ImcFamosFile
                 writer.BaseStream.Seek(20, SeekOrigin.Begin);
                 writer.Write('1');
             }
+
+            this.AfterSerialize();
         }
 
         /// <summary>
@@ -644,6 +646,15 @@ namespace ImcFamosFile
                 }
 
                 i++;
+            }
+        }
+
+        internal override void AfterSerialize()
+        {
+            // special case: revert combination of component properties
+            foreach (var field in this.Fields)
+            {
+                field.AfterSerialize();
             }
         }
 

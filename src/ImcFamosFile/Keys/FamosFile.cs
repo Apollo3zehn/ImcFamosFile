@@ -21,19 +21,25 @@ namespace ImcFamosFile
         #region Constructors
 
         private FamosFile(string filePath) 
-            : base(new BinaryReader(File.OpenRead(filePath)))
+            : this(filePath, FileMode.Open, FileAccess.Read)
         {
-            this.Deserialize();
-            this.AfterDeserialize();
-            this.Validate();
+            //
         }
 
         private FamosFile(string filePath, FileMode fileMode, FileAccess fileAccess) 
             : base(new BinaryReader(File.Open(filePath, fileMode, fileAccess)))
         {
-            this.Deserialize();
-            this.AfterDeserialize();
-            this.Validate();
+            try
+            {
+                this.Deserialize();
+                this.AfterDeserialize();
+                this.Validate();
+            }
+            catch (Exception)
+            {
+                this.Dispose();
+                throw;
+            }
         }
 
         private FamosFile(Stream stream) 
@@ -63,7 +69,7 @@ namespace ImcFamosFile
         /// </summary>
         public void Dispose()
         {
-            this.Reader.Dispose();
+            this.Reader?.Dispose();
         }
 
         #endregion
@@ -81,16 +87,6 @@ namespace ImcFamosFile
         }
 
         /// <summary>
-        /// Opens the file at the location specified by the parameter <paramref name="filePath"/>. Use this method in conjunction with <see cref="FamosFile.Edit(Action{BinaryWriter})"/> to edit the file's raw data without touching the header itself.
-        /// </summary>
-        /// <param name="filePath">The path to the file to be opened.</param>
-        /// <returns>Returns a new <see cref="FamosFile"/> instance.</returns>
-        public static FamosFile OpenEditable(string filePath)
-        {
-            return new FamosFile(filePath, FileMode.Open, FileAccess.ReadWrite);
-        }
-
-        /// <summary>
         /// Opens and reads the provided <paramref name="stream"/>.
         /// </summary>
         /// <param name="stream">The stream containing the serialized FAMOS data.</param>
@@ -98,6 +94,16 @@ namespace ImcFamosFile
         public static FamosFile Open(Stream stream)
         {
             return new FamosFile(stream);
+        }
+
+        /// <summary>
+        /// Opens the file at the location specified by the parameter <paramref name="filePath"/>. Use this method in conjunction with <see cref="FamosFile.Edit(Action{BinaryWriter})"/> to edit the file's raw data without touching the header itself.
+        /// </summary>
+        /// <param name="filePath">The path to the file to be opened.</param>
+        /// <returns>Returns a new <see cref="FamosFile"/> instance.</returns>
+        public static FamosFile OpenEditable(string filePath)
+        {
+            return new FamosFile(filePath, FileMode.Open, FileAccess.ReadWrite);
         }
 
         /// <summary>

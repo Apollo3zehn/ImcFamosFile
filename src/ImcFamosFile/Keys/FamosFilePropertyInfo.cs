@@ -56,7 +56,7 @@ namespace ImcFamosFile
         private protected override FamosFileKeyType KeyType => FamosFileKeyType.Np;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Regex MatchProperty { get; } = new Regex("\"(.*?)\"\\s\"(.*?)\"\\s([0-9])\\s([0-9])");
+        private Regex MatchProperty { get; } = new Regex(@"""(.*?)""\s""(.*?|\s*?)""\s([0-9])\s([0-9])", RegexOptions.Singleline);
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace ImcFamosFile
             var result = this.MatchProperty.Match(rawValue);
 
             var name = result.Groups[1].Value;
-            var value = result.Groups[2].Value;
+            var value = result.Groups[2].Value.Replace("\"\"", "\"");
             var type = (FamosFilePropertyType)int.Parse(result.Groups[3].Value);
             var flags = (FamosFilePropertyFlags)int.Parse(result.Groups[4].Value);
 

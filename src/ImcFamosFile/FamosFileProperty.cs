@@ -125,7 +125,7 @@ namespace ImcFamosFile
         {
             return new object[]
             {
-                $"\"{this.Name}\" \"{this.Value}\" {(int)this.Type} {(int)this.Flags}"
+                $"\"{this.Name}\" \"{this.Value.Replace("\"", "\"\"")}\" {(int)this.Type} {(int)this.Flags}"
             };
         }
 

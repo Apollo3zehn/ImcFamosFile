@@ -280,6 +280,9 @@ namespace ImcFamosFile
                 eventInfo.Index = this.EventInfos.IndexOf(eventInfo) + 1;
             }
 
+            // combine properties of all components
+            this.CombineComponentProperties();
+
             // update event info index of event location infos
             foreach (var eventReference in this.Components.Select(component => component.EventReference))
             {
@@ -324,6 +327,11 @@ namespace ImcFamosFile
             }
         }
 
+        internal override void AfterSerialize()
+        {
+            this.ExpandComponentProperties();
+        }
+
         internal override void AfterDeserialize()
         {
             // check if event info indices are consistent
@@ -342,10 +350,92 @@ namespace ImcFamosFile
                     eventReference.EventInfo = this.EventInfos.First(eventInfo => eventInfo.Index == eventReference.EventInfoIndex);
             }
 
+            // expand properties of all components
+            this.ExpandComponentProperties();
+
             // prepare components
             foreach (var component in this.Components)
             {
                 component.AfterDeserialize();
+            }
+        }
+
+        private void CombineComponentProperties()
+        {
+            if (this.Components.Any())
+            {
+                var firstComponent = this.Components.First();
+
+                if (this.TriggerTime == null)
+                    this.TriggerTime = firstComponent.TriggerTime;
+
+                if (this.XAxisScaling == null)
+                    this.XAxisScaling = firstComponent.XAxisScaling;
+
+                if (this.ZAxisScaling == null)
+                    this.ZAxisScaling = firstComponent.ZAxisScaling;
+            }
+
+            var currentTriggerTime = this.TriggerTime;
+            var currentXAxisScaling = this.XAxisScaling;
+            var currentZAxisScaling = this.ZAxisScaling;
+
+            foreach (var component in this.Components)
+            {
+                // trigger time
+                if (component.TriggerTime != null)
+                {
+                    if (currentTriggerTime != null && component.TriggerTime.Equals(currentTriggerTime))
+                        component.TriggerTime = null;
+                    else
+                        currentTriggerTime = component.TriggerTime;
+                }
+
+                // x-axis scaling
+                if (component.XAxisScaling != null)
+                {
+                    if (currentXAxisScaling != null && component.XAxisScaling.Equals(currentXAxisScaling))
+                        component.XAxisScaling = null;
+                    else
+                        currentXAxisScaling = component.XAxisScaling;
+                }
+
+                // z-axis scaling
+                if (component.ZAxisScaling != null)
+                {
+                    if (currentZAxisScaling != null && component.ZAxisScaling.Equals(currentZAxisScaling))
+                        component.ZAxisScaling = null;
+                    else
+                        currentZAxisScaling = component.ZAxisScaling;
+                }
+            }
+        }
+
+        private void ExpandComponentProperties()
+        {
+            var currentTriggerTime = this.TriggerTime;
+            var currentXAxisScaling = this.XAxisScaling;
+            var currentZAxisScaling = this.ZAxisScaling;
+
+            foreach (var component in this.Components)
+            {
+                // trigger time
+                if (component.TriggerTime == null)
+                    component.TriggerTime = currentTriggerTime?.Clone();
+                else
+                    currentTriggerTime = component.TriggerTime;
+
+                // x-axis scaling
+                if (component.XAxisScaling == null)
+                    component.XAxisScaling = currentXAxisScaling?.Clone();
+                else
+                    currentXAxisScaling = component.XAxisScaling;
+
+                // z-axis scaling
+                if (component.ZAxisScaling == null)
+                    component.ZAxisScaling = currentZAxisScaling?.Clone();
+                else
+                    currentZAxisScaling = component.ZAxisScaling;
             }
         }
 

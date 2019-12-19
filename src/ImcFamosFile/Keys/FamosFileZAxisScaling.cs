@@ -102,6 +102,40 @@ namespace ImcFamosFile
 
         #region Methods
 
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            var other = (FamosFileZAxisScaling)obj;
+
+            if (other == null)
+                return false;
+
+            return this.DeltaZ.Equals(other.DeltaZ)
+                && this.IsDeltaZCalibrated.Equals(other.IsDeltaZCalibrated)
+                && this.Z0.Equals(other.Z0)
+                && this.IsZ0Calibrated.Equals(other.IsZ0Calibrated)
+                && this.Unit.Equals(other.Unit)
+                && this.SegmentSize.Equals(other.SegmentSize);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hash = 17;
+
+                hash = hash * 23 + this.DeltaZ.GetHashCode();
+                hash = hash * 23 + this.IsDeltaZCalibrated.GetHashCode();
+                hash = hash * 23 + this.Z0.GetHashCode();
+                hash = hash * 23 + this.IsZ0Calibrated.GetHashCode();
+                hash = hash * 23 + this.Unit.GetHashCode();
+                hash = hash * 23 + this.SegmentSize.GetHashCode();
+
+                return hash;
+            }
+        }
+
         internal FamosFileZAxisScaling Clone()
         {
             return (FamosFileZAxisScaling)this.MemberwiseClone();

@@ -235,7 +235,7 @@ namespace ImcFamosFile
                     break;
 
                 case FamosFileDataType.Digital16Bit:
-                    sizeIsInvalid = this.ValueSize != 8;
+                    sizeIsInvalid = this.ValueSize != 2;
                     break;
 
                 case FamosFileDataType.UInt48:

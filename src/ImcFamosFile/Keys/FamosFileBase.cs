@@ -87,6 +87,11 @@ namespace ImcFamosFile
             //
         }
 
+        internal virtual void AfterSerialize()
+        {
+            //
+        }
+
         internal abstract void Serialize(BinaryWriter writer);
 
         private protected void SerializeKey(BinaryWriter writer, int keyVersion, object[] data, bool addLineBreak = true)
