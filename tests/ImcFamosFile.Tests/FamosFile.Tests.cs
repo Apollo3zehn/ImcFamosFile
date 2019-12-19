@@ -116,6 +116,45 @@ namespace ImcFamosFile.Tests
         }
 
         [Fact]
+        public void DistributesPropertiesForEachComponent()
+        {
+            // Arrange
+            var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            var famosFileHeader = new FamosFileHeader();
+
+            var components = new List<FamosFileComponent>() 
+            {
+                new FamosFileAnalogComponent("A", FamosFileDataType.Float64, 5),
+                new FamosFileAnalogComponent("B", FamosFileDataType.UInt16, 15),
+                new FamosFileAnalogComponent("C", FamosFileDataType.Int32, 7),
+            };
+
+            components[1].XAxisScaling = new FamosFileXAxisScaling(1);
+            components[2].XAxisScaling = components[1].XAxisScaling;
+
+            famosFileHeader.Fields.Add(new FamosFileField(FamosFileFieldType.MultipleYToSingleEquidistantTime, components));
+            famosFileHeader.Channels.AddRange(components.SelectMany(component => component.Channels));
+
+            // Act
+            famosFileHeader.Save(filePath, writer => { });
+
+            using var famosFile = FamosFile.Open(filePath);
+
+            // Assert
+            DoAssert(famosFileHeader.Fields[0]);
+            DoAssert(famosFile.Fields[0]);
+
+            void DoAssert(FamosFileField field)
+            {
+                Assert.True(field.XAxisScaling == null);
+                Assert.True(field.Components[0].XAxisScaling == null);
+                Assert.True(field.Components[1].XAxisScaling != null);
+                Assert.True(field.Components[2].XAxisScaling != null);
+                Assert.True(!(field.Components[1].XAxisScaling == field.Components[2].XAxisScaling));
+            }
+        }
+
+        [Fact]
         public void ThrowsWhenReadingCorruptFile()
         {
             // Arrange

@@ -124,6 +124,44 @@ namespace ImcFamosFile
 
         #region Methods
 
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            var other = (FamosFileXAxisScaling)obj;
+
+            if (other == null)
+                return false;
+
+            return this.DeltaX.Equals(other.DeltaX)
+                && this.IsCalibrated.Equals(other.IsCalibrated)
+                && this.Unit.Equals(other.Unit)
+                && this.Reduction.Equals(other.Reduction)
+                && this.IsMultiEvents.Equals(other.IsMultiEvents)
+                && this.SortBuffers.Equals(other.SortBuffers)
+                && this.X0.Equals(other.X0)
+                && this.PretriggerUsage.Equals(other.PretriggerUsage);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hash = 17;
+
+                hash = hash * 23 + this.DeltaX.GetHashCode();
+                hash = hash * 23 + this.IsCalibrated.GetHashCode();
+                hash = hash * 23 + this.Unit.GetHashCode();
+                hash = hash * 23 + this.Reduction.GetHashCode();
+                hash = hash * 23 + this.IsMultiEvents.GetHashCode();
+                hash = hash * 23 + this.SortBuffers.GetHashCode();
+                hash = hash * 23 + this.X0.GetHashCode();
+                hash = hash * 23 + this.PretriggerUsage.GetHashCode();
+
+                return hash;
+            }
+        }
+
         internal FamosFileXAxisScaling Clone()
         {
             return (FamosFileXAxisScaling)this.MemberwiseClone();

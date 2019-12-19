@@ -120,6 +120,32 @@ namespace ImcFamosFile
 
         #region Methods
 
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            var other = (FamosFileTriggerTime)obj;
+
+            if (other == null)
+                return false;
+
+            return this.DateTime.Equals(other.DateTime)
+                && this.TimeMode.Equals(other.TimeMode);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hash = 17;
+
+                hash = hash * 23 + this.DateTime.GetHashCode();
+                hash = hash * 23 + this.TimeMode.GetHashCode();
+
+                return hash;
+            }
+        }
+
         internal FamosFileTriggerTime Clone()
         {
             return (FamosFileTriggerTime)this.MemberwiseClone();
