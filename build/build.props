@@ -13,8 +13,8 @@
 
   <PropertyGroup>
     <Major Condition="$(Major) == ''">1</Major>
-    <Minor Condition="$(Minor) == ''">2</Minor>
-    <Revision Condition="$(Revision) == ''">2</Revision>
+    <Minor Condition="$(Minor) == ''">3</Minor>
+    <Revision Condition="$(Revision) == ''">0</Revision>
     <VersionSuffix Condition="$(VersionSuffix) == ''"></VersionSuffix>
   </PropertyGroup>
 
