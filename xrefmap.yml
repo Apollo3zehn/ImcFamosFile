@@ -3189,6 +3189,32 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileTriggerTime.DateTime
   nameWithType: FamosFileTriggerTime.DateTime
+- uid: ImcFamosFile.FamosFileTriggerTime.Equals(System.Object)
+  name: Equals(Object)
+  href: api/ImcFamosFile.FamosFileTriggerTime.html#ImcFamosFile_FamosFileTriggerTime_Equals_System_Object_
+  commentId: M:ImcFamosFile.FamosFileTriggerTime.Equals(System.Object)
+  fullName: ImcFamosFile.FamosFileTriggerTime.Equals(System.Object)
+  nameWithType: FamosFileTriggerTime.Equals(Object)
+- uid: ImcFamosFile.FamosFileTriggerTime.Equals*
+  name: Equals
+  href: api/ImcFamosFile.FamosFileTriggerTime.html#ImcFamosFile_FamosFileTriggerTime_Equals_
+  commentId: Overload:ImcFamosFile.FamosFileTriggerTime.Equals
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileTriggerTime.Equals
+  nameWithType: FamosFileTriggerTime.Equals
+- uid: ImcFamosFile.FamosFileTriggerTime.GetHashCode
+  name: GetHashCode()
+  href: api/ImcFamosFile.FamosFileTriggerTime.html#ImcFamosFile_FamosFileTriggerTime_GetHashCode
+  commentId: M:ImcFamosFile.FamosFileTriggerTime.GetHashCode
+  fullName: ImcFamosFile.FamosFileTriggerTime.GetHashCode()
+  nameWithType: FamosFileTriggerTime.GetHashCode()
+- uid: ImcFamosFile.FamosFileTriggerTime.GetHashCode*
+  name: GetHashCode
+  href: api/ImcFamosFile.FamosFileTriggerTime.html#ImcFamosFile_FamosFileTriggerTime_GetHashCode_
+  commentId: Overload:ImcFamosFile.FamosFileTriggerTime.GetHashCode
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileTriggerTime.GetHashCode
+  nameWithType: FamosFileTriggerTime.GetHashCode
 - uid: ImcFamosFile.FamosFileTriggerTime.TimeMode
   name: TimeMode
   href: api/ImcFamosFile.FamosFileTriggerTime.html#ImcFamosFile_FamosFileTriggerTime_TimeMode
@@ -3312,6 +3338,32 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileXAxisScaling.DeltaX
   nameWithType: FamosFileXAxisScaling.DeltaX
+- uid: ImcFamosFile.FamosFileXAxisScaling.Equals(System.Object)
+  name: Equals(Object)
+  href: api/ImcFamosFile.FamosFileXAxisScaling.html#ImcFamosFile_FamosFileXAxisScaling_Equals_System_Object_
+  commentId: M:ImcFamosFile.FamosFileXAxisScaling.Equals(System.Object)
+  fullName: ImcFamosFile.FamosFileXAxisScaling.Equals(System.Object)
+  nameWithType: FamosFileXAxisScaling.Equals(Object)
+- uid: ImcFamosFile.FamosFileXAxisScaling.Equals*
+  name: Equals
+  href: api/ImcFamosFile.FamosFileXAxisScaling.html#ImcFamosFile_FamosFileXAxisScaling_Equals_
+  commentId: Overload:ImcFamosFile.FamosFileXAxisScaling.Equals
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileXAxisScaling.Equals
+  nameWithType: FamosFileXAxisScaling.Equals
+- uid: ImcFamosFile.FamosFileXAxisScaling.GetHashCode
+  name: GetHashCode()
+  href: api/ImcFamosFile.FamosFileXAxisScaling.html#ImcFamosFile_FamosFileXAxisScaling_GetHashCode
+  commentId: M:ImcFamosFile.FamosFileXAxisScaling.GetHashCode
+  fullName: ImcFamosFile.FamosFileXAxisScaling.GetHashCode()
+  nameWithType: FamosFileXAxisScaling.GetHashCode()
+- uid: ImcFamosFile.FamosFileXAxisScaling.GetHashCode*
+  name: GetHashCode
+  href: api/ImcFamosFile.FamosFileXAxisScaling.html#ImcFamosFile_FamosFileXAxisScaling_GetHashCode_
+  commentId: Overload:ImcFamosFile.FamosFileXAxisScaling.GetHashCode
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileXAxisScaling.GetHashCode
+  nameWithType: FamosFileXAxisScaling.GetHashCode
 - uid: ImcFamosFile.FamosFileXAxisScaling.IsCalibrated
   name: IsCalibrated
   href: api/ImcFamosFile.FamosFileXAxisScaling.html#ImcFamosFile_FamosFileXAxisScaling_IsCalibrated
@@ -3435,6 +3487,32 @@ references:
   isSpec: "True"
   fullName: ImcFamosFile.FamosFileZAxisScaling.DeltaZ
   nameWithType: FamosFileZAxisScaling.DeltaZ
+- uid: ImcFamosFile.FamosFileZAxisScaling.Equals(System.Object)
+  name: Equals(Object)
+  href: api/ImcFamosFile.FamosFileZAxisScaling.html#ImcFamosFile_FamosFileZAxisScaling_Equals_System_Object_
+  commentId: M:ImcFamosFile.FamosFileZAxisScaling.Equals(System.Object)
+  fullName: ImcFamosFile.FamosFileZAxisScaling.Equals(System.Object)
+  nameWithType: FamosFileZAxisScaling.Equals(Object)
+- uid: ImcFamosFile.FamosFileZAxisScaling.Equals*
+  name: Equals
+  href: api/ImcFamosFile.FamosFileZAxisScaling.html#ImcFamosFile_FamosFileZAxisScaling_Equals_
+  commentId: Overload:ImcFamosFile.FamosFileZAxisScaling.Equals
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileZAxisScaling.Equals
+  nameWithType: FamosFileZAxisScaling.Equals
+- uid: ImcFamosFile.FamosFileZAxisScaling.GetHashCode
+  name: GetHashCode()
+  href: api/ImcFamosFile.FamosFileZAxisScaling.html#ImcFamosFile_FamosFileZAxisScaling_GetHashCode
+  commentId: M:ImcFamosFile.FamosFileZAxisScaling.GetHashCode
+  fullName: ImcFamosFile.FamosFileZAxisScaling.GetHashCode()
+  nameWithType: FamosFileZAxisScaling.GetHashCode()
+- uid: ImcFamosFile.FamosFileZAxisScaling.GetHashCode*
+  name: GetHashCode
+  href: api/ImcFamosFile.FamosFileZAxisScaling.html#ImcFamosFile_FamosFileZAxisScaling_GetHashCode_
+  commentId: Overload:ImcFamosFile.FamosFileZAxisScaling.GetHashCode
+  isSpec: "True"
+  fullName: ImcFamosFile.FamosFileZAxisScaling.GetHashCode
+  nameWithType: FamosFileZAxisScaling.GetHashCode
 - uid: ImcFamosFile.FamosFileZAxisScaling.IsDeltaZCalibrated
   name: IsDeltaZCalibrated
   href: api/ImcFamosFile.FamosFileZAxisScaling.html#ImcFamosFile_FamosFileZAxisScaling_IsDeltaZCalibrated
