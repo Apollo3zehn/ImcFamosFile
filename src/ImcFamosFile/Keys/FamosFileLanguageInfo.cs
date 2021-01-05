@@ -31,9 +31,9 @@ namespace ImcFamosFile
         #region Properties
 
         /// <summary>
-        /// Gets or sets the code page of the data to write. Default is 0, which is 'Microsoft-1252 / Western European / ANSI'.
+        /// Gets or sets the code page of the data to write. Default is 1252, which is 'Microsoft-1252 / Western European / ANSI'.
         /// </summary>
-        public int CodePage { get; set; }
+        public int CodePage { get; set; } = 1252;
 
         /// <summary>
         /// Gets or sets the language code, see "MSDN Language Codes".
