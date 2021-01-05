@@ -413,7 +413,7 @@ namespace ImcFamosFile
             this.Validate();
             this.BeforeSerialize();
 
-            var codePage = this.LanguageInfo is null ? 0 : this.LanguageInfo.CodePage;
+            var codePage = this.LanguageInfo is null ? 1252 : this.LanguageInfo.CodePage;
             var encoding = Encoding.GetEncoding(codePage);
 
             using (var writer = new BinaryWriter(stream, encoding, leaveOpen: true))
