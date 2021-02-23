@@ -116,7 +116,7 @@ namespace ImcFamosFile
             var offset = this.DeserializeInt32();
             var consumedBytes = this.DeserializeInt32();
             var isNewEvent = this.DeserializeInt32() == 1;
-            var x0 = this.DeserializeInt32();
+            var x0 = this.DeserializeReal();
             var addTime = this.DeserializeReal();
 
 #warning This may fail when user info byte array contains semicolon.

@@ -145,21 +145,7 @@ namespace ImcFamosFile
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hash = 17;
-
-                hash = hash * 23 + this.DeltaX.GetHashCode();
-                hash = hash * 23 + this.IsCalibrated.GetHashCode();
-                hash = hash * 23 + this.Unit.GetHashCode();
-                hash = hash * 23 + this.Reduction.GetHashCode();
-                hash = hash * 23 + this.IsMultiEvents.GetHashCode();
-                hash = hash * 23 + this.SortBuffers.GetHashCode();
-                hash = hash * 23 + this.X0.GetHashCode();
-                hash = hash * 23 + this.PretriggerUsage.GetHashCode();
-
-                return hash;
-            }
+            return HashCode.Combine(this.DeltaX, this.IsCalibrated, this.Unit, this.Reduction, this.IsMultiEvents, this.SortBuffers, this.X0, this.PretriggerUsage);
         }
 
         internal FamosFileXAxisScaling Clone()

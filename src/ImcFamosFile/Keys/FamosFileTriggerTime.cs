@@ -135,15 +135,7 @@ namespace ImcFamosFile
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hash = 17;
-
-                hash = hash * 23 + this.DateTime.GetHashCode();
-                hash = hash * 23 + this.TimeMode.GetHashCode();
-
-                return hash;
-            }
+            return HashCode.Combine(this.DateTime, this.TimeMode);
         }
 
         internal FamosFileTriggerTime Clone()

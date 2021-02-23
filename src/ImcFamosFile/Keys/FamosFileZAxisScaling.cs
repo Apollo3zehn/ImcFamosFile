@@ -121,19 +121,7 @@ namespace ImcFamosFile
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hash = 17;
-
-                hash = hash * 23 + this.DeltaZ.GetHashCode();
-                hash = hash * 23 + this.IsDeltaZCalibrated.GetHashCode();
-                hash = hash * 23 + this.Z0.GetHashCode();
-                hash = hash * 23 + this.IsZ0Calibrated.GetHashCode();
-                hash = hash * 23 + this.Unit.GetHashCode();
-                hash = hash * 23 + this.SegmentSize.GetHashCode();
-
-                return hash;
-            }
+            return HashCode.Combine(this.DeltaZ, this.IsDeltaZCalibrated, this.Z0, this.IsZ0Calibrated, this.Unit, this.SegmentSize);
         }
 
         internal FamosFileZAxisScaling Clone()

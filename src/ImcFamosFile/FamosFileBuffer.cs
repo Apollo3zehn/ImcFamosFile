@@ -116,7 +116,7 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets or sets the X0 of the first sample in the buffer.
         /// </summary>
-        public int X0 { get; set; }
+        public decimal X0 { get; set; }
 
         /// <summary>
         /// Gets or sets the add time, which is used with multiple trigger events to determine the absolute trigger time. 
