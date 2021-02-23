@@ -12,9 +12,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Major Condition="$(Major) == ''">1</Major>
-    <Minor Condition="$(Minor) == ''">3</Minor>
-    <Revision Condition="$(Revision) == ''">1</Revision>
+    <Major Condition="$(Major) == ''">2</Major>
+    <Minor Condition="$(Minor) == ''">0</Minor>
+    <Revision Condition="$(Revision) == ''">0</Revision>
     <VersionSuffix Condition="$(VersionSuffix) == ''"></VersionSuffix>
   </PropertyGroup>
 
