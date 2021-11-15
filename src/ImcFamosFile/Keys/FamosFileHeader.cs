@@ -441,7 +441,7 @@ namespace ImcFamosFile
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, T[] data) where T : unmanaged
         {
-            this.WriteSingle(writer, component, 0, data.AsSpan());
+            this.WriteSingle<T>(writer, component, 0, data.AsSpan());
         }
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace ImcFamosFile
         /// <param name="writer">The binary writer that has been provided in the action block.</param>
         /// <param name="component">The component that describes the data to write.</param>
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
-        public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, Span<T> data) where T : unmanaged
+        public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, ReadOnlySpan<T> data) where T : unmanaged
         {
             this.WriteSingle(writer, component, 0, data);
         }
@@ -466,7 +466,7 @@ namespace ImcFamosFile
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, T[] data) where T : unmanaged
         {
-            this.WriteSingle(writer, component, start, data.AsSpan());
+            this.WriteSingle<T>(writer, component, start, data.AsSpan());
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace ImcFamosFile
         /// <param name="component">The component that describes the data to write.</param>
         /// <param name="start">The number of values to skip.</param>
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
-        public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, Span<T> data) where T : unmanaged
+        public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, ReadOnlySpan<T> data) where T : unmanaged
         {
             if (!this.Fields.Any(field => field.Components.Contains(component)))
                 throw new FormatException($"The provided component is not part of any {nameof(FamosFileField)} instance.");
@@ -500,7 +500,7 @@ namespace ImcFamosFile
             this.WriteComponentData(writer, component, start, MemoryMarshal.Cast<T, byte>(data), dataByteLength / component.PackInfo.ValueSize);
         }
 
-        private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, int start, Span<byte> data, int length)
+        private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, int start, ReadOnlySpan<byte> data, int length)
         {
             var packInfo = component.PackInfo;
             var buffer = packInfo.Buffers.First();
