@@ -15,6 +15,8 @@ namespace ImcFamosFileSample
 
         static void Main(string[] args)
         {
+            var afamosFile = FamosFile.Open(@"Q:\RAW\DB_ACHTERMEER_V66\calibrated\2014-11\2014-11-19\2014-11-19_00-00-00.dat");
+
             var famosFile = new FamosFileHeader();
 
             Program.PrepareHeader(famosFile);
