@@ -16,17 +16,17 @@ namespace ImcFamosFile
         /// <param name="origin">The data origin.</param>
         public FamosFileOriginInfo(string name, FamosFileOrigin origin)
         {
-            this.Name = name;
-            this.Origin = origin;
+            Name = name;
+            Origin = origin;
         }
 
         internal FamosFileOriginInfo(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.Origin = (FamosFileOrigin)this.DeserializeInt32();
-                this.Name = this.DeserializeString();
-                this.Comment = this.DeserializeString();
+                Origin = (FamosFileOrigin)DeserializeInt32();
+                Name = DeserializeString();
+                Comment = DeserializeString();
             });
         }
 
@@ -59,12 +59,12 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                (int)this.Origin,
-                this.Name.Length, this.Name,
-                this.Comment.Length, this.Comment
+                (int)Origin,
+                Name.Length, Name,
+                Comment.Length, Comment
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

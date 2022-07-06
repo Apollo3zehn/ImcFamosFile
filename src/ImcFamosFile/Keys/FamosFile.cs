@@ -31,13 +31,13 @@ namespace ImcFamosFile
         {
             try
             {
-                this.Deserialize();
-                this.AfterDeserialize();
-                this.Validate();
+                Deserialize();
+                AfterDeserialize();
+                Validate();
             }
             catch (Exception)
             {
-                this.Dispose();
+                Dispose();
                 throw;
             }
         }
@@ -47,9 +47,9 @@ namespace ImcFamosFile
         {
             stream.Seek(0, SeekOrigin.Begin);
 
-            this.Deserialize();
-            this.AfterDeserialize();
-            this.Validate();
+            Deserialize();
+            AfterDeserialize();
+            Validate();
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace ImcFamosFile
         /// </summary>
         public void Close()
         {
-            this.Dispose();
+            Dispose();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace ImcFamosFile
         /// </summary>
         public void Dispose()
         {
-            this.Reader?.Dispose();
+            Reader?.Dispose();
         }
 
         #endregion
@@ -112,12 +112,12 @@ namespace ImcFamosFile
         /// <param name="writeData"></param>
         public void Edit(Action<BinaryWriter> writeData)
         {
-            var stream = this.Reader.BaseStream;
+            var stream = Reader.BaseStream;
 
             if (!stream.CanWrite || !stream.CanSeek)
                 throw new InvalidOperationException("The stream must be writeable and seekable.");
 
-            var codePage = this.LanguageInfo is null ? 0 : this.LanguageInfo.CodePage;
+            var codePage = LanguageInfo is null ? 0 : LanguageInfo.CodePage;
             var encoding = Encoding.GetEncoding(codePage);
 
             using (var writer = new BinaryWriter(stream, encoding, leaveOpen: true))
@@ -133,7 +133,7 @@ namespace ImcFamosFile
         /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
         public FamosFileChannelData ReadSingle(FamosFileChannel channel)
         {
-            return this.ReadSingle(channel, 0, 0);
+            return ReadSingle(channel, 0, 0);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace ImcFamosFile
         /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
         public FamosFileChannelData ReadSingle(FamosFileChannel channel, int start)
         {
-            return this.ReadSingle(channel, start, 0);
+            return ReadSingle(channel, start, 0);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace ImcFamosFile
         /// <returns>Returns a <see cref="FamosFileChannelData"/> instance, which may consists of more than one dataset.</returns>
         public FamosFileChannelData ReadSingle(FamosFileChannel channel, int start, int length)
         {
-            (var foundField, var foundComponent) = this.FindFieldAndComponent(channel);
+            (var foundField, var foundComponent) = FindFieldAndComponent(channel);
 
             List<FamosFileComponent> GetAlternatingComponents()
             {
@@ -215,7 +215,7 @@ namespace ImcFamosFile
                 //
                 FamosFileComponentData componentData;
 
-                var data = this.ReadComponentData(currentComponent, start, length);
+                var data = ReadComponentData(currentComponent, start, length);
 
                 componentData = currentComponent.PackInfo.DataType switch
                 {
@@ -248,7 +248,7 @@ namespace ImcFamosFile
         /// <returns>Returns a <see cref="FamosFileChannelData"/> for each channel.</returns>
         public List<FamosFileChannelData> ReadGroup(List<FamosFileChannel> channels)
         {
-            return channels.Select(channel => this.ReadSingle(channel)).ToList();
+            return channels.Select(channel => ReadSingle(channel)).ToList();
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace ImcFamosFile
         /// <returns>Returns a <see cref="FamosFileChannelData"/> for each channel.</returns>
         public List<FamosFileChannelData> ReadAll()
         {
-            return this.GetItemsByComponents(component => component.Channels).Select(channel => this.ReadSingle(channel)).ToList();
+            return GetItemsByComponents(component => component.Channels).Select(channel => ReadSingle(channel)).ToList();
         }
 
         private byte[] ReadComponentData(FamosFileComponent component, int start, int length)
@@ -274,8 +274,8 @@ namespace ImcFamosFile
             {
                 var valueOffset = start * packInfo.ValueSize;
 
-                this.Reader.BaseStream.TrySeek(fileOffset + valueOffset, SeekOrigin.Begin);
-                return this.Reader.ReadBytes(dataByteLength);
+                Reader.BaseStream.TrySeek(fileOffset + valueOffset, SeekOrigin.Begin);
+                return Reader.ReadBytes(dataByteLength);
             }
 
             // read grouped data
@@ -286,7 +286,7 @@ namespace ImcFamosFile
 
                 var data = new byte[dataByteLength];
 
-                this.Reader.BaseStream.TrySeek(fileOffset + valueOffset, SeekOrigin.Begin);
+                Reader.BaseStream.TrySeek(fileOffset + valueOffset, SeekOrigin.Begin);
 
                 var bytePosition = 0;
                 var valuePosition = 0;
@@ -302,7 +302,7 @@ namespace ImcFamosFile
                             for (int k = 0; k < packInfo.ValueSize; k++)
                             {
                                 var position = valuePosition * packInfo.ValueSize + k;
-                                data[position] = this.Reader.ReadByte();
+                                data[position] = Reader.ReadByte();
                             }
 
                             bytePosition += packInfo.ValueSize;
@@ -313,7 +313,7 @@ namespace ImcFamosFile
                     // skip x bytes
                     if (bufferByteLength - bytePosition >= packInfo.ByteGapSize)
                     {
-                        this.Reader.BaseStream.TrySeek(packInfo.ByteGapSize, SeekOrigin.Current);
+                        Reader.BaseStream.TrySeek(packInfo.ByteGapSize, SeekOrigin.Current);
                         bytePosition += packInfo.ByteGapSize;
                     }
                     else
@@ -329,12 +329,12 @@ namespace ImcFamosFile
         private void Deserialize()
         {
             // CF
-            var keyType = this.DeserializeKeyType();
+            var keyType = DeserializeKeyType();
 
             if (keyType != FamosFileKeyType.CF)
                 throw new FormatException("The file is not a FAMOS file.");
 
-            var keyVersion = this.DeserializeInt32();
+            var keyVersion = DeserializeInt32();
 
             if (keyVersion == 1)
             {
@@ -342,9 +342,9 @@ namespace ImcFamosFile
             }
             else if (keyVersion == SUPPORTED_VERSION)
             {
-                this.DeserializeKey(keySize =>
+                DeserializeKey(keySize =>
                 {
-                    var processor = this.DeserializeInt32();
+                    var processor = DeserializeInt32();
                 });
             }
             else
@@ -353,17 +353,17 @@ namespace ImcFamosFile
             }
 
             // CK
-            new FamosFileKeyGroup(this.Reader);
+            new FamosFileKeyGroup(Reader);
 
             // Now, all other keys.
             FamosFileBaseProperty? propertyInfoReceiver = null;
 
             while (true)
             {
-                if (this.Reader.BaseStream.Position >= this.Reader.BaseStream.Length)
+                if (Reader.BaseStream.Position >= Reader.BaseStream.Length)
                     return;
 
-                var nextKeyType = this.DeserializeKeyType();
+                var nextKeyType = DeserializeKeyType();
 
                 // Reset propertyInfoReceiver if next key type is not 'Np'.
                 if (nextKeyType != FamosFileKeyType.Np)
@@ -372,24 +372,24 @@ namespace ImcFamosFile
                 // Unknown
                 if (nextKeyType == FamosFileKeyType.Unknown)
                 {
-                    this.SkipKey();
+                    SkipKey();
                     continue;
                 }
 
                 // NO
                 else if (nextKeyType == FamosFileKeyType.NO)
-                    this.OriginInfo = new FamosFileOriginInfo(this.Reader, this.CodePage);
+                    OriginInfo = new FamosFileOriginInfo(Reader, CodePage);
 
                 // NL
                 else if (nextKeyType == FamosFileKeyType.NL)
                 {
-                    this.LanguageInfo = new FamosFileLanguageInfo(this.Reader);
-                    this.CodePage = this.LanguageInfo.CodePage;
+                    LanguageInfo = new FamosFileLanguageInfo(Reader);
+                    CodePage = LanguageInfo.CodePage;
                 }
 
                 // NE - only imc internal
                 else if (nextKeyType == FamosFileKeyType.NE)
-                    this.SkipKey();
+                    SkipKey();
 
                 // Ca
                 else if (nextKeyType == FamosFileKeyType.Ca)
@@ -397,45 +397,45 @@ namespace ImcFamosFile
 
                 // NU
                 else if (nextKeyType == FamosFileKeyType.NU)
-                    this.CustomKeys.Add(new FamosFileCustomKey(this.Reader, this.CodePage));
+                    CustomKeys.Add(new FamosFileCustomKey(Reader, CodePage));
 
                 // CB
                 else if (nextKeyType == FamosFileKeyType.CB)
                 {
-                    this.Groups.Add(new FamosFileGroup(this.Reader, this.CodePage));
-                    propertyInfoReceiver = this.Groups.Last();
+                    Groups.Add(new FamosFileGroup(Reader, CodePage));
+                    propertyInfoReceiver = Groups.Last();
                 }
 
                 // CG
                 else if (nextKeyType == FamosFileKeyType.CG)
-                    this.Fields.Add(new FamosFileField(this.Reader, this.CodePage));
+                    Fields.Add(new FamosFileField(Reader, CodePage));
 
                 // CT
                 else if (nextKeyType == FamosFileKeyType.CT)
                 {
-                    _texts.Add(new FamosFileText(this.Reader, this.CodePage));
+                    _texts.Add(new FamosFileText(Reader, CodePage));
                     propertyInfoReceiver = _texts.Last();
                 }
 
                 // CI
                 else if (nextKeyType == FamosFileKeyType.CI)
                 {
-                    _singleValues.Add(new FamosFileSingleValue.Deserializer(this.Reader, this.CodePage).Deserialize());
+                    _singleValues.Add(new FamosFileSingleValue.Deserializer(Reader, CodePage).Deserialize());
                     propertyInfoReceiver = _singleValues.Last();
                 }
 
                 // CS 
                 else if (nextKeyType == FamosFileKeyType.CS)
-                    this.RawBlocks.Add(new FamosFileRawBlock(this.Reader));
+                    RawBlocks.Add(new FamosFileRawBlock(Reader));
 
                 // Nv - only for data manager
                 else if (nextKeyType == FamosFileKeyType.Nv)
-                    this.SkipKey();
+                    SkipKey();
 
                 // Np
                 else if (nextKeyType == FamosFileKeyType.Np)
                 {
-                    var propertyInfo = new FamosFilePropertyInfo(this.Reader, this.CodePage);
+                    var propertyInfo = new FamosFilePropertyInfo(Reader, CodePage);
 
                     if (propertyInfoReceiver != null)
                         propertyInfoReceiver.PropertyInfo = propertyInfo;
@@ -451,7 +451,7 @@ namespace ImcFamosFile
 
                 else
                     //throw new FormatException($"Unexpected key '{keyType}'.");
-                    this.SkipKey();
+                    SkipKey();
             }
         }
 
@@ -463,7 +463,7 @@ namespace ImcFamosFile
             }
             else
             {
-                var group = this.Groups.FirstOrDefault(group => group.Index == groupIndex);
+                var group = Groups.FirstOrDefault(group => group.Index == groupIndex);
 
                 if (group != null)
                     getGroupCollection.Invoke(group).Add(value);
@@ -475,41 +475,41 @@ namespace ImcFamosFile
         internal override void AfterDeserialize()
         {
             // prepare data fields
-            foreach (var field in this.Fields)
+            foreach (var field in Fields)
             {
                 field.AfterDeserialize();
             }
 
             // check if group indices are consistent
-            base.CheckIndexConsistency("group", this.Groups, current => current.Index);
-            this.Groups = this.Groups.OrderBy(x => x.Index).ToList();
+            base.CheckIndexConsistency("group", Groups, current => current.Index);
+            Groups = Groups.OrderBy(x => x.Index).ToList();
 
             // check if raw block indices are consistent
-            base.CheckIndexConsistency("raw block", this.RawBlocks, current => current.Index);
-            this.RawBlocks = this.RawBlocks.OrderBy(x => x.Index).ToList();
+            base.CheckIndexConsistency("raw block", RawBlocks, current => current.Index);
+            RawBlocks = RawBlocks.OrderBy(x => x.Index).ToList();
 
             // assign text to group
             foreach (var text in _texts)
             {
-                this.AssignToGroup(text.GroupIndex, text, group => group.Texts, () => this.Texts);
+                AssignToGroup(text.GroupIndex, text, group => group.Texts, () => Texts);
             }
 
             // assign single value to group
             foreach (var singleValue in _singleValues)
             {
-                this.AssignToGroup(singleValue.GroupIndex, singleValue, group => group.SingleValues, () => this.SingleValues);
+                AssignToGroup(singleValue.GroupIndex, singleValue, group => group.SingleValues, () => SingleValues);
             }
 
             // assign channel info to group
-            foreach (var channel in this.GetItemsByComponents(component => component.Channels))
+            foreach (var channel in GetItemsByComponents(component => component.Channels))
             {
-                this.AssignToGroup(channel.GroupIndex, channel, group => group.Channels, () => this.Channels);
+                AssignToGroup(channel.GroupIndex, channel, group => group.Channels, () => Channels);
             }
 
             // assign raw block to buffer
-            foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
+            foreach (var buffer in GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
-                buffer.RawBlock = this.RawBlocks.First(rawBlock => rawBlock.Index == buffer.RawBlockIndex);
+                buffer.RawBlock = RawBlocks.First(rawBlock => rawBlock.Index == buffer.RawBlockIndex);
             }
         }
 

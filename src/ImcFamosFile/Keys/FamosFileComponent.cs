@@ -20,12 +20,12 @@ namespace ImcFamosFile
 
         private protected FamosFileComponent(FamosFileDataType dataType, int length, FamosFileComponentType componentType)
         {
-            this.Type = componentType;
-            this.BufferInfo = new FamosFileBufferInfo(new List<FamosFileBuffer>() { new FamosFileBuffer() });
-            this.PackInfo = new FamosFilePackInfo(dataType, this.BufferInfo.Buffers.ToList());
+            Type = componentType;
+            BufferInfo = new FamosFileBufferInfo(new List<FamosFileBuffer>() { new FamosFileBuffer() });
+            PackInfo = new FamosFilePackInfo(dataType, BufferInfo.Buffers.ToList());
 
-            var buffer = this.BufferInfo.Buffers.First();
-            buffer.Length = length * this.PackInfo.ValueSize;
+            var buffer = BufferInfo.Buffers.First();
+            buffer.Length = length * PackInfo.ValueSize;
             buffer.ConsumedBytes = buffer.Length; // This could theoretically be set to actual value during 'famosFile.Save(...);' but how handle interlaced data?
         }
 
@@ -37,7 +37,7 @@ namespace ImcFamosFile
 
             while (true)
             {
-                var nextKeyType = this.DeserializeKeyType();
+                var nextKeyType = DeserializeKeyType();
 
                 if (propertyInfo != null && nextKeyType != FamosFileKeyType.CN)
                     throw new FormatException("A channel info of type '|CN' was expected because a property info of type '|Np' has been defined previously.");
@@ -52,66 +52,66 @@ namespace ImcFamosFile
                     nextKeyType == FamosFileKeyType.CS)
                 {
                     // go back to start of key
-                    this.Reader.BaseStream.Position -= 4;
+                    Reader.BaseStream.Position -= 4;
                     break;
                 }
 
                 else if (nextKeyType == FamosFileKeyType.Unknown)
                 {
-                    this.SkipKey();
+                    SkipKey();
                     continue;
                 }
 
                 // CD
                 else if (nextKeyType == FamosFileKeyType.CD)
-                    this.XAxisScaling = new FamosFileXAxisScaling(this.Reader, this.CodePage);
+                    XAxisScaling = new FamosFileXAxisScaling(Reader, CodePage);
 
                 // CZ
                 else if (nextKeyType == FamosFileKeyType.CZ)
-                    this.ZAxisScaling = new FamosFileZAxisScaling(this.Reader, this.CodePage);
+                    ZAxisScaling = new FamosFileZAxisScaling(Reader, CodePage);
 
                 // NT
                 else if (nextKeyType == FamosFileKeyType.NT)
-                    this.TriggerTime = new FamosFileTriggerTime(this.Reader);
+                    TriggerTime = new FamosFileTriggerTime(Reader);
 
                 // CP
                 else if (nextKeyType == FamosFileKeyType.CP)
-                    packInfo = new FamosFilePackInfo(this.Reader);
+                    packInfo = new FamosFilePackInfo(Reader);
 
                 // Cb
                 else if (nextKeyType == FamosFileKeyType.Cb)
                 {
                     if (bufferInfo == null)
-                        bufferInfo = new FamosFileBufferInfo(this.Reader);
+                        bufferInfo = new FamosFileBufferInfo(Reader);
                     else
                         throw new FormatException("Although the format specification allows multiple '|Cb' keys, this implementation supports only a single definition per component. Please send a sample file to the project maintainer to overcome this limitation in future.");
                 }
 
                 // CR
                 else if (nextKeyType == FamosFileKeyType.CR)
-                    this.DeserializeCR();
+                    DeserializeCR();
 
                 // ND
                 else if (nextKeyType == FamosFileKeyType.ND)
-                    this.DisplayInfo = new FamosFileDisplayInfo(this.Reader);
+                    DisplayInfo = new FamosFileDisplayInfo(Reader);
 
                 // Cv
                 else if (nextKeyType == FamosFileKeyType.Cv)
                     throw new NotSupportedException("Events are not supported yet. Please send a sample file to the package author to find a solution.");
-                    //this.EventReference = new FamosFileEventReference(this.Reader);
+                    //EventReference = new FamosFileEventReference(Reader);
 
                 // CN
                 else if (nextKeyType == FamosFileKeyType.CN)
                 {
-                    this.Channels.Add(new FamosFileChannel(this.Reader, this.CodePage));
-                    this.Channels.Last().PropertyInfo = propertyInfo;
+                    Channels.Add(new FamosFileChannel(Reader, CodePage));
+                    Channels.Last().PropertyInfo = propertyInfo;
 
                     propertyInfo = null;
                 }
 
                 // Np
                 else if (nextKeyType == FamosFileKeyType.Np)
-                    propertyInfo = new FamosFilePropertyInfo(this.Reader, this.CodePage);
+                    propertyInfo = new FamosFilePropertyInfo(Reader, CodePage);
 
                 else
                     // should never happen
@@ -121,12 +121,12 @@ namespace ImcFamosFile
             if (packInfo is null)
                 throw new FormatException("No pack information was found in the component.");
             else
-                this.PackInfo = packInfo;
+                PackInfo = packInfo;
 
             if (bufferInfo is null)
                 throw new FormatException("No buffer information was found in the component.");
             else
-                this.BufferInfo = bufferInfo;
+                BufferInfo = bufferInfo;
         }
 
         #endregion
@@ -203,7 +203,7 @@ namespace ImcFamosFile
             {
                 var name = string.Empty;
 
-                foreach (var channel in this.Channels)
+                foreach (var channel in Channels)
                 {
                     if (!string.IsNullOrWhiteSpace(channel.Name))
                     {
@@ -226,7 +226,7 @@ namespace ImcFamosFile
         /// <returns>Returns the size of the component.</returns>
         public int GetSize()
         {
-            return this.GetSize(0, 0);
+            return GetSize(0, 0);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace ImcFamosFile
         /// <returns>Returns the size of the component.</returns>
         public int GetSize(int start)
         {
-            return this.GetSize(start, 0);
+            return GetSize(start, 0);
         }
 
         /// <summary>
@@ -247,8 +247,8 @@ namespace ImcFamosFile
         /// <returns>Returns the size of the component.</returns>
         public int GetSize(int start, int length)
         {
-            var packInfo = this.PackInfo;
-            var buffer = this.PackInfo.Buffers.First();
+            var packInfo = PackInfo;
+            var buffer = PackInfo.Buffers.First();
 
             int maxLength;
 
@@ -277,42 +277,42 @@ namespace ImcFamosFile
         public override void Validate()
         {
             // validate pack info's buffers
-            if (!this.PackInfo.Buffers.Any())
+            if (!PackInfo.Buffers.Any())
                 throw new FormatException("The pack info's buffers collection must container at least a single buffer instance.");
 
-            foreach (var buffer in this.PackInfo.Buffers)
+            foreach (var buffer in PackInfo.Buffers)
             {
-                if (!this.BufferInfo.Buffers.Contains(buffer))
+                if (!BufferInfo.Buffers.Contains(buffer))
                     throw new FormatException("The pack info's buffers must be part of the component's buffer collection.");
             }
 
             // validate pack info
-            this.PackInfo.Validate();
+            PackInfo.Validate();
 
             // validate buffer info
-            this.BufferInfo.Validate();
+            BufferInfo.Validate();
 
             /* check unique region */
-            if (this.Channels.Count != this.Channels.Distinct().Count())
+            if (Channels.Count != Channels.Distinct().Count())
                 throw new FormatException("A channel must be added only once.");
 
             /* not yet supported region */
-            foreach (var channel in this.Channels)
+            foreach (var channel in Channels)
             {
                 if (channel.BitIndex > 0)
                     throw new InvalidOperationException("This implementation does not support processing boolean data yet. Please send a sample file to the package author to find a solution.");
             }
 
-            if (this.EventReference != null)
+            if (EventReference != null)
                 throw new NotSupportedException("Events are not supported yet. Please send a sample file to the package author to find a solution.");
 
-            if (this.PackInfo.GroupSize > 1)
+            if (PackInfo.GroupSize > 1)
                 throw new InvalidOperationException("This implementation does not yet support processing data with a pack info group size > '1'. Please send a sample file to the package author to find a solution.");
 
-            if (this.PackInfo.Mask != 0)
+            if (PackInfo.Mask != 0)
                 throw new InvalidOperationException("This implementation does not yet support processing masked data. Please send a sample file to the package author to find a solution.");
 
-            if (this.PackInfo.Buffers.First().IsRingBuffer)
+            if (PackInfo.Buffers.First().IsRingBuffer)
                 throw new InvalidOperationException("This implementation does not yet support processing ring buffers. Please send a sample file to the package author to find a solution.");
         }
 
@@ -334,38 +334,38 @@ namespace ImcFamosFile
             // CC
             var data = new object[]
             {
-                    (int)this.Type,
-                    this.GetType() == typeof(FamosFileAnalogComponent) ? 1 : 2
+                    (int)Type,
+                    GetType() == typeof(FamosFileAnalogComponent) ? 1 : 2
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
 
             // CD
-            this.XAxisScaling?.Serialize(writer);
+            XAxisScaling?.Serialize(writer);
 
             // CZ
-            this.ZAxisScaling?.Serialize(writer);
+            ZAxisScaling?.Serialize(writer);
 
             // NT
-            this.TriggerTime?.Serialize(writer);
+            TriggerTime?.Serialize(writer);
 
             // CP
-            this.PackInfo.Serialize(writer);
+            PackInfo.Serialize(writer);
 
             // Cb
-            this.BufferInfo?.Serialize(writer);
+            BufferInfo?.Serialize(writer);
 
             // CR
-            this.SerializeCR(writer);
+            SerializeCR(writer);
 
             // ND
-            this.DisplayInfo?.Serialize(writer);
+            DisplayInfo?.Serialize(writer);
 
             // Cv
-            this.EventReference?.Serialize(writer);
+            EventReference?.Serialize(writer);
 
             // CN
-            foreach (var channel in this.Channels)
+            foreach (var channel in Channels)
             {
                 channel.Serialize(writer);
             }
@@ -374,10 +374,10 @@ namespace ImcFamosFile
         internal override void AfterDeserialize()
         {
             // prepare buffer info
-            this.BufferInfo.AfterDeserialize();
+            BufferInfo.AfterDeserialize();
 
             // assign buffers to pack info
-            this.PackInfo.Buffers.AddRange(this.BufferInfo.Buffers.Where(buffer => buffer.Reference == this.PackInfo.BufferReference));
+            PackInfo.Buffers.AddRange(BufferInfo.Buffers.Where(buffer => buffer.Reference == PackInfo.BufferReference));
         }
 
         #endregion
@@ -406,16 +406,16 @@ namespace ImcFamosFile
                 int type = 0;
                 bool isDigital = false;
 
-                this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+                DeserializeKey(expectedKeyVersion: 1, keySize =>
                 {
                     // type
-                    type = this.DeserializeInt32();
+                    type = DeserializeInt32();
 
                     if (type != 1 && type != 2)
                         throw new FormatException($"Expected index value of '1' or '2', got {type}");
 
                     // analog / digital
-                    var analogDigital = this.DeserializeInt32();
+                    var analogDigital = DeserializeInt32();
 
                     if (analogDigital != 1 && analogDigital != 2)
                         throw new FormatException($"Expected analog / digital value of '1' or '2', got {analogDigital}");
@@ -426,9 +426,9 @@ namespace ImcFamosFile
                 FamosFileComponent component;
 
                 if (isDigital)
-                    component = new FamosFileDigitalComponent(this.Reader, this.CodePage);
+                    component = new FamosFileDigitalComponent(Reader, CodePage);
                 else
-                    component = new FamosFileAnalogComponent(this.Reader, this.CodePage);
+                    component = new FamosFileAnalogComponent(Reader, CodePage);
 
                 component.Type = (FamosFileComponentType)type;
 
@@ -485,22 +485,22 @@ namespace ImcFamosFile
         {
             base.Validate();
 
-            if (!this.Channels.Any())
+            if (!Channels.Any())
                 throw new FormatException("At least a single channel must be defined.");
 
-            if (this.Channels.Count() > 16)
+            if (Channels.Count() > 16)
                 throw new FormatException("A maximum number of 16 channels can be defined for digital components.");
 
-            if (this.PackInfo.Mask != 0)
+            if (PackInfo.Mask != 0)
                 throw new FormatException($"For digital components the mask must be set to '0'.");
 
-            foreach (var channel in this.Channels)
+            foreach (var channel in Channels)
             {
                 if (!(1 <= channel.BitIndex && channel.BitIndex <= 16))
                     throw new FormatException("For digital components the channel bit indices must be within the range '1..16'.");
             }
 
-            if (this.PackInfo.DataType != FamosFileDataType.Digital16Bit)
+            if (PackInfo.DataType != FamosFileDataType.Digital16Bit)
                 throw new FormatException("For digital components the data type must be 'Digital16Bit'.");
         }
 
@@ -515,7 +515,7 @@ namespace ImcFamosFile
 
         private protected override void DeserializeCR()
         {
-            throw new FormatException($"The digital component '{this.Name}' defines analog calibration information.");
+            throw new FormatException($"The digital component '{Name}' defines analog calibration information.");
         }
 
         #endregion
@@ -577,7 +577,7 @@ namespace ImcFamosFile
                                         FamosFileComponentType componentType,
                                         FamosFileCalibration calibrationInfo) : base(dataType, length, componentType)
         {
-            this.CalibrationInfo = calibrationInfo;
+            CalibrationInfo = calibrationInfo;
         }
 
         #endregion
@@ -641,8 +641,8 @@ namespace ImcFamosFile
                                         FamosFileComponentType componentType,
                                         FamosFileCalibration calibrationInfo) : base(dataType, length, componentType)
         {
-            this.Channels.Add(new FamosFileChannel(name));
-            this.CalibrationInfo = calibrationInfo;
+            Channels.Add(new FamosFileChannel(name));
+            CalibrationInfo = calibrationInfo;
         }
 
         #endregion
@@ -672,13 +672,13 @@ namespace ImcFamosFile
         {
             base.Validate();
 
-            foreach (var channel in this.Channels)
+            foreach (var channel in Channels)
             {
                 if (channel.BitIndex != 0)
                     throw new FormatException("For analog components the channel bit indices must be set to '0'.");
             }
 
-            if (this.PackInfo.DataType == FamosFileDataType.Digital16Bit)
+            if (PackInfo.DataType == FamosFileDataType.Digital16Bit)
                 throw new FormatException($"For analog components the data type must be not '{nameof(FamosFileDataType.Digital16Bit)}'.");
         }
 
@@ -691,7 +691,7 @@ namespace ImcFamosFile
             base.BeforeSerialize();
 
             // remove all channel property infos, except of the first to keep Famos happy.
-            foreach (var channel in this.Channels.Skip(1))
+            foreach (var channel in Channels.Skip(1))
             {
                 channel.PropertyInfo = null;
             }
@@ -699,12 +699,12 @@ namespace ImcFamosFile
 
         private protected override void SerializeCR(BinaryWriter writer)
         {
-            this.CalibrationInfo?.Serialize(writer);
+            CalibrationInfo?.Serialize(writer);
         }
 
         private protected override void DeserializeCR()
         {
-            this.CalibrationInfo = new FamosFileCalibration(this.Reader, this.CodePage);
+            CalibrationInfo = new FamosFileCalibration(Reader, CodePage);
         }
 
         #endregion

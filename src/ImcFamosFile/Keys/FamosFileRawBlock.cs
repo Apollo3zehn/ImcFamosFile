@@ -26,33 +26,33 @@ namespace ImcFamosFile
 
         internal FamosFileRawBlock(BinaryReader reader) : base(reader)
         {
-            var keyVersion = this.DeserializeInt32();
+            var keyVersion = DeserializeInt32();
 
             if (keyVersion == 1)
             {
-                this.DeserializeKey((Action<long>)(keySize =>
+                DeserializeKey((Action<long>)(keySize =>
                 {
-                    var startPosition = this.Reader.BaseStream.Position;
-                    this.Index = this.DeserializeInt32();
-                    var endPosition = this.Reader.BaseStream.Position;
+                    var startPosition = Reader.BaseStream.Position;
+                    Index = DeserializeInt32();
+                    var endPosition = Reader.BaseStream.Position;
 
-                    this.CompressionType = FamosFileCompressionType.Uncompressed;
-                    this.Length = keySize - (endPosition - startPosition);
-                    this.FileOffset = endPosition;
+                    CompressionType = FamosFileCompressionType.Uncompressed;
+                    Length = keySize - (endPosition - startPosition);
+                    FileOffset = endPosition;
 
-                    this.Reader.BaseStream.TrySeek(this.Length + 1, SeekOrigin.Current);
+                    Reader.BaseStream.TrySeek(Length + 1, SeekOrigin.Current);
                 }));
             }
             else if (keyVersion == 2)
             {
-                this.DeserializeKey((Action<long>)(keySize =>
+                DeserializeKey((Action<long>)(keySize =>
                 {
-                    this.Index = this.DeserializeInt32();
-                    this.CompressionType = (FamosFileCompressionType)this.DeserializeInt32();
-                    this.Length = this.DeserializeInt64();
-                    this.FileOffset = this.Reader.BaseStream.Position;
+                    Index = DeserializeInt32();
+                    CompressionType = (FamosFileCompressionType)DeserializeInt32();
+                    Length = DeserializeInt64();
+                    FileOffset = Reader.BaseStream.Position;
 
-                    this.Reader.BaseStream.TrySeek(this.Length + 1, SeekOrigin.Current);
+                    Reader.BaseStream.TrySeek(Length + 1, SeekOrigin.Current);
                 }));
             }
             else
@@ -99,14 +99,14 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.Index,
-                (int)this.CompressionType,
-                this.Length,
-                new FamosFilePlaceHolder() { Length = this.Length }
+                Index,
+                (int)CompressionType,
+                Length,
+                new FamosFilePlaceHolder() { Length = Length }
             };
 
-            this.SerializeKey(writer, 2, data, addLineBreak: true); // --> -2 characters
-            this.FileOffset = writer.BaseStream.Position - this.Length - 1 - 2;
+            SerializeKey(writer, 2, data, addLineBreak: true); // --> -2 characters
+            FileOffset = writer.BaseStream.Position - Length - 1 - 2;
         }
 
         #endregion

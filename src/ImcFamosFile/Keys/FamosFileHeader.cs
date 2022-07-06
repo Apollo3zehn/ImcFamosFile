@@ -27,12 +27,12 @@ namespace ImcFamosFile
         /// </summary>
         public FamosFileHeader()
         {
-            this.Initialize();
+            Initialize();
         }
 
         private protected FamosFileHeader(BinaryReader reader) : base(reader, 0)
         {
-            this.Initialize();
+            Initialize();
         }
 
         #endregion
@@ -109,7 +109,7 @@ namespace ImcFamosFile
         /// <param name="alignmentMode">The buffer alignment mode.</param>
         public void AlignBuffers(FamosFileRawBlock rawBlock, FamosFileAlignmentMode alignmentMode)
         {
-            this.AlignBuffers(rawBlock, alignmentMode, this.Fields.SelectMany(field => field.Components).ToList());
+            AlignBuffers(rawBlock, alignmentMode, Fields.SelectMany(field => field.Components).ToList());
         }
 
         /// <summary>
@@ -120,9 +120,9 @@ namespace ImcFamosFile
         /// <param name="components">The list of components to align.</param>
         public void AlignBuffers(FamosFileRawBlock rawBlock, FamosFileAlignmentMode alignmentMode, List<FamosFileComponent> components)
         {
-            var actualComponents = this.Fields.SelectMany(field => field.Components);
+            var actualComponents = Fields.SelectMany(field => field.Components);
 
-            if (!this.RawBlocks.Contains(rawBlock))
+            if (!RawBlocks.Contains(rawBlock))
                 throw new InvalidOperationException("The passed raw block instance is not a member of this instance.");
 
             if (!components.Any(component => actualComponents.Contains(component)))
@@ -216,7 +216,7 @@ namespace ImcFamosFile
             FamosFileField? foundField = null;
             FamosFileComponent? foundComponent = null;
 
-            foreach (var field in this.Fields)
+            foreach (var field in Fields)
             {
                 foreach (var component in field.Components)
                 {
@@ -245,7 +245,7 @@ namespace ImcFamosFile
         /// <returns>Returns the found <see cref="FamosFileField"/>.</returns>
         public FamosFileField FindField(FamosFileChannel channel)
         {
-            return this.FindFieldAndComponent(channel).Field;
+            return FindFieldAndComponent(channel).Field;
         }
 
         /// <summary>
@@ -255,81 +255,81 @@ namespace ImcFamosFile
         /// <returns>Returns the found <see cref="FamosFileComponent"/>.</returns>
         public FamosFileComponent FindComponent(FamosFileChannel channel)
         {
-            return this.FindFieldAndComponent(channel).Component;
+            return FindFieldAndComponent(channel).Component;
         }
 
         /// <inheritdoc />
         public override void Validate()
         {
             // validate data fields
-            foreach (var field in this.Fields)
+            foreach (var field in Fields)
             {
                 field.Validate();
             }
 
             // check if all texts are assigned to a single group
-            var textsByGroup = this.GetItemsByGroups(group => group.Texts, () => this.Texts);
+            var textsByGroup = GetItemsByGroups(group => group.Texts, () => Texts);
 
             if (textsByGroup.Count() != textsByGroup.Distinct().Count())
                 throw new FormatException("A text must be assigned to a single group only.");
 
             // check if all single values are assigned to a single group
-            var singleValuesByGroup = this.GetItemsByGroups(group => group.SingleValues, () => this.SingleValues);
+            var singleValuesByGroup = GetItemsByGroups(group => group.SingleValues, () => SingleValues);
 
             if (singleValuesByGroup.Count() != singleValuesByGroup.Distinct().Count())
                 throw new FormatException("A single value must be assigned to a single group only.");
 
             // check if all channels are assigned to a single group
-            var channelsByGroup = this.GetItemsByGroups(group => group.Channels, () => this.Channels);
+            var channelsByGroup = GetItemsByGroups(group => group.Channels, () => Channels);
 
             if (channelsByGroup.Count() != channelsByGroup.Distinct().Count())
                 throw new FormatException("A channel must be assigned to a single group only.");
 
-            foreach (var channel in this.GetItemsByComponents(component => component.Channels))
+            foreach (var channel in GetItemsByComponents(component => component.Channels))
             {
                 if (!channelsByGroup.Contains(channel))
                     throw new FormatException($"The channel named '{channel.Name}' must be assigned to a group.");
             }
 
             // check if all custom keys are unique
-            var distinctCount = this.CustomKeys.Select(customKey => customKey.Key).Distinct().Count();
+            var distinctCount = CustomKeys.Select(customKey => customKey.Key).Distinct().Count();
 
-            if (this.CustomKeys.Count != distinctCount)
+            if (CustomKeys.Count != distinctCount)
                 throw new FormatException($"Custom keys must be globally unique.");
 
             // check if pack info's buffers are somewhere defined
-            var bufferInfoBuffers = this.GetItemsByComponents(component => component.BufferInfo.Buffers);
+            var bufferInfoBuffers = GetItemsByComponents(component => component.BufferInfo.Buffers);
 
-            foreach (var buffer in this.GetItemsByComponents(component => component.PackInfo.Buffers))
+            foreach (var buffer in GetItemsByComponents(component => component.PackInfo.Buffers))
             {
                 if (!bufferInfoBuffers.Contains(buffer))
                     throw new FormatException("Every buffer associated to a pack info must be also assigned to the components buffer info property.");
             }
 
             // check if buffer's raw block is part of this instance
-            foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
+            foreach (var buffer in GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
-                if (!this.RawBlocks.Contains(buffer.RawBlock))
+                if (!RawBlocks.Contains(buffer.RawBlock))
                 {
                     throw new FormatException("The buffers' raw block must be part of the famos file's raw block collection.");
                 };
             }
 
             /* check unique region */
-            if (this.Groups.Count != this.Groups.Distinct().Count())
+            if (Groups.Count != Groups.Distinct().Count())
                 throw new FormatException("A group must be added only once.");
 
-            if (this.Fields.Count != this.Fields.Distinct().Count())
+            if (Fields.Count != Fields.Distinct().Count())
                 throw new FormatException("A field must be added only once.");
 
-            if (this.CustomKeys.Count != this.CustomKeys.Distinct().Count())
+            if (CustomKeys.Count != CustomKeys.Distinct().Count())
                 throw new FormatException("A custom key must be added only once.");
 
-            if (this.RawBlocks.Count != this.RawBlocks.Distinct().Count())
+            if (RawBlocks.Count != RawBlocks.Distinct().Count())
                 throw new FormatException("A raw block must be added only once.");
 
             /* not yet supported region */
-            foreach (var rawBlock in this.RawBlocks)
+            foreach (var rawBlock in RawBlocks)
             {
                 if (rawBlock.CompressionType != FamosFileCompressionType.Uncompressed)
                     throw new InvalidOperationException("This implementation does not support processing compressed data yet. Please send a sample file to the package author to find a solution.");
@@ -338,17 +338,17 @@ namespace ImcFamosFile
 
         private protected List<T> GetItemsByGroups<T>(Func<FamosFileGroup, List<T>> getGroupCollection, Func<List<T>> getDefaultCollection)
         {
-            return getDefaultCollection().Concat(this.Groups.SelectMany(group => getGroupCollection(group))).ToList();
+            return getDefaultCollection().Concat(Groups.SelectMany(group => getGroupCollection(group))).ToList();
         }
 
         private protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, List<T>> getComponentCollection)
         {
-            return this.Fields.SelectMany(field => field.Components.SelectMany(component => getComponentCollection(component))).ToList();
+            return Fields.SelectMany(field => field.Components.SelectMany(component => getComponentCollection(component))).ToList();
         }
 
         private protected List<T> GetItemsByComponents<T>(Func<FamosFileComponent, T> getComponentValue)
         {
-            return this.Fields.SelectMany(field => field.Components.Select(component => getComponentValue(component))).ToList();
+            return Fields.SelectMany(field => field.Components.Select(component => getComponentValue(component))).ToList();
         }
 
         private void Initialize()
@@ -371,7 +371,7 @@ namespace ImcFamosFile
         /// <param name="autoAlign">A boolean indicating if all component buffers and pack infos should be aligned automatically.</param>
         public void Save(string filePath, Action<BinaryWriter> writeData, bool autoAlign = true)
         {
-            this.Save(filePath, FileMode.CreateNew, writeData, autoAlign);
+            Save(filePath, FileMode.CreateNew, writeData, autoAlign);
         }
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace ImcFamosFile
         {
             using (var stream = File.Open(filePath, fileMode, FileAccess.Write))
             {
-                this.Save(stream, writeData, autoAlign);
+                Save(stream, writeData, autoAlign);
             }
         }
 
@@ -404,22 +404,22 @@ namespace ImcFamosFile
             {
                 var rawBlock = new FamosFileRawBlock();
 
-                this.RawBlocks.Clear();
-                this.RawBlocks.Add(rawBlock);
+                RawBlocks.Clear();
+                RawBlocks.Add(rawBlock);
 
-                this.AlignBuffers(rawBlock, FamosFileAlignmentMode.Continuous);
+                AlignBuffers(rawBlock, FamosFileAlignmentMode.Continuous);
             }
 
-            this.Validate();
-            this.BeforeSerialize();
+            Validate();
+            BeforeSerialize();
 
-            var codePage = this.LanguageInfo is null ? 1252 : this.LanguageInfo.CodePage;
+            var codePage = LanguageInfo is null ? 1252 : LanguageInfo.CodePage;
             var encoding = Encoding.GetEncoding(codePage);
 
             using (var writer = new BinaryWriter(stream, encoding, leaveOpen: true))
             {
                 // Serialize header and leave CK key open.
-                this.Serialize(writer);
+                Serialize(writer);
 
                 // Serialize data.
                 writeData.Invoke(writer);
@@ -429,7 +429,7 @@ namespace ImcFamosFile
                 writer.Write('1');
             }
 
-            this.AfterSerialize();
+            AfterSerialize();
         }
 
         /// <summary>
@@ -441,7 +441,7 @@ namespace ImcFamosFile
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, T[] data) where T : unmanaged
         {
-            this.WriteSingle<T>(writer, component, 0, data.AsSpan());
+            WriteSingle<T>(writer, component, 0, data.AsSpan());
         }
 
         /// <summary>
@@ -453,7 +453,7 @@ namespace ImcFamosFile
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, ReadOnlySpan<T> data) where T : unmanaged
         {
-            this.WriteSingle(writer, component, 0, data);
+            WriteSingle(writer, component, 0, data);
         }
 
         /// <summary>
@@ -466,7 +466,7 @@ namespace ImcFamosFile
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, T[] data) where T : unmanaged
         {
-            this.WriteSingle<T>(writer, component, start, data.AsSpan());
+            WriteSingle<T>(writer, component, start, data.AsSpan());
         }
 
         /// <summary>
@@ -479,7 +479,7 @@ namespace ImcFamosFile
         /// <param name="data">The actual data of type <typeparamref name="T"/>.</param>
         public void WriteSingle<T>(BinaryWriter writer, FamosFileComponent component, int start, ReadOnlySpan<T> data) where T : unmanaged
         {
-            if (!this.Fields.Any(field => field.Components.Contains(component)))
+            if (!Fields.Any(field => field.Components.Contains(component)))
                 throw new FormatException($"The provided component is not part of any {nameof(FamosFileField)} instance.");
 
             var dataByteLength = data.Length * Marshal.SizeOf<T>();
@@ -497,7 +497,7 @@ namespace ImcFamosFile
             if (dataByteLength % component.PackInfo.ValueSize != 0)
                 throw new Exception("The length of the provided data array is not aligned to the component's buffer length, i.e. an incomplete value of the component's data type would be written to file.");
 
-            this.WriteComponentData(writer, component, start, MemoryMarshal.Cast<T, byte>(data), dataByteLength / component.PackInfo.ValueSize);
+            WriteComponentData(writer, component, start, MemoryMarshal.Cast<T, byte>(data), dataByteLength / component.PackInfo.ValueSize);
         }
 
         private void WriteComponentData(BinaryWriter writer, FamosFileComponent component, int start, ReadOnlySpan<byte> data, int length)
@@ -564,79 +564,79 @@ namespace ImcFamosFile
         internal override void BeforeSerialize()
         {
             // prepare data fields
-            foreach (var field in this.Fields)
+            foreach (var field in Fields)
             {
                 field.BeforeSerialize();
             }
 
             // update raw block indices
-            foreach (var rawBlock in this.RawBlocks)
+            foreach (var rawBlock in RawBlocks)
             {
-                rawBlock.Index = this.RawBlocks.IndexOf(rawBlock) + 1;
+                rawBlock.Index = RawBlocks.IndexOf(rawBlock) + 1;
             }
 
             // update group indices
-            foreach (var group in this.Groups)
+            foreach (var group in Groups)
             {
-                group.Index = this.Groups.IndexOf(group) + 1;
+                group.Index = Groups.IndexOf(group) + 1;
             }
 
             // update group index of texts
-            foreach (var text in this.Texts)
+            foreach (var text in Texts)
             {
                 text.GroupIndex = 0;
             }
 
-            foreach (var group in this.Groups)
+            foreach (var group in Groups)
             {
                 foreach (var text in group.Texts)
                 {
-                    var groupIndex = this.Groups.IndexOf(group) + 1;
+                    var groupIndex = Groups.IndexOf(group) + 1;
                     text.GroupIndex = groupIndex;
                 }
             }
 
             // update group index of single values
-            foreach (var singleValue in this.SingleValues)
+            foreach (var singleValue in SingleValues)
             {
                 singleValue.GroupIndex = 0;
             }
 
-            foreach (var group in this.Groups)
+            foreach (var group in Groups)
             {
                 foreach (var singleValue in group.SingleValues)
                 {
-                    var groupIndex = this.Groups.IndexOf(group) + 1;
+                    var groupIndex = Groups.IndexOf(group) + 1;
                     singleValue.GroupIndex = groupIndex;
                 }
             }
 
             // update group index of channels
-            foreach (var channel in this.Channels)
+            foreach (var channel in Channels)
             {
                 channel.GroupIndex = 0;
             }
 
-            foreach (var group in this.Groups)
+            foreach (var group in Groups)
             {
                 foreach (var channel in group.Channels)
                 {
-                    var groupIndex = this.Groups.IndexOf(group) + 1;
+                    var groupIndex = Groups.IndexOf(group) + 1;
                     channel.GroupIndex = groupIndex;
                 }
             }
 
             // update raw block index of buffers
-            foreach (var buffer in this.GetItemsByComponents(component => component.BufferInfo.Buffers))
+            foreach (var buffer in GetItemsByComponents(component => component.BufferInfo.Buffers))
             {
-                var rawBlockIndex = this.RawBlocks.IndexOf(buffer.RawBlock) + 1;
+                var rawBlockIndex = RawBlocks.IndexOf(buffer.RawBlock) + 1;
                 buffer.RawBlockIndex = rawBlockIndex;
             }
 
             // assign monotonous increasing buffer references to pack infos.
             var i = 1;
 
-            foreach (var packInfo in this.GetItemsByComponents(component => component.PackInfo))
+            foreach (var packInfo in GetItemsByComponents(component => component.PackInfo))
             {
                 packInfo.BufferReference = i;
 
@@ -652,7 +652,7 @@ namespace ImcFamosFile
         internal override void AfterSerialize()
         {
             // special case: revert combination of component properties
-            foreach (var field in this.Fields)
+            foreach (var field in Fields)
             {
                 field.AfterSerialize();
             }
@@ -663,60 +663,60 @@ namespace ImcFamosFile
             // CF
             var data = new object[]
             {
-                this.Processor
+                Processor
             };
 
-            this.SerializeKey(writer, SUPPORTED_VERSION, data, addLineBreak: false);
+            SerializeKey(writer, SUPPORTED_VERSION, data, addLineBreak: false);
 
             // CK
             new FamosFileKeyGroup().Serialize(writer);
 
             // NO
-            this.OriginInfo?.Serialize(writer);
+            OriginInfo?.Serialize(writer);
 
             // NL
-            this.LanguageInfo?.Serialize(writer);
+            LanguageInfo?.Serialize(writer);
 
             // NE - do nothing
 
             // Ca - do nothing
 
             // NU
-            foreach (var customKey in this.CustomKeys)
+            foreach (var customKey in CustomKeys)
             {
                 customKey.Serialize(writer);
             }
 
             // CB
-            foreach (var group in this.Groups)
+            foreach (var group in Groups)
             {
                 group.Serialize(writer);
             }
 
             // CG
-            foreach (var field in this.Fields)
+            foreach (var field in Fields)
             {
                 field.Serialize(writer);
             }
 
             // CT
-            foreach (var text in this.Texts)
+            foreach (var text in Texts)
             {
                 text.Serialize(writer);
             }
 
-            foreach (var text in this.Groups.SelectMany(group => group.Texts))
+            foreach (var text in Groups.SelectMany(group => group.Texts))
             {
                 text.Serialize(writer);
             }
 
             // CI
-            foreach (var singleValue in this.SingleValues)
+            foreach (var singleValue in SingleValues)
             {
                 singleValue.Serialize(writer);
             }
 
-            foreach (var singleValue in this.Groups.SelectMany(group => group.SingleValues))
+            foreach (var singleValue in Groups.SelectMany(group => group.SingleValues))
             {
                 singleValue.Serialize(writer);
             }
@@ -724,7 +724,7 @@ namespace ImcFamosFile
             // Nv - do nothing
 
             // CS
-            foreach (var rawBlock in this.RawBlocks)
+            foreach (var rawBlock in RawBlocks)
             {
                 rawBlock.Serialize(writer);
                 writer.Flush();

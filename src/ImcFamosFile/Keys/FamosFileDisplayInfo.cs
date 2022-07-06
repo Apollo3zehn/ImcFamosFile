@@ -25,24 +25,24 @@ namespace ImcFamosFile
         /// <param name="ymax">The upper y-axis display limit.</param>
         public FamosFileDisplayInfo(decimal ymin, decimal ymax)
         {
-            this.YMin = ymin;
-            this.YMax = ymax;
+            YMin = ymin;
+            YMax = ymax;
 
-            this.InternalValidate();
+            InternalValidate();
         }
 
         internal FamosFileDisplayInfo(BinaryReader reader) : base(reader)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.R = this.DeserializeInt32();
-                this.G = this.DeserializeInt32();
-                this.B = this.DeserializeInt32();
-                this.YMin = this.DeserializeReal();
-                this.YMax = this.DeserializeReal();
+                R = DeserializeInt32();
+                G = DeserializeInt32();
+                B = DeserializeInt32();
+                YMin = DeserializeReal();
+                YMax = DeserializeReal();
             });
 
-            this.InternalValidate();
+            InternalValidate();
         }
 
         #endregion
@@ -115,7 +115,7 @@ namespace ImcFamosFile
 
         private void InternalValidate()
         {
-            if (this.YMin >= this.YMax)
+            if (YMin >= YMax)
                 throw new FormatException("YMin must be < YMax.");
         }
 
@@ -127,14 +127,14 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.R,
-                this.G,
-                this.B,
-                this.YMin,
-                this.YMax
+                R,
+                G,
+                B,
+                YMin,
+                YMax
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

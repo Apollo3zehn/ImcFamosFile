@@ -42,7 +42,7 @@ namespace ImcFamosFile
             get
             {
                 if (_reader is null)
-                    throw new NullReferenceException($"{nameof(this.Reader)} is null.");
+                    throw new NullReferenceException($"{nameof(Reader)} is null.");
 
                 return _reader;
             }
@@ -131,7 +131,7 @@ namespace ImcFamosFile
             length += Math.Max(0, combinedData.Count() - 1);
 
             // write key preamble
-            writer.Write($"|{this.KeyType.ToString()},{keyVersion},{length},".ToCharArray());
+            writer.Write($"|{KeyType.ToString()},{keyVersion},{length},".ToCharArray());
 
             // write key content
             for (int i = 0; i < combinedData.Count; i++)
@@ -152,7 +152,7 @@ namespace ImcFamosFile
                     writer.Write(',');
             }
 
-            this.CloseKey(writer, addLineBreak);
+            CloseKey(writer, addLineBreak);
         }
 
         private void CloseKey(BinaryWriter writer, bool addLineBreak)
@@ -177,44 +177,103 @@ namespace ImcFamosFile
 
         private protected void SkipKey()
         {
-            this.DeserializeInt32();
-            this.DeserializeKey(deserializeKeyAction: null);
+            DeserializeInt32();
+            DeserializeKey(deserializeKeyAction: null);
         }
 
         private protected void DeserializeKey(FamosFileKeyType expectedKeyType, int expectedKeyVersion, Action<long> deserializeKeyAction)
         {
-            var keyType = this.DeserializeKeyType();
+            var keyType = DeserializeKeyType();
 
             if (keyType != expectedKeyType)
                 throw new FormatException($"Expected key '{expectedKeyType.ToString()}', got '{keyType.ToString()}'.");
 
-            this.DeserializeKey(expectedKeyVersion, deserializeKeyAction);
+            DeserializeKey(expectedKeyVersion, deserializeKeyAction);
         }
 
         private protected void DeserializeKey(int expectedKeyVersion, Action<long> deserializeKeyAction)
         {
             // key version
-            var keyVersion = this.DeserializeInt32();
+            var keyVersion = DeserializeInt32();
 
             if (keyVersion != expectedKeyVersion)
                 throw new FormatException($"Expected key version '{expectedKeyVersion}', got '{keyVersion}'.");
 
-            this.DeserializeKey(deserializeKeyAction);
+            DeserializeKey(deserializeKeyAction);
         }
 
         private protected void DeserializeKey(Action<long>? deserializeKeyAction)
         {
             // key length
-            var keyLength = this.DeserializeInt64();
+            var keyLength = DeserializeInt64();
 
             // data
             if (deserializeKeyAction is null)
-                this.DeserializeFixedLength(unchecked((int)keyLength));// should not fail as this is intended only for short keys
+                DeserializeFixedLength(unchecked((int)keyLength));// should not fail as this is intended only for short keys
             else
                 deserializeKeyAction?.Invoke(keyLength);
 
             // consume spaces
-            this.ConsumeSpaces();
+            ConsumeSpaces();
+        }
+
+        private protected byte[] DeserializePropertyKey()
+        {
+            var bytes = new List<byte>();
+
+            _ = Reader.ReadByte();
+
+            while (true)
+            {
+                var current = Reader.ReadByte();
+
+                if (current == '"')
+                    break;
+
+                bytes.Add(current);
+            }
+
+            return bytes.ToArray();
+        }
+
+        private protected byte[] DeserializePropertyValue()
+        {
+            var bytes = new List<byte>();
+            var maybeBreak = false;
+
+            _ = Reader.ReadByte();
+
+            // ""      => 
+            // """"    => "
+            // " """   =>  "
+            // """"""  => ""
+            while (true)
+            {
+                var current = Reader.ReadByte();
+
+                if (maybeBreak)
+                {
+                    if (current == '"')
+                    {
+                        maybeBreak = false;
+                        continue;
+                    }
+
+                    else
+                    {
+                        bytes.RemoveAt(bytes.Count - 1);
+                        Reader.BaseStream.Seek(-1, SeekOrigin.Current);
+                        break;
+                    }
+                }
+
+                if (current == '"')
+                    maybeBreak = true;
+                    
+                bytes.Add(current);
+            }
+
+            return bytes.ToArray();
         }
 
         private protected byte[] DeserializeKeyPart()
@@ -223,7 +282,7 @@ namespace ImcFamosFile
 
             while (true)
             {
-                var current = this.Reader.ReadByte();
+                var current = Reader.ReadByte();
 
                 if (current == ',' || current == ';')
                     break;
@@ -236,25 +295,25 @@ namespace ImcFamosFile
 
         private protected int DeserializeHex()
         {
-            var bytes = this.DeserializeKeyPart();
+            var bytes = DeserializeKeyPart();
             return Convert.ToInt32(Encoding.ASCII.GetString(bytes), 16);
         }
 
         private protected int DeserializeInt32()
         {
-            var bytes = this.DeserializeKeyPart();
+            var bytes = DeserializeKeyPart();
             return int.Parse(Encoding.ASCII.GetString(bytes));
         }
 
         private protected long DeserializeInt64()
         {
-            var bytes = this.DeserializeKeyPart();
+            var bytes = DeserializeKeyPart();
             return long.Parse(Encoding.ASCII.GetString(bytes));
         }
 
         private protected decimal DeserializeReal()
         {
-            var bytes = this.DeserializeKeyPart();
+            var bytes = DeserializeKeyPart();
             var numberStyle = NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent;
 
             return decimal.Parse(Encoding.ASCII.GetString(bytes), numberStyle, CultureInfo.InvariantCulture);
@@ -262,9 +321,9 @@ namespace ImcFamosFile
 
         private protected FamosFileKeyType DeserializeKeyType()
         {
-            var keyName = Encoding.ASCII.GetString(this.Reader.ReadBytes(4));
+            var keyName = Encoding.ASCII.GetString(Reader.ReadBytes(4));
 
-            if (!this.MatchKey.IsMatch(keyName))
+            if (!MatchKey.IsMatch(keyName))
                 throw new FormatException("The format of the current key is invalid.");
 
             if (Enum.TryParse<FamosFileKeyType>(keyName[1..3], out var result))
@@ -275,30 +334,30 @@ namespace ImcFamosFile
 
         private protected byte[] DeserializeFixedLength(int length)
         {
-            var data = this.Reader.ReadBytes(length);
+            var data = Reader.ReadBytes(length);
 
             // read comma or semicolon
-            this.Reader.ReadByte();
+            Reader.ReadByte();
 
             return data;
         }
 
         private void ConsumeSpaces()
         {
-            if (this.Reader.BaseStream.Position >= this.Reader.BaseStream.Length)
+            if (Reader.BaseStream.Position >= Reader.BaseStream.Length)
                 return;
 
-            var data = this.Reader.ReadByte();
+            var data = Reader.ReadByte();
 
             while (string.IsNullOrWhiteSpace(Encoding.ASCII.GetString(new[] { data })))
             {
-                if (this.Reader.BaseStream.Position < this.Reader.BaseStream.Length)
-                    data = this.Reader.ReadByte();
+                if (Reader.BaseStream.Position < Reader.BaseStream.Length)
+                    data = Reader.ReadByte();
                 else
                     return;
             }
 
-            this.Reader.BaseStream.Position -= 1;
+            Reader.BaseStream.Position -= 1;
         }
 
         #endregion

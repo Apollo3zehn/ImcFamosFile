@@ -28,8 +28,8 @@ namespace ImcFamosFile
         /// <param name="dataType">The data type.</param>
         public FamosFilePackInfo(FamosFileDataType dataType)
         {
-            this.DataType = dataType;
-            this.SignificantBits = this.ValueSize * 8;
+            DataType = dataType;
+            SignificantBits = ValueSize * 8;
         }
 
         /// <summary>
@@ -39,24 +39,24 @@ namespace ImcFamosFile
         /// <param name="buffers">A list of buffers.</param>
         public FamosFilePackInfo(FamosFileDataType dataType, List<FamosFileBuffer> buffers)
         {
-            this.DataType = dataType;
-            this.SignificantBits = this.ValueSize * 8;
+            DataType = dataType;
+            SignificantBits = ValueSize * 8;
 
-            this.Buffers.AddRange(buffers);
+            Buffers.AddRange(buffers);
         }
 
         internal FamosFilePackInfo(BinaryReader reader) : base(reader)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.BufferReference = this.DeserializeInt32();
-                this.DeserializeInt32(); // value size will be calculated from data type
-                this.DataType = (FamosFileDataType)this.DeserializeInt32();
-                this.SignificantBits = this.DeserializeInt32();
-                this.Mask = this.DeserializeInt32();
-                this.Offset = this.DeserializeInt32();
-                this.GroupSize = this.DeserializeInt32();
-                this.ByteGapSize = this.DeserializeInt32();
+                BufferReference = DeserializeInt32();
+                DeserializeInt32(); // value size will be calculated from data type
+                DataType = (FamosFileDataType)DeserializeInt32();
+                SignificantBits = DeserializeInt32();
+                Mask = DeserializeInt32();
+                Offset = DeserializeInt32();
+                GroupSize = DeserializeInt32();
+                ByteGapSize = DeserializeInt32();
             });
         }
 
@@ -155,12 +155,12 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets a bool indicating if the component is contiguous (= not interlaced).
         /// </summary>
-        public bool IsContiguous => this.ByteGapSize == 0;
+        public bool IsContiguous => ByteGapSize == 0;
 
         /// <summary>
         /// Gets the number of bytes per row (if the data are interlaced).
         /// </summary>
-        public int ByteRowSize => this.ValueSize * this.GroupSize + this.ByteGapSize;
+        public int ByteRowSize => ValueSize * GroupSize + ByteGapSize;
 
         internal int BufferReference
         {
@@ -178,7 +178,7 @@ namespace ImcFamosFile
         {
             get
             {
-                return this.DataType switch
+                return DataType switch
                 {
                     FamosFileDataType.UInt8 => 1,
                     FamosFileDataType.Int8 => 1,
@@ -206,26 +206,26 @@ namespace ImcFamosFile
         {
             var sizeIsInvalid = false;
 
-            switch (this.DataType)
+            switch (DataType)
             {
                 case FamosFileDataType.UInt8:
                 case FamosFileDataType.Int8:
-                    sizeIsInvalid = this.ValueSize != 1;
+                    sizeIsInvalid = ValueSize != 1;
                     break;
 
                 case FamosFileDataType.UInt16:
                 case FamosFileDataType.Int16:
-                    sizeIsInvalid = this.ValueSize != 2;
+                    sizeIsInvalid = ValueSize != 2;
                     break;
 
                 case FamosFileDataType.UInt32:
                 case FamosFileDataType.Int32:
                 case FamosFileDataType.Float32:
-                    sizeIsInvalid = this.ValueSize != 4;
+                    sizeIsInvalid = ValueSize != 4;
                     break;
 
                 case FamosFileDataType.Float64:
-                    sizeIsInvalid = this.ValueSize != 8;
+                    sizeIsInvalid = ValueSize != 8;
                     break;
 
                 case FamosFileDataType.ImcDevicesTransitionalRecording:
@@ -235,11 +235,11 @@ namespace ImcFamosFile
                     break;
 
                 case FamosFileDataType.Digital16Bit:
-                    sizeIsInvalid = this.ValueSize != 2;
+                    sizeIsInvalid = ValueSize != 2;
                     break;
 
                 case FamosFileDataType.UInt48:
-                    sizeIsInvalid = this.ValueSize != 6;
+                    sizeIsInvalid = ValueSize != 6;
                     break;
 
                 default:
@@ -249,7 +249,7 @@ namespace ImcFamosFile
             if (sizeIsInvalid)
                 throw new FormatException("The value of the pack info's value size must match the selected data type.");
 
-            if (this.SignificantBits > this.ValueSize * 8)
+            if (SignificantBits > ValueSize * 8)
                 throw new FormatException("The value of the pack info's significant bits property must be <= the buffer's value size property multiplied by 8.");
         }
 
@@ -261,17 +261,17 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.BufferReference,
-                this.ValueSize,
-                (int)this.DataType,
-                this.SignificantBits,
-                this.Mask,
-                this.Offset,
-                this.GroupSize,
-                this.ByteGapSize
+                BufferReference,
+                ValueSize,
+                (int)DataType,
+                SignificantBits,
+                Mask,
+                Offset,
+                GroupSize,
+                ByteGapSize
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

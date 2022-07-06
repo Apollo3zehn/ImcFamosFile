@@ -14,10 +14,10 @@ namespace ImcFamosFile
 
         internal FamosFileKeyGroup(BinaryReader reader) : base(reader)
         {
-            this.DeserializeKey(FamosFileKeyType.CK, expectedKeyVersion: 1, keySize =>
+            DeserializeKey(FamosFileKeyType.CK, expectedKeyVersion: 1, keySize =>
             {
-                var unknown = this.DeserializeInt32();
-                var keyGroupIsClosed = this.DeserializeInt32() == 1;
+                var unknown = DeserializeInt32();
+                var keyGroupIsClosed = DeserializeInt32() == 1;
 
                 if (!keyGroupIsClosed)
                     throw new FormatException($"The key group is not closed. This may be a hint to an interruption that occured while writing the file content to disk.");
@@ -42,7 +42,7 @@ namespace ImcFamosFile
                 0
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

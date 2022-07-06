@@ -23,16 +23,16 @@ namespace ImcFamosFile
         /// <param name="name">The name of this group.</param>
         public FamosFileGroup(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         internal FamosFileGroup(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.Index = this.DeserializeInt32();
-                this.Name = this.DeserializeString();
-                this.Comment = this.DeserializeString();
+                Index = DeserializeInt32();
+                Name = DeserializeString();
+                Comment = DeserializeString();
             });
         }
 
@@ -87,12 +87,12 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.Index,
-                this.Name.Length, this.Name,
-                this.Comment.Length, this.Comment
+                Index,
+                Name.Length, Name,
+                Comment.Length, Comment
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
             base.Serialize(writer);
         }
 

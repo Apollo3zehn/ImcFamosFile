@@ -27,22 +27,22 @@ namespace ImcFamosFile
         /// <param name="unit">Specifies the unit of this axis.</param>
         public FamosFileCalibration(bool applyTransformation, decimal factor, decimal offset, bool isCalibrated, string unit)
         {
-            this.ApplyTransformation = applyTransformation;
-            this.Factor = factor;
-            this.Offset = offset;
-            this.IsCalibrated = isCalibrated;
-            this.Unit = unit;
+            ApplyTransformation = applyTransformation;
+            Factor = factor;
+            Offset = offset;
+            IsCalibrated = isCalibrated;
+            Unit = unit;
         }
 
         internal FamosFileCalibration(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                ApplyTransformation = this.DeserializeInt32() == 1;
-                Factor = this.DeserializeReal();
-                Offset = this.DeserializeReal();
-                IsCalibrated = this.DeserializeInt32() == 1;
-                Unit = this.DeserializeString();
+                ApplyTransformation = DeserializeInt32() == 1;
+                Factor = DeserializeReal();
+                Offset = DeserializeReal();
+                IsCalibrated = DeserializeInt32() == 1;
+                Unit = DeserializeString();
             });
         }
 
@@ -85,14 +85,14 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.ApplyTransformation ? 1 : 0,
-                this.Factor,
-                this.Offset,
-                this.IsCalibrated ? 1 : 0,
-                this.Unit.Length, this.Unit
+                ApplyTransformation ? 1 : 0,
+                Factor,
+                Offset,
+                IsCalibrated ? 1 : 0,
+                Unit.Length, Unit
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

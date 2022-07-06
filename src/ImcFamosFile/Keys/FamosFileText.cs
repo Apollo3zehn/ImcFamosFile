@@ -24,9 +24,9 @@ namespace ImcFamosFile
         /// <param name="text">A single text.</param>
         public FamosFileText(string name, string text)
         {
-            this.Name = name;
-            this.Text = text;
-            this.Version = 1;
+            Name = name;
+            Text = text;
+            Version = 1;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace ImcFamosFile
         /// <param name="texts">A list of texts.</param>
         public FamosFileText(string name, List<string> texts)
         {
-            this.Name = name;
+            Name = name;
 
             foreach (var text in texts)
             {
@@ -44,34 +44,34 @@ namespace ImcFamosFile
                     throw new FormatException("The text exceeds the maximum length of 2^31 - 2");
             }
 
-            this.Texts.AddRange(texts);
-            this.Version = 2;
+            Texts.AddRange(texts);
+            Version = 2;
         }
 
         internal FamosFileText(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            var keyVersion = this.DeserializeInt32();
+            var keyVersion = DeserializeInt32();
 
             if (keyVersion == 1)
             {
-                this.DeserializeKey(keySize =>
+                DeserializeKey(keySize =>
                 {
-                    this.GroupIndex = this.DeserializeInt32();
+                    GroupIndex = DeserializeInt32();
 
-                    this.Name = this.DeserializeString();
-                    this.Text = this.DeserializeString();
-                    this.Comment = this.DeserializeString();
+                    Name = DeserializeString();
+                    Text = DeserializeString();
+                    Comment = DeserializeString();
                 });
             }
             else if (keyVersion == 2)
             {
-                this.DeserializeKey(keySize =>
+                DeserializeKey(keySize =>
                 {
-                    this.GroupIndex = this.DeserializeInt32();
+                    GroupIndex = DeserializeInt32();
 
-                    this.Name = this.DeserializeString();
-                    this.Texts.AddRange(this.DeserializeStringArray());
-                    this.Comment = this.DeserializeString();
+                    Name = DeserializeString();
+                    Texts.AddRange(DeserializeStringArray());
+                    Comment = DeserializeString();
                 });
             }
             else
@@ -128,30 +128,30 @@ namespace ImcFamosFile
         {
             var data = new List<object>
             {
-                this.GroupIndex,
-                this.Name.Length, this.Name,
+                GroupIndex,
+                Name.Length, Name,
             };
 
-            if (this.Version == 1)
+            if (Version == 1)
             {
-                data.Add(this.Text.Length);
-                data.Add(this.Text);
+                data.Add(Text.Length);
+                data.Add(Text);
             }
             else
             {
-                data.Add(this.Texts.Count);
+                data.Add(Texts.Count);
 
-                foreach (var text in this.Texts)
+                foreach (var text in Texts)
                 {
                     data.Add(text.Length);
                     data.Add(text);
                 }
             }
 
-            data.Add(this.Comment.Length);
-            data.Add(this.Comment);
+            data.Add(Comment.Length);
+            data.Add(Comment);
 
-            this.SerializeKey(writer, this.Version, data.ToArray());
+            SerializeKey(writer, Version, data.ToArray());
             base.Serialize(writer);
         }
 

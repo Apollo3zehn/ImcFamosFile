@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using Xunit;
 
 namespace ImcFamosFile.Tests
@@ -58,6 +57,10 @@ namespace ImcFamosFile.Tests
             var singleDataPartial = famosFileRead.ReadSingle(famosFileRead.Fields[2].Components[0].Channels.First(), 10, 8);
 
             // Assert
+
+#warning This errors on Linux. Is this a bug or a "feature" of the Famos specs?
+            //var unit = ((FamosFileAnalogComponent)famosFileRead.Fields[0].Components[0]).CalibrationInfo.Unit;
+            //Assert.Equal("°C", unit);
 
             // all data
             var expectedPower1 = ImcFamosFileSample.Program.PowerData;

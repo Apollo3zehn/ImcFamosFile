@@ -26,21 +26,21 @@ namespace ImcFamosFile
         /// <param name="buffers">A list of <see cref="FamosFileBuffer"/>.</param>
         public FamosFileBufferInfo(List<FamosFileBuffer> buffers)
         {
-            this.Buffers.AddRange(buffers);
+            Buffers.AddRange(buffers);
         }
 
         internal FamosFileBufferInfo(BinaryReader reader) : base(reader)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var bufferCount = this.DeserializeInt32();
+                var bufferCount = DeserializeInt32();
 
                 // This value denotes the minimum size of all buffer's user data. Set it to 0 to avoid errors.
-                var userInfoSize = this.DeserializeInt32();
+                var userInfoSize = DeserializeInt32();
 
                 for (int i = 0; i < bufferCount; i++)
                 {
-                    this.Buffers.Add(this.DeserializeBuffer());
+                    Buffers.Add(DeserializeBuffer());
                 }
             });
         }
@@ -61,10 +61,10 @@ namespace ImcFamosFile
         /// <inheritdoc />
         public override void Validate()
         {
-            if (this.Buffers.Count > 1)
+            if (Buffers.Count > 1)
                 throw new FormatException("Although the format specification allows multiple buffer definitions per '|Cb' key, this implementation supports only a single buffer per component. Please send a sample file to the project maintainer to overcome this limitation in future.");
 
-            foreach (var buffer in this.Buffers)
+            foreach (var buffer in Buffers)
             {
                 if (buffer.Length > 2 * Math.Pow(10, 9))
                     throw new FormatException("A buffer must not exceed 2 * 10^9 bytes.");
@@ -90,37 +90,37 @@ namespace ImcFamosFile
         {
             var bufferData = new List<object>
             {
-                this.Buffers.Count,
+                Buffers.Count,
                 0, // User info size, see above for explanation.
             };
 
-            foreach (var buffer in this.Buffers)
+            foreach (var buffer in Buffers)
             {
                 bufferData.AddRange(buffer.GetBufferData());
             }
 
-            this.SerializeKey(writer, 1, bufferData.ToArray());
+            SerializeKey(writer, 1, bufferData.ToArray());
         }
 
         internal override void AfterDeserialize()
         {
-            this.Buffers = this.Buffers.OrderBy(buffer => buffer.Reference).ToList();
+            Buffers = Buffers.OrderBy(buffer => buffer.Reference).ToList();
         }
 
         private FamosFileBuffer DeserializeBuffer()
         {
-            var reference = this.DeserializeInt32();
-            var rawBlockIndex = this.DeserializeInt32();
-            var rawBlockOffset = this.DeserializeInt32();
-            var length = this.DeserializeInt32();
-            var offset = this.DeserializeInt32();
-            var consumedBytes = this.DeserializeInt32();
-            var isNewEvent = this.DeserializeInt32() == 1;
-            var x0 = this.DeserializeReal();
-            var addTime = this.DeserializeReal();
+            var reference = DeserializeInt32();
+            var rawBlockIndex = DeserializeInt32();
+            var rawBlockOffset = DeserializeInt32();
+            var length = DeserializeInt32();
+            var offset = DeserializeInt32();
+            var consumedBytes = DeserializeInt32();
+            var isNewEvent = DeserializeInt32() == 1;
+            var x0 = DeserializeReal();
+            var addTime = DeserializeReal();
 
 #warning This may fail when user info byte array contains semicolon.
-            var userInfo = this.DeserializeKeyPart();
+            var userInfo = DeserializeKeyPart();
 
             return new FamosFileBuffer(userInfo)
             {

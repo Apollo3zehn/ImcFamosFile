@@ -32,18 +32,18 @@ namespace ImcFamosFile
 
         internal FamosFileEventReference(BinaryReader reader) : base(reader)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.EventInfoIndex = this.DeserializeInt32();
-                this.Offset = this.DeserializeInt32();
-                this.GroupSize = this.DeserializeInt32();
-                this.GapSize = this.DeserializeInt32();
-                this.EventCount = this.DeserializeInt32();
+                EventInfoIndex = DeserializeInt32();
+                Offset = DeserializeInt32();
+                GroupSize = DeserializeInt32();
+                GapSize = DeserializeInt32();
+                EventCount = DeserializeInt32();
 
-                this.ValidNT = (FamosFileValidNTType)this.DeserializeInt32();
-                this.ValidCD = (FamosFileValidCDType)this.DeserializeInt32();
-                this.ValidCR1 = (FamosFileValidCR1Type)this.DeserializeInt32();
-                this.ValidCR2 = (FamosFileValidCR2Type)this.DeserializeInt32();
+                ValidNT = (FamosFileValidNTType)DeserializeInt32();
+                ValidCD = (FamosFileValidCDType)DeserializeInt32();
+                ValidCR1 = (FamosFileValidCR1Type)DeserializeInt32();
+                ValidCR2 = (FamosFileValidCR2Type)DeserializeInt32();
             });
         }
 
@@ -168,19 +168,19 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.EventInfoIndex,
-                this.Offset,
-                this.GroupSize,
-                this.GapSize,
-                this.EventCount,
+                EventInfoIndex,
+                Offset,
+                GroupSize,
+                GapSize,
+                EventCount,
 
-                (int)this.ValidNT,
-                (int)this.ValidCD,
-                (int)this.ValidCR1,
-                (int)this.ValidCR2
+                (int)ValidNT,
+                (int)ValidCD,
+                (int)ValidCR1,
+                (int)ValidCR2
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

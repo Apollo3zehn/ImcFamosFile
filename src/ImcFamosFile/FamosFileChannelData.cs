@@ -13,9 +13,9 @@ namespace ImcFamosFile
 
         internal FamosFileChannelData(string name, FamosFileFieldType type, List<FamosFileComponentData> componentsData)
         {
-            this.Name = name;
-            this.Type = type;
-            this.ComponentsData = componentsData;
+            Name = name;
+            Type = type;
+            ComponentsData = componentsData;
         }
 
         #endregion

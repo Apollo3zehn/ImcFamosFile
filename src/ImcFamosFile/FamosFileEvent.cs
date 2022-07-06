@@ -69,25 +69,25 @@ namespace ImcFamosFile
 
             using (var binaryWriter = new BinaryWriter(stream))
             {
-                var offsetLo = (uint)(this.Offset & 0x00000000FFFFFFFF);
-                var offsetHi = (uint)(this.Offset >> 32);
+                var offsetLo = (uint)(Offset & 0x00000000FFFFFFFF);
+                var offsetHi = (uint)(Offset >> 32);
 
-                var lengthLo = (uint)(this.Length & 0x00000000FFFFFFFF);
-                var lengthHi = (uint)(this.Length >> 32);
+                var lengthLo = (uint)(Length & 0x00000000FFFFFFFF);
+                var lengthHi = (uint)(Length >> 32);
 
                 binaryWriter.Write(offsetLo);
                 binaryWriter.Write(lengthLo);
-                binaryWriter.Write(this.Time);
-                binaryWriter.Write(this.AmplitudeOffset0);
-                binaryWriter.Write(this.AmplitudeOffset1);
-                binaryWriter.Write(this.X0);
-                binaryWriter.Write(this.AmplificationFactor0);
-                binaryWriter.Write(this.AmplificationFactor1);
-                binaryWriter.Write(this.DeltaX);
+                binaryWriter.Write(Time);
+                binaryWriter.Write(AmplitudeOffset0);
+                binaryWriter.Write(AmplitudeOffset1);
+                binaryWriter.Write(X0);
+                binaryWriter.Write(AmplificationFactor0);
+                binaryWriter.Write(AmplificationFactor1);
+                binaryWriter.Write(DeltaX);
                 binaryWriter.Write(offsetHi);
                 binaryWriter.Write(lengthHi);
 
-                return new object[] { this.Index, stream.ToArray() };
+                return new object[] { Index, stream.ToArray() };
             }
         }
 
