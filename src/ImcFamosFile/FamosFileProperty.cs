@@ -68,12 +68,12 @@ namespace ImcFamosFile
         {
             var epoch = new DateTime(1980, 01, 01);
 
-            this.Name = name;
-            this.Value = (value - epoch).TotalSeconds.ToString(CultureInfo.InvariantCulture);
-            this.Type = FamosFilePropertyType.TimeStampInDMFormat;
-            this.Flags = flags;
+            Name = name;
+            Value = (value - epoch).TotalSeconds.ToString(CultureInfo.InvariantCulture);
+            Type = FamosFilePropertyType.TimeStampInDMFormat;
+            Flags = flags;
 
-            this.Validate();
+            Validate();
         }
 
         /// <summary>
@@ -85,12 +85,12 @@ namespace ImcFamosFile
         /// <param name="flags">Flags.</param>
         public FamosFileProperty(string name, string value, FamosFilePropertyType type, FamosFilePropertyFlags flags = 0)
         {
-            this.Name = name;
-            this.Value = value;
-            this.Type = type;
-            this.Flags = flags;
+            Name = name;
+            Value = value;
+            Type = type;
+            Flags = flags;
 
-            this.Validate();
+            Validate();
         }
 
         #endregion
@@ -125,37 +125,37 @@ namespace ImcFamosFile
         {
             return new object[]
             {
-                $"\"{this.Name}\" \"{this.Value.Replace("\"", "\"\"")}\" {(int)this.Type} {(int)this.Flags}"
+                $"\"{Name}\" \"{Value.Replace("\"", "\"\"")}\" {(int)Type} {(int)Flags}"
             };
         }
 
         internal void Validate()
         {
-            if (string.IsNullOrEmpty(this.Value))
+            if (string.IsNullOrEmpty(Value))
                 return;
 
             var numberStyle = NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent;
 
-            switch (this.Type)
+            switch (Type)
             {
                 case FamosFilePropertyType.String:
                     break;
 
                 case FamosFilePropertyType.Integer:
-                    if (!int.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out int _))
-                        throw new FormatException($"The property value '{this.Value}' is not an integer number.");
+                    if (!int.TryParse(Value, numberStyle, CultureInfo.InvariantCulture, out int _))
+                        throw new FormatException($"The property value '{Value}' is not an integer number.");
 
                     break;
 
                 case FamosFilePropertyType.Real:
-                    if (!double.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out double _))
-                        throw new FormatException($"The property value '{this.Value}' is not a real number.");
+                    if (!double.TryParse(Value, numberStyle, CultureInfo.InvariantCulture, out double _))
+                        throw new FormatException($"The property value '{Value}' is not a real number.");
 
                     break;
 
                 case FamosFilePropertyType.TimeStampInDMFormat:
-                    if (!double.TryParse(this.Value, numberStyle, CultureInfo.InvariantCulture, out double _))
-                        throw new FormatException($"The property value '{this.Value}' is not a time stamp in correct format (seconds since 01.01.1980).");
+                    if (!double.TryParse(Value, numberStyle, CultureInfo.InvariantCulture, out double _))
+                        throw new FormatException($"The property value '{Value}' is not a time stamp in correct format (seconds since 01.01.1980).");
 
                     break;
 
@@ -163,12 +163,12 @@ namespace ImcFamosFile
                     break;
 
                 case FamosFilePropertyType.Boolean:
-                    if (this.Value == "0" || this.Value == "1")
+                    if (Value == "0" || Value == "1")
                         throw new FormatException($"A boolean property value must be equal to '0' (false) or '1' (true).");
                     break;
 
                 default:
-                    throw new FormatException($"Invalid property type. Got type '{this.Type}'.");
+                    throw new FormatException($"Invalid property type. Got type '{Type}'.");
             }
         }
 

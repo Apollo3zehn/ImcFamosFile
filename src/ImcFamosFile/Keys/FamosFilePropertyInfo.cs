@@ -27,19 +27,19 @@ namespace ImcFamosFile
         /// <param name="properties">A list of properties.</param>
         public FamosFilePropertyInfo(List<FamosFileProperty> properties)
         {
-            this.Properties.AddRange(properties);
+            Properties.AddRange(properties);
         }
 
         internal FamosFilePropertyInfo(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var startPosition = this.Reader.BaseStream.Position;
+                var startPosition = Reader.BaseStream.Position;
 
-                while (this.Reader.BaseStream.Position - startPosition < keySize)
+                while (Reader.BaseStream.Position - startPosition < keySize)
                 {
-                    var property = this.DeserializeProperty();
-                    this.Properties.Add(property);
+                    var property = DeserializeProperty();
+                    Properties.Add(property);
                 }
             });
         }
@@ -55,9 +55,6 @@ namespace ImcFamosFile
 
         private protected override FamosFileKeyType KeyType => FamosFileKeyType.Np;
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Regex MatchProperty { get; } = new Regex(@"""(.*?)""\s""(.*?|\s*?)""\s([0-9])\s([0-9])", RegexOptions.Singleline);
-
         #endregion
 
         #region Serialization
@@ -66,24 +63,30 @@ namespace ImcFamosFile
         {
             var propertyData = new List<object>();
 
-            foreach (var property in this.Properties)
+            foreach (var property in Properties)
             {
                 propertyData.AddRange(property.GetPropertyData());
             }
 
-            this.SerializeKey(writer, 1, propertyData.ToArray());
+            SerializeKey(writer, 1, propertyData.ToArray());
         }
 
         private FamosFileProperty DeserializeProperty()
         {
-            var bytes = this.DeserializeKeyPart();
-            var rawValue = Encoding.GetEncoding(this.CodePage).GetString(bytes);
-            var result = this.MatchProperty.Match(rawValue);
+            var name = Encoding
+                .GetEncoding(CodePage)
+                .GetString(DeserializePropertyKey());
 
-            var name = result.Groups[1].Value;
-            var value = result.Groups[2].Value.Replace("\"\"", "\"");
-            var type = (FamosFilePropertyType)int.Parse(result.Groups[3].Value);
-            var flags = (FamosFilePropertyFlags)int.Parse(result.Groups[4].Value);
+            _ = Reader.ReadByte();
+
+            var value = Encoding
+                .GetEncoding(CodePage)
+                .GetString(DeserializePropertyValue());
+
+            var type = (FamosFilePropertyType)int.Parse(Encoding.ASCII.GetString(Reader.ReadBytes(2)));
+            var flags = (FamosFilePropertyFlags)int.Parse(Encoding.ASCII.GetString(Reader.ReadBytes(2)));
+
+            _ = Reader.ReadByte();
 
             return new FamosFileProperty(name, value, type, flags);
         }

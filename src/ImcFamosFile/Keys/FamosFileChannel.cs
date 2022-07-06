@@ -22,18 +22,18 @@ namespace ImcFamosFile
         /// <param name="name">The name of this channel.</param>
         public FamosFileChannel(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         internal FamosFileChannel(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.GroupIndex = this.DeserializeInt32();
-                this.DeserializeInt32(); // reserved parameter
-                this.BitIndex = this.DeserializeInt32();
-                this.Name = this.DeserializeString();
-                this.Comment = this.DeserializeString();
+                GroupIndex = DeserializeInt32();
+                DeserializeInt32(); // reserved parameter
+                BitIndex = DeserializeInt32();
+                Name = DeserializeString();
+                Comment = DeserializeString();
             });
         }
 
@@ -80,14 +80,14 @@ namespace ImcFamosFile
 
             var data = new object[]
             {
-                this.GroupIndex,
+                GroupIndex,
                 "0", // reserved parameter
-                this.BitIndex,
-                this.Name.Length, this.Name,
-                this.Comment.Length, this.Comment
+                BitIndex,
+                Name.Length, Name,
+                Comment.Length, Comment
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

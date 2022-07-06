@@ -19,10 +19,10 @@ namespace ImcFamosFile
 
         internal FamosFileLanguageInfo(BinaryReader reader) : base(reader)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.CodePage = this.DeserializeInt32();
-                this.Language = this.DeserializeHex();
+                CodePage = DeserializeInt32();
+                Language = DeserializeHex();
             });
         }
 
@@ -50,11 +50,11 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.CodePage,
-                $"0x{this.Language.ToString("X4")}"
+                CodePage,
+                $"0x{Language.ToString("X4")}"
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

@@ -23,21 +23,21 @@ namespace ImcFamosFile
         /// <param name="deltaZ">The distance between two segments.</param>
         public FamosFileZAxisScaling(decimal deltaZ)
         {
-            this.DeltaZ = deltaZ;
+            DeltaZ = deltaZ;
         }
 
         internal FamosFileZAxisScaling(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                this.DeltaZ = this.DeserializeReal();
-                this.IsDeltaZCalibrated = this.DeserializeInt32() == 1;
+                DeltaZ = DeserializeReal();
+                IsDeltaZCalibrated = DeserializeInt32() == 1;
 
-                this.Z0 = this.DeserializeReal();
-                this.IsZ0Calibrated = this.DeserializeInt32() == 1;
+                Z0 = DeserializeReal();
+                IsZ0Calibrated = DeserializeInt32() == 1;
 
-                this.Unit = this.DeserializeString();
-                this.SegmentSize = this.DeserializeInt32();
+                Unit = DeserializeString();
+                SegmentSize = DeserializeInt32();
             });
         }
 
@@ -110,23 +110,23 @@ namespace ImcFamosFile
             if (other == null)
                 return false;
 
-            return this.DeltaZ.Equals(other.DeltaZ)
-                && this.IsDeltaZCalibrated.Equals(other.IsDeltaZCalibrated)
-                && this.Z0.Equals(other.Z0)
-                && this.IsZ0Calibrated.Equals(other.IsZ0Calibrated)
-                && this.Unit.Equals(other.Unit)
-                && this.SegmentSize.Equals(other.SegmentSize);
+            return DeltaZ.Equals(other.DeltaZ)
+                && IsDeltaZCalibrated.Equals(other.IsDeltaZCalibrated)
+                && Z0.Equals(other.Z0)
+                && IsZ0Calibrated.Equals(other.IsZ0Calibrated)
+                && Unit.Equals(other.Unit)
+                && SegmentSize.Equals(other.SegmentSize);
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.DeltaZ, this.IsDeltaZCalibrated, this.Z0, this.IsZ0Calibrated, this.Unit, this.SegmentSize);
+            return HashCode.Combine(DeltaZ, IsDeltaZCalibrated, Z0, IsZ0Calibrated, Unit, SegmentSize);
         }
 
         internal FamosFileZAxisScaling Clone()
         {
-            return (FamosFileZAxisScaling)this.MemberwiseClone();
+            return (FamosFileZAxisScaling)MemberwiseClone();
         }
 
         #endregion
@@ -137,15 +137,15 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.DeltaZ,
-                this.IsDeltaZCalibrated ? 1 : 0,
-                this.Z0,
-                this.IsZ0Calibrated ? 1 : 0,
-                this.Unit.Length, this.Unit,
-                this.SegmentSize
+                DeltaZ,
+                IsDeltaZCalibrated ? 1 : 0,
+                Z0,
+                IsZ0Calibrated ? 1 : 0,
+                Unit.Length, Unit,
+                SegmentSize
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

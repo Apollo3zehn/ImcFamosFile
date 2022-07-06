@@ -16,19 +16,19 @@ namespace ImcFamosFile
         /// <param name="value">The binary data of the custom key.</param>
         public FamosFileCustomKey(string key, byte[] value)
         {
-            this.Key = key;
-            this.Value = value;
+            Key = key;
+            Value = value;
         }
 
         internal FamosFileCustomKey(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+            DeserializeKey(expectedKeyVersion: 1, keySize =>
             {
-                var position = this.Reader.BaseStream.Position;
-                this.Key = this.DeserializeString();
+                var position = Reader.BaseStream.Position;
+                Key = DeserializeString();
 
-                var keyLength = this.Reader.BaseStream.Position - position;
-                this.Value = this.DeserializeFixedLength((int)(keySize - keyLength));
+                var keyLength = Reader.BaseStream.Position - position;
+                Value = DeserializeFixedLength((int)(keySize - keyLength));
             });
         }
 
@@ -56,11 +56,11 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.Key.Length, this.Key,
-                this.Value
+                Key.Length, Key,
+                Value
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
         }
 
         #endregion

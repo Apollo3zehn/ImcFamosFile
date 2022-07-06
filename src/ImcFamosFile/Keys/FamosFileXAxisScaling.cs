@@ -22,40 +22,40 @@ namespace ImcFamosFile
         /// <param name="deltaX">The distance between two samples or the parameter.</param>
         public FamosFileXAxisScaling(decimal deltaX)
         {
-            this.DeltaX = deltaX;
+            DeltaX = deltaX;
         }
 
         internal FamosFileXAxisScaling(BinaryReader reader, int codePage) : base(reader, codePage)
         {
-            var keyVersion = this.DeserializeInt32();
+            var keyVersion = DeserializeInt32();
 
             if (keyVersion == 1)
             {
-                this.DeserializeKey(keySize =>
+                DeserializeKey(keySize =>
                 {
-                    this.DeltaX = this.DeserializeReal();
-                    this.IsCalibrated = this.DeserializeInt32() == 1;
-                    this.Unit = this.DeserializeString();
+                    DeltaX = DeserializeReal();
+                    IsCalibrated = DeserializeInt32() == 1;
+                    Unit = DeserializeString();
 
-                    this.Reduction = (FamosFileReductionType)this.DeserializeInt32();
-                    this.IsMultiEvents = this.DeserializeInt32() == 1 ? true : false;
-                    this.SortBuffers = this.DeserializeInt32() == 1 ? true : false;
+                    Reduction = (FamosFileReductionType)DeserializeInt32();
+                    IsMultiEvents = DeserializeInt32() == 1 ? true : false;
+                    SortBuffers = DeserializeInt32() == 1 ? true : false;
                 });
             }
             else if (keyVersion == 2)
             {
-                this.DeserializeKey(keySize =>
+                DeserializeKey(keySize =>
                 {
-                    this.DeltaX = this.DeserializeReal();
-                    this.IsCalibrated = this.DeserializeInt32() == 1;
-                    this.Unit = this.DeserializeString();
+                    DeltaX = DeserializeReal();
+                    IsCalibrated = DeserializeInt32() == 1;
+                    Unit = DeserializeString();
 
-                    this.Reduction = (FamosFileReductionType)this.DeserializeInt32();
-                    this.IsMultiEvents = this.DeserializeInt32() == 1 ? true : false;
-                    this.SortBuffers = this.DeserializeInt32() == 1 ? true : false;
+                    Reduction = (FamosFileReductionType)DeserializeInt32();
+                    IsMultiEvents = DeserializeInt32() == 1 ? true : false;
+                    SortBuffers = DeserializeInt32() == 1 ? true : false;
 
-                    this.X0 = this.DeserializeReal();
-                    this.PretriggerUsage = (FamosFilePretriggerUsage)this.DeserializeInt32();
+                    X0 = DeserializeReal();
+                    PretriggerUsage = (FamosFilePretriggerUsage)DeserializeInt32();
                 });
             }
             else
@@ -132,25 +132,25 @@ namespace ImcFamosFile
             if (other == null)
                 return false;
 
-            return this.DeltaX.Equals(other.DeltaX)
-                && this.IsCalibrated.Equals(other.IsCalibrated)
-                && this.Unit.Equals(other.Unit)
-                && this.Reduction.Equals(other.Reduction)
-                && this.IsMultiEvents.Equals(other.IsMultiEvents)
-                && this.SortBuffers.Equals(other.SortBuffers)
-                && this.X0.Equals(other.X0)
-                && this.PretriggerUsage.Equals(other.PretriggerUsage);
+            return DeltaX.Equals(other.DeltaX)
+                && IsCalibrated.Equals(other.IsCalibrated)
+                && Unit.Equals(other.Unit)
+                && Reduction.Equals(other.Reduction)
+                && IsMultiEvents.Equals(other.IsMultiEvents)
+                && SortBuffers.Equals(other.SortBuffers)
+                && X0.Equals(other.X0)
+                && PretriggerUsage.Equals(other.PretriggerUsage);
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.DeltaX, this.IsCalibrated, this.Unit, this.Reduction, this.IsMultiEvents, this.SortBuffers, this.X0, this.PretriggerUsage);
+            return HashCode.Combine(DeltaX, IsCalibrated, Unit, Reduction, IsMultiEvents, SortBuffers, X0, PretriggerUsage);
         }
 
         internal FamosFileXAxisScaling Clone()
         {
-            return (FamosFileXAxisScaling)this.MemberwiseClone();
+            return (FamosFileXAxisScaling)MemberwiseClone();
         }
 
         #endregion
@@ -161,17 +161,17 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.DeltaX,
-                this.IsCalibrated ? 1 : 0,
-                this.Unit.Length, this.Unit,
-                (int)this.Reduction,
-                this.IsMultiEvents ? 1 : 0,
-                this.SortBuffers ? 1 : 0,
-                this.X0,
-                (int)this.PretriggerUsage
+                DeltaX,
+                IsCalibrated ? 1 : 0,
+                Unit.Length, Unit,
+                (int)Reduction,
+                IsMultiEvents ? 1 : 0,
+                SortBuffers ? 1 : 0,
+                X0,
+                (int)PretriggerUsage
             };
 
-            this.SerializeKey(writer, 2, data);
+            SerializeKey(writer, 2, data);
         }
 
         #endregion

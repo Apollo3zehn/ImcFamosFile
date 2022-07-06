@@ -24,14 +24,14 @@ namespace ImcFamosFile
 
         private protected FamosFileSingleValue(string name, byte[] rawBlock)
         {
-            this.Name = name;
+            Name = name;
 
             _rawData = rawBlock;
         }
 
         private protected unsafe FamosFileSingleValue(string name, byte* rawBlock, int size)
         {
-            this.Name = name;
+            Name = name;
 
             _rawData = new byte[size];
 
@@ -97,16 +97,16 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.GroupIndex,
-                (int)this.DataType,
-                this.Name.Length, this.Name,
+                GroupIndex,
+                (int)DataType,
+                Name.Length, Name,
                 _rawData,
-                this.Unit.Length, this.Unit,
-                this.Comment.Length, this.Comment,
-                BitConverter.GetBytes((this.Time - _referenceTime).TotalSeconds)
+                Unit.Length, Unit,
+                Comment.Length, Comment,
+                BitConverter.GetBytes((Time - _referenceTime).TotalSeconds)
             };
 
-            this.SerializeKey(writer, 1, data);
+            SerializeKey(writer, 1, data);
             base.Serialize(writer);
         }
 
@@ -135,29 +135,29 @@ namespace ImcFamosFile
             {
                 FamosFileSingleValue? singleValue = null;
 
-                this.DeserializeKey(expectedKeyVersion: 1, keySize =>
+                DeserializeKey(expectedKeyVersion: 1, keySize =>
                 {
-                    var groupIndex = this.DeserializeInt32();
-                    var dataType = (FamosFileDataType)this.DeserializeInt32();
-                    var name = this.DeserializeString();
+                    var groupIndex = DeserializeInt32();
+                    var dataType = (FamosFileDataType)DeserializeInt32();
+                    var name = DeserializeString();
 
                     var rawBlock = dataType switch
                     {
-                        FamosFileDataType.UInt8 => this.Reader.ReadBytes(1),
-                        FamosFileDataType.Int8 => this.Reader.ReadBytes(1),
-                        FamosFileDataType.UInt16 => this.Reader.ReadBytes(2),
-                        FamosFileDataType.Int16 => this.Reader.ReadBytes(2),
-                        FamosFileDataType.UInt32 => this.Reader.ReadBytes(4),
-                        FamosFileDataType.Int32 => this.Reader.ReadBytes(4),
-                        FamosFileDataType.Float32 => this.Reader.ReadBytes(4),
-                        FamosFileDataType.Float64 => this.Reader.ReadBytes(8),
-                        FamosFileDataType.Digital16Bit => this.Reader.ReadBytes(2),
-                        FamosFileDataType.UInt48 => this.Reader.ReadBytes(6),
+                        FamosFileDataType.UInt8 => Reader.ReadBytes(1),
+                        FamosFileDataType.Int8 => Reader.ReadBytes(1),
+                        FamosFileDataType.UInt16 => Reader.ReadBytes(2),
+                        FamosFileDataType.Int16 => Reader.ReadBytes(2),
+                        FamosFileDataType.UInt32 => Reader.ReadBytes(4),
+                        FamosFileDataType.Int32 => Reader.ReadBytes(4),
+                        FamosFileDataType.Float32 => Reader.ReadBytes(4),
+                        FamosFileDataType.Float64 => Reader.ReadBytes(8),
+                        FamosFileDataType.Digital16Bit => Reader.ReadBytes(2),
+                        FamosFileDataType.UInt48 => Reader.ReadBytes(6),
                         _ => throw new FormatException("The data type is invalid.")
                     };
 
                     // read comma
-                    this.Reader.ReadByte();
+                    Reader.ReadByte();
 
                     // create single value
                     singleValue = dataType switch
@@ -177,9 +177,9 @@ namespace ImcFamosFile
 
                     singleValue.GroupIndex = groupIndex;
                     singleValue.DataType = dataType;
-                    singleValue.Unit = this.DeserializeString();
-                    singleValue.Comment = this.DeserializeString();
-                    singleValue.Time = _referenceTime.AddSeconds(BitConverter.ToDouble(this.DeserializeFixedLength(8)));
+                    singleValue.Unit = DeserializeString();
+                    singleValue.Comment = DeserializeString();
+                    singleValue.Time = _referenceTime.AddSeconds(BitConverter.ToDouble(DeserializeFixedLength(8)));
                 });
 
                 if (singleValue is null)
@@ -212,7 +212,7 @@ namespace ImcFamosFile
         /// <param name="value">The value of the single value.</param>
         public unsafe FamosFileSingleValue(string name, T value) : base(name, (byte*)(&value), Marshal.SizeOf<T>())
         {
-            this.DataType = value switch
+            DataType = value switch
             {
                 SByte _ => FamosFileDataType.UInt8,
                 Byte _ => FamosFileDataType.Int8,
@@ -228,7 +228,7 @@ namespace ImcFamosFile
 
         internal unsafe FamosFileSingleValue(string name, byte[] rawBlock) : base(name, rawBlock)
         {
-            this.DataType = default(T) switch
+            DataType = default(T) switch
             {
                 SByte _ => FamosFileDataType.UInt8,
                 Byte _ => FamosFileDataType.Int8,

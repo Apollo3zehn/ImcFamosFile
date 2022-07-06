@@ -136,7 +136,7 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets a boolean indicating if this buffer is a ring buffer.
         /// </summary>
-        public bool IsRingBuffer => this.Offset > 0;
+        public bool IsRingBuffer => Offset > 0;
 
         internal int Reference
         {
@@ -170,15 +170,15 @@ namespace ImcFamosFile
         {
             return new object[]
             {
-                this.Reference,
-                this.RawBlockIndex,
-                this.RawBlockOffset,
-                this.Length,
-                this.Offset,
-                this.ConsumedBytes,
-                this.IsNewEvent ? 1 : 0,
-                this.X0,
-                this.AddTime,
+                Reference,
+                RawBlockIndex,
+                RawBlockOffset,
+                Length,
+                Offset,
+                ConsumedBytes,
+                IsNewEvent ? 1 : 0,
+                X0,
+                AddTime,
                 _userInfo
             };
         }

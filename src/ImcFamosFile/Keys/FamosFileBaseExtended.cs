@@ -21,7 +21,7 @@ namespace ImcFamosFile
 
         private protected FamosFileBaseExtended(BinaryReader reader, int codePage) : base(reader)
         {
-            this.CodePage = codePage;
+            CodePage = codePage;
         }
 
         #endregion
@@ -37,23 +37,23 @@ namespace ImcFamosFile
 
         private protected string DeserializeString()
         {
-            var length = this.DeserializeInt32();
-            var value = Encoding.GetEncoding(this.CodePage).GetString(this.Reader.ReadBytes(length));
+            var length = DeserializeInt32();
+            var value = Encoding.GetEncoding(CodePage).GetString(Reader.ReadBytes(length));
 
             // read comma or semicolon
-            this.Reader.ReadByte();
+            Reader.ReadByte();
 
             return value;
         }
 
         private protected List<string> DeserializeStringArray()
         {
-            var elementCount = this.DeserializeInt32();
+            var elementCount = DeserializeInt32();
 
             if (elementCount < 0 || elementCount > int.MaxValue)
                 throw new FormatException("The number of texts is out of range.");
 
-            return Enumerable.Range(0, elementCount).Select(current => this.DeserializeString()).ToList();
+            return Enumerable.Range(0, elementCount).Select(current => DeserializeString()).ToList();
         }
 
         #endregion

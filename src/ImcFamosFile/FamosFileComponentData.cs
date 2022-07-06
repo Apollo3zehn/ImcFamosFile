@@ -16,18 +16,18 @@ namespace ImcFamosFile
                                                   FamosFileTriggerTime? triggerTime,
                                                   byte[] data)
         {
-            this.Type = component.Type;
+            Type = component.Type;
 
-            this.XAxisScaling = xAxisScaling?.Clone();
-            this.ZAxisScaling = zAxisScaling?.Clone();
-            this.TriggerTime = triggerTime?.Clone();
+            XAxisScaling = xAxisScaling?.Clone();
+            ZAxisScaling = zAxisScaling?.Clone();
+            TriggerTime = triggerTime?.Clone();
 
-            this.PackInfo = component.PackInfo;
+            PackInfo = component.PackInfo;
 
-            this.DisplayInfo = component.DisplayInfo;
-            this.EventReference = component.EventReference;
+            DisplayInfo = component.DisplayInfo;
+            EventReference = component.EventReference;
 
-            this.RawData = data;
+            RawData = data;
         }
 
         #endregion
@@ -101,7 +101,7 @@ namespace ImcFamosFile
         /// <summary>
         /// Gets the data of type <typeparamref name="T"/>.
         /// </summary>
-        public Span<T> Data => MemoryMarshal.Cast<byte, T>(this.RawData.AsSpan());
+        public Span<T> Data => MemoryMarshal.Cast<byte, T>(RawData.AsSpan());
 
         #endregion
     }

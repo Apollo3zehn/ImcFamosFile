@@ -25,8 +25,8 @@ namespace ImcFamosFile
         /// <param name="timeMode">The time mode.</param>
         public FamosFileTriggerTime(DateTime dateTime, FamosFileTimeMode timeMode)
         {
-            this.DateTime = dateTime;
-            this.TimeMode = timeMode;
+            DateTime = dateTime;
+            TimeMode = timeMode;
         }
 
         internal FamosFileTriggerTime(BinaryReader reader) : base(reader)
@@ -34,42 +34,42 @@ namespace ImcFamosFile
             DateTime triggerTime = default;
             FamosFileTimeMode timeMode = FamosFileTimeMode.Unknown;
 
-            var keyVersion = this.DeserializeInt32();
+            var keyVersion = DeserializeInt32();
 
-            this.DeserializeKey(keySize =>
+            DeserializeKey(keySize =>
             {
                 // day
-                var day = this.DeserializeInt32();
+                var day = DeserializeInt32();
 
                 if (!(1 <= day && day <= 31))
                     throw new FormatException($"Expected value for 'day' property: '1..31'. Got {day}.");
 
                 // month
-                var month = this.DeserializeInt32();
+                var month = DeserializeInt32();
 
                 if (!(1 <= month && month <= 12))
                     throw new FormatException($"Expected value for 'month' property: '1..12'. Got {month}.");
 
                 // year
-                var year = this.DeserializeInt32();
+                var year = DeserializeInt32();
 
                 if (year < 1980)
                     throw new FormatException($"Expected value for 'year' property: >= '1980'. Got {year}.");
 
                 // hour
-                var hour = this.DeserializeInt32();
+                var hour = DeserializeInt32();
 
                 if (!(0 <= hour && hour <= 23))
                     throw new FormatException($"Expected value for 'hour' property: '0..23'. Got {hour}.");
 
                 // minute
-                var minute = this.DeserializeInt32();
+                var minute = DeserializeInt32();
 
                 if (!(0 <= minute && minute <= 59))
                     throw new FormatException($"Expected value for 'minute' property: '0..59'. Got {minute}.");
 
                 // second
-                var second = this.DeserializeReal();
+                var second = DeserializeReal();
 
                 if (!(0 <= second && second <= 60))
                     throw new FormatException($"Expected value for 'day' property: '0.0..60.0'. Got {second}.");
@@ -85,9 +85,9 @@ namespace ImcFamosFile
                 }
                 else if (keyVersion == 2)
                 {
-                    var timeZone = this.DeserializeInt32();
+                    var timeZone = DeserializeInt32();
 
-                    timeMode = (FamosFileTimeMode)this.DeserializeInt32();
+                    timeMode = (FamosFileTimeMode)DeserializeInt32();
                     triggerTime = new DateTimeOffset(year, month, day, hour, minute, intSecond, millisecond, TimeSpan.FromMinutes(timeZone)).UtcDateTime;
                 }
                 else
@@ -96,8 +96,8 @@ namespace ImcFamosFile
                 }
             });
 
-            this.DateTime = triggerTime;
-            this.TimeMode = timeMode;
+            DateTime = triggerTime;
+            TimeMode = timeMode;
         }
 
         #endregion
@@ -128,19 +128,19 @@ namespace ImcFamosFile
             if (other == null)
                 return false;
 
-            return this.DateTime.Equals(other.DateTime)
-                && this.TimeMode.Equals(other.TimeMode);
+            return DateTime.Equals(other.DateTime)
+                && TimeMode.Equals(other.TimeMode);
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.DateTime, this.TimeMode);
+            return HashCode.Combine(DateTime, TimeMode);
         }
 
         internal FamosFileTriggerTime Clone()
         {
-            return (FamosFileTriggerTime)this.MemberwiseClone();
+            return (FamosFileTriggerTime)MemberwiseClone();
         }
 
         #endregion
@@ -151,17 +151,17 @@ namespace ImcFamosFile
         {
             var data = new object[]
             {
-                this.DateTime.Day,
-                this.DateTime.Month,
-                this.DateTime.Year,
-                this.DateTime.Hour,
-                this.DateTime.Minute,
-                (decimal)this.DateTime.Second + this.DateTime.Millisecond / 1000,
+                DateTime.Day,
+                DateTime.Month,
+                DateTime.Year,
+                DateTime.Hour,
+                DateTime.Minute,
+                (decimal)DateTime.Second + DateTime.Millisecond / 1000,
                 0, // since it is UTC+0 now
                 0  // since it is UTC+0 now
             };
 
-            this.SerializeKey(writer, 2, data);
+            SerializeKey(writer, 2, data);
         }
 
         #endregion

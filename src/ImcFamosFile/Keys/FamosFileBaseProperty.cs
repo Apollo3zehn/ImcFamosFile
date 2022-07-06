@@ -34,7 +34,7 @@ namespace ImcFamosFile
 
         internal override void Serialize(BinaryWriter writer)
         {
-            this.PropertyInfo?.Serialize(writer);
+            PropertyInfo?.Serialize(writer);
         }
 
         #endregion
