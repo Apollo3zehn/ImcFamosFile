@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Specifies which data to use.

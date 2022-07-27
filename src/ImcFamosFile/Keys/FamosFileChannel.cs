@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Channels are used to assign names to components. A channel can be assigned to a group.

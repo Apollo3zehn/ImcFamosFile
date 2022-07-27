@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     internal static class StreamExtensions
     {

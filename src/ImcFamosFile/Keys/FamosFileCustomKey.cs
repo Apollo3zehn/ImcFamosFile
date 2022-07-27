@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Custom keys can be used to add additional information to the file.

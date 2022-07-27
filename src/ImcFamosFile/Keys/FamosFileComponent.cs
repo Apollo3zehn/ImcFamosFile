@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// A base class for a component, which is a full description of a single dataset.

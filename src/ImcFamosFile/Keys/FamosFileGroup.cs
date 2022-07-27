@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// A group is a collection of texts, single values and channels.

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Flags that describes the component access in an editor.

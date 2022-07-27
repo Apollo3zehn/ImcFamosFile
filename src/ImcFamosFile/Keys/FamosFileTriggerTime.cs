@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Describes the start time of measurement.
