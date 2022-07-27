@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// A base class for (de)serializable keys that allows having additional properties assigned.

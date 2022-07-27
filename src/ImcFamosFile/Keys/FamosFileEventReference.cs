@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Represents a description of which events belong to the component.

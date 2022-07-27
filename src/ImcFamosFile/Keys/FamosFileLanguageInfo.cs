@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Contains information about the language and string encoding.

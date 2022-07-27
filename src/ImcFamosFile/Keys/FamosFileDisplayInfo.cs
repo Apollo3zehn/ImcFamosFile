@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Contains information about how to display a component.

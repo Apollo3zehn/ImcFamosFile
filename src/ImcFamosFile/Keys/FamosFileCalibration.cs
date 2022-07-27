@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace ImcFamosFile
+﻿namespace ImcFamosFile
 {
     /// <summary>
     /// Contains calibration data.
