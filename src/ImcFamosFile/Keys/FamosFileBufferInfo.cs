@@ -106,7 +106,7 @@
         {
             var reference = DeserializeInt32();
             var rawBlockIndex = DeserializeInt32();
-            var rawBlockOffset = DeserializeInt32();
+            var rawBlockOffset = DeserializeInt64();
             var length = DeserializeInt32();
             var offset = DeserializeInt32();
             var consumedBytes = DeserializeInt32();
