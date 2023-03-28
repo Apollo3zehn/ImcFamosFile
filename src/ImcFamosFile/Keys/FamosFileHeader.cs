@@ -128,7 +128,7 @@ namespace ImcFamosFile
             {
                 case FamosFileAlignmentMode.Continuous:
 
-                    var offset = 0;
+                    var offset = 0L;
 
                     foreach (var component in components)
                     {
