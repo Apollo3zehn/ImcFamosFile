@@ -65,28 +65,26 @@
         {
             var stream = new MemoryStream();
 
-            using (var binaryWriter = new BinaryWriter(stream))
-            {
-                var offsetLo = (uint)(Offset & 0x00000000FFFFFFFF);
-                var offsetHi = (uint)(Offset >> 32);
+            using var binaryWriter = new BinaryWriter(stream);
+            var offsetLo = (uint)(Offset & 0x00000000FFFFFFFF);
+            var offsetHi = (uint)(Offset >> 32);
 
-                var lengthLo = (uint)(Length & 0x00000000FFFFFFFF);
-                var lengthHi = (uint)(Length >> 32);
+            var lengthLo = (uint)(Length & 0x00000000FFFFFFFF);
+            var lengthHi = (uint)(Length >> 32);
 
-                binaryWriter.Write(offsetLo);
-                binaryWriter.Write(lengthLo);
-                binaryWriter.Write(Time);
-                binaryWriter.Write(AmplitudeOffset0);
-                binaryWriter.Write(AmplitudeOffset1);
-                binaryWriter.Write(X0);
-                binaryWriter.Write(AmplificationFactor0);
-                binaryWriter.Write(AmplificationFactor1);
-                binaryWriter.Write(DeltaX);
-                binaryWriter.Write(offsetHi);
-                binaryWriter.Write(lengthHi);
+            binaryWriter.Write(offsetLo);
+            binaryWriter.Write(lengthLo);
+            binaryWriter.Write(Time);
+            binaryWriter.Write(AmplitudeOffset0);
+            binaryWriter.Write(AmplitudeOffset1);
+            binaryWriter.Write(X0);
+            binaryWriter.Write(AmplificationFactor0);
+            binaryWriter.Write(AmplificationFactor1);
+            binaryWriter.Write(DeltaX);
+            binaryWriter.Write(offsetHi);
+            binaryWriter.Write(lengthHi);
 
-                return new object[] { Index, stream.ToArray() };
-            }
+            return new object[] { Index, stream.ToArray() };
         }
 
         #endregion

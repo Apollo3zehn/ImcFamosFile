@@ -15,10 +15,8 @@ namespace ImcFamosFile.Tests
             var filePath = $"./ImcTestData/{fileName}";
 
             // Act
-            using (var famosFile = FamosFile.Open(filePath))
-            {
-                //
-            }
+            using var famosFile = FamosFile.Open(filePath);
+            //
 
             // Assert
         }
@@ -143,7 +141,7 @@ namespace ImcFamosFile.Tests
             DoAssert(famosFileHeader.Fields[0]);
             DoAssert(famosFile.Fields[0]);
 
-            void DoAssert(FamosFileField field)
+            static void DoAssert(FamosFileField field)
             {
                 Assert.True(field.XAxisScaling == null);
                 Assert.True(field.Components[0].XAxisScaling == null);
@@ -160,7 +158,7 @@ namespace ImcFamosFile.Tests
             var filePath = $"./ImcTestData/BusTrip_corrupt.dat";
 
             // Act
-            Action action = () => FamosFile.Open(filePath);
+            void action() => FamosFile.Open(filePath);
 
             // Assert
             Assert.Throws<FormatException>(action);
@@ -177,7 +175,7 @@ namespace ImcFamosFile.Tests
             famosFile.Groups.Add(group);
 
             // Act
-            Action action = () => famosFile.Validate();
+            void action() => famosFile.Validate();
 
             // Assert
             Assert.Throws<FormatException>(action);
@@ -194,7 +192,7 @@ namespace ImcFamosFile.Tests
             famosFile.CustomKeys.Add(customKey);
 
             // Act
-            Action action = () => famosFile.Validate();
+            void action() => famosFile.Validate();
 
             // Assert
             Assert.Throws<FormatException>(action);
@@ -211,7 +209,7 @@ namespace ImcFamosFile.Tests
             famosFile.Fields.Add(field);
 
             // Act
-            Action action = () => famosFile.Validate();
+            void action() => famosFile.Validate();
 
             // Assert
             Assert.Throws<FormatException>(action);
@@ -228,7 +226,7 @@ namespace ImcFamosFile.Tests
             famosFile.RawBlocks.Add(rawBlock);
 
             // Act
-            Action action = () => famosFile.Validate();
+            void action() => famosFile.Validate();
 
             // Assert
             Assert.Throws<FormatException>(action);
@@ -247,7 +245,7 @@ namespace ImcFamosFile.Tests
             famosFile.Groups.Add(group);
 
             // Act
-            Action action = () => famosFile.Validate();
+            void action() => famosFile.Validate();
 
             // Assert
             Assert.Throws<FormatException>(action);
@@ -266,7 +264,7 @@ namespace ImcFamosFile.Tests
             famosFile.Groups.Add(group);
 
             // Act
-            Action action = () => famosFile.Validate();
+            void action() => famosFile.Validate();
 
             // Assert
             Assert.Throws<FormatException>(action);
@@ -285,7 +283,7 @@ namespace ImcFamosFile.Tests
             famosFile.Groups.Add(group);
 
             // Act
-            Action action = () => famosFile.Validate();
+            void action() => famosFile.Validate();
 
             // Assert
             Assert.Throws<FormatException>(action);

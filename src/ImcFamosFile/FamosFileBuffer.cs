@@ -73,8 +73,7 @@ namespace ImcFamosFile
             set
             {
                 if (value < 0)
-                    throw new
-                        FormatException($"Expected length >= '0', got '{value}'.");
+                    throw new FormatException($"Expected length >= '0', got '{value}'.");
 
                 _length = value;
             }

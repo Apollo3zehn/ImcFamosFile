@@ -12,7 +12,7 @@ namespace ImcFamosFile
 
         private protected byte[] _rawData;
 
-        private static readonly DateTime _referenceTime = new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime _referenceTime = new(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private int _groupIndex;
 
         #endregion

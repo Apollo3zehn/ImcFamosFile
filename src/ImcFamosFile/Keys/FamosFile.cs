@@ -9,8 +9,8 @@ namespace ImcFamosFile
     {
         #region Fields
 
-        private readonly List<FamosFileText> _texts = new List<FamosFileText>();
-        private readonly List<FamosFileSingleValue> _singleValues = new List<FamosFileSingleValue>();
+        private readonly List<FamosFileText> _texts = new();
+        private readonly List<FamosFileSingleValue> _singleValues = new();
 
         #endregion
 
@@ -116,10 +116,8 @@ namespace ImcFamosFile
             var codePage = LanguageInfo is null ? 0 : LanguageInfo.CodePage;
             var encoding = Encoding.GetEncoding(codePage);
 
-            using (var writer = new BinaryWriter(stream, encoding, leaveOpen: true))
-            {
-                writeData.Invoke(writer);
-            }
+            using var writer = new BinaryWriter(stream, encoding, leaveOpen: true);
+            writeData.Invoke(writer);
         }
 
         /// <summary>

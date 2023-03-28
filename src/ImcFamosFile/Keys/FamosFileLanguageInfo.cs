@@ -49,7 +49,7 @@
             var data = new object[]
             {
                 CodePage,
-                $"0x{Language.ToString("X4")}"
+                $"0x{Language:X4}"
             };
 
             SerializeKey(writer, 1, data);

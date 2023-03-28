@@ -379,10 +379,8 @@ namespace ImcFamosFile
         /// <param name="autoAlign">A boolean indicating if all component buffers and pack infos should be aligned automatically.</param>
         public void Save(string filePath, FileMode fileMode, Action<BinaryWriter> writeData, bool autoAlign = true)
         {
-            using (var stream = File.Open(filePath, fileMode, FileAccess.Write))
-            {
-                Save(stream, writeData, autoAlign);
-            }
+            using var stream = File.Open(filePath, fileMode, FileAccess.Write);
+            Save(stream, writeData, autoAlign);
         }
 
         /// <summary>

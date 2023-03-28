@@ -127,7 +127,7 @@ namespace ImcFamosFile
             length += Math.Max(0, combinedData.Count() - 1);
 
             // write key preamble
-            writer.Write($"|{KeyType.ToString()},{keyVersion},{length},".ToCharArray());
+            writer.Write($"|{KeyType},{keyVersion},{length},".ToCharArray());
 
             // write key content
             for (int i = 0; i < combinedData.Count; i++)
@@ -182,7 +182,7 @@ namespace ImcFamosFile
             var keyType = DeserializeKeyType();
 
             if (keyType != expectedKeyType)
-                throw new FormatException($"Expected key '{expectedKeyType.ToString()}', got '{keyType.ToString()}'.");
+                throw new FormatException($"Expected key '{expectedKeyType}', got '{keyType}'.");
 
             DeserializeKey(expectedKeyVersion, deserializeKeyAction);
         }

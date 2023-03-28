@@ -9,7 +9,7 @@ namespace ImcFamosFileSample
         public static double[] PowerCoeffData => new double[] { 0.00, 0.000, 0.263, 0.352, 0.423, 0.453, 0.470, 0.478, 0.477, 0.483, 0.470, 0.429, 0.381, 0.329, 0.281, 0.236, 0.199, 0.168, 0.142, 0.122, 0.105, 0.092, 0.080, 0.071, 0.063 };
         public static double[] WindSpeedData => Enumerable.Range(1, 25).Select(value => (double)value).ToArray();
 
-        static void Main(string[] args)
+        static void Main()
         {
             var afamosFile = FamosFile.Open(@"Q:\RAW\DB_ACHTERMEER_V66\calibrated\2014-11\2014-11-19\2014-11-19_00-00-00.dat");
 
@@ -248,7 +248,7 @@ namespace ImcFamosFileSample
             var components = famosFile.Fields.SelectMany(field => field.Components).ToList();
 
             // Generate some 'random' datasets and write them to file. One dataset per component.
-            for (int i = 0; i < components.Count(); i++)
+            for (int i = 0; i < components.Count; i++)
             {
                 var component = components[i];
 

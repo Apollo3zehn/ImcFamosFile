@@ -361,14 +361,11 @@
             {
                 var firstComponent = Components.First();
 
-                if (TriggerTime == null)
-                    TriggerTime = firstComponent.TriggerTime;
+                TriggerTime ??= firstComponent.TriggerTime;
 
-                if (XAxisScaling == null)
-                    XAxisScaling = firstComponent.XAxisScaling;
+                XAxisScaling ??= firstComponent.XAxisScaling;
 
-                if (ZAxisScaling == null)
-                    ZAxisScaling = firstComponent.ZAxisScaling;
+                ZAxisScaling ??= firstComponent.ZAxisScaling;
             }
 
             var currentTriggerTime = TriggerTime;

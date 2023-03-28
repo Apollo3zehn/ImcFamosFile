@@ -35,8 +35,8 @@
                     Unit = DeserializeString();
 
                     Reduction = (FamosFileReductionType)DeserializeInt32();
-                    IsMultiEvents = DeserializeInt32() == 1 ? true : false;
-                    SortBuffers = DeserializeInt32() == 1 ? true : false;
+                    IsMultiEvents = DeserializeInt32() == 1;
+                    SortBuffers = DeserializeInt32() == 1;
                 });
             }
             else if (keyVersion == 2)
@@ -48,8 +48,8 @@
                     Unit = DeserializeString();
 
                     Reduction = (FamosFileReductionType)DeserializeInt32();
-                    IsMultiEvents = DeserializeInt32() == 1 ? true : false;
-                    SortBuffers = DeserializeInt32() == 1 ? true : false;
+                    IsMultiEvents = DeserializeInt32() == 1;
+                    SortBuffers = DeserializeInt32() == 1;
 
                     X0 = DeserializeReal();
                     PretriggerUsage = (FamosFilePretriggerUsage)DeserializeInt32();
