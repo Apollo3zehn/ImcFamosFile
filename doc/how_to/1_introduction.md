@@ -27,7 +27,7 @@ The returning type exposes the following [properties](xref:ImcFamosFile.FamosFil
 
 - `LanguageInfo` - The language info is important to correctly interpret special characters like `°C`. The FAMOS file format v2 does not support UTF-8 coding but instead requires you to specifiy a code page. The default code page is the commonly used [Windows-1252](https://en.wikipedia.org/wiki/Windows-1252).
 
-- `RawBlocks` - A [raw block](xref:ImcFamosFile.FamosFileRawBlock) contains the raw data. A file can contain more than on raw block, but typically a single one is sufficient.
+- `RawBlocks` - A [raw block](xref:ImcFamosFile.FamosFileRawBlock) contains the raw data. A file can contain more than one raw block, but typically a single one is sufficient.
 
 - `SingleValues` - A [single value](xref:ImcFamosFile.FamosFileSingleValue) is - as the name suggests - a named single value like the standard deviation of a channel.
 
