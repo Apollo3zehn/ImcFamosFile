@@ -1,3 +1,8 @@
+## v2.0.6 - 2025-01-06
+
+### Bugs Fixed
+- Fixed a bug that caused `byte` to be serialized as `sbyte` and vice versa (#11, thanks @MattChique)
+
 ## v2.0.5 - 2023-03-28
 
 ### Bugs Fixed

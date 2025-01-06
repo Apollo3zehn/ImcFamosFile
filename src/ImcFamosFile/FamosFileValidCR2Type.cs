@@ -1,19 +1,18 @@
-﻿namespace ImcFamosFile
+﻿namespace ImcFamosFile;
+
+/// <summary>
+/// Specifies which data to use.
+/// </summary>
+[Flags]
+public enum FamosFileValidCR2Type
 {
     /// <summary>
-    /// Specifies which data to use.
+    /// Use DeltaX from event structure.
     /// </summary>
-    [Flags]
-    public enum FamosFileValidCR2Type
-    {
-        /// <summary>
-        /// Use DeltaX from event structure.
-        /// </summary>
-        DeltaX = 0,
+    DeltaX = 0,
 
-        /// <summary>
-        /// Use X0 from event structure.
-        /// </summary>
-        X0 = 1
-    }
+    /// <summary>
+    /// Use X0 from event structure.
+    /// </summary>
+    X0 = 1
 }

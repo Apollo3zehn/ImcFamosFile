@@ -1,19 +1,18 @@
-﻿namespace ImcFamosFile
+﻿namespace ImcFamosFile;
+
+/// <summary>
+/// Flags that describes the component access in an editor.
+/// </summary>
+[Flags]
+public enum FamosFilePropertyFlags
 {
     /// <summary>
-    /// Flags that describes the component access in an editor.
+    /// Hide in editors.
     /// </summary>
-    [Flags]
-    public enum FamosFilePropertyFlags
-    {
-        /// <summary>
-        /// Hide in editors.
-        /// </summary>
-        EditorHide = 2,
+    EditorHide = 2,
 
-        /// <summary>
-        /// Read-only in editors.
-        /// </summary>
-        EditorReadOnly = 4,
-    }
+    /// <summary>
+    /// Read-only in editors.
+    /// </summary>
+    EditorReadOnly = 4,
 }

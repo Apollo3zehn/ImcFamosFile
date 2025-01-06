@@ -1,23 +1,22 @@
-﻿namespace ImcFamosFile
+﻿namespace ImcFamosFile;
+
+/// <summary>
+/// Determines the time mode.
+/// </summary>
+public enum FamosFileTimeMode
 {
     /// <summary>
-    /// Determines the time mode.
+    /// Unknown time mode.
     /// </summary>
-    public enum FamosFileTimeMode
-    {
-        /// <summary>
-        /// Unknown time mode.
-        /// </summary>
-        Unknown = 0,
+    Unknown = 0,
 
-        /// <summary>
-        /// Normal time.
-        /// </summary>
-        Normal = 1,
+    /// <summary>
+    /// Normal time.
+    /// </summary>
+    Normal = 1,
 
-        /// <summary>
-        /// Daylight saving time.
-        /// </summary>
-        DaylightSavingTime = 2
-    }
+    /// <summary>
+    /// Daylight saving time.
+    /// </summary>
+    DaylightSavingTime = 2
 }

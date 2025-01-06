@@ -1,7 +1,6 @@
-﻿namespace ImcFamosFile
+﻿namespace ImcFamosFile;
+
+internal struct FamosFilePlaceHolder
 {
-    internal struct FamosFilePlaceHolder
-    {
-        public long Length { get; set; }
-    }
+    public long Length { get; set; }
 }

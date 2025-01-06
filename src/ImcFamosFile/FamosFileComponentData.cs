@@ -1,107 +1,108 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace ImcFamosFile
+namespace ImcFamosFile;
+
+/// <summary>
+/// Base class for component data, which provides the actual data and additional information to interprete these.
+/// </summary>
+public abstract class FamosFileComponentData
 {
-    /// <summary>
-    /// Base class for component data, which provides the actual data and additional information to interpret these.
-    /// </summary>
-    public abstract class FamosFileComponentData
+    #region Constructors
+
+    private protected FamosFileComponentData(
+        FamosFileComponent component,
+        FamosFileXAxisScaling? xAxisScaling,
+        FamosFileZAxisScaling? zAxisScaling,
+        FamosFileTriggerTime? triggerTime,
+        byte[] data
+    )
     {
-        #region Constructors
+        Type = component.Type;
 
-        private protected FamosFileComponentData(FamosFileComponent component,
-                                                  FamosFileXAxisScaling? xAxisScaling,
-                                                  FamosFileZAxisScaling? zAxisScaling,
-                                                  FamosFileTriggerTime? triggerTime,
-                                                  byte[] data)
-        {
-            Type = component.Type;
+        XAxisScaling = xAxisScaling?.Clone();
+        ZAxisScaling = zAxisScaling?.Clone();
+        TriggerTime = triggerTime?.Clone();
 
-            XAxisScaling = xAxisScaling?.Clone();
-            ZAxisScaling = zAxisScaling?.Clone();
-            TriggerTime = triggerTime?.Clone();
+        PackInfo = component.PackInfo;
 
-            PackInfo = component.PackInfo;
+        DisplayInfo = component.DisplayInfo;
+        EventReference = component.EventReference;
 
-            DisplayInfo = component.DisplayInfo;
-            EventReference = component.EventReference;
-
-            RawData = data;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the component type.
-        /// </summary>
-        public FamosFileComponentType Type { get; }
-
-        /// <summary>
-        /// Gets the x-axis scaling of this component.
-        /// </summary>
-        public FamosFileXAxisScaling? XAxisScaling { get; }
-
-        /// <summary>
-        /// Gets the z-axis scaling of this component.
-        /// </summary>
-        public FamosFileZAxisScaling? ZAxisScaling { get; }
-
-        /// <summary>
-        /// Gets the trigger time this component.
-        /// </summary>
-        public FamosFileTriggerTime? TriggerTime { get; }
-
-        /// <summary>
-        /// Gets the pack info containing a description of this components data layout.
-        /// </summary>
-        public FamosFilePackInfo PackInfo { get; }
-
-        /// <summary>
-        /// Gets the display info to describe how to display the data.
-        /// </summary>
-        public FamosFileDisplayInfo? DisplayInfo { get; }
-
-        /// <summary>
-        /// Gets the event reference containing a description of related events.
-        /// </summary>
-        public FamosFileEventReference? EventReference { get; }
-
-        /// <summary>
-        /// Gets the raw data (bytes).
-        /// </summary>
-        public byte[] RawData { get; }
-
-        #endregion
+        RawData = data;
     }
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
-    /// This type provides the actual data of type <typeparamref name="T"/> and additional information to interpret these.
+    /// Gets the component type.
     /// </summary>
-    /// <typeparam name="T">The data type parameter.</typeparam>
-    public class FamosFileComponentData<T> : FamosFileComponentData where T : unmanaged
+    public FamosFileComponentType Type { get; }
+
+    /// <summary>
+    /// Gets the x-axis scaling of this component.
+    /// </summary>
+    public FamosFileXAxisScaling? XAxisScaling { get; }
+
+    /// <summary>
+    /// Gets the z-axis scaling of this component.
+    /// </summary>
+    public FamosFileZAxisScaling? ZAxisScaling { get; }
+
+    /// <summary>
+    /// Gets the trigger time this component.
+    /// </summary>
+    public FamosFileTriggerTime? TriggerTime { get; }
+
+    /// <summary>
+    /// Gets the pack info containing a description of this components data layout.
+    /// </summary>
+    public FamosFilePackInfo PackInfo { get; }
+
+    /// <summary>
+    /// Gets the display info to describe how to display the data.
+    /// </summary>
+    public FamosFileDisplayInfo? DisplayInfo { get; }
+
+    /// <summary>
+    /// Gets the event reference containing a description of related events.
+    /// </summary>
+    public FamosFileEventReference? EventReference { get; }
+
+    /// <summary>
+    /// Gets the raw data (bytes).
+    /// </summary>
+    public byte[] RawData { get; }
+
+    #endregion
+}
+
+/// <summary>
+/// This type provides the actual data of type <typeparamref name="T"/> and additional information to interpret these.
+/// </summary>
+/// <typeparam name="T">The data type parameter.</typeparam>
+public class FamosFileComponentData<T> : FamosFileComponentData where T : unmanaged
+{
+    #region Constructors
+
+    internal FamosFileComponentData(FamosFileComponent component,
+                                    FamosFileXAxisScaling? xAxisScaling,
+                                    FamosFileZAxisScaling? zAxisScaling,
+                                    FamosFileTriggerTime? triggerTime,
+                                    byte[] buffer) : base(component, xAxisScaling, zAxisScaling, triggerTime, buffer)
     {
-        #region Constructors
-
-        internal FamosFileComponentData(FamosFileComponent component,
-                                        FamosFileXAxisScaling? xAxisScaling,
-                                        FamosFileZAxisScaling? zAxisScaling,
-                                        FamosFileTriggerTime? triggerTime,
-                                        byte[] buffer) : base(component, xAxisScaling, zAxisScaling, triggerTime, buffer)
-        {
-            //
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the data of type <typeparamref name="T"/>.
-        /// </summary>
-        public Span<T> Data => MemoryMarshal.Cast<byte, T>(RawData.AsSpan());
-
-        #endregion
+        //
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets the data of type <typeparamref name="T"/>.
+    /// </summary>
+    public Span<T> Data => MemoryMarshal.Cast<byte, T>(RawData.AsSpan());
+
+    #endregion
 }
