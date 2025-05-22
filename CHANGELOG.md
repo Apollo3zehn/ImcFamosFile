@@ -1,3 +1,8 @@
+## v2.0.7 - 2025-05-22
+
+### Bugs Fixed
+- Open files with `FileShare.Read` flag instead of `FileShare.None`.
+
 ## v2.0.6 - 2025-01-06
 
 ### Bugs Fixed

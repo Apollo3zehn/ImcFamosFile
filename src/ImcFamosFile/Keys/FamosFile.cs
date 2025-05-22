@@ -17,13 +17,13 @@ public class FamosFile : FamosFileHeader, IDisposable
     #region Constructors
 
     private FamosFile(string filePath)
-        : this(filePath, FileMode.Open, FileAccess.Read)
+        : this(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)
     {
         //
     }
 
-    private FamosFile(string filePath, FileMode fileMode, FileAccess fileAccess)
-        : base(new BinaryReader(File.Open(filePath, fileMode, fileAccess)))
+    private FamosFile(string filePath, FileMode fileMode, FileAccess fileAccess, FileShare fileShare)
+        : base(new BinaryReader(File.Open(filePath, fileMode, fileAccess, fileShare)))
     {
         try
         {
