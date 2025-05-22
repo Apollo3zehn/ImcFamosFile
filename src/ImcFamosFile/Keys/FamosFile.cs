@@ -99,7 +99,7 @@ public class FamosFile : FamosFileHeader, IDisposable
     /// <returns>Returns a new <see cref="FamosFile"/> instance.</returns>
     public static FamosFile OpenEditable(string filePath)
     {
-        return new FamosFile(filePath, FileMode.Open, FileAccess.ReadWrite);
+        return new FamosFile(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
     }
 
     /// <summary>
